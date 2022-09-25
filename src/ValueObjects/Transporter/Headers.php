@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OpenAI\ValueObjects\Transporter;
+
+use OpenAI\Enums\Transporter\ContentType;
+use OpenAI\ValueObjects\ApiToken;
+
+/**
+ * @internal
+ */
+final class Headers
+{
+    /**
+     * Creates a new Headers value object.
+     *
+     * @param  array<string, string>  $headers
+     */
+    private function __construct(private readonly array $headers)
+    {
+        // ..
+    }
+
+    /**
+     * Creates a new Headers value object with the given API token.
+     */
+    public static function withAuthorization(ApiToken $apiToken): self
+    {
+        return new self([
+            'Authorization' => "Bearer {$apiToken->toString()}",
+        ]);
+    }
+
+    /**
+     * Creates a new Headers value object, with the given content type, and the existing headers.
+     */
+    public function withContentType(ContentType $contentType): self
+    {
+        return new self([
+            ...$this->headers,
+            'Content-Type' => $contentType->value,
+        ]);
+    }
+
+    /**
+     * Creates a new Headers value object, with the given organization, and the existing headers.
+     */
+    public function withOrganization(string $organization): self
+    {
+        return new self([
+            ...$this->headers,
+            'OpenAI-Organization' => $organization,
+        ]);
+    }
+
+    /**
+     * @return array<string, string> $headers
+     */
+    public function toArray(): array
+    {
+        return $this->headers;
+    }
+}

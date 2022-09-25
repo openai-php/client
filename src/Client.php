@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OpenAI;
+
+use OpenAI\Contracts\Transporter;
+use OpenAI\Resources\Completions;
+use OpenAI\Resources\Edits;
+use OpenAI\Resources\Embeddings;
+use OpenAI\Resources\Files;
+use OpenAI\Resources\Models;
+
+final class Client
+{
+    /**
+     * Creates a Client instance with the given API token.
+     */
+    public function __construct(private readonly Transporter $transporter)
+    {
+        // ..
+    }
+
+    /**
+     * Given a prompt, the model will return one or more predicted completions, and can also return the probabilities
+     * of alternative tokens at each position.
+     *
+     * @see https://beta.openai.com/docs/api-reference/completions
+     */
+    public function completions(): Completions
+    {
+        return new Completions($this->transporter);
+    }
+
+    /**
+     * Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+     *
+     * @see https://beta.openai.com/docs/api-reference/embeddings
+     */
+    public function embeddings(): Embeddings
+    {
+        return new Embeddings($this->transporter);
+    }
+
+    /**
+     * Given a prompt and an instruction, the model will return an edited version of the prompt.
+     *
+     * @see https://beta.openai.com/docs/api-reference/edits
+     */
+    public function edits(): Edits
+    {
+        return new Edits($this->transporter);
+    }
+
+    /**
+     * Files are used to upload documents that can be used with features like Fine-tuning.
+     *
+     * @see https://beta.openai.com/docs/api-reference/files
+     */
+    public function files(): Files
+    {
+        return new Files($this->transporter);
+    }
+
+    /**
+     * List and describe the various models available in the API.
+     *
+     * @see https://beta.openai.com/docs/api-reference/models
+     */
+    public function models(): Models
+    {
+        return new Models($this->transporter);
+    }
+}
