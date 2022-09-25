@@ -51,13 +51,13 @@ final class Files
     }
 
     /**
-     *Returns information about a specific file.
+     * Returns information about a specific file.
      *
      * @see https://beta.openai.com/docs/api-reference/files/retrieve
      *
      * @return array<string, mixed>
      */
-    public function retrieve(string $file): void
+    public function retrieve(string $file): never
     {
         throw new Exception('Not implemented yet.');
     }
@@ -66,10 +66,8 @@ final class Files
      * Returns the contents of the specified file
      *
      * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
-     *
-     * @return array<string, mixed>
      */
-    public function download(string $file): void
+    public function download(string $file): never
     {
         throw new Exception('Not implemented yet.');
     }
