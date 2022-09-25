@@ -1,3 +1,4 @@
+/art               export-ignore
 /tests             export-ignore
 /.github           export-ignore
 .editorconfig      export-ignore
