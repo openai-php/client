@@ -5,12 +5,12 @@
          cacheDirectory=".phpunit.cache">
   <coverage>
     <include>
-      <directory suffix=".php">./src</directory>
+      <directory suffix=".php">src</directory>
     </include>
   </coverage>
   <testsuites>
     <testsuite name="default">
-      <directory suffix=".php">./tests</directory>
+      <directory suffix=".php">tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
