@@ -1,7 +1,7 @@
 <p align="center">
     <img src="https://raw.githubusercontent.com/openai-php/client/main/art/example.png" width="600" alt="OpenAI PHP">
     <p align="center">
-        <a href="https://github.com/openai-php/client/actions"><img alt="GitHub Workflow Status (master)" src="https://img.shields.io/github/workflow/status/openai-php/openAI/Tests/master"></a>
+        <a href="https://github.com/openai-php/client/actions"><img alt="GitHub Workflow Status (master)" src="https://img.shields.io/github/workflow/status/openai-php/client/Tests/master"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/openai-php/client"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="Latest Version" src="https://img.shields.io/packagist/v/openai-php/client"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="License" src="https://img.shields.io/packagist/l/openai-php/client"></a>
