@@ -26,4 +26,46 @@ final class Files
 
         return $result;
     }
+
+    /**
+     * Returns information about a specific file.
+     *
+     * @see https://beta.openai.com/docs/api-reference/files/retrieve
+     *
+     * @return array<string, mixed>
+     */
+    public function retrieve(string $file): array
+    {
+        $payload = Payload::retrieve('files', $file);
+
+        return $this->transporter->request($payload);
+    }
+
+    /**
+     * Returns the contents of the specified file.
+     *
+     * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
+     *
+     * @return string
+     */
+    public function retrieveContent(string $file): string
+    {
+        $payload = Payload::retrieveContent('files', $file);
+
+        return $this->transporter->requestContent($payload);
+    }
+
+    /**
+     * Delete a file.
+     *
+     * @see https://beta.openai.com/docs/api-reference/files/delete
+     *
+     * @return array<string, mixed>
+     */
+    public function delete(string $file): array
+    {
+        $payload = Payload::delete('files', $file);
+
+        return $this->transporter->request($payload);
+    }
 }
