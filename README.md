@@ -4,7 +4,7 @@
         <a href="https://github.com/openai-php/client/actions"><img alt="GitHub Workflow Status (master)" src="https://img.shields.io/github/workflow/status/openai-php/client/Tests/master"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/openai-php/client"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="Latest Version" src="https://img.shields.io/packagist/v/openai-php/client"></a>
-        <a href="https://packagist.org/packages/openai-php/client"><img alt="License" src="https://img.shields.io/packagist/l/openai-php/client"></a>
+        <a href="https://packagist.org/packages/openai-php/client"><img alt="License" src="https://img.shields.io/github/license/openai-php/client"></a>
     </p>
 </p>
 
