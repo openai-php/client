@@ -79,7 +79,7 @@ final class HttpTransporter implements Transporter
             if (isset($response['error'])) {
                 throw new ErrorException($response['error']);
             }
-        } catch (JsonException $jsonException) {
+        } catch (JsonException) {
             // ..
         }
 
