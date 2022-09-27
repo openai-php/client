@@ -28,10 +28,10 @@ test('retreive', function () {
     expect($result)->toBeArray()->toBe(fileResource());
 });
 
-test('retreive content', function () {
+test('download', function () {
     $client = mockContentClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3/content', [], fileContentResource());
 
-    $result = $client->files()->retrieveContent('file-XjGxS3KTG0uNmNOK362iJua3');
+    $result = $client->files()->download('file-XjGxS3KTG0uNmNOK362iJua3');
 
     expect($result)->toBeString()->toBe(fileContentResource());
 });

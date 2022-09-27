@@ -46,7 +46,7 @@ final class Files
      *
      * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
      */
-    public function retrieveContent(string $file): string
+    public function download(string $file): string
     {
         $payload = Payload::retrieveContent('files', $file);
 
