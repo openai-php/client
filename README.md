@@ -125,6 +125,17 @@ Returns information about a specific file.
 $client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
+#### `upload`
+
+Upload a file that contains document(s) to be used across various endpoints/features.
+
+```php
+$client->files()->upload([
+        'purpose' => 'fine-tune',
+        'file' => fopen('my-file.jsonl', 'r'),
+    ]); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+```
+
 #### `download`
 
 Returns the contents of the specified file.

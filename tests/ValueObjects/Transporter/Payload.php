@@ -49,3 +49,23 @@ test('post verb has a body', function () {
         'name' => 'test',
     ]));
 });
+
+test('builds upload request', function () {
+    $payload = Payload::upload('files', [
+        'purpose' => 'fine-tune',
+        'file' => fileResourceResource(),
+    ]);
+
+    $baseUri = BaseUri::from('api.openai.com/v1');
+    $headers = Headers::withAuthorization(ApiToken::from('foo'));
+
+    $request = $payload->toRequest($baseUri, $headers);
+
+    expect($request->getHeader('Content-Type')[0])
+        ->toStartWith('multipart/form-data; boundary=');
+
+    expect($request->getBody()->getContents())
+        ->toContain('Content-Disposition: form-data; name="purpose"')
+        ->toContain('Content-Disposition: form-data; name="file"; filename="MyFile.jsonl"')
+        ->toContain('{"prompt": "<prompt text>", "completion": "<ideal generated text>"}');
+});

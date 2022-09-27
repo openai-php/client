@@ -54,6 +54,24 @@ final class Files
     }
 
     /**
+     * Upload a file that contains document(s) to be used across various endpoints/features.
+     *
+     * @see https://beta.openai.com/docs/api-reference/files/upload
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return array<string, array<string, mixed>|string>
+     */
+    public function upload(array $parameters): array
+    {
+        $payload = Payload::upload('files', $parameters);
+
+        /** @var array<string, array<string, mixed>|string> $result */
+        $result = $this->transporter->requestObject($payload);
+
+        return $result;
+    }
+
+    /**
      * Delete a file.
      *
      * @see https://beta.openai.com/docs/api-reference/files/delete
