@@ -56,4 +56,20 @@ final class HttpTransporter implements Transporter
 
         return $response;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function requestContent(Payload $payload): string
+    {
+        $request = $payload->toRequest($this->baseUri, $this->headers);
+
+        try {
+            $response = $this->client->sendRequest($request);
+        } catch (ClientExceptionInterface $clientException) {
+            throw new TransporterException($clientException);
+        }
+
+        return $response->getBody()->getContents();
+    }
 }

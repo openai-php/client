@@ -7,12 +7,12 @@ use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-function mockClient(string $method, string $resource, array $params, array $response)
+function mockClient(string $method, string $resource, array $params, array|string $response, $methodName = 'request')
 {
     $transporter = Mockery::mock(Transporter::class);
 
     $transporter
-        ->shouldReceive('request')
+        ->shouldReceive($methodName)
         ->once()
         ->withArgs(function (Payload $payload) use ($method, $resource) {
             $baseUri = BaseUri::from('api.openai.com/v1');
@@ -25,4 +25,9 @@ function mockClient(string $method, string $resource, array $params, array $resp
         })->andReturn($response);
 
     return new Client($transporter);
+}
+
+function mockContentClient(string $method, string $resource, array $params, string $response)
+{
+    return mockClient($method, $resource, $params, $response, 'requestContent');
 }

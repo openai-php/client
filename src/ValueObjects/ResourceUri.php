@@ -52,6 +52,22 @@ final class ResourceUri implements Stringable
     }
 
     /**
+     * Creates a new ResourceUri value object that retrieves the given resource content.
+     */
+    public static function retrieveContent(string $resource, string $id): self
+    {
+        return new self("{$resource}/{$id}/content");
+    }
+
+    /**
+     * Creates a new ResourceUri value object that deletes the given resource.
+     */
+    public static function delete(string $resource, string $id): self
+    {
+        return new self("{$resource}/{$id}");
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function toString(): string
