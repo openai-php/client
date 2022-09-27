@@ -109,6 +109,30 @@ Returns a list of files that belong to the user's organization.
 $client->files()->list(); // ['data' => [...], ...]
 ```
 
+#### `delete`
+
+Delete a file.
+
+```php
+$client->files()->delete($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+```
+
+#### `retrieve`
+
+Returns information about a specific file.
+
+```php
+$client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+```
+
+#### `download`
+
+Returns the contents of the specified file.
+
+```php
+$client->files()->download($file); // '{"prompt": "<prompt text>", ...'
+```
+
 ---
 
 OpenAI PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
