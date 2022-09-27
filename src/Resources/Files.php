@@ -22,7 +22,7 @@ final class Files
         $payload = Payload::list('files');
 
         /** @var array<string, array<int, array<string, mixed>>> $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->requestObject($payload);
 
         return $result;
     }
@@ -38,15 +38,13 @@ final class Files
     {
         $payload = Payload::retrieve('files', $file);
 
-        return $this->transporter->request($payload);
+        return $this->transporter->requestObject($payload);
     }
 
     /**
      * Returns the contents of the specified file.
      *
      * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
-     *
-     * @return string
      */
     public function retrieveContent(string $file): string
     {
@@ -66,6 +64,6 @@ final class Files
     {
         $payload = Payload::delete('files', $file);
 
-        return $this->transporter->request($payload);
+        return $this->transporter->requestObject($payload);
     }
 }

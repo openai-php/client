@@ -23,7 +23,7 @@ final class Embeddings
         $payload = Payload::create('embeddings', $parameters);
 
         /** @var array<string, array<string, mixed>|string> $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->requestObject($payload);
 
         return $result;
     }

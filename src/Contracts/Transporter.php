@@ -21,13 +21,12 @@ interface Transporter
      *
      * @throws ErrorException|UnserializableResponse|TransporterException
      */
-    public function request(Payload $payload): array;
+    public function requestObject(Payload $payload): array;
 
     /**
      * Sends a content request to a server.
-     **
      *
-     * @throws ErrorException|UnserializableResponse|TransporterException
+     * @throws ErrorException|TransporterException
      */
     public function requestContent(Payload $payload): string;
 }

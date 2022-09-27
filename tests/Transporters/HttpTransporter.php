@@ -26,7 +26,7 @@ beforeEach(function () {
     );
 });
 
-test('request', function () {
+test('request object', function () {
     $payload = Payload::list('models');
 
     $response = new Response(200, [], json_encode([
@@ -46,10 +46,10 @@ test('request', function () {
             return true;
         })->andReturn($response);
 
-    $this->http->request($payload);
+    $this->http->requestObject($payload);
 });
 
-test('response', function () {
+test('request object response', function () {
     $payload = Payload::list('models');
 
     $response = new Response(200, [], json_encode([
@@ -66,7 +66,7 @@ test('response', function () {
         ->once()
         ->andReturn($response);
 
-    $response = $this->http->request($payload);
+    $response = $this->http->requestObject($payload);
 
     expect($response)->toBe([
         [
@@ -78,7 +78,7 @@ test('response', function () {
     ]);
 });
 
-test('server errors', function () {
+test('request object server errors', function () {
     $payload = Payload::list('models');
 
     $response = new Response(401, [], json_encode([
@@ -95,7 +95,7 @@ test('server errors', function () {
         ->once()
         ->andReturn($response);
 
-    expect(fn () => $this->http->request($payload))
+    expect(fn () => $this->http->requestObject($payload))
         ->toThrow(function (ErrorException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
@@ -104,7 +104,7 @@ test('server errors', function () {
         });
 });
 
-test('client errors', function () {
+test('request object client errors', function () {
     $payload = Payload::list('models');
 
     $baseUri = BaseUri::from('api.openai.com');
@@ -115,14 +115,14 @@ test('client errors', function () {
         ->once()
         ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
 
-    expect(fn () => $this->http->request($payload))->toThrow(function (TransporterException $e) {
+    expect(fn () => $this->http->requestObject($payload))->toThrow(function (TransporterException $e) {
         expect($e->getMessage())->toBe('Could not resolve host.')
             ->and($e->getCode())->toBe(0)
             ->and($e->getPrevious())->toBeInstanceOf(ConnectException::class);
     });
 });
 
-test('serialization errors', function () {
+test('request object serialization errors', function () {
     $payload = Payload::list('models');
 
     $response = new Response(200, [], 'err');
@@ -132,5 +132,87 @@ test('serialization errors', function () {
         ->once()
         ->andReturn($response);
 
-    $this->http->request($payload);
+    $this->http->requestObject($payload);
 })->throws(UnserializableResponse::class, 'Syntax error');
+
+test('request content', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(200, [], json_encode([
+        'qdwq',
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->withArgs(function (Psr7Request $request) {
+            expect($request->getMethod())->toBe('GET')
+                ->and($request->getUri())
+                ->getHost()->toBe('api.openai.com')
+                ->getScheme()->toBe('https')
+                ->getPath()->toBe('/v1/models');
+
+            return true;
+        })->andReturn($response);
+
+    $this->http->requestContent($payload);
+});
+
+test('request content response', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(200, [], 'My response content');
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    $response = $this->http->requestContent($payload);
+
+    expect($response)->toBe('My response content');
+});
+
+test('request content client errors', function () {
+    $payload = Payload::list('models');
+
+    $baseUri = BaseUri::from('api.openai.com');
+    $headers = Headers::withAuthorization(ApiToken::from('foo'));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
+
+    expect(fn () => $this->http->requestContent($payload))->toThrow(function (TransporterException $e) {
+        expect($e->getMessage())->toBe('Could not resolve host.')
+            ->and($e->getCode())->toBe(0)
+            ->and($e->getPrevious())->toBeInstanceOf(ConnectException::class);
+    });
+});
+
+test('request content server errors', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(401, [], json_encode([
+        'error' => [
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => 'invalid_api_key',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestContent($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
+                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
+                ->and($e->getErrorCode())->toBe('invalid_api_key')
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});

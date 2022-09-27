@@ -22,7 +22,7 @@ final class Models
         $payload = Payload::list('models');
 
         /** @var array<string, array<int, array<string, mixed>>> $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->requestObject($payload);
 
         return $result;
     }
@@ -38,6 +38,6 @@ final class Models
     {
         $payload = Payload::retrieve('models', $model);
 
-        return $this->transporter->request($payload);
+        return $this->transporter->requestObject($payload);
     }
 }

@@ -23,7 +23,7 @@ final class Edits
         $payload = Payload::create('edits', $parameters);
 
         /** @var array<string, array<string, mixed>|string> $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->requestObject($payload);
 
         return $result;
     }
