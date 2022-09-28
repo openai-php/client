@@ -46,7 +46,7 @@ echo $result['choices'][0]['text']; // an open-source, widely-used, server-side 
 - [x] Embeddings
 - [x] Files
 - [x] FineTunes
-- [ ] Moderations
+- [x] Moderations
 - [ ] Classifications
 
 ## Usage
@@ -98,14 +98,14 @@ $client->edits()->create(); // ['choices' => [...], ...]
 ```
 
 ### `Embeddings` Resource
-
+````
 #### `create`
 
 Creates an embedding vector representing the input text.
 
 ```php
 $client->embeddings()->create(); // ['data' => [...], ...]
-```
+```````
 
 ### `Files` Resource
 
@@ -192,6 +192,16 @@ Get fine-grained status updates for a fine-tune job.
 
 ```php
 $client->fineTunes()->listEvents($fineTuneId); // ['data' => [...], ...]
+```
+
+### `Moderations` Resource
+
+#### `create`
+
+Classifies if text violates OpenAI's Content Policy.
+
+```php
+$client->moderations()->create($parameters); // ['id' => 'modr-5MWoLO', ...]
 ```
 
 

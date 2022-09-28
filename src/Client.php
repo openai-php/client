@@ -11,6 +11,7 @@ use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
 use OpenAI\Resources\FineTunes;
 use OpenAI\Resources\Models;
+use OpenAI\Resources\Moderations;
 
 final class Client
 {
@@ -81,5 +82,15 @@ final class Client
     public function fineTunes(): FineTunes
     {
         return new FineTunes($this->transporter);
+    }
+
+    /**
+     * Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+     *
+     * @see https://beta.openai.com/docs/api-reference/moderations/create
+     */
+    public function moderations(): Moderations
+    {
+        return new Moderations($this->transporter);
     }
 }
