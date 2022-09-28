@@ -20,7 +20,15 @@ function fileResource(): array
  */
 function fileContentResource(): string
 {
-    return file_get_contents(__DIR__.'/MyFile.json');
+    return file_get_contents(__DIR__.'/MyFile.jsonl');
+}
+
+/**
+ * @return resource
+ */
+function fileResourceResource()
+{
+    return fopen(__DIR__.'/MyFile.jsonl', 'r');
 }
 
 /**

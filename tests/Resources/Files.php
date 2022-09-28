@@ -36,6 +36,20 @@ test('download', function () {
     expect($result)->toBeString()->toBe(fileContentResource());
 });
 
+test('upload', function () {
+    $client = mockClient('POST', 'files', [
+        'purpose' => 'fine-tune',
+        'file' => fileResourceResource(),
+    ], fileResource());
+
+    $result = $client->files()->upload([
+        'purpose' => 'fine-tune',
+        'file' => fileResourceResource(),
+    ]);
+
+    expect($result)->toBeArray()->toBe(fileResource());
+});
+
 test('delete', function () {
     $client = mockClient('DELETE', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileDeleteResource());
 

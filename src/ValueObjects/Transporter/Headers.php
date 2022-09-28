@@ -35,11 +35,11 @@ final class Headers
     /**
      * Creates a new Headers value object, with the given content type, and the existing headers.
      */
-    public function withContentType(ContentType $contentType): self
+    public function withContentType(ContentType $contentType, string $suffix = ''): self
     {
         return new self([
             ...$this->headers,
-            'Content-Type' => $contentType->value,
+            'Content-Type' => $contentType->value.$suffix,
         ]);
     }
 
