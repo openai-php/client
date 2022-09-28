@@ -45,7 +45,7 @@ echo $result['choices'][0]['text']; // an open-source, widely-used, server-side 
 - [x] Edits
 - [x] Embeddings
 - [x] Files
-- [ ] FineTunes
+- [x] FineTunes
 - [ ] Moderations
 - [ ] Classifications
 
@@ -67,6 +67,14 @@ Retrieves a model instance, providing basic information about the model such as 
 
 ```php
 $client->models()->retrieve($model); // ['id' => 'text-davinci-002', ...]
+```
+
+#### `delete`
+
+Delete a fine-tuned model.
+
+```php
+$client->models()->delete($model); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
 ```
 
 ### `Completions` Resource
@@ -143,6 +151,49 @@ Returns the contents of the specified file.
 ```php
 $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 ```
+
+### `FineTunes` Resource
+
+#### `create`
+
+Creates a job that fine-tunes a specified model from a given dataset.
+
+```php
+$client->fineTunes()->create($parameters); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list`
+
+List your organization's fine-tuning jobs.
+
+```php
+$client->fineTunes()->list(); // ['data' => [...], ...]
+```
+
+#### `retrieve`
+
+Gets info about the fine-tune job.
+
+```php
+$client->fineTunes()->retrieve($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `cancel`
+
+Immediately cancel a fine-tune job.
+
+```php
+$client->fineTunes()->cancel($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list events`
+
+Get fine-grained status updates for a fine-tune job.
+
+```php
+$client->fineTunes()->listEvents($fineTuneId); // ['data' => [...], ...]
+```
+
 
 ---
 

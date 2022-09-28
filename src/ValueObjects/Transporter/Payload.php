@@ -44,11 +44,11 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function retrieve(string $resource, string $id): self
+    public static function retrieve(string $resource, string $id, string $suffix = ''): self
     {
         $contentType = ContentType::JSON;
         $method = Method::GET;
-        $uri = ResourceUri::retrieve($resource, $id);
+        $uri = ResourceUri::retrieve($resource, $id, $suffix);
 
         return new self($contentType, $method, $uri);
     }
@@ -91,6 +91,18 @@ final class Payload
         $uri = ResourceUri::upload($resource);
 
         return new self($contentType, $method, $uri, $parameters);
+    }
+
+    /**
+     * Creates a new Payload value object from the given parameters.
+     */
+    public static function cancel(string $resource, string $id): self
+    {
+        $contentType = ContentType::JSON;
+        $method = Method::POST;
+        $uri = ResourceUri::cancel($resource, $id);
+
+        return new self($contentType, $method, $uri);
     }
 
     /**

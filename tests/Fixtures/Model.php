@@ -28,3 +28,15 @@ function model(): array
         'parent' => null,
     ];
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function fineTunedModelDeleteResource(): array
+{
+    return [
+        'id' => 'curie:ft-acmeco-2021-03-03-21-44-20',
+        'object' => 'model',
+        'deleted' => true,
+    ];
+}

@@ -27,3 +27,11 @@ test('retreive', function () {
 
     expect($result)->toBeArray()->toBe(model());
 });
+
+test('delete fine tuned model', function () {
+    $client = mockClient('DELETE', 'models/curie:ft-acmeco-2021-03-03-21-44-20', [], fineTunedModelDeleteResource());
+
+    $result = $client->models()->delete('curie:ft-acmeco-2021-03-03-21-44-20');
+
+    expect($result)->toBeArray()->toBe(fineTunedModelDeleteResource());
+});

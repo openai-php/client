@@ -40,4 +40,18 @@ final class Models
 
         return $this->transporter->requestObject($payload);
     }
+
+    /**
+     * Delete a fine-tuned model. You must have the Owner role in your organization.
+     *
+     * @see https://beta.openai.com/docs/api-reference/fine-tunes/delete-model
+     *
+     * @return array<string, mixed>
+     */
+    public function delete(string $model): array
+    {
+        $payload = Payload::delete('models', $model);
+
+        return $this->transporter->requestObject($payload);
+    }
 }
