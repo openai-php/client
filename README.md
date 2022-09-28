@@ -44,7 +44,7 @@ echo $result['choices'][0]['text']; // an open-source, widely-used, server-side 
 - [x] Completions
 - [x] Edits
 - [x] Embeddings
-- [ ] Files
+- [x] Files
 - [ ] FineTunes
 - [ ] Moderations
 - [ ] Classifications
