@@ -87,7 +87,7 @@ final class Client
     /**
      * Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
      *
-     * @see https://beta.openai.com/docs/api-reference/moderations/create
+     * @see https://beta.openai.com/docs/api-reference/moderations
      */
     public function moderations(): Moderations
     {
