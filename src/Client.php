@@ -9,7 +9,9 @@ use OpenAI\Resources\Completions;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
+use OpenAI\Resources\FineTunes;
 use OpenAI\Resources\Models;
+use OpenAI\Resources\Moderations;
 
 final class Client
 {
@@ -70,5 +72,25 @@ final class Client
     public function models(): Models
     {
         return new Models($this->transporter);
+    }
+
+    /**
+     * Manage fine-tuning jobs to tailor a model to your specific training data.
+     *
+     * @see https://beta.openai.com/docs/api-reference/fine-tunes
+     */
+    public function fineTunes(): FineTunes
+    {
+        return new FineTunes($this->transporter);
+    }
+
+    /**
+     * Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+     *
+     * @see https://beta.openai.com/docs/api-reference/moderations
+     */
+    public function moderations(): Moderations
+    {
+        return new Moderations($this->transporter);
     }
 }
