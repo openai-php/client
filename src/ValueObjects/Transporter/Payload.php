@@ -6,6 +6,7 @@ namespace OpenAI\ValueObjects\Transporter;
 
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request as Psr7Request;
+use OpenAI\Contracts\Request;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Enums\Transporter\Method;
 use OpenAI\ValueObjects\ResourceUri;
@@ -77,6 +78,18 @@ final class Payload
         $uri = ResourceUri::create($resource);
 
         return new self($contentType, $method, $uri, $parameters);
+    }
+
+    /**
+     * Creates a new Payload value object from the given parameters.
+     */
+    public static function createFromRequest(string $resource, Request $request): self
+    {
+        $contentType = ContentType::JSON;
+        $method = Method::POST;
+        $uri = ResourceUri::create($resource);
+
+        return new self($contentType, $method, $uri, $request->toArray());
     }
 
     /**
