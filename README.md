@@ -36,19 +36,6 @@ $result = $client->completions()->create([
 echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
 ```
 
-## TODO
-
-
-
-- [x] Models
-- [x] Completions
-- [x] Edits
-- [x] Embeddings
-- [x] Files
-- [x] FineTunes
-- [x] Moderations
-- [ ] Classifications
-
 ## Usage
 
 ### `Models` Resource
@@ -105,7 +92,7 @@ Creates an embedding vector representing the input text.
 
 ```php
 $client->embeddings()->create(); // ['data' => [...], ...]
-```````
+```
 
 ### `Files` Resource
 
