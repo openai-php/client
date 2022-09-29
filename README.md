@@ -85,7 +85,7 @@ $client->edits()->create(); // ['choices' => [...], ...]
 ```
 
 ### `Embeddings` Resource
-````
+
 #### `create`
 
 Creates an embedding vector representing the input text.
