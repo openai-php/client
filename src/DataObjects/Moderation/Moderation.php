@@ -4,7 +4,7 @@ namespace OpenAI\DataObjects\Moderation;
 
 use OpenAI\Contracts\DataObject;
 
-final class ModerationResponse implements DataObject
+final class Moderation implements DataObject
 {
     /**
      * @param  array<array-key, ModerationResult>  $results

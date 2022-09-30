@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenAI\DataObjectFactories\Moderation;
+namespace OpenAI\Factories\DataObjects\Moderation;
 
 use OpenAI\DataObjects\Moderation\ModerationCategory;
 use OpenAI\Enums\Moderation\Category;
@@ -33,8 +33,8 @@ final class ModerationCategoryFactory
     {
         return new ModerationCategory(
             category: Category::from((string) $attributes['category']),
-            violated: (bool) ($attributes['violated'] ?? false),
-            score: (float) ($attributes['score'] ?? 0),
+            violated: (bool) $attributes['violated'],
+            score: (float) $attributes['score'],
         );
     }
 }

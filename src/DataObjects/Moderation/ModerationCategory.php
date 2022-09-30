@@ -2,9 +2,10 @@
 
 namespace OpenAI\DataObjects\Moderation;
 
+use OpenAI\Contracts\DataObject;
 use OpenAI\Enums\Moderation\Category;
 
-final class ModerationCategory
+final class ModerationCategory implements DataObject
 {
     public function __construct(
         public readonly Category $category,

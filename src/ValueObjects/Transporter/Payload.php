@@ -82,18 +82,6 @@ final class Payload
 
     /**
      * Creates a new Payload value object from the given parameters.
-     */
-    public static function createFromRequest(string $resource, Request $request): self
-    {
-        $contentType = ContentType::JSON;
-        $method = Method::POST;
-        $uri = ResourceUri::create($resource);
-
-        return new self($contentType, $method, $uri, $request->toArray());
-    }
-
-    /**
-     * Creates a new Payload value object from the given parameters.
      *
      * @param  array<string, mixed>  $parameters
      */
