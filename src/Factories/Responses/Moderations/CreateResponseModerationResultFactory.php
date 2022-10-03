@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenAI\Factories\Responses\Moderations;
 
 use OpenAI\Enums\Moderation\Category;
