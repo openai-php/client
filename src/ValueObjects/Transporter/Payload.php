@@ -6,6 +6,7 @@ namespace OpenAI\ValueObjects\Transporter;
 
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request as Psr7Request;
+use OpenAI\Contracts\Request;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Enums\Transporter\Method;
 use OpenAI\ValueObjects\ResourceUri;

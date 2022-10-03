@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Factories\Responses\Moderations\CreateResponseFactory;
+use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class Moderations
@@ -16,15 +18,14 @@ final class Moderations
      * @see https://beta.openai.com/docs/api-reference/moderations/create
      *
      * @param  array<string, mixed>  $parameters
-     * @return array<string, mixed>
      */
-    public function create(array $parameters): array
+    public function create(array $parameters): CreateResponse
     {
         $payload = Payload::create('moderations', $parameters);
 
-        /** @var array<string, mixed> $result */
+        /** @var array<string, array<array-key, array<string, array<string, bool|float>>>|string> $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return CreateResponseFactory::new($result);
     }
 }
