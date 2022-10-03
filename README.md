@@ -188,10 +188,27 @@ $client->fineTunes()->listEvents($fineTuneId); // ['data' => [...], ...]
 Classifies if text violates OpenAI's Content Policy.
 
 ```php
-$client->moderations()->create($parameters); // ['id' => 'modr-5MWoLO', ...]
+
+$response = $client->moderations()->create([
+    'model' => 'text-moderation-latest',
+    'input' => 'I want to k*** them.',
+]);
+
+$response->id; // modr-5xOyuS
+$response->model; // text-moderation-003
+
+foreach ($response->results as $result) {
+    $result->flagged; // true
+
+    foreach ($result->categories as $category) {
+        $category->category->value; // 'violence'
+        $category->violated; // true
+        $category->score; // 0.97431367635727
+    }
+}
+
+$response->toArray(); // ['id' => 'modr-5xOyuS', ...]
 ```
-
-
 ---
 
 OpenAI PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
