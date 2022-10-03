@@ -15,6 +15,9 @@ use OpenAI\ValueObjects\Transporter\Payload;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * @internal
+ */
 final class HttpTransporter implements Transporter
 {
     /**

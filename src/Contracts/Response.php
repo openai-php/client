@@ -10,7 +10,7 @@ namespace OpenAI\Contracts;
 interface Response
 {
     /**
-     * Returns the response on the array format, the original format.
+     * Returns the array representation of the Response.
      *
      * @return array<array-key, mixed>
      */

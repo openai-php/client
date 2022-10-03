@@ -1,9 +1,9 @@
 <?php
 
-use OpenAI\Enums\Moderation\Category;
+use OpenAI\Enums\Moderations\Category;
 use OpenAI\Responses\Moderations\CreateResponse;
-use OpenAI\Responses\Moderations\CreateResponseModerationCategory;
-use OpenAI\Responses\Moderations\CreateResponseModerationResult;
+use OpenAI\Responses\Moderations\CreateResponseCategory;
+use OpenAI\Responses\Moderations\CreateResponseResult;
 
 test('create', function () {
     $client = mockClient('POST', 'moderations', [
@@ -21,14 +21,14 @@ test('create', function () {
         ->id->toBe('modr-5MWoLO')
         ->model->toBe('text-moderation-001')
         ->results->toBeArray()->toHaveCount(1)
-        ->results->each->toBeInstanceOf(CreateResponseModerationResult::class);
+        ->results->each->toBeInstanceOf(CreateResponseResult::class);
 
     expect($result->results[0])
         ->flagged->toBeTrue()
         ->categories->toHaveCount(7)
-        ->each->toBeInstanceOf(CreateResponseModerationCategory::class);
+        ->each->toBeInstanceOf(CreateResponseCategory::class);
 
-    expect($result->results[0]->categories[0])
+    expect($result->results[0]->categories[Category::Hate->value])
         ->category->toBe(Category::Hate)
         ->violated->toBe(false)
         ->score->toBe(0.22714105248451233);
