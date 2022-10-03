@@ -1,25 +1,25 @@
 <?php
 
-namespace OpenAI\Factories\DataObjects\Moderation;
+namespace OpenAI\Factories\Responses\Moderations;
 
-use OpenAI\DataObjects\Moderation\ModerationResult;
 use OpenAI\Enums\Moderation\Category;
+use OpenAI\Responses\Moderations\CreateResponseModerationResult;
 
-final class ModerationResultFactory
+final class CreateResponseModerationResultFactory
 {
     /**
      * @param  array<array-key, array<string, array<string, bool|float>>>  $results
-     * @return ModerationResult[]
+     * @return CreateResponseModerationResult[]
      */
     public static function collection(array $results): array
     {
-        return array_map(fn ($result): ModerationResult => static::new($result), $results);
+        return array_map(fn ($result): CreateResponseModerationResult => static::new($result), $results);
     }
 
     /**
      * @param  array<string, array<string, bool|float>>  $attributes
      */
-    public static function new(array $attributes): ModerationResult
+    public static function new(array $attributes): CreateResponseModerationResult
     {
         return (new self)->make(
             attributes: $attributes,
@@ -29,7 +29,7 @@ final class ModerationResultFactory
     /**
      * @param  array<string, array<string, bool|float>>  $attributes
      */
-    public function make(array $attributes): ModerationResult
+    public function make(array $attributes): CreateResponseModerationResult
     {
         $categories = array_map(fn (Category $category): array => [
             'category' => $category->value,
@@ -37,8 +37,8 @@ final class ModerationResultFactory
             'score' => $attributes['category_scores'][$category->value],
         ], Category::cases());
 
-        return new ModerationResult(
-            categories: ModerationCategoryFactory::collection($categories),
+        return new CreateResponseModerationResult(
+            categories: CreateResponseModerationCategoryFactory::collection($categories),
             flagged: (bool) ($attributes['flagged']),
         );
     }

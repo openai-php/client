@@ -7,10 +7,10 @@ namespace OpenAI\Contracts;
 /**
  * @internal
  */
-interface DataObject
+interface Response
 {
     /**
-     * Return the data as array.
+     * Returns the response on the array format, the original format.
      *
      * @return array<array-key, mixed>
      */

@@ -1,25 +1,25 @@
 <?php
 
-namespace OpenAI\Factories\DataObjects\Moderation;
+namespace OpenAI\Factories\Responses\Moderations;
 
-use OpenAI\DataObjects\Moderation\ModerationCategory;
 use OpenAI\Enums\Moderation\Category;
+use OpenAI\Responses\Moderations\CreateResponseModerationCategory;
 
-final class ModerationCategoryFactory
+final class CreateResponseModerationCategoryFactory
 {
     /**
      * @param  array<array-key, array<string, bool|float|string>>  $results
-     * @return ModerationCategory[]
+     * @return CreateResponseModerationCategory[]
      */
     public static function collection(array $results): array
     {
-        return array_map(fn ($result): ModerationCategory => static::new($result), $results);
+        return array_map(fn ($result): CreateResponseModerationCategory => static::new($result), $results);
     }
 
     /**
      * @param  array<string, bool|float|string>  $attributes
      */
-    public static function new(array $attributes): ModerationCategory
+    public static function new(array $attributes): CreateResponseModerationCategory
     {
         return (new self)->make(
             attributes: $attributes,
@@ -29,9 +29,9 @@ final class ModerationCategoryFactory
     /**
      * @param  array<string, bool|float|string>  $attributes
      */
-    public function make(array $attributes): ModerationCategory
+    public function make(array $attributes): CreateResponseModerationCategory
     {
-        return new ModerationCategory(
+        return new CreateResponseModerationCategory(
             category: Category::from((string) $attributes['category']),
             violated: (bool) $attributes['violated'],
             score: (float) $attributes['score'],

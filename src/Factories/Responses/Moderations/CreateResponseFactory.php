@@ -1,15 +1,15 @@
 <?php
 
-namespace OpenAI\Factories\DataObjects\Moderation;
+namespace OpenAI\Factories\Responses\Moderations;
 
-use OpenAI\DataObjects\Moderation\Moderation;
+use OpenAI\Responses\Moderations\CreateResponse;
 
-final class ModerationFactory
+final class CreateResponseFactory
 {
     /**
      * @param  array<string, array<array-key, array<string, array<string, bool|float>>>|string>  $attributes
      */
-    public static function new(array $attributes): Moderation
+    public static function new(array $attributes): CreateResponse
     {
         return (new self)->make(
             attributes: $attributes,
@@ -19,12 +19,12 @@ final class ModerationFactory
     /**
      * @param  array<string, array<array-key, array<string, array<string, bool|float>>>|string>  $attributes
      */
-    public function make(array $attributes): Moderation
+    public function make(array $attributes): CreateResponse
     {
-        return new Moderation(
+        return new CreateResponse(
             id: strval($attributes['id']),
             model: strval($attributes['model']),
-            results: ModerationResultFactory::collection($attributes['results']), /** @phpstan-ignore-line */
+            results: CreateResponseModerationResultFactory::collection($attributes['results']), /** @phpstan-ignore-line */
         );
     }
 }

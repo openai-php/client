@@ -1,13 +1,13 @@
 <?php
 
-namespace OpenAI\DataObjects\Moderation;
+namespace OpenAI\Responses\Moderations;
 
-use OpenAI\Contracts\DataObject;
+use OpenAI\Contracts\Response;
 
-final class Moderation implements DataObject
+final class CreateResponse implements Response
 {
     /**
-     * @param  array<array-key, ModerationResult>  $results
+     * @param  array<array-key, CreateResponseModerationResult>  $results
      */
     public function __construct(
         public readonly string $id,
@@ -24,7 +24,7 @@ final class Moderation implements DataObject
         return [
             'id' => $this->id,
             'model' => $this->model,
-            'results' => array_map(fn (ModerationResult $result): array => $result->toArray(), $this->results),
+            'results' => array_map(fn (CreateResponseModerationResult $result): array => $result->toArray(), $this->results),
         ];
     }
 }

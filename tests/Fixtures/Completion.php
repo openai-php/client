@@ -10,12 +10,13 @@ function completion(): array
         'object' => 'text_completion',
         'created' => 1664136088,
         'model' => 'davinci',
-        'choices' => [[
-            'text' => "el, she elaborates more on the Corruptor's role, suggesting K",
-            'index' => 0,
-            'logprobs' => null,
-            'finish_reason' => 'length',
-        ],
+        'choices' => [
+            [
+                'text' => "el, she elaborates more on the Corruptor's role, suggesting K",
+                'index' => 0,
+                'logprobs' => null,
+                'finish_reason' => 'length',
+            ],
         ],
         'usage' => [
             'prompt_tokens' => 1,
