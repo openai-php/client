@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class Completions
@@ -16,15 +17,14 @@ final class Completions
      * @see https://beta.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
-     * @return array<string, array<string, mixed>|string>
      */
-    public function create(array $parameters): array
+    public function create(array $parameters): CreateResponse
     {
         $payload = Payload::create('completions', $parameters);
 
-        /** @var array<string, array<string, mixed>|string> $result */
+        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}} $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return CreateResponse::from($result);
     }
 }
