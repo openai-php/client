@@ -71,7 +71,30 @@ $client->models()->delete($model); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44
 Creates a completion for the provided prompt and parameters.
 
 ```php
-$client->completions()->create($parameters); // ['choices' => [...], ...]
+$response = $client->completions()->create([
+    'model' => 'text-davinci-002',
+    'prompt' => 'Say this is a test',
+    'max_tokens' => 6,
+    'temperature' => 0
+]);
+
+$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
+$response->object; // 'text_completion'
+$response->created; // 1589478378
+$response->model; // 'text-davinci-002'
+
+foreach ($response->choices as $result) {
+    $result->text; // '\n\nThis is a test'
+    $result->index; // 0
+    $result->logprobs; // null
+    $result->finishReason; // 'length'
+}
+
+$response->usage->promptTokens; // 5,
+$response->usage->completionTokens; // 6,
+$response->usage->totalTokens; // 11
+
+$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
 ```
 
 ### `Edits` Resource
