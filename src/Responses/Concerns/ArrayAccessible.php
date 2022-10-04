@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Concerns;
 
-use ArrayAccess;
 use BadMethodCallException;
 use OpenAI\Contracts\Response;
 
 /**
- * @implements ArrayAccess<string, mixed>
+ * @template TArray of array
  *
- * @mixin Response
+ * @mixin Response<TArray>
  */
 trait ArrayAccessible
 {
     /**
-     * Whether an offset exists.
+     * {@inheritDoc}
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -24,7 +23,7 @@ trait ArrayAccessible
     }
 
     /**
-     * Offset to retrieve.
+     * {@inheritDoc}
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -32,11 +31,7 @@ trait ArrayAccessible
     }
 
     /**
-     * Offset to set.
-     *
-     * @internal
-     *
-     * @throws BadMethodCallException
+     * {@inheritDoc}
      */
     public function offsetSet(mixed $offset, mixed $value): never
     {
@@ -44,11 +39,7 @@ trait ArrayAccessible
     }
 
     /**
-     * Unset an offset.
-     *
-     * @internal
-     *
-     * @throws BadMethodCallException
+     * {@inheritDoc}
      */
     public function offsetUnset(mixed $offset): never
     {
