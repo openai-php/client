@@ -104,7 +104,25 @@ $response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
 Creates a new edit for the provided input, instruction, and parameters.
 
 ```php
-$client->edits()->create(); // ['choices' => [...], ...]
+$response = $client->edits()->create([
+    'model' => 'text-davinci-edit-001',
+    'input' => 'What day of the wek is it?',
+    'instruction' => 'Fix the spelling mistakes',
+]);
+
+$response->object; // 'edit'
+$response->created; // 1589478378
+
+foreach ($response->choices as $result) {
+    $result->text; // 'What day of the week is it?'
+    $result->index; // 0
+}
+
+$response->usage->promptTokens; // 25,
+$response->usage->completionTokens; // 32,
+$response->usage->totalTokens; // 57
+
+$response->toArray(); // ['object' => 'edit', ...]
 ```
 
 ### `Embeddings` Resource
