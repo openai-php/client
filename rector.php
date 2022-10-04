@@ -12,6 +12,10 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__.'/src',
     ]);
 
+    $rectorConfig->skip([
+        __DIR__.'/src/Contracts/Response.php',
+    ]);
+
     $rectorConfig->rules([
         InlineConstructorDefaultToPropertyRector::class,
     ]);

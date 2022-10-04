@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Completions;
 
 use OpenAI\Contracts\Response;
-use OpenAI\Responses\Concerns;
+use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
  * @implements Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
  */
 final class CreateResponse implements Response
 {
-    use Concerns\ArrayAccessible;
+    /**
+     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+     */
+    use ArrayAccessible;
 
     /**
      * @param  array<int, CreateResponseChoice>  $choices

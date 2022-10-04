@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Moderations;
 
 use OpenAI\Contracts\Response;
-use OpenAI\Responses\Concerns;
+use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
  * @implements Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
  */
 final class CreateResponse implements Response
 {
-    use Concerns\ArrayAccessible;
+    /**
+     * @use ArrayAccessible<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
+     */
+    use ArrayAccessible;
 
     /**
      * @param  array<int, CreateResponseResult>  $results
