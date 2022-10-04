@@ -18,6 +18,12 @@ test('from', function () {
         ->usage->toBeInstanceOf(CreateResponseUsage::class);
 });
 
+test('as array accessible', function () {
+    $completion = CreateResponse::from(completion());
+
+    expect($completion['id'])->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna');
+});
+
 test('to array', function () {
     $completion = CreateResponse::from(completion());
 

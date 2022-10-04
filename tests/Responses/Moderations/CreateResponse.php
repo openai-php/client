@@ -14,6 +14,12 @@ test('from', function () {
         ->results->each->toBeInstanceOf(CreateResponseResult::class);
 });
 
+test('as array accessible', function () {
+    $moderation = CreateResponse::from(moderationResource());
+
+    expect($moderation['id'])->toBe('modr-5MWoLO');
+});
+
 test('to array', function () {
     $moderation = CreateResponse::from(moderationResource());
 
