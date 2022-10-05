@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Responses\Files\CreateResponse;
+use OpenAI\Responses\Files\DeleteResponse;
+use OpenAI\Responses\Files\ListResponse;
+use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class Files
@@ -14,31 +18,30 @@ final class Files
      * Returns a list of files that belong to the user's organization.
      *
      * @see https://beta.openai.com/docs/api-reference/files/list
-     *
-     * @return array<string, array<int, array<string, mixed>>>
      */
-    public function list(): array
+    public function list(): ListResponse
     {
         $payload = Payload::list('files');
 
-        /** @var array<string, array<int, array<string, mixed>>> $result */
+        /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>} $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return ListResponse::from($result);
     }
 
     /**
      * Returns information about a specific file.
      *
      * @see https://beta.openai.com/docs/api-reference/files/retrieve
-     *
-     * @return array<string, mixed>
      */
-    public function retrieve(string $file): array
+    public function retrieve(string $file): RetrieveResponse
     {
         $payload = Payload::retrieve('files', $file);
 
-        return $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string} $result */
+        $result = $this->transporter->requestObject($payload);
+
+        return RetrieveResponse::from($result);
     }
 
     /**
@@ -59,29 +62,29 @@ final class Files
      * @see https://beta.openai.com/docs/api-reference/files/upload
      *
      * @param  array<string, mixed>  $parameters
-     * @return array<string, array<string, mixed>|string>
      */
-    public function upload(array $parameters): array
+    public function upload(array $parameters): CreateResponse
     {
         $payload = Payload::upload('files', $parameters);
 
-        /** @var array<string, array<string, mixed>|string> $result */
+        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string} $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return CreateResponse::from($result);
     }
 
     /**
      * Delete a file.
      *
      * @see https://beta.openai.com/docs/api-reference/files/delete
-     *
-     * @return array<string, mixed>
      */
-    public function delete(string $file): array
+    public function delete(string $file): DeleteResponse
     {
         $payload = Payload::delete('files', $file);
 
-        return $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, deleted: bool} $result */
+        $result = $this->transporter->requestObject($payload);
+
+        return DeleteResponse::from($result);
     }
 }

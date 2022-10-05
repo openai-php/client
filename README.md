@@ -198,7 +198,17 @@ $response->toArray(); // ['data' => [...], ...]
 Returns a list of files that belong to the user's organization.
 
 ```php
-$client->files()->list(); // ['data' => [...], ...]
+$response = $client->files()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `delete`
@@ -206,7 +216,13 @@ $client->files()->list(); // ['data' => [...], ...]
 Delete a file.
 
 ```php
-$client->files()->delete($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+$response = $client->files()->delete($file);
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `retrieve`
@@ -214,7 +230,16 @@ $client->files()->delete($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ..
 Returns information about a specific file.
 
 ```php
-$client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+$response = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->bytes; // 140
+$response->createdAt; // 1613779657
+$response->filename; // 'mydata.jsonl'
+$response->purpose; // 'fine-tune'
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `upload`
@@ -222,10 +247,19 @@ $client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', 
 Upload a file that contains document(s) to be used across various endpoints/features.
 
 ```php
-$client->files()->upload([
+$response = $client->files()->upload([
         'purpose' => 'fine-tune',
         'file' => fopen('my-file.jsonl', 'r'),
-    ]); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+    ]);
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->bytes; // 140
+$response->createdAt; // 1613779657
+$response->filename; // 'mydata.jsonl'
+$response->purpose; // 'fine-tune'
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `download`
