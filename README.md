@@ -132,7 +132,23 @@ $response->toArray(); // ['object' => 'edit', ...]
 Creates an embedding vector representing the input text.
 
 ```php
-$client->embeddings()->create(); // ['data' => [...], ...]
+$response = $client->embeddings()->create([
+    'model' => 'text-similarity-babbage-001',
+    'input' => 'The food was delicious and the waiter...',
+]);
+
+$response->object; // 'list'
+
+foreach ($response->embeddings as $embedding) {
+    $embedding->object; // 'embedding'
+    $embedding->embedding; // [0.018990106880664825, -0.0073809814639389515, ...]
+    $embedding->index; // 0
+}
+
+$response->usage->promptTokens; // 8,
+$response->usage->totalTokens; // 8
+
+$response->toArray(); // ['data' => [...], ...]
 ```
 
 ### `Files` Resource

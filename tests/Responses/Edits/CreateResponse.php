@@ -5,9 +5,9 @@ use OpenAI\Responses\Edits\CreateResponseChoice;
 use OpenAI\Responses\Edits\CreateResponseUsage;
 
 test('from', function () {
-    $completion = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit());
 
-    expect($completion)
+    expect($response)
         ->toBeInstanceOf(CreateResponse::class)
         ->object->toBe('edit')
         ->created->toBe(1664135921)
@@ -17,15 +17,15 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $completion = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit());
 
-    expect($completion['created'])->toBe(1664135921);
+    expect($response['created'])->toBe(1664135921);
 });
 
 test('to array', function () {
-    $completion = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit());
 
-    expect($completion->toArray())
+    expect($response->toArray())
         ->toBeArray()
         ->toBe(edit());
 });
