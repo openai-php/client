@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Edits;
 
 use OpenAI\Contracts\Response;
+use OpenAI\Responses\Concerns\ArrayAccessible;
 
+/**
+ * @implements Response<array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+ */
 final class CreateResponse implements Response
 {
+    /**
+     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+     */
+    use ArrayAccessible;
+
     /**
      * @param  array<int, CreateResponseChoice>  $choices
      */
@@ -39,7 +48,7 @@ final class CreateResponse implements Response
     }
 
     /**
-     * @return  array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

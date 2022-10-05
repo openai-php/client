@@ -16,6 +16,12 @@ test('from', function () {
         ->usage->toBeInstanceOf(CreateResponseUsage::class);
 });
 
+test('as array accessible', function () {
+    $completion = CreateResponse::from(edit());
+
+    expect($completion['created'])->toBe(1664135921);
+});
+
 test('to array', function () {
     $completion = CreateResponse::from(edit());
 
