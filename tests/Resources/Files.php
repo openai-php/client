@@ -20,7 +20,7 @@ test('list', function () {
     ]);
 });
 
-test('retreive', function () {
+test('retrieve', function () {
     $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileResource());
 
     $result = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');

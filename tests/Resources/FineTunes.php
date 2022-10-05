@@ -58,7 +58,7 @@ test('list', function () {
     ]);
 });
 
-test('retreive', function () {
+test('retrieve', function () {
     $client = mockClient('GET', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F', [], fineTuneResource());
 
     $result = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');

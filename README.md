@@ -45,7 +45,17 @@ echo $result['choices'][0]['text']; // an open-source, widely-used, server-side 
 Lists the currently available models, and provides basic information about each one such as the owner and availability.
 
 ```php
-$client->models()->list(); // ['data' => [...], ...]
+$response = $client->models()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'text-davinci-002'
+    $result->object; // 'model'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `retrieve`
@@ -53,7 +63,31 @@ $client->models()->list(); // ['data' => [...], ...]
 Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 
 ```php
-$client->models()->retrieve($model); // ['id' => 'text-davinci-002', ...]
+$response = $client->models()->retrieve('text-davinci-002');
+
+$response->id; // 'text-davinci-002'
+$response->object; // 'model'
+$response->created; // 1642018370
+$response->ownedBy; // 'openai'
+$response->root; // 'text-davinci-002'
+$response->parent; // null
+
+foreach ($response->permission as $result) {
+    $result->id; // 'modelperm-7E53j9OtnMZggjqlwMxW4QG7' 
+    $result->object; // 'model_permission' 
+    $result->created; // 1664307523 
+    $result->allowCreateEngine; // false 
+    $result->allowSampling; // true 
+    $result->allowLogprobs; // true 
+    $result->allowSearchIndices; // false 
+    $result->allowView; // true 
+    $result->allowFineTuning; // false 
+    $result->organization; // '*' 
+    $result->group; // null 
+    $result->isBlocking; // false 
+}
+
+$response->toArray(); // ['id' => 'text-davinci-002', ...]
 ```
 
 #### `delete`
@@ -61,7 +95,13 @@ $client->models()->retrieve($model); // ['id' => 'text-davinci-002', ...]
 Delete a fine-tuned model.
 
 ```php
-$client->models()->delete($model); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
+$response = $client->models()->delete('curie:ft-acmeco-2021-03-03-21-44-20');
+
+$response->id; // 'curie:ft-acmeco-2021-03-03-21-44-20'
+$response->object; // 'model'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
 ```
 
 ### `Completions` Resource
