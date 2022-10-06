@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Responses\FineTunes\ListEventsResponse;
+use OpenAI\Responses\FineTunes\ListResponse;
+use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class FineTunes
@@ -18,77 +21,74 @@ final class FineTunes
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/create
      *
      * @param  array<string, mixed>  $parameters
-     * @return array<string, mixed>
      */
-    public function create(array $parameters): array
+    public function create(array $parameters): RetrieveResponse
     {
         $payload = Payload::create('fine-tunes', $parameters);
 
-        /** @var array<string, mixed> $result */
+        /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: string, hyperparams: array{batch_size: int, learning_rate_multiplier: float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, updated_at: int}  $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return RetrieveResponse::from($result);
     }
 
     /**
      * List your organization's fine-tuning jobs.
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
-     *
-     * @return array<string, array<int, array<string, mixed>>>
      */
-    public function list(): array
+    public function list(): ListResponse
     {
         $payload = Payload::list('fine-tunes');
 
-        /** @var array<string, array<int, array<string, mixed>>> $result */
+        /** @var array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: string, hyperparams: array{batch_size: int, learning_rate_multiplier: float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, updated_at: int}>} $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return ListResponse::from($result);
     }
 
     /**
      * Gets info about the fine-tune job.
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
-     *
-     * @return array<string, mixed>
      */
-    public function retrieve(string $fineTuneId): array
+    public function retrieve(string $fineTuneId): RetrieveResponse
     {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId);
 
-        return $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: string, hyperparams: array{batch_size: int, learning_rate_multiplier: float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, updated_at: int}  $result */
+        $result = $this->transporter->requestObject($payload);
+
+        return RetrieveResponse::from($result);
     }
 
     /**
      * Immediately cancel a fine-tune job.
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/cancel
-     *
-     * @return array<string, mixed>
      */
-    public function cancel(string $fineTuneId): array
+    public function cancel(string $fineTuneId): RetrieveResponse
     {
         $payload = Payload::cancel('fine-tunes', $fineTuneId);
 
-        return $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: string, hyperparams: array{batch_size: int, learning_rate_multiplier: float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>, updated_at: int}  $result */
+        $result = $this->transporter->requestObject($payload);
+
+        return RetrieveResponse::from($result);
     }
 
     /**
      * Get fine-grained status updates for a fine-tune job.
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
-     *
-     * @return array<string, array<int, array<string, mixed>>>
      */
-    public function listEvents(string $fineTuneId): array
+    public function listEvents(string $fineTuneId): ListEventsResponse
     {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId, '/events');
 
-        /** @var array<string, array<int, array<string, mixed>>> $result */
+        /** @var array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>} $result */
         $result = $this->transporter->requestObject($payload);
 
-        return $result;
+        return ListEventsResponse::from($result);
     }
 }

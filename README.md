@@ -277,7 +277,13 @@ $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 Creates a job that fine-tunes a specified model from a given dataset.
 
 ```php
-$client->fineTunes()->create($parameters); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$client->fineTunes()->create($parameters);
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list`
@@ -285,7 +291,17 @@ $client->fineTunes()->create($parameters); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7i
 List your organization's fine-tuning jobs.
 
 ```php
-$client->fineTunes()->list(); // ['data' => [...], ...]
+$response = $client->fineTunes()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->object; // 'fine-tune'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `retrieve`
@@ -293,7 +309,52 @@ $client->fineTunes()->list(); // ['data' => [...], ...]
 Gets info about the fine-tune job.
 
 ```php
-$client->fineTunes()->retrieve($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+$response->model; // 'curie'
+$response->createdAt; // 1614807352
+$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
+$response->organizationId; // 'org-jwe45798ASN82s'
+$response->resultFiles; // [
+$response->status; // 'succeeded'
+$response->validationFiles; // [
+$response->trainingFiles; // [
+$response->updatedAt; // 1614807865
+
+foreach ($response->events as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    $result->level; // 'info'
+    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
+}
+
+$response->hyperparams->batchSize // 4 
+$response->hyperparams->learningRateMultiplier // 0.1 
+$response->hyperparams->nEpochs // 4 
+$response->hyperparams->promptLossWeight // 0.1
+
+foreach ($response->resultFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    $result->bytes; // 140
+    $result->createdAt; // 1613779657
+    $result->filename; // 'mydata.jsonl'
+    $result->purpose; // 'fine-tune'
+}
+
+foreach ($response->validationFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+foreach ($response->trainingFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `cancel`
@@ -301,7 +362,15 @@ $client->fineTunes()->retrieve($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY
 Immediately cancel a fine-tune job.
 
 ```php
-$client->fineTunes()->cancel($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+$response->status; // 'cancelled'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list events`
@@ -309,7 +378,17 @@ $client->fineTunes()->cancel($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7i
 Get fine-grained status updates for a fine-tune job.
 
 ```php
-$client->fineTunes()->listEvents($fineTuneId); // ['data' => [...], ...]
+$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 ### `Moderations` Resource
