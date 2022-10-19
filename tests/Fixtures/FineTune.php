@@ -27,12 +27,29 @@ function fineTuneResource(): array
             fileResource(),
         ],
         'status' => 'succeeded',
-        'validation_files' => [],
+        'validation_files' => [
+            fileResource(),
+            fileResource(),
+        ],
         'training_files' => [
             fileResource(),
             fileResource(),
         ],
         'updated_at' => 1614807865,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function fineTuneListResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            fineTuneResource(),
+            fineTuneResource(),
+        ],
     ];
 }
 
@@ -46,5 +63,19 @@ function fineTuneEventResource(): array
         'created_at' => 1614807352,
         'level' => 'info',
         'message' => 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function fineTuneListEventsResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            fineTuneEventResource(),
+            fineTuneEventResource(),
+        ],
     ];
 }

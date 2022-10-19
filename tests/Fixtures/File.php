@@ -16,6 +16,20 @@ function fileResource(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function fileListResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            fileResource(),
+            fileResource(),
+        ],
+    ];
+}
+
+/**
  * @return string
  */
 function fileContentResource(): string

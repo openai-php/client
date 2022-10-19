@@ -1,31 +1,35 @@
 <?php
 
+use OpenAI\Responses\Files\CreateResponse;
+use OpenAI\Responses\Files\DeleteResponse;
+use OpenAI\Responses\Files\ListResponse;
+use OpenAI\Responses\Files\RetrieveResponse;
+
 test('list', function () {
-    $client = mockClient('GET', 'files', [], [
-        'object' => 'list',
-        'data' => [
-            fileResource(),
-            fileResource(),
-        ],
-    ]);
+    $client = mockClient('GET', 'files', [], fileListResource());
 
     $result = $client->files()->list();
 
-    expect($result)->toBeArray()->toBe([
-        'object' => 'list',
-        'data' => [
-            fileResource(),
-            fileResource(),
-        ],
-    ]);
+    expect($result)
+        ->toBeInstanceOf(ListResponse::class)
+        ->object->toBe('list')
+        ->data->toBeArray()->toHaveCount(2)
+        ->data->each->toBeInstanceOf(RetrieveResponse::class);
 });
 
-test('retreive', function () {
+test('retrieve', function () {
     $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileResource());
 
     $result = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');
 
-    expect($result)->toBeArray()->toBe(fileResource());
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->object->toBe('file')
+        ->bytes->toBe(140)
+        ->createdAt->toBe(1613779121)
+        ->filename->toBe('mydata.jsonl')
+        ->purpose->toBe('fine-tune');
 });
 
 test('download', function () {
@@ -47,7 +51,14 @@ test('upload', function () {
         'file' => fileResourceResource(),
     ]);
 
-    expect($result)->toBeArray()->toBe(fileResource());
+    expect($result)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->object->toBe('file')
+        ->bytes->toBe(140)
+        ->createdAt->toBe(1613779121)
+        ->filename->toBe('mydata.jsonl')
+        ->purpose->toBe('fine-tune');
 });
 
 test('delete', function () {
@@ -55,5 +66,9 @@ test('delete', function () {
 
     $result = $client->files()->delete('file-XjGxS3KTG0uNmNOK362iJua3');
 
-    expect($result)->toBeArray()->toBe(fileDeleteResource());
+    expect($result)
+        ->toBeInstanceOf(DeleteResponse::class)
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->object->toBe('file')
+        ->deleted->toBe(true);
 });

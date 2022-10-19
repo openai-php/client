@@ -15,3 +15,21 @@ function embedding(): array
         ],
     ];
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function embeddingList(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            embedding(),
+            embedding(),
+        ],
+        'usage' => [
+            'prompt_tokens' => 8,
+            'total_tokens' => 8,
+        ],
+    ];
+}

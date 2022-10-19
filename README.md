@@ -45,7 +45,17 @@ echo $result['choices'][0]['text']; // an open-source, widely-used, server-side 
 Lists the currently available models, and provides basic information about each one such as the owner and availability.
 
 ```php
-$client->models()->list(); // ['data' => [...], ...]
+$response = $client->models()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'text-davinci-002'
+    $result->object; // 'model'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `retrieve`
@@ -53,7 +63,31 @@ $client->models()->list(); // ['data' => [...], ...]
 Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 
 ```php
-$client->models()->retrieve($model); // ['id' => 'text-davinci-002', ...]
+$response = $client->models()->retrieve('text-davinci-002');
+
+$response->id; // 'text-davinci-002'
+$response->object; // 'model'
+$response->created; // 1642018370
+$response->ownedBy; // 'openai'
+$response->root; // 'text-davinci-002'
+$response->parent; // null
+
+foreach ($response->permission as $result) {
+    $result->id; // 'modelperm-7E53j9OtnMZggjqlwMxW4QG7' 
+    $result->object; // 'model_permission' 
+    $result->created; // 1664307523 
+    $result->allowCreateEngine; // false 
+    $result->allowSampling; // true 
+    $result->allowLogprobs; // true 
+    $result->allowSearchIndices; // false 
+    $result->allowView; // true 
+    $result->allowFineTuning; // false 
+    $result->organization; // '*' 
+    $result->group; // null 
+    $result->isBlocking; // false 
+}
+
+$response->toArray(); // ['id' => 'text-davinci-002', ...]
 ```
 
 #### `delete`
@@ -61,7 +95,13 @@ $client->models()->retrieve($model); // ['id' => 'text-davinci-002', ...]
 Delete a fine-tuned model.
 
 ```php
-$client->models()->delete($model); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
+$response = $client->models()->delete('curie:ft-acmeco-2021-03-03-21-44-20');
+
+$response->id; // 'curie:ft-acmeco-2021-03-03-21-44-20'
+$response->object; // 'model'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
 ```
 
 ### `Completions` Resource
@@ -104,7 +144,25 @@ $response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
 Creates a new edit for the provided input, instruction, and parameters.
 
 ```php
-$client->edits()->create(); // ['choices' => [...], ...]
+$response = $client->edits()->create([
+    'model' => 'text-davinci-edit-001',
+    'input' => 'What day of the wek is it?',
+    'instruction' => 'Fix the spelling mistakes',
+]);
+
+$response->object; // 'edit'
+$response->created; // 1589478378
+
+foreach ($response->choices as $result) {
+    $result->text; // 'What day of the week is it?'
+    $result->index; // 0
+}
+
+$response->usage->promptTokens; // 25,
+$response->usage->completionTokens; // 32,
+$response->usage->totalTokens; // 57
+
+$response->toArray(); // ['object' => 'edit', ...]
 ```
 
 ### `Embeddings` Resource
@@ -114,7 +172,23 @@ $client->edits()->create(); // ['choices' => [...], ...]
 Creates an embedding vector representing the input text.
 
 ```php
-$client->embeddings()->create(); // ['data' => [...], ...]
+$response = $client->embeddings()->create([
+    'model' => 'text-similarity-babbage-001',
+    'input' => 'The food was delicious and the waiter...',
+]);
+
+$response->object; // 'list'
+
+foreach ($response->embeddings as $embedding) {
+    $embedding->object; // 'embedding'
+    $embedding->embedding; // [0.018990106880664825, -0.0073809814639389515, ...]
+    $embedding->index; // 0
+}
+
+$response->usage->promptTokens; // 8,
+$response->usage->totalTokens; // 8
+
+$response->toArray(); // ['data' => [...], ...]
 ```
 
 ### `Files` Resource
@@ -124,7 +198,17 @@ $client->embeddings()->create(); // ['data' => [...], ...]
 Returns a list of files that belong to the user's organization.
 
 ```php
-$client->files()->list(); // ['data' => [...], ...]
+$response = $client->files()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `delete`
@@ -132,7 +216,13 @@ $client->files()->list(); // ['data' => [...], ...]
 Delete a file.
 
 ```php
-$client->files()->delete($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+$response = $client->files()->delete($file);
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `retrieve`
@@ -140,7 +230,16 @@ $client->files()->delete($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ..
 Returns information about a specific file.
 
 ```php
-$client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+$response = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->bytes; // 140
+$response->createdAt; // 1613779657
+$response->filename; // 'mydata.jsonl'
+$response->purpose; // 'fine-tune'
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `upload`
@@ -148,10 +247,19 @@ $client->files()->retrieve($file); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', 
 Upload a file that contains document(s) to be used across various endpoints/features.
 
 ```php
-$client->files()->upload([
+$response = $client->files()->upload([
         'purpose' => 'fine-tune',
         'file' => fopen('my-file.jsonl', 'r'),
-    ]); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
+    ]);
+
+$response->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+$response->object; // 'file'
+$response->bytes; // 140
+$response->createdAt; // 1613779657
+$response->filename; // 'mydata.jsonl'
+$response->purpose; // 'fine-tune'
+
+$response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
 
 #### `download`
@@ -169,7 +277,13 @@ $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 Creates a job that fine-tunes a specified model from a given dataset.
 
 ```php
-$client->fineTunes()->create($parameters); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$client->fineTunes()->create($parameters);
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list`
@@ -177,7 +291,17 @@ $client->fineTunes()->create($parameters); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7i
 List your organization's fine-tuning jobs.
 
 ```php
-$client->fineTunes()->list(); // ['data' => [...], ...]
+$response = $client->fineTunes()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->object; // 'fine-tune'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 #### `retrieve`
@@ -185,7 +309,52 @@ $client->fineTunes()->list(); // ['data' => [...], ...]
 Gets info about the fine-tune job.
 
 ```php
-$client->fineTunes()->retrieve($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+$response->model; // 'curie'
+$response->createdAt; // 1614807352
+$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
+$response->organizationId; // 'org-jwe45798ASN82s'
+$response->resultFiles; // [
+$response->status; // 'succeeded'
+$response->validationFiles; // [
+$response->trainingFiles; // [
+$response->updatedAt; // 1614807865
+
+foreach ($response->events as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    $result->level; // 'info'
+    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
+}
+
+$response->hyperparams->batchSize // 4 
+$response->hyperparams->learningRateMultiplier // 0.1 
+$response->hyperparams->nEpochs // 4 
+$response->hyperparams->promptLossWeight // 0.1
+
+foreach ($response->resultFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    $result->bytes; // 140
+    $result->createdAt; // 1613779657
+    $result->filename; // 'mydata.jsonl'
+    $result->purpose; // 'fine-tune'
+}
+
+foreach ($response->validationFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+foreach ($response->trainingFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `cancel`
@@ -193,7 +362,15 @@ $client->fineTunes()->retrieve($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY
 Immediately cancel a fine-tune job.
 
 ```php
-$client->fineTunes()->cancel($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+$response->status; // 'cancelled'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list events`
@@ -201,7 +378,17 @@ $client->fineTunes()->cancel($fineTuneId); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7i
 Get fine-grained status updates for a fine-tune job.
 
 ```php
-$client->fineTunes()->listEvents($fineTuneId); // ['data' => [...], ...]
+$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 ### `Moderations` Resource
