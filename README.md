@@ -18,7 +18,7 @@
 First, install OpenAI via the [Composer](https://getcomposer.org/) package manager:
 
 ```bash
-composer require openai-php/client dev-main
+composer require openai-php/client
 ```
 
 Then, interact with OpenAI's API:
