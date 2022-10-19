@@ -11,8 +11,6 @@
 ------
 **OpenAI PHP** is a supercharged PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction).
 
-> This project is a work-in-progress. Code and documentation are currently under development and are subject to change.
-
 ## Get Started
 
 > **Requires [PHP 8.1+](https://php.net/releases/)**
