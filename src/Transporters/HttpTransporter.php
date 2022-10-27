@@ -7,6 +7,8 @@ namespace OpenAI\Transporters;
 use JsonException;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\InvalidApiKeyException;
+use OpenAI\Exceptions\InvalidRequestException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -47,14 +49,14 @@ final class HttpTransporter implements Transporter
         $contents = $response->getBody()->getContents();
 
         try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $response */
+            /** @var array{error?: array{message: string, type: string, param: string, code: string}} $response */
             $response = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
         }
 
         if (isset($response['error'])) {
-            throw new ErrorException($response['error']);
+            $this->handleError($response['error']);
         }
 
         return $response;
@@ -76,16 +78,34 @@ final class HttpTransporter implements Transporter
         $contents = $response->getBody()->getContents();
 
         try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $response */
+            /** @var array{error?: array{message: string, type: string, param: string, code: string}} $response */
             $response = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {
-                throw new ErrorException($response['error']);
+                $this->handleError($response['error']);
             }
         } catch (JsonException) {
             // ..
         }
 
         return $contents;
+    }
+
+    /**
+     * @param  array{message: string, type: string, param: string, code: string}  $error
+     *
+     * @throws ErrorException
+     */
+    private function handleError(array $error): void
+    {
+        match ($error['code']) {
+            'invalid_api_key' => throw new InvalidApiKeyException($error),
+            default => null,
+        };
+
+        match ($error['type']) {
+            'invalid_request_error' => throw new InvalidRequestException($error),
+            default => throw new ErrorException($error),
+        };
     }
 }

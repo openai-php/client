@@ -5,6 +5,8 @@ use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\InvalidApiKeyException;
+use OpenAI\Exceptions\InvalidRequestException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Transporters\HttpTransporter;
@@ -96,7 +98,7 @@ test('request object server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (InvalidApiKeyException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
@@ -209,10 +211,60 @@ test('request content server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestContent($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (InvalidApiKeyException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
 });
+
+test('returns the specific exception', function ($error, $exception) {
+    $payload = Payload::list('models');
+
+    $response = new Response(401, [], json_encode([
+        'error' => $error,
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) use ($error, $exception) {
+            expect($e)->toBeInstanceOf($exception)
+                ->and($e->getMessage())->toBe($error['message'])
+                ->and($e->getErrorMessage())->toBe($error['message'])
+                ->and($e->getErrorCode())->toBe($error['code'])
+                ->and($e->getErrorType())->toBe($error['type']);
+        });
+})->with([
+    'invalid api key' => [
+        'error' => [
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => 'invalid_api_key',
+        ],
+        'exception' => InvalidApiKeyException::class,
+    ],
+    'invalid request' => [
+        'error' => [
+            'message' => 'That model does not exist',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => null,
+        ],
+        'exception' => InvalidRequestException::class,
+    ],
+    'unknown error type' => [
+        'error' => [
+            'message' => 'An error type unknown by this client',
+            'type' => 'unknown_error',
+            'param' => null,
+            'code' => null,
+        ],
+        'exception' => ErrorException::class,
+    ],
+]);
