@@ -328,10 +328,10 @@ foreach ($response->events as $result) {
     $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
 }
 
-$response->hyperparams->batchSize // 4 
-$response->hyperparams->learningRateMultiplier // 0.1 
-$response->hyperparams->nEpochs // 4 
-$response->hyperparams->promptLossWeight // 0.1
+$response->hyperparams->batchSize; // 4 
+$response->hyperparams->learningRateMultiplier; // 0.1 
+$response->hyperparams->nEpochs; // 4 
+$response->hyperparams->promptLossWeight; // 0.1
 
 foreach ($response->resultFiles as $result) {
     $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
