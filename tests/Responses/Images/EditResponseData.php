@@ -1,0 +1,33 @@
+<?php
+
+use OpenAI\Responses\Images\EditResponseData;
+
+test('from with url', function () {
+    $response = EditResponseData::from(imageEditWithUrl()['data'][0]);
+
+    expect($response)
+        ->url->toBe('https://openai.com/image.png')
+        ->b64_json->toBeNull();
+});
+
+test('to array with url', function () {
+    $result = EditResponseData::from(imageEditWithUrl()['data'][0]);
+
+    expect($result->toArray())
+        ->toBe(imageEditWithUrl()['data'][0]);
+});
+
+test('from with b64_json', function () {
+    $response = EditResponseData::from(imageEditWithB46Json()['data'][0]);
+
+    expect($response)
+        ->url->toBeNull()
+        ->b64_json->toBe('iVBORw0KGgoAAAAN...');
+});
+
+test('to array with b64_json', function () {
+    $result = EditResponseData::from(imageEditWithB46Json()['data'][0]);
+
+    expect($result->toArray())
+        ->toBe(imageEditWithB46Json()['data'][0]);
+});

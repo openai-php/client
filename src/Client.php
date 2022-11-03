@@ -10,6 +10,7 @@ use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
 use OpenAI\Resources\FineTunes;
+use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 
@@ -92,5 +93,15 @@ final class Client
     public function moderations(): Moderations
     {
         return new Moderations($this->transporter);
+    }
+
+    /**
+     * Given a prompt and/or an input image, the model will generate a new image.
+     *
+     * @see https://beta.openai.com/docs/api-reference/images
+     */
+    public function images(): Images
+    {
+        return new Images($this->transporter);
     }
 }
