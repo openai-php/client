@@ -7,7 +7,7 @@ test('from with url', function () {
 
     expect($response)
         ->url->toBe('https://openai.com/image.png')
-        ->b64_json->toBeNull();
+        ->b64_json->toBeEmpty();
 });
 
 test('to array with url', function () {
@@ -21,7 +21,7 @@ test('from with b64_json', function () {
     $response = EditResponseData::from(imageEditWithB46Json()['data'][0]);
 
     expect($response)
-        ->url->toBeNull()
+        ->url->toBeEmpty()
         ->b64_json->toBe('iVBORw0KGgoAAAAN...');
 });
 

@@ -8,18 +8,18 @@ use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements Response<array{url?: string, b64_json?: string}>
+ * @implements Response<array{url: string}|array{b64_json: string}>
  */
 final class CreateResponseData implements Response
 {
     /**
-     * @use ArrayAccessible<array{url?: string, b64_json?: string}>
+     * @use ArrayAccessible<array{url: string}|array{b64_json: string}>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public readonly ?string $url = null,
-        public readonly ?string $b64_json = null,
+        public readonly string $url = '',
+        public readonly string $b64_json = '',
     ) {
     }
 
@@ -31,8 +31,8 @@ final class CreateResponseData implements Response
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['url'] ?? null,
-            $attributes['b64_json'] ?? null,
+            $attributes['url'] ?? '',
+            $attributes['b64_json'] ?? '',
         );
     }
 
@@ -41,9 +41,8 @@ final class CreateResponseData implements Response
      */
     public function toArray(): array
     {
-        return array_filter([
-            'url' => $this->url,
-            'b64_json' => $this->b64_json,
-        ], fn ($value): bool => $value !== null);
+        return $this->url !== '' && $this->url !== '0' ?
+            ['url' => $this->url] :
+            ['b64_json' => $this->b64_json];
     }
 }
