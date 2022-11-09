@@ -236,6 +236,8 @@ $response->bytes; // 140
 $response->createdAt; // 1613779657
 $response->filename; // 'mydata.jsonl'
 $response->purpose; // 'fine-tune'
+$response->status; // 'succeeded'
+$response->status_details; // null
 
 $response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
@@ -256,6 +258,8 @@ $response->bytes; // 140
 $response->createdAt; // 1613779657
 $response->filename; // 'mydata.jsonl'
 $response->purpose; // 'fine-tune'
+$response->status; // 'succeeded'
+$response->status_details; // null
 
 $response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
@@ -340,6 +344,8 @@ foreach ($response->resultFiles as $result) {
     $result->createdAt; // 1613779657
     $result->filename; // 'mydata.jsonl'
     $result->purpose; // 'fine-tune'
+    $result->status; // 'succeeded'
+    $result->status_details; // null
 }
 
 foreach ($response->validationFiles as $result) {

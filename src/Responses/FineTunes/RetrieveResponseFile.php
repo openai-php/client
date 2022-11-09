@@ -8,15 +8,18 @@ use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>
+ * @implements Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
  */
 final class RetrieveResponseFile implements Response
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
      */
     use ArrayAccessible;
 
+    /**
+     * @param  array<array-key, mixed>|null  $statusDetails
+     */
     private function __construct(
         public readonly string $id,
         public readonly string $object,
@@ -24,13 +27,15 @@ final class RetrieveResponseFile implements Response
         public readonly int $createdAt,
         public readonly string $filename,
         public readonly string $purpose,
+        public readonly string $status,
+        public readonly ?array $statusDetails,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string}  $attributes
+     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -41,6 +46,8 @@ final class RetrieveResponseFile implements Response
             $attributes['created_at'],
             $attributes['filename'],
             $attributes['purpose'],
+            $attributes['status'],
+            $attributes['status_details'],
         );
     }
 
@@ -56,6 +63,8 @@ final class RetrieveResponseFile implements Response
             'created_at' => $this->createdAt,
             'filename' => $this->filename,
             'purpose' => $this->purpose,
+            'status' => $this->status,
+            'status_details' => $this->statusDetails,
         ];
     }
 }
