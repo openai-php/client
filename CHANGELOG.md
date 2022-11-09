@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.2.1 (2022-11-09)
 ### Fixed
-- FineTunes create response: `batch_size`, `learning_rate` and `fine_tuned_model` are nullable (#16)
+- FineTunes create response: `batch_size`, `learning_rate` and `fine_tuned_model` are nullable ([#16](https://github.com/openai-php/client/issues/16))
 - File responses: add missing fields `status` and `status_details`
 
 ## v0.2.0 (2022-11-07)
