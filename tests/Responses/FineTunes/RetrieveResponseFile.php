@@ -12,7 +12,9 @@ test('from', function () {
         ->bytes->toBe(140)
         ->createdAt->toBe(1613779121)
         ->filename->toBe('mydata.jsonl')
-        ->purpose->toBe('fine-tune');
+        ->purpose->toBe('fine-tune')
+        ->status->toBe('succeeded')
+        ->statusDetails->toBeNull();
 });
 
 test('to array', function () {

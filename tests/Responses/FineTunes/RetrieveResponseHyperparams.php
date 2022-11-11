@@ -19,3 +19,20 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(fineTuneResource()['hyperparams']);
 });
+
+test('from with null values', function () {
+    $data = [
+        ...fineTuneResource()['hyperparams'],
+        'batch_size' => null,
+        'learning_rate_multiplier' => null,
+    ];
+
+    $result = RetrieveResponseHyperparams::from($data);
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponseHyperparams::class)
+        ->batchSize->toBeNull()
+        ->learningRateMultiplier->toBeNull()
+        ->nEpochs->toBe(4)
+        ->promptLossWeight->toBe(0.1);
+});

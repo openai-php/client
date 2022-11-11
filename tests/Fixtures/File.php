@@ -12,6 +12,8 @@ function fileResource(): array
         'created_at' => 1613779121,
         'filename' => 'mydata.jsonl',
         'purpose' => 'fine-tune',
+        'status' => 'succeeded',
+        'status_details' => null,
     ];
 }
 

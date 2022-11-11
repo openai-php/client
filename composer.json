@@ -1,7 +1,7 @@
 {
     "name": "openai-php/client",
     "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API",
-    "keywords": ["php", "openai", "sdk", "codex", "GPT-3", "api", "client", "natural", "language", "processing"],
+    "keywords": ["php", "openai", "sdk", "codex", "GPT-3", "DALL-E", "api", "client", "natural", "language", "processing"],
     "license": "MIT",
     "authors": [
         {
@@ -18,8 +18,8 @@
         "nunomaduro/collision": "^7.0.0",
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.8.10",
-        "rector/rector": "^0.14.6",
+        "phpstan/phpstan": "^1.9.1",
+        "rector/rector": "^0.14.7",
         "symfony/var-dumper": "^6.2.0"
     },
     "autoload": {

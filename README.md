@@ -236,6 +236,8 @@ $response->bytes; // 140
 $response->createdAt; // 1613779657
 $response->filename; // 'mydata.jsonl'
 $response->purpose; // 'fine-tune'
+$response->status; // 'succeeded'
+$response->status_details; // null
 
 $response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
@@ -256,6 +258,8 @@ $response->bytes; // 140
 $response->createdAt; // 1613779657
 $response->filename; // 'mydata.jsonl'
 $response->purpose; // 'fine-tune'
+$response->status; // 'succeeded'
+$response->status_details; // null
 
 $response->toArray(); // ['id' => 'file-XjGxS3KTG0uNmNOK362iJua3', ...]
 ```
@@ -340,6 +344,8 @@ foreach ($response->resultFiles as $result) {
     $result->createdAt; // 1613779657
     $result->filename; // 'mydata.jsonl'
     $result->purpose; // 'fine-tune'
+    $result->status; // 'succeeded'
+    $result->status_details; // null
 }
 
 foreach ($response->validationFiles as $result) {
@@ -417,6 +423,77 @@ foreach ($response->results as $result) {
 
 $response->toArray(); // ['id' => 'modr-5xOyuS', ...]
 ```
+
+### `Images` Resource
+
+#### `create`
+
+Creates an image given a prompt.
+
+```php
+$response = $client->images()->create([
+    'prompt' => 'A cute baby sea otter',
+    'n' => 1,
+    'size' => '256x256',
+    'response_format' => 'url',
+]);
+
+$response->created; // 1589478378
+
+foreach ($response->data as $data) {
+    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
+    $data->b64_json; // null
+}
+
+$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+#### `edit`
+
+Creates an edited or extended image given an original image and a prompt.
+
+```php
+$response = $client->images()->edit([
+    'image' => fopen('image_edit_original.png', 'r'),
+    'mask' => fopen('image_edit_mask.png', 'r'),
+    'prompt' => 'A sunlit indoor lounge area with a pool containing a flamingo',
+    'n' => 1,
+    'size' => '256x256',
+    'response_format' => 'url',
+]);
+
+$response->created; // 1589478378
+
+foreach ($response->data as $data) {
+    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
+    $data->b64_json; // null
+}
+
+$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+#### `variation`
+
+Creates a variation of a given image.
+
+```php
+$response = $client->images()->variation([
+    'image' => fopen('image_edit_original.png', 'r'),
+    'n' => 1,
+    'size' => '256x256',
+    'response_format' => 'url',
+]);
+
+$response->created; // 1589478378
+
+foreach ($response->data as $data) {
+    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
+    $data->b64_json; // null
+}
+
+$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
 ---
 
 OpenAI PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
