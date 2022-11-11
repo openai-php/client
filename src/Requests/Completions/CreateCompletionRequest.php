@@ -6,17 +6,20 @@ namespace OpenAI\Requests\Completions;
 
 use OpenAI\Contracts\Request;
 
+/**
+ * @implements Request<array{model: string, prompt?: null|string|array<int, string|int|array<int, int>>, suffix: ?string, max_tokens: ?int, temperature: ?float, top_p: ?float, n: ?int, stream: ?bool, logprobs: ?int, echo: ?bool, stop: null|string|array<int, string>, presence_penalty: ?float, frequency_penalty: ?float, best_of: ?int, logit_bias: null|string|array<string, float>, user: ?string}>
+ */
 final class CreateCompletionRequest implements Request
 {
     /**
      * @param  null|string|array<int, string|int|array<int, int>>  $prompt
      * @param  null|string|array<int, string>  $stop
-     * @param float[]|null $logitBias
+     * @param  null|array<string, float>  $logitBias
      */
     public function __construct(
         public string $model,
         public null|string|array $prompt = null,
-        public string|null $suffix = null,
+        public ?string $suffix = null,
         public ?int $maxTokens = null,
         public ?float $temperature = null,
         public ?float $topP = null,
@@ -28,13 +31,15 @@ final class CreateCompletionRequest implements Request
         public ?float $presencePenalty = null,
         public ?float $frequencyPenalty = null,
         public ?int $bestOf = null,
-        public ?array $logitBias = null,
+        public string|array|null $logitBias = null,
         public ?string $user = null,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Request instance.
+     *
+     * @param  array{model: string, prompt?: null|string|array<int, string|int|array<int, int>>, suffix: ?string, max_tokens: ?int, temperature: ?float, top_p: ?float, n: ?int, stream: ?bool, logprobs: ?int, echo: ?bool, stop: null|string|array<int, string>, presence_penalty: ?float, frequency_penalty: ?float, best_of: ?int, logit_bias: null|string|array<string, float>, user: ?string}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -58,9 +63,12 @@ final class CreateCompletionRequest implements Request
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray(): array
     {
-        return array_filter([
+        return [
             'model' => $this->model,
             'prompt' => $this->prompt,
             'suffix' => $this->suffix,
@@ -75,8 +83,8 @@ final class CreateCompletionRequest implements Request
             'presence_penalty' => $this->presencePenalty,
             'frequency_penalty' => $this->frequencyPenalty,
             'best_of' => $this->bestOf,
-            'logit_bias' => $this->logitBias,
+            'logit_bias' => is_array($this->logitBias) ? json_encode($this->logitBias, JSON_THROW_ON_ERROR) : $this->logitBias,
             'user' => $this->user,
-        ], fn ($value): bool => $value !== null);
+        ];
     }
 }

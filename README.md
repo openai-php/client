@@ -27,7 +27,7 @@ Then, interact with OpenAI's API:
 $client = OpenAI::client('YOUR_API_KEY');
 
 $result = $client->completions()->create([
-    'model' => 'davinci',
+    'model' => 'text-davinci-002',
     'prompt' => 'PHP is',
 ]);
 

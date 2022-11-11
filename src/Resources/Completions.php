@@ -17,7 +17,7 @@ final class Completions
      *
      * @see https://beta.openai.com/docs/api-reference/completions/create-completion
      *
-     * @param  array<string, mixed>  $request
+     * @param  CreateCompletionRequest|array{model: string, prompt?: null|string|array<int, string|int|array<int, int>>, suffix: ?string, max_tokens: ?int, temperature: ?float, top_p: ?float, n: ?int, stream: ?bool, logprobs: ?int, echo: ?bool, stop: null|string|array<int, string>, presence_penalty: ?float, frequency_penalty: ?float, best_of: ?int, logit_bias: null|string|array<string, float>, user: ?string}  $request
      */
     public function create(array|CreateCompletionRequest $request): CreateResponse
     {

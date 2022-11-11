@@ -9,7 +9,7 @@ namespace OpenAI\Contracts;
  *
  * @internal
  */
-interface Request extends ArrayAcces
+interface Request
 {
     /**
      * Returns the array representation of the Request.
