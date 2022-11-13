@@ -7,7 +7,7 @@ namespace OpenAI\Requests\Completions;
 use OpenAI\Contracts\Request;
 
 /**
- * @implements Request<array{model: string, prompt?: null|string|array<int, string|int|array<int, int>>, suffix: ?string, max_tokens: ?int, temperature: ?float, top_p: ?float, n: ?int, stream: ?bool, logprobs: ?int, echo: ?bool, stop: null|string|array<int, string>, presence_penalty: ?float, frequency_penalty: ?float, best_of: ?int, logit_bias: null|string|array<string, float>, user: ?string}>
+ * @implements Request<array{model: string, prompt?: string|array<int, string|int|array<int, int>>, suffix?: string, max_tokens?: int, temperature?: float, top_p?: float, n?: int, stream?: bool, logprobs?: int, echo?: bool, stop?: string|array<int, string>, presence_penalty?: float, frequency_penalty?: float, best_of?: int, logit_bias?: string|array<string, float>, user?: string}>
  */
 final class CreateCompletionRequest implements Request
 {
@@ -68,7 +68,7 @@ final class CreateCompletionRequest implements Request
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'model' => $this->model,
             'prompt' => $this->prompt,
             'suffix' => $this->suffix,
@@ -85,6 +85,6 @@ final class CreateCompletionRequest implements Request
             'best_of' => $this->bestOf,
             'logit_bias' => is_array($this->logitBias) ? json_encode($this->logitBias, JSON_THROW_ON_ERROR) : $this->logitBias,
             'user' => $this->user,
-        ];
+        ], fn ($value): bool => $value !== null);
     }
 }
