@@ -18,8 +18,8 @@
         "nunomaduro/collision": "^7.0.0",
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.9.1",
-        "rector/rector": "^0.14.7",
+        "phpstan/phpstan": "^1.9.2",
+        "rector/rector": "^0.14.8",
         "symfony/var-dumper": "^6.2.0"
     },
     "autoload": {
