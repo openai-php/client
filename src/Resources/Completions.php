@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Stream as StreamContract;
 use OpenAI\Responses\Completions\CreateResponse;
+use OpenAI\Streams\Stream;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class Completions
@@ -18,13 +20,17 @@ final class Completions
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): CreateResponse
+    public function create(array $parameters): CreateResponse|StreamContract
     {
         $payload = Payload::create('completions', $parameters);
 
-        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}|StreamContract $result */
+        $result = $this->transporter->requestObject($payload, $parameters['stream'] ?? false);
 
-        return CreateResponse::from($result);
+        if (is_array($result)) {
+            return CreateResponse::from($result);
+        }
+
+        return new Stream($result, fn (array $result): CreateResponse => CreateResponse::from($result));
     }
 }

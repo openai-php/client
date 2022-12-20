@@ -21,7 +21,7 @@ interface Transporter
      *
      * @throws ErrorException|UnserializableResponse|TransporterException
      */
-    public function requestObject(Payload $payload): array;
+    public function requestObject(Payload $payload, bool $stream = false): array|Stream;
 
     /**
      * Sends a content request to a server.
