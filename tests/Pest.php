@@ -1,13 +1,14 @@
 <?php
 
 use OpenAI\Client;
+use OpenAI\Contracts\Stream;
 use OpenAI\Contracts\Transporter;
 use OpenAI\ValueObjects\ApiToken;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-function mockClient(string $method, string $resource, array $params, array|string $response, $methodName = 'requestObject')
+function mockClient(string $method, string $resource, array $params, array|string|Stream $response, $methodName = 'requestObject')
 {
     $transporter = Mockery::mock(Transporter::class);
 

@@ -1,8 +1,10 @@
 <?php
 
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
+use OpenAI\Contracts\Stream;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
@@ -12,7 +14,6 @@ use OpenAI\ValueObjects\ApiToken;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
-use Psr\Http\Client\ClientInterface;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -34,7 +35,7 @@ test('request object', function () {
     ]));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->withArgs(function (Psr7Request $request) {
             expect($request->getMethod())->toBe('GET')
@@ -62,7 +63,7 @@ test('request object response', function () {
     ]));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andReturn($response);
 
@@ -78,6 +79,23 @@ test('request object response', function () {
     ]);
 });
 
+test('request object stream response', function () {
+    $payload = Payload::create('completions', ['stream' => true]);
+
+    $response = new Response(200, ['Content-Type' => 'text/event-stream'], json_encode([
+        'qdwq'
+    ]));
+
+    $this->client
+        ->shouldReceive('send')
+        ->once()
+        ->andReturn($response);
+
+    $response = $this->http->requestObject($payload, true);
+
+    expect($response)->toBeInstanceOf(Stream::class);
+});
+
 test('request object server errors', function () {
     $payload = Payload::list('models');
 
@@ -91,7 +109,7 @@ test('request object server errors', function () {
     ]));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andReturn($response);
 
@@ -111,7 +129,7 @@ test('request object client errors', function () {
     $headers = Headers::withAuthorization(ApiToken::from('foo'));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
 
@@ -128,7 +146,7 @@ test('request object serialization errors', function () {
     $response = new Response(200, [], 'err');
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andReturn($response);
 

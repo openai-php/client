@@ -1,8 +1,11 @@
 <?php
 
+use GuzzleHttp\Psr7\Utils;
+use OpenAI\Contracts\Stream;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
+use OpenAI\Streams\EventStream;
 
 test('create', function () {
     $client = mockClient('POST', 'completions', [
@@ -36,3 +39,37 @@ test('create', function () {
         ->completionTokens->toBe(16)
         ->totalTokens->toBe(17);
 });
+
+test('create stream', function () {
+    $client = mockClient('POST', 'completions', [
+        'model' => 'da-vince',
+        'prompt' => 'hi',
+        'stream' => true,
+    ], new EventStream(Utils::streamFor('data: ' . json_encode(completion()))));
+
+    $result = $client->completions()->create([
+        'model' => 'da-vince',
+        'prompt' => 'hi',
+        'stream' => true,
+    ]);
+
+    expect($result)->toBeInstanceOf(Stream::class);
+
+    $data = iterator_to_array($result->read())[0];
+
+    expect($data)
+        ->id->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna')
+        ->object->toBe('text_completion')
+        ->created->toBe(1664136088)
+        ->model->toBe('davinci')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+
+    expect($data->choices[0])
+        ->text->toBe("el, she elaborates more on the Corruptor's role, suggesting K")
+        ->index->toBe(0)
+        ->logprobs->toBe(null)
+        ->finishReason->toBe('length');
+});
+
