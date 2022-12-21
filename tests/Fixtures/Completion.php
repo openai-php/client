@@ -9,7 +9,7 @@ function completion(): array
         'id' => 'cmpl-5uS6a68SwurhqAqLBpZtibIITICna',
         'object' => 'text_completion',
         'created' => 1664136088,
-        'model' => 'davinci',
+        'model' => 'text-davinci-002',
         'choices' => [
             [
                 'text' => "el, she elaborates more on the Corruptor's role, suggesting K",
@@ -65,5 +65,37 @@ function completionWithLogprobs(): array
             'prompt_tokens' => 3,
             'total_tokens' => 3,
         ],
+    ];
+}
+
+function completionRequestMinimal(): array
+{
+    return [
+        'model' => 'text-davinci-002',
+    ];
+}
+
+function completionRequestMaximal(): array
+{
+    return [
+        'model' => 'text-davinci-002',
+        'prompt' => 'PHP is ',
+        'suffix' => 'of all.',
+        'max_tokens' => 100,
+        'temperature' => 1.5,
+        'top_p' => 0.5,
+        'n' => 3,
+        'stream' => false,
+        'logprobs' => 5,
+        'echo' => true,
+        'stop' => [
+            '\n',
+            '<|endoftext|>',
+        ],
+        'presence_penalty' => -1.5,
+        'frequency_penalty' => -0.5,
+        'best_of' => 10,
+        'logit_bias' => '{"50256":-100}',
+        'user' => 'user-1234',
     ];
 }

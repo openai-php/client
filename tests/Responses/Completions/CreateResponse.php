@@ -12,7 +12,7 @@ test('from', function () {
         ->id->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna')
         ->object->toBe('text_completion')
         ->created->toBe(1664136088)
-        ->model->toBe('davinci')
+        ->model->toBe('text-davinci-002')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
         ->usage->toBeInstanceOf(CreateResponseUsage::class);
