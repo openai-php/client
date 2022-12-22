@@ -24,13 +24,13 @@ test('aborts after done message', function () {
 });
 
 test('stream message serialization error', function () {
-    $stream = new EventStream(Utils::streamFor("data: invalid"));
+    $stream = new EventStream(Utils::streamFor('data: invalid'));
 
     iterator_to_array($stream->read());
 })->throws(UnserializableResponse::class);
 
 test('stream message error', function () {
-    $stream = new EventStream(Utils::streamFor('data: ' . json_encode(['error' => [
+    $stream = new EventStream(Utils::streamFor('data: '.json_encode(['error' => [
         'message' => 'Something went wrong.',
         'type' => 'invalid_request_error',
         'param' => null,

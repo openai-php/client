@@ -13,7 +13,8 @@ final class EventStream implements Stream
 {
     public function __construct(
         private readonly StreamInterface $stream,
-    ) {}
+    ) {
+    }
 
     public function read(): iterable
     {

@@ -83,7 +83,7 @@ test('request object stream response', function () {
     $payload = Payload::create('completions', ['stream' => true]);
 
     $response = new Response(200, ['Content-Type' => 'text/event-stream'], json_encode([
-        'qdwq'
+        'qdwq',
     ]));
 
     $this->client

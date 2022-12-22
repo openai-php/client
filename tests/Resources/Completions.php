@@ -45,7 +45,7 @@ test('create stream', function () {
         'model' => 'da-vince',
         'prompt' => 'hi',
         'stream' => true,
-    ], new EventStream(Utils::streamFor('data: ' . json_encode(completion()))));
+    ], new EventStream(Utils::streamFor('data: '.json_encode(completion()))));
 
     $result = $client->completions()->create([
         'model' => 'da-vince',
@@ -72,4 +72,3 @@ test('create stream', function () {
         ->logprobs->toBe(null)
         ->finishReason->toBe('length');
 });
-
