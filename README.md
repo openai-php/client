@@ -27,7 +27,7 @@ Then, interact with OpenAI's API:
 $client = OpenAI::client('YOUR_API_KEY');
 
 $result = $client->completions()->create([
-    'model' => 'davinci',
+    'model' => 'text-davinci-003',
     'prompt' => 'PHP is',
 ]);
 
@@ -48,7 +48,7 @@ $response = $client->models()->list();
 $response->object; // 'list'
 
 foreach ($response->data as $result) {
-    $result->id; // 'text-davinci-002'
+    $result->id; // 'text-davinci-003'
     $result->object; // 'model'
     // ...
 }
@@ -61,13 +61,13 @@ $response->toArray(); // ['object' => 'list', 'data' => [...]]
 Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 
 ```php
-$response = $client->models()->retrieve('text-davinci-002');
+$response = $client->models()->retrieve('text-davinci-003');
 
-$response->id; // 'text-davinci-002'
+$response->id; // 'text-davinci-003'
 $response->object; // 'model'
 $response->created; // 1642018370
 $response->ownedBy; // 'openai'
-$response->root; // 'text-davinci-002'
+$response->root; // 'text-davinci-003'
 $response->parent; // null
 
 foreach ($response->permission as $result) {
@@ -85,7 +85,7 @@ foreach ($response->permission as $result) {
     $result->isBlocking; // false 
 }
 
-$response->toArray(); // ['id' => 'text-davinci-002', ...]
+$response->toArray(); // ['id' => 'text-davinci-003', ...]
 ```
 
 #### `delete`
@@ -110,7 +110,7 @@ Creates a completion for the provided prompt and parameters.
 
 ```php
 $response = $client->completions()->create([
-    'model' => 'text-davinci-002',
+    'model' => 'text-davinci-003',
     'prompt' => 'Say this is a test',
     'max_tokens' => 6,
     'temperature' => 0
@@ -119,7 +119,7 @@ $response = $client->completions()->create([
 $response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
 $response->object; // 'text_completion'
 $response->created; // 1589478378
-$response->model; // 'text-davinci-002'
+$response->model; // 'text-davinci-003'
 
 foreach ($response->choices as $result) {
     $result->text; // '\n\nThis is a test'
