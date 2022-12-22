@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts;
 
+use Generator;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
@@ -21,7 +22,7 @@ interface Transporter
      *
      * @throws ErrorException|UnserializableResponse|TransporterException
      */
-    public function requestObject(Payload $payload, bool $stream = false): array|Stream;
+    public function requestObject(Payload $payload, bool $stream = false): array|Generator;
 
     /**
      * Sends a content request to a server.

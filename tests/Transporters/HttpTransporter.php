@@ -4,7 +4,6 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
-use OpenAI\Contracts\Stream;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
@@ -93,7 +92,7 @@ test('request object stream response', function () {
 
     $response = $this->http->requestObject($payload, true);
 
-    expect($response)->toBeInstanceOf(Stream::class);
+    expect($response)->toBeInstanceOf(Generator::class);
 });
 
 test('request object server errors', function () {

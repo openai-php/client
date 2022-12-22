@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Transporters;
 
+use Generator;
 use GuzzleHttp\ClientInterface;
 use JsonException;
-use OpenAI\Contracts\Stream;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
@@ -36,7 +36,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload, bool $stream = false): array|Stream
+    public function requestObject(Payload $payload, bool $stream = false): array|Generator
     {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
@@ -47,7 +47,7 @@ final class HttpTransporter implements Transporter
         }
 
         if ($response->getHeaderLine('Content-Type') === 'text/event-stream') {
-            return new EventStream($response->getBody());
+            return (new EventStream($response->getBody()))->read();
         }
 
         try {
