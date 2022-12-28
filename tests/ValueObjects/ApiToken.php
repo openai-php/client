@@ -1,6 +1,6 @@
 <?php
 
-// Generate test for API token value object...
+// Generate test for API key value object...
 
 use OpenAI\ValueObjects\ApiKey;
 

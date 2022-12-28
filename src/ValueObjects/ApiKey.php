@@ -12,7 +12,7 @@ use OpenAI\Contracts\Stringable;
 final class ApiKey implements Stringable
 {
     /**
-     * Creates a new API token value object.
+     * Creates a new API key value object.
      */
     private function __construct(public readonly string $apiKey)
     {

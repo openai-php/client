@@ -4,7 +4,7 @@ use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\Headers;
 
-it('can be created from an API Token', function () {
+it('can be created from an API Key', function () {
     $headers = Headers::withAuthorization(ApiKey::from('foo'));
 
     expect($headers->toArray())->toBe([

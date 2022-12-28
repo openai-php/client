@@ -23,7 +23,7 @@ final class Headers
     }
 
     /**
-     * Creates a new Headers value object with the given API token.
+     * Creates a new Headers value object with the given API key.
      */
     public static function withAuthorization(ApiKey $apiKey): self
     {
