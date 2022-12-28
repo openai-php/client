@@ -9,19 +9,19 @@ use OpenAI\Contracts\Stringable;
 /**
  * @internal
  */
-final class ApiToken implements Stringable
+final class ApiKey implements Stringable
 {
     /**
      * Creates a new API token value object.
      */
-    private function __construct(public readonly string $apiToken)
+    private function __construct(public readonly string $apiKey)
     {
         // ..
     }
 
-    public static function from(string $apiToken): self
+    public static function from(string $apiKey): self
     {
-        return new self($apiToken);
+        return new self($apiKey);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use OpenAI\Client;
 use OpenAI\Contracts\Transporter;
-use OpenAI\ValueObjects\ApiToken;
+use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
@@ -16,7 +16,7 @@ function mockClient(string $method, string $resource, array $params, array|strin
         ->once()
         ->withArgs(function (Payload $payload) use ($method, $resource) {
             $baseUri = BaseUri::from('api.openai.com/v1');
-            $headers = Headers::withAuthorization(ApiToken::from('foo'));
+            $headers = Headers::withAuthorization(ApiKey::from('foo'));
 
             $request = $payload->toRequest($baseUri, $headers);
 
