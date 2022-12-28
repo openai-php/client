@@ -29,6 +29,6 @@ final class ApiKey implements Stringable
      */
     public function toString(): string
     {
-        return $this->apiToken;
+        return $this->apiKey;
     }
 }
