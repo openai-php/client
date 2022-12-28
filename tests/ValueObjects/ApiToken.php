@@ -2,10 +2,10 @@
 
 // Generate test for API token value object...
 
-use OpenAI\ValueObjects\ApiToken;
+use OpenAI\ValueObjects\ApiKey;
 
 it('can be created from a string', function () {
-    $apiToken = ApiToken::from('foo');
+    $apiKey = ApiKey::from('foo');
 
-    expect($apiToken->toString())->toBe('foo');
+    expect($apiKey->toString())->toBe('foo');
 });
