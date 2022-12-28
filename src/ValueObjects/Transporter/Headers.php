@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\ValueObjects\Transporter;
 
 use OpenAI\Enums\Transporter\ContentType;
-use OpenAI\ValueObjects\ApiToken;
+use OpenAI\ValueObjects\ApiKey;
 
 /**
  * @internal
@@ -25,10 +25,10 @@ final class Headers
     /**
      * Creates a new Headers value object with the given API token.
      */
-    public static function withAuthorization(ApiToken $apiToken): self
+    public static function withAuthorization(ApiKey $apiKey): self
     {
         return new self([
-            'Authorization' => "Bearer {$apiToken->toString()}",
+            'Authorization' => "Bearer {$apiKey->toString()}",
         ]);
     }
 
