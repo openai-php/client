@@ -44,7 +44,7 @@ final class HttpTransporter implements Transporter
             throw new TransporterException($clientException);
         }
 
-        $contents = $response->getBody()->getContents();
+        $contents = (string) $response->getBody();
 
         try {
             /** @var array{error?: array{message: string, type: string, code: string}} $response */
