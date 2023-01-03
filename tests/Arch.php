@@ -1,38 +1,38 @@
 <?php
 
-test('contracts')->expect('OpenAI\Contracts')->toOnlyDependOn([
+test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
 ]);
 
-test('exceptions')->expect('OpenAI\Exceptions')->toOnlyDependOn([
+test('exceptions')->expect('OpenAI\Exceptions')->toOnlyUse([
     'Psr\Http\Client',
 ]);
 
-test('resources')->expect('OpenAI\Resources')->toOnlyDependOn([
+test('resources')->expect('OpenAI\Resources')->toOnlyUse([
     'OpenAI\Contracts',
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
     'OpenAI\Responses',
 ]);
 
-test('responses')->expect('OpenAI\Responses')->toOnlyDependOn([
+test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'OpenAI\Enums',
     'OpenAI\Contracts',
 ]);
 
-test('value objects')->expect('OpenAI\ValueObjects')->toOnlyDependOn([
+test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
     'GuzzleHttp\Psr7',
     'OpenAI\Enums',
     'OpenAI\Contracts',
 ]);
 
-test('client')->expect('OpenAI\Client')->toOnlyDependOn([
+test('client')->expect('OpenAI\Client')->toOnlyUse([
     'OpenAI\Resources',
     'OpenAI\Contracts',
 ]);
 
-test('openai')->expect('OpenAI')->toOnlyDependOn([
+test('openai')->expect('OpenAI')->toOnlyUse([
     'Psr\Http\Client',
     'GuzzleHttp\Client',
     'GuzzleHttp\Psr7',
