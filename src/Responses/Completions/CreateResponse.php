@@ -26,7 +26,7 @@ final class CreateResponse implements Response
         public readonly int $created,
         public readonly string $model,
         public readonly array $choices,
-        public readonly CreateResponseUsage $usage,
+        public readonly ?CreateResponseUsage $usage,
     ) {
     }
 
@@ -47,7 +47,7 @@ final class CreateResponse implements Response
             $attributes['created'],
             $attributes['model'],
             $choices,
-            CreateResponseUsage::from($attributes['usage'])
+            isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null
         );
     }
 
@@ -65,7 +65,7 @@ final class CreateResponse implements Response
                 static fn (CreateResponseChoice $result): array => $result->toArray(),
                 $this->choices,
             ),
-            'usage' => $this->usage->toArray(),
+            'usage' => $this->usage?->toArray(),
         ];
     }
 }

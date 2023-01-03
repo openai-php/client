@@ -7,7 +7,7 @@ use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-function mockClient(string $method, string $resource, array $params, array|string $response, $methodName = 'requestObject')
+function mockClient(string $method, string $resource, array $params, array|string|Generator $response, $methodName = 'requestObject')
 {
     $transporter = Mockery::mock(Transporter::class);
 
