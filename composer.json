@@ -19,7 +19,7 @@
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-arch": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.9.5",
+        "phpstan/phpstan": "^1.9.6",
         "rector/rector": "^0.14.8",
         "symfony/var-dumper": "^6.2.3"
     },
