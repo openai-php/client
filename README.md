@@ -34,6 +34,15 @@ $result = $client->completions()->create([
 echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
 ```
 
+You can also instantiate the client with an organization or with a custom base api URI:
+
+```php
+$client = OpenAI::factory('YOUR_API_KEY')
+    ->withOrganization('YOUR_ORGANIZATION')
+    ->withBaseUri('CUSTOM_BASE_URI')
+    ->make();
+```
+
 ## Usage
 
 ### `Models` Resource

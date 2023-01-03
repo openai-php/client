@@ -32,6 +32,26 @@ final class BaseUri implements Stringable
      */
     public function toString(): string
     {
-        return "https://{$this->baseUri}/";
+        $baseUri = $this->baseUri;
+        $baseUriStartsWithProtocol = preg_match('#^https?://.+#', $baseUri) !== 0;
+        if (! $baseUriStartsWithProtocol) {
+            $baseUri = $this->prefixWithHttps($baseUri);
+        }
+
+        if (! str_ends_with('/', $baseUri)) {
+            return $this->suffixWithSlash($baseUri);
+        }
+
+        return $baseUri;
+    }
+
+    private function prefixWithHttps(string $string): string
+    {
+        return "https://{$string}";
+    }
+
+    private function suffixWithSlash(string $string): string
+    {
+        return "{$string}/";
     }
 }
