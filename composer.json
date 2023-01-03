@@ -19,9 +19,9 @@
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-arch": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.9.4",
+        "phpstan/phpstan": "^1.9.5",
         "rector/rector": "^0.14.8",
-        "symfony/var-dumper": "^6.2.2"
+        "symfony/var-dumper": "^6.2.3"
     },
     "autoload": {
         "psr-4": {
