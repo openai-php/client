@@ -31,6 +31,14 @@ final class Payload
     }
 
     /**
+     * Determines whether the stream response was requested.
+     */
+    public function isStream(): bool
+    {
+        return $this->parameters['stream'] ?? false;
+    }
+
+    /**
      * Creates a new Payload value object from the given parameters.
      */
     public static function list(string $resource): self

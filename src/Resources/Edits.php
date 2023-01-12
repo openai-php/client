@@ -23,7 +23,7 @@ final class Edits
         $payload = Payload::create('edits', $parameters);
 
         /** @var array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return CreateResponse::from($result);
     }

@@ -13,6 +13,7 @@ use OpenAI\ValueObjects\ApiToken;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response as TransporterResponse;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -68,7 +69,7 @@ test('request object response', function () {
 
     $response = $this->http->requestObject($payload);
 
-    expect($response)->toBe([
+    expect($response->object())->toBe([
         [
             'text' => 'Hey!',
             'index' => 0,
@@ -90,9 +91,9 @@ test('request object stream response', function () {
         ->once()
         ->andReturn($response);
 
-    $response = $this->http->requestObject($payload, true);
+    $response = $this->http->requestObject($payload);
 
-    expect($response)->toBeInstanceOf(Generator::class);
+    expect($response)->toBeInstanceOf(TransporterResponse::class);
 });
 
 test('request object server errors', function () {
@@ -112,7 +113,7 @@ test('request object server errors', function () {
         ->once()
         ->andReturn($response);
 
-    expect(fn () => $this->http->requestObject($payload))
+    expect(fn () => $this->http->requestObject($payload)->object())
         ->toThrow(function (ErrorException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
@@ -149,7 +150,7 @@ test('request object serialization errors', function () {
         ->once()
         ->andReturn($response);
 
-    $this->http->requestObject($payload);
+    $this->http->requestObject($payload)->object();
 })->throws(UnserializableResponse::class, 'Syntax error');
 
 test('request content', function () {

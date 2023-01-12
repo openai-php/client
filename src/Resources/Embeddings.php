@@ -23,7 +23,7 @@ final class Embeddings
         $payload = Payload::create('embeddings', $parameters);
 
         /** @var array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return CreateResponse::from($result);
     }

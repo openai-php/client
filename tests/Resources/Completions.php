@@ -45,7 +45,7 @@ test('create stream', function () {
         'model' => 'da-vince',
         'prompt' => 'hi',
         'stream' => true,
-    ], (new EventStream(Utils::streamFor('data: '.json_encode(completion()))))->read());
+    ], (fn () => yield completion())());
 
     $result = $client->completions()->create([
         'model' => 'da-vince',
@@ -53,9 +53,11 @@ test('create stream', function () {
         'stream' => true,
     ]);
 
-    expect($result)->toBeInstanceOf(Generator::class);
+    expect($result)->toBeInstanceOf(CreateResponse::class);
 
     $data = iterator_to_array($result)[0];
+
+    ray($result);
 
     expect($data)
         ->id->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna')

@@ -23,7 +23,7 @@ final class Moderations
         $payload = Payload::create('moderations', $parameters);
 
         /** @var array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return CreateResponse::from($result);
     }

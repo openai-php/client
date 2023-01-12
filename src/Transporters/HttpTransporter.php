@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace OpenAI\Transporters;
 
-use Generator;
 use GuzzleHttp\ClientInterface;
 use JsonException;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
-use OpenAI\Exceptions\UnserializableResponse;
-use OpenAI\Streams\EventStream;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Client\ClientExceptionInterface;
 
 /**
@@ -36,31 +34,18 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload, bool $stream = false): array|Generator
+    public function requestObject(Payload $payload): Response
     {
-        $request = $payload->toRequest($this->baseUri, $this->headers);
-
         try {
-            $response = $this->client->send($request, ['stream' => $stream]);
+            return new Response(
+                $this->client->send(
+                    $payload->toRequest($this->baseUri, $this->headers),
+                    ['stream' => $payload->isStream()]
+                )
+            );
         } catch (ClientExceptionInterface $clientException) {
             throw new TransporterException($clientException);
         }
-
-        if ($response->getHeaderLine('Content-Type') === 'text/event-stream') {
-            return (new EventStream($response->getBody()))->read();
-        }
-
-        try {
-            $response = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $jsonException) {
-            throw new UnserializableResponse($jsonException);
-        }
-
-        if (isset($response['error'])) {
-            throw new ErrorException($response['error']);
-        }
-
-        return $response;
     }
 
     /**

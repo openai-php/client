@@ -2,11 +2,9 @@
 
 namespace OpenAI\Streams;
 
+use Generator;
 use GuzzleHttp\Psr7\Utils;
-use JsonException;
 use OpenAI\Contracts\Stream;
-use OpenAI\Exceptions\ErrorException;
-use OpenAI\Exceptions\UnserializableResponse;
 use Psr\Http\Message\StreamInterface;
 
 final class EventStream implements Stream
@@ -16,7 +14,7 @@ final class EventStream implements Stream
     ) {
     }
 
-    public function read(): iterable
+    public function read(): Generator
     {
         while (! $this->stream->eof()) {
             $line = Utils::readLine($this->stream);
@@ -25,20 +23,10 @@ final class EventStream implements Stream
                 continue;
             }
 
-            $rawData = substr(strstr($line, 'data: '), 6);
+            $data = trim(substr(strstr($line, 'data: '), 6));
 
-            if ($rawData === "[DONE]\n") {
+            if ($data === "[DONE]") {
                 break;
-            }
-
-            try {
-                $data = json_decode($rawData, true, 512, JSON_THROW_ON_ERROR);
-            } catch (JsonException $jsonException) {
-                throw new UnserializableResponse($jsonException);
-            }
-
-            if (isset($data['error'])) {
-                throw new ErrorException($data['error']);
             }
 
             yield $data;

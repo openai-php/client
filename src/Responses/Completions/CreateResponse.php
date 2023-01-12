@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Completions;
 
+use Generator;
+use Iterator;
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
  * @implements Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
-final class CreateResponse implements Response
+final class CreateResponse implements Response, Iterator
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
      */
     use ArrayAccessible;
+
+    private Generator $stream;
 
     /**
      * @param  array<int, CreateResponseChoice>  $choices
@@ -51,6 +55,14 @@ final class CreateResponse implements Response
         );
     }
 
+    public static function fromStream(Generator $stream): self
+    {
+        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}} $attributes */
+        $attributes = $stream->current();
+
+        return self::from($attributes)->withStream($stream);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -67,5 +79,42 @@ final class CreateResponse implements Response
             ),
             'usage' => $this->usage?->toArray(),
         ];
+    }
+
+    public function current(): mixed
+    {
+        return self::from($this->stream->current());
+    }
+
+    public function next(): void
+    {
+        $this->stream->next();
+    }
+
+    public function key(): mixed
+    {
+        return $this->stream->key();
+    }
+
+    public function valid(): bool
+    {
+        return $this->stream->valid();
+    }
+
+    public function rewind(): void
+    {
+        $this->stream->rewind();
+    }
+
+    public function withStream(Generator $stream): self
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    public function isStream(): bool
+    {
+        return isset($this->stream);
     }
 }

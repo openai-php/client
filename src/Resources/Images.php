@@ -25,7 +25,7 @@ final class Images
         $payload = Payload::create('images/generations', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return CreateResponse::from($result);
     }
@@ -42,7 +42,7 @@ final class Images
         $payload = Payload::upload('images/edits', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return EditResponse::from($result);
     }
@@ -59,7 +59,7 @@ final class Images
         $payload = Payload::upload('images/variations', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return VariationResponse::from($result);
     }

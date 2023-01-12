@@ -24,7 +24,7 @@ final class Files
         $payload = Payload::list('files');
 
         /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return ListResponse::from($result);
     }
@@ -39,7 +39,7 @@ final class Files
         $payload = Payload::retrieve('files', $file);
 
         /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return RetrieveResponse::from($result);
     }
@@ -68,7 +68,7 @@ final class Files
         $payload = Payload::upload('files', $parameters);
 
         /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return CreateResponse::from($result);
     }
@@ -83,7 +83,7 @@ final class Files
         $payload = Payload::delete('files', $file);
 
         /** @var array{id: string, object: string, deleted: bool} $result */
-        $result = $this->transporter->requestObject($payload);
+        $result = $this->transporter->requestObject($payload)->object();
 
         return DeleteResponse::from($result);
     }
