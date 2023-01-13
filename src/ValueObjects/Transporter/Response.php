@@ -29,7 +29,7 @@ final class Response
     /**
      * Returns decoded response object.
      *
-     * @return array<string, scalar>
+     * @return array<string, mixed>
      */
     public function object(): array
     {
@@ -39,7 +39,7 @@ final class Response
     /**
      * Returns stream generator with decoded response objects.
      *
-     * @return Generator<integer, array<array-key, scalar>>
+     * @return Generator<integer, array<array-key, mixed>>
      */
     public function stream(): Generator
     {
@@ -49,9 +49,9 @@ final class Response
     }
 
     /**
-     * Decode raw content to json.
+     * Decode object from raw json string.
      *
-     * @return array<array-key, scalar>
+     * @return array<array-key, mixed>
      */
     private function decode(string $contents): array
     {

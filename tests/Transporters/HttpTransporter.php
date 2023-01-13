@@ -13,7 +13,6 @@ use OpenAI\ValueObjects\ApiToken;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
-use OpenAI\ValueObjects\Transporter\Response as TransporterResponse;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -93,7 +92,7 @@ test('request object stream response', function () {
 
     $response = $this->http->requestObject($payload);
 
-    expect($response)->toBeInstanceOf(TransporterResponse::class);
+    expect($response->isStream())->toBeTrue();
 });
 
 test('request object server errors', function () {

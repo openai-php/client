@@ -6,7 +6,6 @@ namespace OpenAI\ValueObjects\Transporter;
 
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request as Psr7Request;
-use OpenAI\Contracts\Request;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Enums\Transporter\Method;
 use OpenAI\ValueObjects\ResourceUri;
@@ -35,7 +34,7 @@ final class Payload
      */
     public function isStream(): bool
     {
-        return (bool) ($this->parameters['stream'] ?? false);
+        return isset($this->parameters['stream']) && is_bool($this->parameters['stream']) && $this->parameters['stream'];
     }
 
     /**
