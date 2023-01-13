@@ -28,12 +28,11 @@ function mockClient(string $method, string $resource, array $params, array|strin
                 'data: '.implode("\n\ndata: ", array_map(
                     fn ($value) => json_encode($value),
                     iterator_to_array($response)
-                 )
-            )));
+                )
+                )));
 
             $responseMock->shouldReceive('getHeaderLine')->andReturn('text/event-stream');
         }
-
     }
 
     $transporter

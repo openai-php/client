@@ -1,11 +1,8 @@
 <?php
 
-use GuzzleHttp\Psr7\Utils;
-use OpenAI\Contracts\Stream;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
-use OpenAI\Streams\EventStream;
 
 test('create', function () {
     $client = mockClient('POST', 'completions', [

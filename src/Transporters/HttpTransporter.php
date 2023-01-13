@@ -56,7 +56,7 @@ final class HttpTransporter implements Transporter
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
         try {
-            $response = $this->client->sendRequest($request);
+            $response = $this->client->send($request);
         } catch (ClientExceptionInterface $clientException) {
             throw new TransporterException($clientException);
         }

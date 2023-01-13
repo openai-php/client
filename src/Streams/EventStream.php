@@ -14,6 +14,11 @@ final class EventStream implements Stream
     ) {
     }
 
+    /**
+     * Iterates over the event-stream data.
+     *
+     * @return Generator<integer, string>
+     */
     public function read(): Generator
     {
         while (! $this->stream->eof()) {
@@ -23,9 +28,9 @@ final class EventStream implements Stream
                 continue;
             }
 
-            $data = trim(substr(strstr($line, 'data: '), 6));
+            $data = trim(substr((string) strstr($line, 'data:'), 5));
 
-            if ($data === "[DONE]") {
+            if ($data === '[DONE]') {
                 break;
             }
 

@@ -7,7 +7,7 @@ interface Stream
     /**
      * Iterates over the event-stream data.
      *
-     * @return iterable<array<integer, string>>
+     * @return iterable<integer, string>
      */
     public function read(): iterable;
 }

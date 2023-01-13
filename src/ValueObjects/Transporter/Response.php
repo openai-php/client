@@ -9,13 +9,14 @@ use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Streams\EventStream;
 use Psr\Http\Message\ResponseInterface;
 
-class Response
+final class Response
 {
     /**
      * Creates a new Response value object.
      */
     public function __construct(private readonly ResponseInterface $response)
-    {}
+    {
+    }
 
     /**
      * Determines whether the stream response was requested.
@@ -28,7 +29,7 @@ class Response
     /**
      * Returns decoded response object.
      *
-     * @return array<string, string>
+     * @return array<string, scalar>
      */
     public function object(): array
     {
@@ -38,7 +39,7 @@ class Response
     /**
      * Returns stream generator with decoded response objects.
      *
-     * @return Generator<array<string, string>>
+     * @return Generator<integer, array<array-key, scalar>>
      */
     public function stream(): Generator
     {
@@ -50,13 +51,14 @@ class Response
     /**
      * Decode raw content to json.
      *
-     * @return array<string, string>
+     * @return array<array-key, scalar>
      */
     private function decode(string $contents): array
     {
         $result = [];
 
         try {
+            /** @var array{error?: array{message: string, type: string, code: string}} $result */
             $result = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);

@@ -35,7 +35,7 @@ final class Payload
      */
     public function isStream(): bool
     {
-        return $this->parameters['stream'] ?? false;
+        return (bool) ($this->parameters['stream'] ?? false);
     }
 
     /**

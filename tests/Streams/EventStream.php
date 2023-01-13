@@ -1,8 +1,6 @@
 <?php
 
 use GuzzleHttp\Psr7\Utils;
-use OpenAI\Exceptions\ErrorException;
-use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Streams\EventStream;
 
 test('read data stream', function () {

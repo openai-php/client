@@ -161,7 +161,7 @@ test('request content', function () {
     ]));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->withArgs(function (Psr7Request $request) {
             expect($request->getMethod())->toBe('GET')
@@ -182,7 +182,7 @@ test('request content response', function () {
     $response = new Response(200, [], 'My response content');
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andReturn($response);
 
@@ -198,7 +198,7 @@ test('request content client errors', function () {
     $headers = Headers::withAuthorization(ApiToken::from('foo'));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
 
@@ -222,7 +222,7 @@ test('request content server errors', function () {
     ]));
 
     $this->client
-        ->shouldReceive('sendRequest')
+        ->shouldReceive('send')
         ->once()
         ->andReturn($response);
 
