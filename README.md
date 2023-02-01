@@ -279,7 +279,7 @@ $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 Creates a job that fine-tunes a specified model from a given dataset.
 
 ```php
-$client->fineTunes()->create($parameters);
+$response = $client->fineTunes()->create($parameters);
 
 $response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine-tune'
