@@ -49,7 +49,7 @@ final class RetrieveResponse implements Response
     {
         $events = array_map(fn (array $result): RetrieveResponseEvent => RetrieveResponseEvent::from(
             $result
-        ), $attributes['events']);
+        ), $attributes['events'] ?? []);
 
         $resultFiles = array_map(fn (array $result): RetrieveResponseFile => RetrieveResponseFile::from(
             $result
