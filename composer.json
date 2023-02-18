@@ -14,12 +14,12 @@
         "guzzlehttp/guzzle": "^7.5.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.4.1",
-        "nunomaduro/collision": "^7.0.0",
+        "laravel/pint": "^1.5.0",
+        "nunomaduro/collision": "^7.0.4",
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-arch": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.9.16",
+        "phpstan/phpstan": "^1.9.18",
         "rector/rector": "^0.14.8",
         "symfony/var-dumper": "^6.2.5"
     },
