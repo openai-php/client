@@ -31,9 +31,6 @@ function fileListResource(): array
     ];
 }
 
-/**
- * @return string
- */
 function fileContentResource(): string
 {
     return file_get_contents(__DIR__.'/MyFile.jsonl');
