@@ -24,11 +24,11 @@ Clone your fork, then install the dev dependencies:
 composer install
 ```
 
-## Refacto
+## Refactor
 
-Refacto your code:
+Refactor your code:
 ```bash
-composer refacto
+composer refactor
 ```
 
 ## Lint
