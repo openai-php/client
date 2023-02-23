@@ -47,7 +47,7 @@ composer test
 
 Check code quality:
 ```bash
-composer test:refacto
+composer test:refactor
 ```
 
 Check types:
