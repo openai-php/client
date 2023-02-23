@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace OpenAI;
+
 use GuzzleHttp\Client as GuzzleClient;
 use OpenAI\Client;
 use OpenAI\Transporters\HttpTransporter;
