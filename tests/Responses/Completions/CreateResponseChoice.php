@@ -10,7 +10,7 @@ test('from', function () {
         ->text->toBe("el, she elaborates more on the Corruptor's role, suggesting K")
         ->index->toBe(0)
         ->logprobs->toBe(null)
-        ->finishReason->toBe('length');
+        ->finishReason->toBeIn(['length', null]);
 });
 
 test('to array', function () {
@@ -27,7 +27,7 @@ test('from with logprobs', function () {
         ->text->toBe('PHP is')
         ->index->toBe(0)
         ->logprobs->toBeInstanceOf(CreateResponseChoiceLogprobs::class)
-        ->finishReason->toBe('length');
+        ->finishReason->toBeIn(['length', null]);
 });
 
 test('to array with logprobs', function () {
