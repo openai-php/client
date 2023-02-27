@@ -10,7 +10,7 @@ final class CreateResponseChoice
         public readonly string $text,
         public readonly int $index,
         public readonly ?CreateResponseChoiceLogprobs $logprobs,
-        public readonly string $finishReason,
+        public readonly ?string $finishReason,
     ) {
     }
 

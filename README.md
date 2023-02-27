@@ -125,7 +125,7 @@ foreach ($response->choices as $result) {
     $result->text; // '\n\nThis is a test'
     $result->index; // 0
     $result->logprobs; // null
-    $result->finishReason; // 'length'
+    $result->finishReason; // 'length' or null
 }
 
 $response->usage->promptTokens; // 5,
