@@ -279,7 +279,20 @@ $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 Creates a job that fine-tunes a specified model from a given dataset.
 
 ```php
-$response = $client->fineTunes()->create($parameters);
+$response = $client->fineTunes()->create([
+    'training_file' => 'file-ajSREls59WBbvgSzJSVWxMCB',
+    'validation_file' => 'file-XjSREls59WBbvgSzJSVWxMCa',
+    'model' => 'curie',
+    'n_epochs' => 4,
+    'batch_size' => null,
+    'learning_rate_multiplier' => null,
+    'prompt_loss_weight' => 0.01,
+    'compute_classification_metrics' => false,
+    'classification_n_classes' => null,
+    'classification_positive_class' => null,
+    'classification_betas' => [],
+    'suffix' => null,
+]);
 
 $response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine-tune'
