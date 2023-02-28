@@ -28,7 +28,7 @@ final class RetrieveResponseFile implements Response
         public readonly string $filename,
         public readonly string $purpose,
         public readonly string $status,
-        public readonly ?array $statusDetails,
+        public readonly ?mixed $statusDetails,
     ) {
     }
 
