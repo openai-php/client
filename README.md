@@ -9,7 +9,7 @@
 </p>
 
 ------
-**OpenAI PHP** is a supercharged community PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction).
+**OpenAI PHP** is a supercharged community-maintained PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction).
 
 ## Get Started
 
