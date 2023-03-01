@@ -24,7 +24,8 @@ composer require openai-php/client
 Then, interact with OpenAI's API:
 
 ```php
-$client = OpenAI::client('YOUR_API_KEY');
+$yourApiKey = getenv('YOUR_API_KEY');
+$client = OpenAI::client($yourApiKey);
 
 $result = $client->completions()->create([
     'model' => 'text-davinci-003',
