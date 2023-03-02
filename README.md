@@ -9,10 +9,10 @@
 </p>
 
 ------
-**OpenAI PHP** is a community-maintained PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction). If you or your business relies on this package, it's important to support the developers who have contributed their time and effort to create and maintain this valuable tool. Consider sponsoring Nuno Maduro and Sandro Gehri on their respective GitHub sponsorship pages to show your appreciation and help ensure the continued development of OpenAI PHP:
+**OpenAI PHP** is a community-maintained PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction). If you or your business relies on this package, it's important to support the developers who have contributed their time and effort to create and maintain this valuable tool:
 
-- Nuno Maduro: **[github.com/sponsors/nunomaduro/](https://github.com/sponsors/nunomaduro)**
-- Sandro Gehri: **[github.com/sponsors/gehrisandro/](https://github.com/sponsors/gehrisandro)**
+- Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
+- Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
 
 ## Get Started
 
