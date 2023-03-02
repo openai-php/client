@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\Transporter;
+use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
@@ -33,6 +34,16 @@ final class Client
     public function completions(): Completions
     {
         return new Completions($this->transporter);
+    }
+
+    /**
+     * Given a chat conversation, the model will return a chat completion response.
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat
+     */
+    public function chat(): Chat
+    {
+        return new Chat($this->transporter);
     }
 
     /**
