@@ -181,7 +181,7 @@ Transcribes audio into the input language.
 ```php
 $response = $client->audio()->transcribe([
     'model' => 'whisper-1',
-    'file' => fopen(storage_path('audio.mp3'), 'r'),
+    'file' => fopen('audio.mp3', 'r'),
     'response_format' => 'verbose_json',
 ]);
 
@@ -214,7 +214,7 @@ Translates audio into English.
 ```php
 $response = $client->audio()->translate([
     'model' => 'whisper-1',
-    'file' => fopen(storage_path('audio.mp3'), 'r'),
+    'file' => fopen('german.mp3' 'r'),
     'response_format' => 'verbose_json',
 ]);
 
