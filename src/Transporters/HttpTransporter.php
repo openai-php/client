@@ -34,7 +34,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload): array
+    public function requestObject(Payload $payload): array|string
     {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
@@ -45,6 +45,10 @@ final class HttpTransporter implements Transporter
         }
 
         $contents = (string) $response->getBody();
+
+        if ($response->getHeader('Content-Type')[0] === 'text/plain; charset=utf-8') {
+            return $contents;
+        }
 
         try {
             /** @var array{error?: array{message: string, type: string, code: string}} $response */

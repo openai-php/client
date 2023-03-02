@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\Transporter;
+use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
 use OpenAI\Resources\Edits;
@@ -54,6 +55,16 @@ final class Client
     public function embeddings(): Embeddings
     {
         return new Embeddings($this->transporter);
+    }
+
+    /**
+     * Learn how to turn audio into text.
+     *
+     * @see https://platform.openai.com/docs/api-reference/audio
+     */
+    public function audio(): Audio
+    {
+        return new Audio($this->transporter);
     }
 
     /**

@@ -29,7 +29,7 @@ beforeEach(function () {
 test('request object', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(200, [], json_encode([
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'qdwq',
     ]));
 
@@ -52,7 +52,7 @@ test('request object', function () {
 test('request object response', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(200, [], json_encode([
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         [
             'text' => 'Hey!',
             'index' => 0,
@@ -81,7 +81,7 @@ test('request object response', function () {
 test('request object server errors', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(401, [], json_encode([
+    $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'error' => [
             'message' => 'Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.',
             'type' => 'invalid_request_error',
@@ -125,7 +125,7 @@ test('request object client errors', function () {
 test('request object serialization errors', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(200, [], 'err');
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], 'err');
 
     $this->client
         ->shouldReceive('sendRequest')
@@ -134,6 +134,21 @@ test('request object serialization errors', function () {
 
     $this->http->requestObject($payload);
 })->throws(UnserializableResponse::class, 'Syntax error');
+
+test('request plain text', function () {
+    $payload = Payload::upload('audio/transcriptions', []);
+
+    $response = new Response(200, ['Content-Type' => 'text/plain; charset=utf-8'], 'Hello, how are you?');
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    $response = $this->http->requestObject($payload);
+
+    expect($response)->toBe('Hello, how are you?');
+});
 
 test('request content', function () {
     $payload = Payload::list('models');
