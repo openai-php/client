@@ -188,7 +188,7 @@ $response = $client->audio()->transcribe([
 $response->task; // 'transcribe'
 $response->language; // 'english'
 $response->duration; // 2.95
-$reponse->text; // 'Hello, how are you?'
+$response->text; // 'Hello, how are you?'
 
 foreach ($response->segments as $segment) {
     $segment->index; // 0
@@ -221,7 +221,7 @@ $response = $client->audio()->translate([
 $response->task; // 'translate'
 $response->language; // 'english'
 $response->duration; // 2.95
-$reponse->text; // 'Hello, how are you?'
+$response->text; // 'Hello, how are you?'
 
 foreach ($response->segments as $segment) {
     $segment->index; // 0
