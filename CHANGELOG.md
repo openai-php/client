@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.4 (2023-03-03)
+### Added
+- `Audio` resource to turn audio into text powered by `whisper-1` ([#62](https://github.com/openai-php/client/pull/62))
+
 ## v0.3.3 (2023-03-02)
 ### Added
 - `Chat` resource aka ChatGPT powered by `gpt-3.5-turbo` ([#60](https://github.com/openai-php/client/pull/60))
