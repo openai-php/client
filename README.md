@@ -214,7 +214,7 @@ Translates audio into English.
 ```php
 $response = $client->audio()->translate([
     'model' => 'whisper-1',
-    'file' => fopen('german.mp3' 'r'),
+    'file' => fopen('german.mp3', 'r'),
     'response_format' => 'verbose_json',
 ]);
 
