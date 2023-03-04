@@ -27,7 +27,12 @@ final class OpenAI
             $headers = $headers->withOrganization($organization);
         }
 
-        $client ??= new GuzzleClient();
+        if (null === $client) {
+            if (!class_exists(GuzzleClient::class)) {
+                throw new \LogicException('Guzzle is not installed. Try running "composer require guzzlehttp/guzzle" or pass a PSR-18 client.');
+            }
+            $client = new GuzzleClient();
+        }
 
         $transporter = new HttpTransporter($client, $baseUri, $headers);
 
