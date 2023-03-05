@@ -14,7 +14,7 @@ final class OpenAI
     /**
      * Creates a new Open AI Client with the given API token.
      */
-    public static function client(string $apiKey, string $organization = null): Client
+    public static function client(string $apiKey, string $organization = null, bool $verify = true): Client
     {
         $apiKey = ApiKey::from($apiKey);
 
@@ -26,7 +26,7 @@ final class OpenAI
             $headers = $headers->withOrganization($organization);
         }
 
-        $client = new GuzzleClient();
+        $client = new GuzzleClient(['verify' => $verify]);
 
         $transporter = new HttpTransporter($client, $baseUri, $headers);
 
