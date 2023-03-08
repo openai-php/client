@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.5 (2023-03-08)
+### Fixed
+- `status_details` can be a string in file responses. Affects Files and FineTunes resources ([#68](https://github.com/openai-php/client/pull/68))
+
 ## v0.3.4 (2023-03-03)
 ### Added
 - `Audio` resource to turn audio into text powered by `whisper-1` ([#62](https://github.com/openai-php/client/pull/62))
