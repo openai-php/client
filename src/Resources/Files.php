@@ -23,7 +23,7 @@ final class Files
     {
         $payload = Payload::list('files');
 
-        /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>} $result */
+        /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>} $result */
         $result = $this->transporter->requestObject($payload);
 
         return ListResponse::from($result);
@@ -38,7 +38,7 @@ final class Files
     {
         $payload = Payload::retrieve('files', $file);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
+        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null} $result */
         $result = $this->transporter->requestObject($payload);
 
         return RetrieveResponse::from($result);
@@ -67,7 +67,7 @@ final class Files
     {
         $payload = Payload::upload('files', $parameters);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
+        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null} $result */
         $result = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($result);

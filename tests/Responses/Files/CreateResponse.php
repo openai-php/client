@@ -17,6 +17,21 @@ test('from', function () {
         ->statusDetails->toBeNull();
 });
 
+test('from with status error', function () {
+    $response = CreateResponse::from(fileWithErrorStatusResource());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('file-OGHjVIyNB7svNc6vaUXNgR87')
+        ->object->toBe('file')
+        ->bytes->toBe(181023)
+        ->createdAt->toBe(1678253244)
+        ->filename->toBe('mydata_corrupt.jsonl')
+        ->purpose->toBe('fine-tune')
+        ->status->toBe('error')
+        ->statusDetails->toBe("Invalid file format. Example 1273 cannot be parsed. Error: line contains invalid json: Expecting ',' delimiter: line 1 column 79 (char 78) (line 1273)");
+});
+
 test('as array accessible', function () {
     $response = CreateResponse::from(fileResource());
 
