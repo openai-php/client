@@ -13,7 +13,7 @@
         "php": "^8.1.0",
         "guzzlehttp/psr7": "^2.4.4",
         "php-http/discovery": "^1.14",
-        "psr/http-client-implementation": "1.0"
+        "psr/http-client-implementation": "^1.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.5.0",

@@ -33,6 +33,7 @@ test('client')->expect('OpenAI\Client')->toOnlyUse([
 ]);
 
 test('openai')->expect('OpenAI')->toOnlyUse([
+    'Http\Discovery\Psr18ClientDiscovery',
     'Psr\Http\Client',
     'GuzzleHttp\Client',
     'GuzzleHttp\Psr7',
