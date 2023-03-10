@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use GuzzleHttp\Client as GuzzleClient;
+use Http\Discovery\Psr18ClientDiscovery;
 use OpenAI\Client;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
@@ -27,12 +27,7 @@ final class OpenAI
             $headers = $headers->withOrganization($organization);
         }
 
-        if (null === $client) {
-            if (!class_exists(GuzzleClient::class)) {
-                throw new \LogicException('Guzzle is not installed. Try running "composer require guzzlehttp/guzzle" or pass a PSR-18 client.');
-            }
-            $client = new GuzzleClient();
-        }
+        $client ??= Psr18ClientDiscovery::find();
 
         $transporter = new HttpTransporter($client, $baseUri, $headers);
 
