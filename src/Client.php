@@ -8,6 +8,7 @@ use OpenAI\Contracts\Transporter;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
+use OpenAI\Resources\Contracts\AudioContract;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
@@ -16,7 +17,7 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 
-final class Client
+final class Client implements \OpenAI\Contracts\Client
 {
     /**
      * Creates a Client instance with the given API token.
@@ -32,7 +33,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/completions
      */
-    public function completions(): Completions
+    public function completions(): Resources\Contracts\CompletionsContract
     {
         return new Completions($this->transporter);
     }
@@ -62,7 +63,7 @@ final class Client
      *
      * @see https://platform.openai.com/docs/api-reference/audio
      */
-    public function audio(): Audio
+    public function audio(): AudioContract
     {
         return new Audio($this->transporter);
     }

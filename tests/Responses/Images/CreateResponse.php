@@ -50,3 +50,23 @@ test('to array with b64_json', function () {
         ->toBeArray()
         ->toBe(imageCreateWithB46Json());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response['data'][0])
+        ->url->toBe('https://openai.com/image.png');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'data' => [
+            [
+                'url' => 'https://openai.com/new-image.png',
+            ],
+        ],
+    ]);
+
+    expect($response['data'][0])
+        ->url->toBe('https://openai.com/new-image.png');
+});

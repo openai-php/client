@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Audio;
 
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
@@ -16,6 +17,8 @@ final class TranslationResponse implements Response
      * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
 
     /**
      * @param  array<int, TranslationResponseSegment>  $segments

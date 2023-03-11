@@ -24,3 +24,26 @@ test('to array', function () {
 
     expect($response->toArray())->toBeArray()->toBe(embeddingList());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response['data'][0])
+        ->object->toBe('embedding');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'data' => [
+            [
+                'embedding' => [
+                    0.1234,
+                    0.5678,
+                ],
+            ],
+        ],
+    ]);
+
+    expect($response->embeddings[0])
+        ->embedding->toBe([0.1234, 0.5678]);
+});

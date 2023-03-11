@@ -31,3 +31,27 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(completion());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->id->toBe('cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'id' => 'cmpl-1234',
+        'choices' => [
+            [
+                'text' => 'awesome!',
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->id->toBe('cmpl-1234')
+        ->and($response->choices[0])
+        ->text->toBe('awesome!')
+        ->index->toBe(0);
+});

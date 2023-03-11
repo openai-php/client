@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Models;
 
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements Response<array{id: string, object: string, deleted: bool}>
@@ -16,6 +17,8 @@ final class DeleteResponse implements Response
      * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
 
     private function __construct(
         public readonly string $id,

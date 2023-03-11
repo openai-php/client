@@ -6,6 +6,7 @@ namespace OpenAI\Responses\FineTunes;
 
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements Response<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
@@ -16,6 +17,8 @@ final class ListEventsResponse implements Response
      * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
 
     /**
      * @param  array<int, RetrieveResponseEvent>  $data

@@ -26,3 +26,27 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(fineTuneListResource());
 });
+
+test('fake', function () {
+    $response = ListResponse::fake();
+
+    expect($response)
+        ->object->toBe('list')
+        ->and($response['data'][0])
+        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+});
+
+test('fake with override', function () {
+    $response = ListResponse::fake([
+        'data' => [
+            [
+                'id' => 'ft-1234',
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->object->toBe('list')
+        ->and($response['data'][0])
+        ->id->toBe('ft-1234');
+});

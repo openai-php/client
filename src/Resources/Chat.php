@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\ChatContract;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Chat
+final class Chat implements ChatContract
 {
     use Concerns\Transportable;
 

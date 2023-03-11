@@ -3,6 +3,7 @@
 test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
+    'OpenAI\Resources',
 ]);
 
 test('exceptions')->expect('OpenAI\Exceptions')->toOnlyUse([
@@ -19,6 +20,7 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'OpenAI\Enums',
     'OpenAI\Contracts',
+    'OpenAI\Testing\Responses\Concerns',
 ]);
 
 test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
@@ -38,4 +40,4 @@ test('openai')->expect('OpenAI')->toOnlyUse([
     'GuzzleHttp\Psr7',
     'OpenAI\Resources',
     'OpenAI\Contracts',
-]);
+])->ignoring('OpenAI\Testing');

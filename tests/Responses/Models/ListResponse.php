@@ -26,3 +26,27 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(modelList());
 });
+
+test('fake', function () {
+    $response = ListResponse::fake();
+
+    expect($response)
+    ->object->toBe('list')
+        ->and($response->data[0])
+        ->id->toBe('text-babbage:001');
+});
+
+test('fake with override', function () {
+    $response = ListResponse::fake([
+        'data' => [
+            [
+                'id' => 'text-1234',
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->object->toBe('list')
+        ->and($response->data[0])
+        ->id->toBe('text-1234');
+});

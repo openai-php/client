@@ -26,3 +26,23 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(fileListResource());
 });
+
+test('fake', function () {
+    $response = ListResponse::fake();
+
+    expect($response['data'][0])
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
+});
+
+test('fake with override', function () {
+    $response = ListResponse::fake([
+        'data' => [
+            [
+                'id' => 'file-1234',
+            ],
+        ],
+    ]);
+
+    expect($response['data'][0])
+        ->id->toBe('file-1234');
+});

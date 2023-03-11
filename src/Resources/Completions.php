@@ -7,7 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Completions
+final class Completions implements \OpenAI\Resources\Contracts\CompletionsContract
 {
     use Concerns\Transportable;
 

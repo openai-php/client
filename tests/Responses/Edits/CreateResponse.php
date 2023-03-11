@@ -29,3 +29,24 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(edit());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->object->toBe('edit');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'choices' => [
+            [
+                'text' => 'This is awesome!',
+            ],
+        ],
+    ]);
+
+    expect($response->choices[0])
+        ->text->toBe('This is awesome!')
+        ->index->toBe(0);
+});

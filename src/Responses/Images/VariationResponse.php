@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Images;
 
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
@@ -16,6 +17,8 @@ final class VariationResponse implements Response
      * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
 
     /**
      * @param  array<int, VariationResponseData>  $data

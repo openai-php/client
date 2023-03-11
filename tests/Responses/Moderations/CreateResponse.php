@@ -27,3 +27,30 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(moderationResource());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->id->toBe('modr-5MWoLO')
+        ->and($response->results[0]->categories['hate'])
+        ->violated->toBeFalse();
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'id' => 'modr-1234',
+        'results' => [
+            [
+                'categories' => [
+                    'hate' => true,
+                ],
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->id->toBe('modr-1234')
+        ->and($response->results[0]->categories['hate'])
+        ->violated->toBeTrue();
+});
