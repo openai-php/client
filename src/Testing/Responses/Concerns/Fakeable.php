@@ -9,7 +9,7 @@ trait Fakeable
     /**
      * @param  array<string, mixed>  $override
      */
-    public static function fake($override = []): static
+    public static function fake(array $override = []): static
     {
         $class = str_replace('Responses\\', 'Testing\\Responses\\Fixtures\\', static::class).'Fixture';
 
