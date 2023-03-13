@@ -15,11 +15,11 @@
     },
     "require-dev": {
         "laravel/pint": "^1.6.0",
-        "nunomaduro/collision": "^7.0.5",
+        "nunomaduro/collision": "^7.1.0",
         "pestphp/pest": "^2.0.0",
         "pestphp/pest-plugin-arch": "^2.0.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
-        "phpstan/phpstan": "^1.10.3",
+        "phpstan/phpstan": "^1.10.6",
         "rector/rector": "^0.14.8",
         "symfony/var-dumper": "^6.2.7"
     },
