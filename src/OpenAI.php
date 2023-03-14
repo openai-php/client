@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-use GuzzleHttp\Client as GuzzleClient;
 use OpenAI\Client;
-use OpenAI\Transporters\HttpTransporter;
-use OpenAI\ValueObjects\ApiKey;
-use OpenAI\ValueObjects\Transporter\BaseUri;
-use OpenAI\ValueObjects\Transporter\Headers;
+use OpenAI\Factory;
 
 final class OpenAI
 {
@@ -16,20 +12,17 @@ final class OpenAI
      */
     public static function client(string $apiKey, string $organization = null): Client
     {
-        $apiKey = ApiKey::from($apiKey);
+        return self::factory()
+            ->withApiKey($apiKey)
+            ->withOrganization($organization)
+            ->make();
+    }
 
-        $baseUri = BaseUri::from('api.openai.com/v1');
-
-        $headers = Headers::withAuthorization($apiKey);
-
-        if ($organization !== null) {
-            $headers = $headers->withOrganization($organization);
-        }
-
-        $client = new GuzzleClient();
-
-        $transporter = new HttpTransporter($client, $baseUri, $headers);
-
-        return new Client($transporter);
+    /**
+     * Creates a new factory instance to configure a custom Open AI Client
+     */
+    public static function factory(): Factory
+    {
+        return new Factory();
     }
 }

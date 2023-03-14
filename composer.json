@@ -11,9 +11,12 @@
     ],
     "require": {
         "php": "^8.1.0",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "php-http/discovery": "^1.14",
+        "php-http/multipart-stream-builder": "^1.2",
+        "psr/http-client": "^1.0"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^7.5.0",
         "laravel/pint": "^1.6.0",
         "nunomaduro/collision": "^7.1.0",
         "pestphp/pest": "^2.0.0",
@@ -42,7 +45,8 @@
         "sort-packages": true,
         "preferred-install": "dist",
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": false
         }
     },
     "scripts": {
