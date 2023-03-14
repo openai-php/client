@@ -11,11 +11,12 @@
     ],
     "require": {
         "php": "^8.1.0",
-        "php-http/discovery": "^1.14",
+        "php-http/discovery": "^1.15",
         "php-http/multipart-stream-builder": "^1.2",
         "psr/http-client": "^1.0"
     },
     "require-dev": {
+        "guzzlehttp/psr7": "^2.4.4",
         "guzzlehttp/guzzle": "^7.5.0",
         "laravel/pint": "^1.6.0",
         "nunomaduro/collision": "^7.1.0",
