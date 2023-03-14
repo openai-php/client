@@ -24,7 +24,7 @@ First, install OpenAI via the [Composer](https://getcomposer.org/) package manag
 composer require openai-php/client
 ```
 
-If your project does not already include a PSR-18 client you have to install one:
+If your project does not already include a PSR-18 client make sure the `php-http/discovery` composer plugin is allowed to run or install a client manually:
 ```bash
 composer require guzzlehttp/guzzle
 ```
