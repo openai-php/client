@@ -7,6 +7,7 @@ use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
+use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 
 final class Factory
@@ -23,6 +24,11 @@ final class Factory
      * @var array<string, string>
      */
     private array $headers = [];
+
+    /**
+     * @var array<string, string|int>
+     */
+    private array $queryParams = [];
 
     /**
      * Sets the API key for the requests.
@@ -77,6 +83,16 @@ final class Factory
     }
 
     /**
+     * Adds a custom query parameter to the request url.
+     */
+    public function withQueryParam(string $name, string $value): self
+    {
+        $this->queryParams[$name] = $value;
+
+        return $this;
+    }
+
+    /**
      * Creates a new Open AI Client.
      */
     public function make(): Client
@@ -97,9 +113,14 @@ final class Factory
 
         $baseUri = BaseUri::from($this->baseUrl ?: 'api.openai.com/v1');
 
+        $queryParams = QueryParams::create();
+        foreach ($this->queryParams as $name => $value) {
+            $queryParams = $queryParams->withParam($name, $value);
+        }
+
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $transporter = new HttpTransporter($client, $baseUri, $headers);
+        $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams);
 
         return new Client($transporter);
     }

@@ -47,9 +47,17 @@ it('sets a custom base url via factory', function () {
     expect($openAI)->toBeInstanceOf(Client::class);
 });
 
-it('sets a custom headers via factory', function () {
+it('sets a custom header via factory', function () {
     $openAI = OpenAI::factory()
         ->withHttpHeader('X-My-Header', 'foo')
+        ->make();
+
+    expect($openAI)->toBeInstanceOf(Client::class);
+});
+
+it('sets a custom query parameter via factory', function () {
+    $openAI = OpenAI::factory()
+        ->withQueryParam('my-param', 'bar')
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);

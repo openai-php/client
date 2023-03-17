@@ -123,12 +123,16 @@ final class Payload
     /**
      * Creates a new Psr 7 Request instance.
      */
-    public function toRequest(BaseUri $baseUri, Headers $headers): RequestInterface
+    public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
     {
         $psr17Factory = new Psr17Factory();
 
         $body = null;
+
         $uri = $baseUri->toString().$this->uri->toString();
+        if (! empty($queryParams->toArray())) {
+            $uri .= '?'.http_build_query($queryParams->toArray());
+        }
 
         $headers = $headers->withContentType($this->contentType);
 
