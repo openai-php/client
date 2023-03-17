@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.0 (2023-03-17)
+### Changed
+- Removed dependency for `guzzlehttp/guzzle` and use PSR-18 client discovery instead ([#75](https://github.com/openai-php/client/pull/75))
+- Add Client factory which allows for a custom HTTP client
+- Client factory further accepts custom HTTP headers, query parameters and API URI
+
 ## v0.3.5 (2023-03-08)
 ### Fixed
 - `status_details` can be a string in file responses. Affects Files and FineTunes resources ([#68](https://github.com/openai-php/client/pull/68))
