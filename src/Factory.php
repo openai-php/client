@@ -12,20 +12,36 @@ use Psr\Http\Client\ClientInterface;
 
 final class Factory
 {
+    /**
+     * The API key for the requests.
+     */
     private ?string $apiKey = null;
 
+    /**
+     * The organization for the requests.
+     */
     private ?string $organization = null;
 
+    /**
+     * The HTTP client for the requests.
+     */
     private ?ClientInterface $httpClient = null;
 
+    /**
+     * The base URI for the requests.
+     */
     private ?string $baseUri = null;
 
     /**
+     * The HTTP headers for the requests.
+     *
      * @var array<string, string>
      */
     private array $headers = [];
 
     /**
+     * The query parameters for the requests.
+     *
      * @var array<string, string|int>
      */
     private array $queryParams = [];
