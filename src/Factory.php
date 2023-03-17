@@ -18,7 +18,7 @@ final class Factory
 
     private ?ClientInterface $httpClient = null;
 
-    private ?string $baseUrl = null;
+    private ?string $baseUri = null;
 
     /**
      * @var array<string, string>
@@ -62,12 +62,12 @@ final class Factory
     }
 
     /**
-     * Sets the base URL for the requests.
-     * If no URL is provided the factory will use the default OpenAI API URL.
+     * Sets the base URI for the requests.
+     * If no URI is provided the factory will use the default OpenAI API URI.
      */
-    public function withBaseUrl(string $baseUrl): self
+    public function withBaseUri(string $baseUri): self
     {
-        $this->baseUrl = $baseUrl;
+        $this->baseUri = $baseUri;
 
         return $this;
     }
@@ -111,7 +111,7 @@ final class Factory
             $headers = $headers->withCustomHeader($name, $value);
         }
 
-        $baseUri = BaseUri::from($this->baseUrl ?: 'api.openai.com/v1');
+        $baseUri = BaseUri::from($this->baseUri ?: 'api.openai.com/v1');
 
         $queryParams = QueryParams::create();
         foreach ($this->queryParams as $name => $value) {

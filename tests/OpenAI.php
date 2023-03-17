@@ -41,7 +41,7 @@ it('sets a custom client via factory', function () {
 
 it('sets a custom base url via factory', function () {
     $openAI = OpenAI::factory()
-        ->withBaseUrl('https://openai.example.com/v1')
+        ->withBaseUri('https://openai.example.com/v1')
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);
