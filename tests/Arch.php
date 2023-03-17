@@ -22,7 +22,10 @@ test('responses')->expect('OpenAI\Responses')->toOnlyUse([
 ]);
 
 test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
-    'GuzzleHttp\Psr7',
+    'Http\Discovery\Psr17Factory',
+    'Http\Message\MultipartStream\MultipartStreamBuilder',
+    'Psr\Http\Message\RequestInterface',
+    'Psr\Http\Message\StreamInterface',
     'OpenAI\Enums',
     'OpenAI\Contracts',
 ]);
@@ -33,9 +36,12 @@ test('client')->expect('OpenAI\Client')->toOnlyUse([
 ]);
 
 test('openai')->expect('OpenAI')->toOnlyUse([
-    'Psr\Http\Client',
-    'GuzzleHttp\Client',
-    'GuzzleHttp\Psr7',
-    'OpenAI\Resources',
+    'Http\Discovery\Psr17Factory',
+    'Http\Discovery\Psr18ClientDiscovery',
+    'Http\Message\MultipartStream\MultipartStreamBuilder',
     'OpenAI\Contracts',
+    'OpenAI\Resources',
+    'Psr\Http\Client',
+    'Psr\Http\Message\RequestInterface',
+    'Psr\Http\Message\StreamInterface',
 ]);

@@ -7,13 +7,23 @@
         {
             "name": "Nuno Maduro",
             "email": "enunomaduro@gmail.com"
+        },
+        {
+            "name": "Sandro Gehri"
         }
     ],
     "require": {
         "php": "^8.1.0",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "php-http/discovery": "^1.15.2",
+        "php-http/multipart-stream-builder": "^1.2.0",
+        "psr/http-client": "^1.0.1",
+        "psr/http-client-implementation": "^1.0.1",
+        "psr/http-factory-implementation": "*",
+        "psr/http-message": "^1.0.1"
     },
     "require-dev": {
+        "guzzlehttp/psr7": "^2.4.4",
+        "guzzlehttp/guzzle": "^7.5.0",
         "laravel/pint": "^1.6.0",
         "nunomaduro/collision": "^7.1.2",
         "pestphp/pest": "^2.0.0",
@@ -42,7 +52,8 @@
         "sort-packages": true,
         "preferred-install": "dist",
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": false
         }
     },
     "scripts": {

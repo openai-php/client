@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace OpenAI\ValueObjects\Transporter;
 
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request as Psr7Request;
+use Http\Discovery\Psr17Factory;
+use Http\Message\MultipartStream\MultipartStreamBuilder;
 use OpenAI\Contracts\Request;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Enums\Transporter\Method;
 use OpenAI\ValueObjects\ResourceUri;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @internal
@@ -121,25 +123,52 @@ final class Payload
     /**
      * Creates a new Psr 7 Request instance.
      */
-    public function toRequest(BaseUri $baseUri, Headers $headers): Psr7Request
+    public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
     {
+        $psr17Factory = new Psr17Factory();
+
         $body = null;
+
         $uri = $baseUri->toString().$this->uri->toString();
+        if (! empty($queryParams->toArray())) {
+            $uri .= '?'.http_build_query($queryParams->toArray());
+        }
 
         $headers = $headers->withContentType($this->contentType);
 
         if ($this->method === Method::POST) {
             if ($this->contentType === ContentType::MULTIPART) {
-                $body = new MultipartStream(
-                    array_map(fn ($key): array => ['name' => $key, 'contents' => $this->parameters[$key]], array_keys($this->parameters))
-                );
+                $streamBuilder = new MultipartStreamBuilder($psr17Factory);
 
-                $headers = $headers->withContentType($this->contentType, '; boundary='.$body->getBoundary());
+                /** @var array<string, StreamInterface|string|int|float|bool> $parameters */
+                $parameters = $this->parameters;
+
+                foreach ($parameters as $key => $value) {
+                    if (is_int($value) || is_float($value) || is_bool($value)) {
+                        $value = (string) $value;
+                    }
+
+                    $streamBuilder->addResource($key, $value);
+                }
+
+                $body = $streamBuilder->build();
+
+                $headers = $headers->withContentType($this->contentType, '; boundary='.$streamBuilder->getBoundary());
             } else {
-                $body = json_encode($this->parameters, JSON_THROW_ON_ERROR);
+                $body = $psr17Factory->createStream(json_encode($this->parameters, JSON_THROW_ON_ERROR));
             }
         }
 
-        return new Psr7Request($this->method->value, $uri, $headers->toArray(), $body);
+        $request = $psr17Factory->createRequest($this->method->value, $uri);
+
+        if ($body !== null) {
+            $request = $request->withBody($body);
+        }
+
+        foreach ($headers->toArray() as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $request;
     }
 }

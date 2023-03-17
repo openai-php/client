@@ -12,6 +12,7 @@ use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 
@@ -27,6 +28,7 @@ final class HttpTransporter implements Transporter
         private readonly ClientInterface $client,
         private readonly BaseUri $baseUri,
         private readonly Headers $headers,
+        private readonly QueryParams $queryParams,
     ) {
         // ..
     }
@@ -36,7 +38,7 @@ final class HttpTransporter implements Transporter
      */
     public function requestObject(Payload $payload): array|string
     {
-        $request = $payload->toRequest($this->baseUri, $this->headers);
+        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
         try {
             $response = $this->client->sendRequest($request);
@@ -69,7 +71,7 @@ final class HttpTransporter implements Transporter
      */
     public function requestContent(Payload $payload): string
     {
-        $request = $payload->toRequest($this->baseUri, $this->headers);
+        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
         try {
             $response = $this->client->sendRequest($request);

@@ -23,6 +23,14 @@ final class Headers
     }
 
     /**
+     * Creates a new Headers value object
+     */
+    public static function create(): self
+    {
+        return new self([]);
+    }
+
+    /**
      * Creates a new Headers value object with the given API token.
      */
     public static function withAuthorization(ApiKey $apiKey): self
@@ -51,6 +59,17 @@ final class Headers
         return new self([
             ...$this->headers,
             'OpenAI-Organization' => $organization,
+        ]);
+    }
+
+    /**
+     * Creates a new Headers value object, with the newly added header, and the existing headers.
+     */
+    public function withCustomHeader(string $name, string $value): self
+    {
+        return new self([
+            ...$this->headers,
+            $name => $value,
         ]);
     }
 
