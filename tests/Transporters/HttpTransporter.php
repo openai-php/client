@@ -12,6 +12,7 @@ use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 
 beforeEach(function () {
@@ -23,6 +24,7 @@ beforeEach(function () {
         $this->client,
         BaseUri::from('api.openai.com/v1'),
         Headers::withAuthorization($apiKey)->withContentType(ContentType::JSON),
+        QueryParams::create()->withParam('foo', 'bar'),
     );
 });
 
@@ -109,11 +111,12 @@ test('request object client errors', function () {
 
     $baseUri = BaseUri::from('api.openai.com');
     $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
 
     $this->client
         ->shouldReceive('sendRequest')
         ->once()
-        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
+        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers, $queryParams)));
 
     expect(fn () => $this->http->requestObject($payload))->toThrow(function (TransporterException $e) {
         expect($e->getMessage())->toBe('Could not resolve host.')
@@ -193,11 +196,12 @@ test('request content client errors', function () {
 
     $baseUri = BaseUri::from('api.openai.com');
     $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
 
     $this->client
         ->shouldReceive('sendRequest')
         ->once()
-        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
+        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers, $queryParams)));
 
     expect(fn () => $this->http->requestContent($payload))->toThrow(function (TransporterException $e) {
         expect($e->getMessage())->toBe('Could not resolve host.')

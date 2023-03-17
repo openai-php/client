@@ -39,6 +39,11 @@ First, install OpenAI via the [Composer](https://getcomposer.org/) package manag
 composer require openai-php/client
 ```
 
+Ensure that the `php-http/discovery` composer plugin is allowed to run or install a client manually if your project does not already have a PSR-18 client integrated.
+```bash
+composer require guzzlehttp/guzzle
+```
+
 Then, interact with OpenAI's API:
 
 ```php
@@ -51,6 +56,21 @@ $result = $client->completions()->create([
 ]);
 
 echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
+```
+
+If necessary, it is possible to configure and create a separate client.
+
+```php
+$yourApiKey = getenv('YOUR_API_KEY');
+
+$client = OpenAI::factory()
+    ->withApiKey($yourApiKey)
+    ->withOrganization('your-organization') // default: null
+    ->withBaseUri('openai.example.com/v1') // default: api.openai.com/v1
+    ->withHttpClient(new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
+    ->withHttpHeader('X-My-Header', 'foo')
+    ->withQueryParam('my-param', 'bar')
+    ->make();
 ```
 
 ## Usage
