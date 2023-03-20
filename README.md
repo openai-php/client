@@ -14,6 +14,21 @@
 - Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
 - Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
 
+## Table of Contents
+- [Get Started](#get-started)
+- [Usage](#usage)
+  - [Models Resource](#models-resource)
+  - [Completions Resource](#completions-resource)
+  - [Chat Resource](#chat-resource)
+  - [Audio Resource](#audio-resource)
+  - [Edits Resource](#edits-resource)
+  - [Embeddings Resource](#embeddings-resource)
+  - [Files Resource](#files-resource)
+  - [FineTunes Resource](#finetunes-resource)
+  - [Moderations Resource](#moderations-resource)
+  - [Images Resource](#images-resource)
+- [Testing](#testing)
+
 ## Get Started
 
 > **Requires [PHP 8.1+](https://php.net/releases/)**
@@ -610,6 +625,64 @@ foreach ($response->data as $data) {
 }
 
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+## Testing
+
+The package provides a fake implementation of the `OpenAI\Client` class that allows you to fake the API responses.
+
+To test your code ensure you swap the `OpenAI\Client` class with the `OpenAI\Testing\ClientFake` class in your test case.
+
+The fake responses are returned in the order they are provided while creating the fake client.
+
+All responses are having a `fake()` method that allows you to easily create a response object by only providing the parameters relevant for your test case.
+
+```php
+use OpenAI\Testing\ClientFake;
+use OpenAI\Responses\Completions\CreateResponse;
+
+$client = new ClientFake([
+    CreateResponse::fake([
+        'choices' => [
+            [
+                'text' => 'awesome!',
+            ],
+        ],
+    ]),
+]);
+
+$completion = $client->completions()->create([
+    'model' => 'text-davinci-003',
+    'prompt' => 'PHP is ',
+]);
+
+expect($completion['choices'][0]['text'])->toBe('awesome!');
+```
+
+After the requests have been sent there are various methods to ensure that the expected requests were sent:
+
+```php
+// assert completion create request was sent
+$client->assertSent(Completions::class, function (string $method, array $parameters): bool {
+    return $method === 'create' &&
+        $parameters['model'] === 'text-davinci-003' &&
+        $parameters['prompt'] === 'PHP is ';
+});
+// or
+$client->completions()->assertSent(function (string $method, array $parameters): bool {
+    // ...
+});
+
+// assert 2 completion create requests were sent
+$client->assertSent(Completions::class, 2);
+
+// assert no completion create requests were sent
+$client->assertNotSent(Completions::class);
+// or
+$client->completions()->assertNotSent();
+
+// assert no requests were sent
+$client->assertNothingSent();
 ```
 
 ---
