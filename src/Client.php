@@ -8,7 +8,6 @@ use OpenAI\Contracts\Transporter;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
-use OpenAI\Resources\Contracts\AudioContract;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
@@ -33,7 +32,7 @@ final class Client implements \OpenAI\Contracts\Client
      *
      * @see https://beta.openai.com/docs/api-reference/completions
      */
-    public function completions(): Resources\Contracts\CompletionsContract
+    public function completions(): Completions
     {
         return new Completions($this->transporter);
     }
@@ -63,7 +62,7 @@ final class Client implements \OpenAI\Contracts\Client
      *
      * @see https://platform.openai.com/docs/api-reference/audio
      */
-    public function audio(): AudioContract
+    public function audio(): Audio
     {
         return new Audio($this->transporter);
     }
