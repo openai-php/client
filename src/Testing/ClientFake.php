@@ -4,16 +4,6 @@ namespace OpenAI\Testing;
 
 use OpenAI\Contracts\Client;
 use OpenAI\Contracts\Response;
-use OpenAI\Resources\Contracts\AudioContract;
-use OpenAI\Resources\Contracts\ChatContract;
-use OpenAI\Resources\Contracts\CompletionsContract;
-use OpenAI\Resources\Contracts\EditsContract;
-use OpenAI\Resources\Contracts\EmbeddingsContract;
-use OpenAI\Resources\Contracts\FilesContract;
-use OpenAI\Resources\Contracts\FineTunesContract;
-use OpenAI\Resources\Contracts\ImagesContract;
-use OpenAI\Resources\Contracts\ModelsContract;
-use OpenAI\Resources\Contracts\ModerationsContract;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AudioTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
@@ -137,52 +127,52 @@ class ClientFake implements Client
         return $response;
     }
 
-    public function completions(): CompletionsContract
+    public function completions(): CompletionsTestResource
     {
         return new CompletionsTestResource($this);
     }
 
-    public function chat(): ChatContract
+    public function chat(): ChatTestResource
     {
         return new ChatTestResource($this);
     }
 
-    public function embeddings(): EmbeddingsContract
+    public function embeddings(): EmbeddingsTestResource
     {
         return new EmbeddingsTestResource($this);
     }
 
-    public function audio(): AudioContract
+    public function audio(): AudioTestResource
     {
         return new AudioTestResource($this);
     }
 
-    public function edits(): EditsContract
+    public function edits(): EditsTestResource
     {
         return new EditsTestResource($this);
     }
 
-    public function files(): FilesContract
+    public function files(): FilesTestResource
     {
         return new FilesTestResource($this);
     }
 
-    public function models(): ModelsContract
+    public function models(): ModelsTestResource
     {
         return new ModelsTestResource($this);
     }
 
-    public function fineTunes(): FineTunesContract
+    public function fineTunes(): FineTunesTestResource
     {
         return new FineTunesTestResource($this);
     }
 
-    public function moderations(): ModerationsContract
+    public function moderations(): ModerationsTestResource
     {
         return new ModerationsTestResource($this);
     }
 
-    public function images(): ImagesContract
+    public function images(): ImagesTestResource
     {
         return new ImagesTestResource($this);
     }
