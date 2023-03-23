@@ -67,3 +67,11 @@ function completionWithLogprobs(): array
         ],
     ];
 }
+
+/**
+ * @return resource
+ */
+function completionStream()
+{
+    return fopen(__DIR__.'/Streams/CompletionCreate.txt', 'r');
+}

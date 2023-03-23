@@ -1,0 +1,12 @@
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"role":"assistant"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":"Hello"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":"!"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" How"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" can"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" I"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" help"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" you"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":" today"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{"content":"?"},"index":0,"finish_reason":null}]}
+data: {"id":"chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz","object":"chat.completion.chunk","created":1679432086,"model":"gpt-4-0314","choices":[{"delta":{},"index":0,"finish_reason":"stop"}]}
+data: [DONE]

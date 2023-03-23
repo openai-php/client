@@ -2,6 +2,9 @@
 
 namespace OpenAI;
 
+use Closure;
+use Exception;
+use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr18ClientDiscovery;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
@@ -9,6 +12,8 @@ use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class Factory
 {
@@ -46,6 +51,8 @@ final class Factory
      */
     private array $queryParams = [];
 
+    private ?Closure $asyncRequest = null;
+
     /**
      * Sets the API key for the requests.
      */
@@ -73,6 +80,17 @@ final class Factory
     public function withHttpClient(ClientInterface $client): self
     {
         $this->httpClient = $client;
+
+        return $this;
+    }
+
+    /**
+     * Sets the async request for requests using the stream option.
+     * Not required if using Guzzle.
+     */
+    public function withAsyncRequest(Closure $asyncRequest): self
+    {
+        $this->asyncRequest = $asyncRequest;
 
         return $this;
     }
@@ -136,8 +154,25 @@ final class Factory
 
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams);
+        $sendAsync = $this->buildAsyncRequest($client);
+
+        $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams, $sendAsync);
 
         return new Client($transporter);
+    }
+
+    private function buildAsyncRequest(ClientInterface $client): Closure
+    {
+        if (! is_null($this->asyncRequest)) {
+            return $this->asyncRequest;
+        }
+
+        if ($client instanceof GuzzleClient) {
+            return fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]);
+        }
+
+        return function (RequestInterface $request): never {
+            throw new Exception('To use async requests you must provide an async request closure via the OpenAI factory.');
+        };
     }
 }

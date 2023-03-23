@@ -52,9 +52,10 @@ $client = OpenAI::factory()
     ->withApiKey($yourApiKey)
     ->withOrganization('your-organization') // default: null
     ->withBaseUri('openai.example.com/v1') // default: api.openai.com/v1
-    ->withHttpClient(new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
+    ->withHttpClient($client = new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
     ->withHttpHeader('X-My-Header', 'foo')
     ->withQueryParam('my-param', 'bar')
+    ->withAsyncRequest(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true])) // provide a custom async request handler, if you are not using GuzzleHttp and want to make use of stream responses
     ->make();
 ```
 
@@ -159,6 +160,27 @@ $response->usage->totalTokens; // 11
 $response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
 ```
 
+#### `create streamed`
+
+Creates a streamed completion for the provided prompt and parameters.
+
+```php
+$stream = $client->completions()->createStreamed([
+        'model' => 'text-davinci-003',
+        'prompt' => 'Hi',
+        'max_tokens' => 10,
+    ]);
+
+foreach($stream->read() as $response){
+    $response->choices[0]->text;
+}
+// 1. iteration => 'I'
+// 2. iteration => ' am'
+// 3. iteration => ' very'
+// 4. iteration => ' excited'
+// ...
+```
+
 ### `Chat` Resource
 
 #### `create`
@@ -190,6 +212,27 @@ $response->usage->completionTokens; // 12,
 $response->usage->totalTokens; // 21
 
 $response->toArray(); // ['id' => 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq', ...]
+```
+
+#### `created streamed`
+
+Creates a streamed completion for the chat message.
+
+```php
+$stream = $client->chat()->createStreamed([
+    'model' => 'gpt-4',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
+]);
+
+foreach($stream->read() as $response){
+    $response->choices[0]->toArray();
+}
+// 1. iteration => ['index' => 0, 'delta' => ['role' => 'assistant'], 'finish_reason' => null]
+// 2. iteration => ['index' => 0, 'delta' => ['content' => 'Hello'], 'finish_reason' => null]
+// 3. iteration => ['index' => 0, 'delta' => ['content' => '!'], 'finish_reason' => null]
+// ...
 ```
 
 ### `Audio` Resource
@@ -531,6 +574,23 @@ foreach ($response->data as $result) {
 }
 
 $response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `list events streamed`
+
+Get streamed fine-grained status updates for a fine-tune job.
+
+```php
+$stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
+
+foreach($stream->read() as $response){
+    $response->message;
+}
+// 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
+// 2. iteration => 'Fine-tune costs $0.00'
+// ...
+// xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
+// xx. iteration => 'Fine-tune succeeded'
 ```
 
 ### `Moderations` Resource

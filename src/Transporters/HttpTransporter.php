@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Transporters;
 
+use Closure;
 use JsonException;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
@@ -15,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @internal
@@ -29,6 +31,7 @@ final class HttpTransporter implements Transporter
         private readonly BaseUri $baseUri,
         private readonly Headers $headers,
         private readonly QueryParams $queryParams,
+        private readonly Closure $sendAsync,
     ) {
         // ..
     }
@@ -93,5 +96,21 @@ final class HttpTransporter implements Transporter
         }
 
         return $contents;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function requestStream(Payload $payload): ResponseInterface
+    {
+        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        try {
+            $response = ($this->sendAsync)($request);
+        } catch (ClientExceptionInterface $clientException) {
+            throw new TransporterException($clientException);
+        }
+
+        return $response;
     }
 }

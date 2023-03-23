@@ -1,11 +1,14 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
+use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
     $client = mockClient('POST', 'fine-tunes', [
@@ -161,4 +164,27 @@ test('list events', function () {
         ->createdAt->toBe(1614807352)
         ->level->toBe('info')
         ->message->toBe('Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.');
+});
+
+test('list events streamed', function () {
+    $response = new Response(
+        body: new Stream(fineTuneListEventsStream())
+    );
+
+    $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', [], $response);
+
+    $result = $client->fineTunes()->listEventsStreamed('ft-MaoEAULREoazpupm8uB7qoIl');
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class);
+
+    expect($result->read())
+        ->toBeInstanceOf(Generator::class);
+
+    expect($result->read()->current())
+        ->toBeInstanceOf(RetrieveResponseEvent::class)
+        ->object->toBe('fine-tune-event')
+        ->createdAt->toBe(1678253295)
+        ->level->toBe('info')
+        ->message->toBe('Created fine-tune: ft-MaoEAULREoazpupm8uB7qoIl');
 });

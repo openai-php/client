@@ -1,8 +1,12 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
+use OpenAI\Exceptions\InvalidArgumentException;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
+use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
     $client = mockClient('POST', 'completions', [
@@ -35,4 +39,50 @@ test('create', function () {
         ->promptTokens->toBe(1)
         ->completionTokens->toBe(16)
         ->totalTokens->toBe(17);
+});
+
+test('create throws an exception if stream option is true', function () {
+    OpenAI::client('foo')->completions()->create([
+        'model' => 'da-vince',
+        'prompt' => 'hi',
+        'stream' => true,
+    ]);
+})->expectException(InvalidArgumentException::class);
+
+test('create streamed', function () {
+    $response = new Response(
+        body: new Stream(completionStream())
+    );
+
+    $client = mockStreamClient('POST', 'completions', [
+        'model' => 'text-davinci-003',
+        'prompt' => 'hi',
+    ], $response);
+
+    $result = $client->completions()->createStreamed([
+        'model' => 'text-davinci-003',
+        'prompt' => 'hi',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class);
+
+    expect($result->read())
+        ->toBeInstanceOf(Generator::class);
+
+    expect($result->read()->current())
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('cmpl-6wcyFqMKXiZffiydSfWHhjcgsf3KD')
+        ->object->toBe('text_completion')
+        ->created->toBe(1679430847)
+        ->model->toBe('text-davinci-003')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeNull();
+
+    expect($result->read()->current()->choices[0])
+        ->text->toBe('!')
+        ->index->toBe(0)
+        ->logprobs->toBe(null)
+        ->finishReason->toBeNull();
 });

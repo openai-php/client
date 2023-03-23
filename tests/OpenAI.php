@@ -2,6 +2,8 @@
 
 use GuzzleHttp\Client as GuzzleClient;
 use OpenAI\Client;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 it('may create a client', function () {
     $openAI = OpenAI::client('foo');
@@ -58,6 +60,15 @@ it('sets a custom header via factory', function () {
 it('sets a custom query parameter via factory', function () {
     $openAI = OpenAI::factory()
         ->withQueryParam('my-param', 'bar')
+        ->make();
+
+    expect($openAI)->toBeInstanceOf(Client::class);
+});
+
+it('sets a custom async send closure via factory', function () {
+    $openAI = OpenAI::factory()
+        ->withHttpClient($client = new GuzzleClient())
+        ->withAsyncRequest(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]))
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);
