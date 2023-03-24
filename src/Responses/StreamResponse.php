@@ -9,6 +9,8 @@ use Psr\Http\Message\StreamInterface;
 
 /**
  * @template TResponse
+ *
+ * @implements IteratorAggregate<int, TResponse>
  */
 final class StreamResponse implements IteratorAggregate
 {
