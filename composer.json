@@ -22,11 +22,10 @@
         "psr/http-message": "^1.0.1"
     },
     "require-dev": {
-        "guzzlehttp/psr7": "^2.4.4",
         "guzzlehttp/guzzle": "^7.5.0",
         "laravel/pint": "^1.7.0",
-        "nunomaduro/collision": "^7.3.2",
-        "pestphp/pest": "^2.1.0",
+        "nunomaduro/collision": "^7.3.3",
+        "pestphp/pest": "^2.2.2",
         "pestphp/pest-plugin-arch": "^2.0.1",
         "pestphp/pest-plugin-mock": "^2.0.0",
         "phpstan/phpstan": "^1.10.7",

@@ -1,0 +1,3 @@
+data: {"object": "fine-tune-event", "level": "info", "message": "Created fine-tune: ft-MaoEAULREoazpupm8uB7qoIl", "created_at": 1678253295}
+data: {"object": "fine-tune-event", "level": "error", "message": "Fine-tune failed. Errors:\nError with file-OGHjVIyNB7svNc6vaUXNgR87: Invalid file format. Example 1273 cannot be parsed. Error: line contains invalid json: Expecting ',' delimiter: line 1 column 79 (char 78) (line 1273)", "created_at": 1678253655}
+data: [DONE]

@@ -3,6 +3,7 @@
 test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
+    'Psr\Http\Message\ResponseInterface',
 ]);
 
 test('exceptions')->expect('OpenAI\Exceptions')->toOnlyUse([
@@ -19,6 +20,8 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'OpenAI\Enums',
     'OpenAI\Contracts',
+    'Psr\Http\Message\ResponseInterface',
+    'Psr\Http\Message\StreamInterface',
 ]);
 
 test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
@@ -36,6 +39,7 @@ test('client')->expect('OpenAI\Client')->toOnlyUse([
 ]);
 
 test('openai')->expect('OpenAI')->toOnlyUse([
+    'GuzzleHttp\Client',
     'Http\Discovery\Psr17Factory',
     'Http\Discovery\Psr18ClientDiscovery',
     'Http\Message\MultipartStream\MultipartStreamBuilder',
@@ -43,5 +47,6 @@ test('openai')->expect('OpenAI')->toOnlyUse([
     'OpenAI\Resources',
     'Psr\Http\Client',
     'Psr\Http\Message\RequestInterface',
+    'Psr\Http\Message\ResponseInterface',
     'Psr\Http\Message\StreamInterface',
 ]);

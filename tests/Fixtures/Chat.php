@@ -27,3 +27,11 @@ function chatCompletion(): array
         ],
     ];
 }
+
+/**
+ * @return resource
+ */
+function chatCompletionStream()
+{
+    return fopen(__DIR__.'/Streams/ChatCompletionCreate.txt', 'r');
+}

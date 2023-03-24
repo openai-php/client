@@ -79,3 +79,11 @@ function fineTuneListEventsResource(): array
         ],
     ];
 }
+
+/**
+ * @return resource
+ */
+function fineTuneListEventsStream()
+{
+    return fopen(__DIR__.'/Streams/FineTuneEvents.txt', 'r');
+}

@@ -14,6 +14,8 @@ use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -25,6 +27,7 @@ beforeEach(function () {
         BaseUri::from('api.openai.com/v1'),
         Headers::withAuthorization($apiKey)->withContentType(ContentType::JSON),
         QueryParams::create()->withParam('foo', 'bar'),
+        fn (RequestInterface $request): ResponseInterface => $this->client->sendAsyncRequest($request, ['stream' => true]),
     );
 });
 
@@ -234,4 +237,27 @@ test('request content server errors', function () {
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
+});
+
+test('request stream', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(200, [], json_encode([
+        'qdwq',
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->withArgs(function (Psr7Request $request) {
+            expect($request->getMethod())->toBe('POST')
+                ->and($request->getUri())
+                ->getHost()->toBe('api.openai.com')
+                ->getScheme()->toBe('https')
+                ->getPath()->toBe('/v1/completions');
+
+            return true;
+        })->andReturn($response);
+
+    $this->http->requestStream($payload);
 });

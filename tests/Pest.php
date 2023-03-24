@@ -7,8 +7,9 @@ use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\QueryParams;
+use Psr\Http\Message\ResponseInterface;
 
-function mockClient(string $method, string $resource, array $params, array|string $response, $methodName = 'requestObject')
+function mockClient(string $method, string $resource, array $params, array|string|ResponseInterface $response, $methodName = 'requestObject')
 {
     $transporter = Mockery::mock(Transporter::class);
 
@@ -32,4 +33,9 @@ function mockClient(string $method, string $resource, array $params, array|strin
 function mockContentClient(string $method, string $resource, array $params, string $response)
 {
     return mockClient($method, $resource, $params, $response, 'requestContent');
+}
+
+function mockStreamClient(string $method, string $resource, array $params, ResponseInterface $response)
+{
+    return mockClient($method, $resource, $params, $response, 'requestStream');
 }
