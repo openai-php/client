@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.1 (2023-03-24)
+### Added
+- Stream suppport ([#84](https://github.com/openai-php/client/pull/84))
+
 ## v0.4.0 (2023-03-17)
 ### Changed
 - Removed dependency for `guzzlehttp/guzzle` and use PSR-18 client discovery instead ([#75](https://github.com/openai-php/client/pull/75))
