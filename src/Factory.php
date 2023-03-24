@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpClient\Psr18Client;
 
 final class Factory
 {
@@ -169,6 +170,10 @@ final class Factory
 
         if ($client instanceof GuzzleClient) {
             return fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]);
+        }
+
+        if ($client instanceof Psr18Client) {
+            return fn (RequestInterface $request): ResponseInterface => $client->sendRequest($request);
         }
 
         return function (RequestInterface $request): never {

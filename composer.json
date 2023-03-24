@@ -22,8 +22,8 @@
         "psr/http-message": "^1.0.1"
     },
     "require-dev": {
-        "guzzlehttp/psr7": "^2.4.4",
         "guzzlehttp/guzzle": "^7.5.0",
+        "guzzlehttp/psr7": "^2.4.4",
         "laravel/pint": "^1.6.0",
         "nunomaduro/collision": "^7.1.2",
         "pestphp/pest": "^2.0.0",
