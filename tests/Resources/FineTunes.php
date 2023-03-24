@@ -177,12 +177,13 @@ test('list events streamed', function () {
     $result = $client->fineTunes()->listEventsStreamed('ft-MaoEAULREoazpupm8uB7qoIl');
 
     expect($result)
-        ->toBeInstanceOf(StreamResponse::class);
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class);
 
-    expect($result->read())
-        ->toBeInstanceOf(Generator::class);
+    expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
 
-    expect($result->read()->current())
+    expect(iterator_to_array($result)[0])
         ->toBeInstanceOf(RetrieveStreamedResponseEvent::class)
         ->object->toBe('fine-tune-event')
         ->createdAt->toBe(1678253295)

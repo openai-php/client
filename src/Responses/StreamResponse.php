@@ -3,13 +3,14 @@
 namespace OpenAI\Responses;
 
 use Generator;
+use IteratorAggregate;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
  * @template TResponse
  */
-final class StreamResponse
+final class StreamResponse implements IteratorAggregate
 {
     /**
      * Creates a new Stream Response instance.
@@ -24,11 +25,9 @@ final class StreamResponse
     }
 
     /**
-     * Read the response stream.
-     *
-     * @return Generator<array-key, mixed, TResponse, TResponse>
+     * {@inheritDoc}
      */
-    public function read(): Generator
+    public function getIterator(): Generator
     {
         while (! $this->response->getBody()->eof()) {
             $line = $this->readLine($this->response->getBody());
@@ -43,9 +42,9 @@ final class StreamResponse
                 break;
             }
 
-            $reponse = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            $response = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
 
-            yield $this->responseClass::from($reponse);
+            yield $this->responseClass::from($response);
         }
     }
 
