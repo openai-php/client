@@ -7,21 +7,26 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @template T
+ * @template TResponse
  */
 final class StreamResponse
 {
     /**
-     * @param  class-string<T>  $responseClass
+     * Creates a new Stream Response instance.
+     *
+     * @param  class-string<TResponse>  $responseClass
      */
     public function __construct(
         private readonly string $responseClass,
         private readonly ResponseInterface $response,
     ) {
+        //
     }
 
     /**
-     * @return Generator<array-key, mixed, T, T>
+     * Read the response stream.
+     *
+     * @return Generator<array-key, mixed, TResponse, TResponse>
      */
     public function read(): Generator
     {
@@ -44,6 +49,9 @@ final class StreamResponse
         }
     }
 
+    /**
+     * Read a line from the stream.
+     */
     private function readLine(StreamInterface $stream): string
     {
         $buffer = '';

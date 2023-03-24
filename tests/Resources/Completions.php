@@ -6,6 +6,7 @@ use OpenAI\Exceptions\InvalidArgumentException;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
+use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -71,7 +72,7 @@ test('create streamed', function () {
         ->toBeInstanceOf(Generator::class);
 
     expect($result->read()->current())
-        ->toBeInstanceOf(CreateResponse::class)
+        ->toBeInstanceOf(CreateStreamedResponse::class)
         ->id->toBe('cmpl-6wcyFqMKXiZffiydSfWHhjcgsf3KD')
         ->object->toBe('text_completion')
         ->created->toBe(1679430847)

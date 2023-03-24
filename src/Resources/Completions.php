@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Responses\Completions\CreateResponse;
+use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
 final class Completions
 {
     use Concerns\Transportable;
-    use Concerns\HasStreamableEndpoint;
+    use Concerns\Streamable;
 
     /**
      * Creates a completion for the provided prompt and parameters
@@ -38,7 +39,7 @@ final class Completions
      * @see https://beta.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
-     * @return StreamResponse<CreateResponse>
+     * @return StreamResponse<CreateStreamedResponse>
      */
     public function createStreamed(array $parameters): StreamResponse
     {
@@ -48,6 +49,6 @@ final class Completions
 
         $response = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(CreateResponse::class, $response);
+        return new StreamResponse(CreateStreamedResponse::class, $response);
     }
 }

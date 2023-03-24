@@ -8,6 +8,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
+use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -182,7 +183,7 @@ test('list events streamed', function () {
         ->toBeInstanceOf(Generator::class);
 
     expect($result->read()->current())
-        ->toBeInstanceOf(RetrieveResponseEvent::class)
+        ->toBeInstanceOf(RetrieveStreamedResponseEvent::class)
         ->object->toBe('fine-tune-event')
         ->createdAt->toBe(1678253295)
         ->level->toBe('info')
