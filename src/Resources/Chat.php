@@ -12,7 +12,7 @@ use OpenAI\ValueObjects\Transporter\Payload;
 final class Chat
 {
     use Concerns\Transportable;
-    use Concerns\HasStreamableEndpoint;
+    use Concerns\Streamable;
 
     /**
      * Creates a completion for the chat message

@@ -4,7 +4,7 @@ namespace OpenAI\Resources\Concerns;
 
 use OpenAI\Exceptions\InvalidArgumentException;
 
-trait HasStreamableEndpoint
+trait Streamable
 {
     /**
      * @param  array<string, mixed>  $parameters
@@ -14,13 +14,17 @@ trait HasStreamableEndpoint
         if (! isset($parameters['stream'])) {
             return;
         }
+
         if ($parameters['stream'] !== true) {
             return;
         }
+
         throw new InvalidArgumentException('Stream option is not supported. Please use the createStreamed() method instead.');
     }
 
     /**
+     * Set the stream parameter to true.
+     *
      * @param  array<string, mixed>  $parameters
      * @return array<string, mixed>
      */

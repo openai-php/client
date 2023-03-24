@@ -171,7 +171,7 @@ $stream = $client->completions()->createStreamed([
         'max_tokens' => 10,
     ]);
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->choices[0]->text;
 }
 // 1. iteration => 'I'
@@ -226,7 +226,7 @@ $stream = $client->chat()->createStreamed([
     ],
 ]);
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->choices[0]->toArray();
 }
 // 1. iteration => ['index' => 0, 'delta' => ['role' => 'assistant'], 'finish_reason' => null]
@@ -583,7 +583,7 @@ Get streamed fine-grained status updates for a fine-tune job.
 ```php
 $stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->message;
 }
 // 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
