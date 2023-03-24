@@ -7,7 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
-use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
+use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
@@ -99,7 +99,7 @@ final class FineTunes
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
      *
-     * @return StreamResponse<RetrieveResponseEvent>
+     * @return StreamResponse<RetrieveStreamedResponseEvent>
      */
     public function listEventsStreamed(string $fineTuneId): StreamResponse
     {
@@ -107,6 +107,6 @@ final class FineTunes
 
         $response = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(RetrieveResponseEvent::class, $response);
+        return new StreamResponse(RetrieveStreamedResponseEvent::class, $response);
     }
 }
