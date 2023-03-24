@@ -31,7 +31,7 @@ final class HttpTransporter implements Transporter
         private readonly BaseUri $baseUri,
         private readonly Headers $headers,
         private readonly QueryParams $queryParams,
-        private readonly Closure $sendAsync,
+        private readonly Closure $streamHandler,
     ) {
         // ..
     }
@@ -106,7 +106,7 @@ final class HttpTransporter implements Transporter
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
         try {
-            $response = ($this->sendAsync)($request);
+            $response = ($this->streamHandler)($request);
         } catch (ClientExceptionInterface $clientException) {
             throw new TransporterException($clientException);
         }

@@ -65,10 +65,10 @@ it('sets a custom query parameter via factory', function () {
     expect($openAI)->toBeInstanceOf(Client::class);
 });
 
-it('sets a custom async send closure via factory', function () {
+it('sets a custom stream handler via factory', function () {
     $openAI = OpenAI::factory()
         ->withHttpClient($client = new GuzzleClient())
-        ->withAsyncRequest(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]))
+        ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]))
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);

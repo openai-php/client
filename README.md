@@ -55,7 +55,9 @@ $client = OpenAI::factory()
     ->withHttpClient($client = new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
     ->withHttpHeader('X-My-Header', 'foo')
     ->withQueryParam('my-param', 'bar')
-    ->withAsyncRequest(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true])) // provide a custom async request handler, if you are not using GuzzleHttp and want to make use of stream responses
+    ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, [
+        'stream' => true // Allows to provide a custom stream handler for the http client.
+    ]))
     ->make();
 ```
 
@@ -171,7 +173,7 @@ $stream = $client->completions()->createStreamed([
         'max_tokens' => 10,
     ]);
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->choices[0]->text;
 }
 // 1. iteration => 'I'
@@ -226,7 +228,7 @@ $stream = $client->chat()->createStreamed([
     ],
 ]);
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->choices[0]->toArray();
 }
 // 1. iteration => ['index' => 0, 'delta' => ['role' => 'assistant'], 'finish_reason' => null]
@@ -583,7 +585,7 @@ Get streamed fine-grained status updates for a fine-tune job.
 ```php
 $stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
 
-foreach($stream->read() as $response){
+foreach($stream as $response){
     $response->message;
 }
 // 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
