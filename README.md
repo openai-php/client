@@ -55,7 +55,9 @@ $client = OpenAI::factory()
     ->withHttpClient($client = new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
     ->withHttpHeader('X-My-Header', 'foo')
     ->withQueryParam('my-param', 'bar')
-    ->withAsyncRequest(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true])) // provide a custom async request handler, if you are not using GuzzleHttp and want to make use of stream responses
+    ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, [
+        'stream' => true // Allows to provide a custom stream handler for the http client.
+    ]))
     ->make();
 ```
 

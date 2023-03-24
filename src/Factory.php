@@ -51,7 +51,7 @@ final class Factory
      */
     private array $queryParams = [];
 
-    private ?Closure $asyncRequest = null;
+    private ?Closure $streamHandler = null;
 
     /**
      * Sets the API key for the requests.
@@ -85,12 +85,11 @@ final class Factory
     }
 
     /**
-     * Sets the async request for requests using the stream option.
-     * Not required if using Guzzle.
+     * Sets the stream handler for the requests. Not required when using Guzzle.
      */
-    public function withAsyncRequest(Closure $asyncRequest): self
+    public function withStreamHandler(Closure $streamHandler): self
     {
-        $this->asyncRequest = $asyncRequest;
+        $this->streamHandler = $streamHandler;
 
         return $this;
     }
@@ -154,25 +153,28 @@ final class Factory
 
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $sendAsync = $this->buildAsyncRequest($client);
+        $sendAsync = $this->makeStreamHandler($client);
 
         $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams, $sendAsync);
 
         return new Client($transporter);
     }
 
-    private function buildAsyncRequest(ClientInterface $client): Closure
+    /**
+     * Creates a new stream handler for "stream" requests.
+     */
+    private function makeStreamHandler(ClientInterface $client): Closure
     {
-        if (! is_null($this->asyncRequest)) {
-            return $this->asyncRequest;
+        if (! is_null($this->streamHandler)) {
+            return $this->streamHandler;
         }
 
         if ($client instanceof GuzzleClient) {
             return fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]);
         }
 
-        return function (RequestInterface $request): never {
-            throw new Exception('To use async requests you must provide an async request closure via the OpenAI factory.');
+        return function (RequestInterface $_): never {
+            throw new Exception('To use stream requests you must provide an stream handler closure via the OpenAI factory.');
         };
     }
 }
