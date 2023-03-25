@@ -69,4 +69,12 @@ final class StreamResponse implements IteratorAggregate
 
         return $buffer;
     }
+
+    /**
+     * @return int Return HTTP status from response
+     */
+    public function getStatusCode(): int
+    {
+        return $this->response->getStatusCode();
+    }
 }
