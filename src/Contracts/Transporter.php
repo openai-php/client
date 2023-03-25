@@ -8,6 +8,7 @@ use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @internal
@@ -29,4 +30,11 @@ interface Transporter
      * @throws ErrorException|TransporterException
      */
     public function requestContent(Payload $payload): string;
+
+    /**
+     * Sends a stream request to a server.
+     **
+     * @throws ErrorException
+     */
+    public function requestStream(Payload $payload): ResponseInterface;
 }
