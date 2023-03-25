@@ -24,6 +24,21 @@ it('returns a fake response', function () {
     expect($completion['choices'][0]['text'])->toBe('awesome!');
 });
 
+it('throws fake exceptions', function () {
+    $fake = new ClientFake([
+        new \OpenAI\Exceptions\ErrorException([
+            'message' => 'The model `gpt-1` does not exist',
+            'type' => 'invalid_request_error',
+            'code' => null,
+        ]),
+    ]);
+
+    $fake->completions()->create([
+        'model' => 'text-davinci-003',
+        'prompt' => 'PHP is ',
+    ]);
+})->expectExceptionMessage('The model `gpt-1` does not exist');
+
 it('throws an exception if there is no more fake response', function () {
     $fake = new ClientFake([
         CreateResponse::fake(),

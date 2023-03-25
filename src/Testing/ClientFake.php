@@ -16,6 +16,7 @@ use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
+use Throwable;
 
 /**
  * @noRector Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector
@@ -122,6 +123,10 @@ class ClientFake implements Client
 
         if (is_null($response)) {
             throw new \Exception('No fake responses left.');
+        }
+
+        if ($response instanceof Throwable) {
+            throw $response;
         }
 
         return $response;

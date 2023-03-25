@@ -767,6 +767,24 @@ $client->completions()->assertNotSent();
 $client->assertNothingSent();
 ```
 
+To write tests expecting the API request to fail you can provide a `Throwable` object as the response.
+
+```php
+$client = new ClientFake([
+    new \OpenAI\Exceptions\ErrorException([
+        'message' => 'The model `gpt-1` does not exist',
+        'type' => 'invalid_request_error',
+        'code' => null,
+    ])
+]);
+
+// the `ErrorException` will be thrown
+$completion = $client->completions()->create([
+    'model' => 'text-davinci-003',
+    'prompt' => 'PHP is ',
+]);
+```
+
 ---
 
 OpenAI PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
