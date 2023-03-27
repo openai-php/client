@@ -281,7 +281,7 @@ test('request stream client error 401', function () {
         ->once()
         ->andReturn($response);
 
-    expect(fn () => $this->http->requestStream($payload))
+    expect(fn() => $this->http->requestStream($payload))
         ->toThrow(function (ResponseClientException $e) {
             expect($e->getMessage())->toBe('Client error: 401')
                 ->and($e->getCode())->toBe(0)
@@ -306,7 +306,7 @@ test('request stream client error 404', function () {
         ->once()
         ->andReturn($response);
 
-    expect(fn () => $this->http->requestStream($payload))
+    expect(fn() => $this->http->requestStream($payload))
         ->toThrow(function (ResponseClientException $e) {
             expect($e->getMessage())->toBe('Client error: 404')
                 ->and($e->getCode())->toBe(0)
@@ -314,7 +314,7 @@ test('request stream client error 404', function () {
         });
 });
 
-test('rrrequest stream guzzle request exception', function () {
+test('request stream guzzle request exception', function () {
     $payload = Payload::create('completions', []);
 
     $baseUri = BaseUri::from('api.openai.com');
@@ -324,9 +324,10 @@ test('rrrequest stream guzzle request exception', function () {
     $this->client
         ->shouldReceive('sendAsyncRequest')
         ->once()
-        ->andThrow(new RequestException('Guzzle Request Exception', $payload->toRequest($baseUri, $headers, $queryParams)));
+        ->andThrow(new RequestException('Guzzle Request Exception',
+            $payload->toRequest($baseUri, $headers, $queryParams)));
 
-    expect(fn () => $this->http->requestStream($payload))
+    expect(fn() => $this->http->requestStream($payload))
         ->toThrow(function (TransporterException $e) {
             expect($e->getMessage())->toBe('Guzzle Request Exception')
                 ->and($e->getCode())->toBe(0)
