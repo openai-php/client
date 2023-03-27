@@ -5,6 +5,7 @@ namespace OpenAI\Testing\Resources;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Contracts\ChatContract;
 use OpenAI\Responses\Chat\CreateResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
 
 final class ChatTestResource implements ChatContract
@@ -17,6 +18,11 @@ final class ChatTestResource implements ChatContract
     }
 
     public function create(array $parameters): CreateResponse
+    {
+        return $this->record(__FUNCTION__, $parameters);
+    }
+
+    public function createStreamed(array $parameters): StreamResponse
     {
         return $this->record(__FUNCTION__, $parameters);
     }

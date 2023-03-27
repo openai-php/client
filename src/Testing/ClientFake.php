@@ -4,6 +4,7 @@ namespace OpenAI\Testing;
 
 use OpenAI\Contracts\Client;
 use OpenAI\Contracts\Response;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AudioTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
@@ -115,7 +116,7 @@ class ClientFake implements Client
         return array_filter($this->requests, fn (TestRequest $request): bool => $request->resource() === $type);
     }
 
-    public function record(TestRequest $request): Response|string
+    public function record(TestRequest $request): Response|StreamResponse|string
     {
         $this->requests[] = $request;
 

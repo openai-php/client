@@ -4,6 +4,7 @@ use OpenAI\Resources\FineTunes;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
+use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
 use OpenAI\Testing\ClientFake;
 
 it('records a fine tunes create request', function () {
@@ -70,6 +71,19 @@ it('records a fine tunes list events request', function () {
 
     $fake->assertSent(FineTunes::class, function ($method, $parameters) {
         return $method === 'listEvents' &&
+            $parameters === 'ft-AF1WoRqd3aJAHsqc9NY7iL8F';
+    });
+});
+
+it('records a streamed fine tunes list events request', function () {
+    $fake = new ClientFake([
+        RetrieveStreamedResponseEvent::fake(),
+    ]);
+
+    $fake->fineTunes()->listEventsStreamed('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+    $fake->assertSent(FineTunes::class, function ($method, $parameters) {
+        return $method === 'listEventsStreamed' &&
             $parameters === 'ft-AF1WoRqd3aJAHsqc9NY7iL8F';
     });
 });

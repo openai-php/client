@@ -3,6 +3,7 @@
 namespace OpenAI\Testing\Resources\Concerns;
 
 use OpenAI\Contracts\Response;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\ClientFake;
 use OpenAI\Testing\Requests\TestRequest;
 
@@ -17,7 +18,7 @@ trait Testable
     /**
      * @param  array<string, mixed>|string|null  $parameters
      */
-    protected function record(string $method, array|string|null $parameters = null): Response|string
+    protected function record(string $method, array|string|null $parameters = null): Response|StreamResponse|string
     {
         return $this->fake->record(new TestRequest($this->resource(), $method, $parameters));
     }

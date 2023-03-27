@@ -7,6 +7,7 @@ use OpenAI\Resources\FineTunes;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
 
 final class FineTunesTestResource implements FineTunesContract
@@ -39,6 +40,11 @@ final class FineTunesTestResource implements FineTunesContract
     }
 
     public function listEvents(string $fineTuneId): ListEventsResponse
+    {
+        return $this->record(__FUNCTION__, $fineTuneId);
+    }
+
+    public function listEventsStreamed(string $fineTuneId): StreamResponse
     {
         return $this->record(__FUNCTION__, $fineTuneId);
     }

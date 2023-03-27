@@ -5,6 +5,8 @@ namespace OpenAI\Resources\Contracts;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
+use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
+use OpenAI\Responses\StreamResponse;
 
 interface FineTunesContract
 {
@@ -46,4 +48,13 @@ interface FineTunesContract
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
      */
     public function listEvents(string $fineTuneId): ListEventsResponse;
+
+    /**
+     * Get streamed fine-grained status updates for a fine-tune job.
+     *
+     * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
+     *
+     * @return StreamResponse<RetrieveStreamedResponseEvent>
+     */
+    public function listEventsStreamed(string $fineTuneId): StreamResponse;
 }

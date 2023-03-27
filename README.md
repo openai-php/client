@@ -741,6 +741,27 @@ $completion = $client->completions()->create([
 expect($completion['choices'][0]['text'])->toBe('awesome!');
 ```
 
+In case of a streamed response you can optionally provide a resource holding the fake response data.
+
+```php
+use OpenAI\Testing\ClientFake;
+use OpenAI\Responses\Chat\CreateStreamedResponse;
+
+$client = new ClientFake([
+    CreateStreamedResponse::fake(fopen('file.txt', 'r'););
+]);
+
+$completion = $client->chat()->createStreamed([
+        'model' => 'gpt-3.5-turbo',
+        'messages' => [
+            ['role' => 'user', 'content' => 'Hello!'],
+        ],
+]);
+
+expect($response->getIterator()->current())
+        ->id->toBe('chatcmpl-6yo21W6LVo8Tw2yBf7aGf2g17IeIl');
+```
+
 After the requests have been sent there are various methods to ensure that the expected requests were sent:
 
 ```php
