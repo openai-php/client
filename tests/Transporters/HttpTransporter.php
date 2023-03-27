@@ -5,6 +5,7 @@ use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\ResponseClientException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Transporters\HttpTransporter;
@@ -312,4 +313,54 @@ test('request stream', function () {
         })->andReturn($response);
 
     $this->http->requestStream($payload);
+});
+
+test('request stream client error 401', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(401, [], json_encode([
+        'error' => [
+            'message' => 'Unauthorized',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'unauthorized',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (ResponseClientException $e) {
+            expect($e->getMessage())->toBe('Client error: 401')
+                ->and($e->getCode())->toBe(0)
+                ->and($e->getRequest())->toBeInstanceOf(RequestInterface::class);
+        });
+});
+
+test('request stream client error 404', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(404, [], json_encode([
+        'error' => [
+            'message' => 'Not Found',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'not_found',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (ResponseClientException $e) {
+            expect($e->getMessage())->toBe('Client error: 404')
+                ->and($e->getCode())->toBe(0)
+                ->and($e->getRequest())->toBeInstanceOf(RequestInterface::class);
+        });
 });
