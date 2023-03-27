@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
@@ -310,5 +311,25 @@ test('request stream client error 404', function () {
             expect($e->getMessage())->toBe('Client error: 404')
                 ->and($e->getCode())->toBe(0)
                 ->and($e->getRequest())->toBeInstanceOf(RequestInterface::class);
+        });
+});
+
+test('rrrequest stream guzzle request exception', function () {
+    $payload = Payload::create('completions', []);
+
+    $baseUri = BaseUri::from('api.openai.com');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andThrow(new RequestException('Guzzle Request Exception', $payload->toRequest($baseUri, $headers, $queryParams)));
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (TransporterException $e) {
+            expect($e->getMessage())->toBe('Guzzle Request Exception')
+                ->and($e->getCode())->toBe(0)
+                ->and($e->getPrevious())->toBeInstanceOf(RequestException::class);
         });
 });

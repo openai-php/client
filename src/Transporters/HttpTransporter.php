@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Transporters;
 
 use Closure;
+use GuzzleHttp\Exception\RequestException;
 use JsonException;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
@@ -108,7 +109,7 @@ final class HttpTransporter implements Transporter
 
         try {
             $response = ($this->streamHandler)($request);
-        } catch (ClientExceptionInterface $clientException) {
+        } catch (ClientExceptionInterface | RequestException $clientException) {
             throw new TransporterException($clientException);
         }
 
