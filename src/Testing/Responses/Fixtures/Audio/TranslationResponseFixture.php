@@ -14,7 +14,7 @@ final class TranslationResponseFixture
                 'seek' => 0,
                 'start' => 0.0,
                 'end' => 4.0,
-                'text' => ' Hello, how are you?',
+                'text' => ' Hello, this is a fake translation response.',
                 'tokens' => [
                     50364,
                     2425,

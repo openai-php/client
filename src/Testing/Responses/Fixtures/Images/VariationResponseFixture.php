@@ -8,7 +8,7 @@ final class VariationResponseFixture
         'created' => 1_664_136_088,
         'data' => [
             [
-                'url' => 'https://openai.com/image.png',
+                'url' => 'https://openai.com/fake-image.png',
             ],
         ],
     ];

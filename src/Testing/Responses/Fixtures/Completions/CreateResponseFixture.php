@@ -11,7 +11,7 @@ final class CreateResponseFixture
         'model' => 'text-davinci-003',
         'choices' => [
             [
-                'text' => "\n\nThis is indeed a test",
+                'text' => "\n\nThis is a fake completion response.",
                 'index' => 0,
                 'logprobs' => null,
                 'finish_reason' => 'length',

@@ -55,7 +55,7 @@ test('fake', function () {
     $response = VariationResponse::fake();
 
     expect($response['data'][0])
-        ->url->toBe('https://openai.com/image.png');
+        ->url->toBe('https://openai.com/fake-image.png');
 });
 
 test('fake with override', function () {
