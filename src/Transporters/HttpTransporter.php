@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace OpenAI\Transporters;
 
 use Closure;
-use GuzzleHttp\Exception\RequestException;
 use JsonException;
 use OpenAI\Contracts\Transporter;
 use OpenAI\Exceptions\ErrorException;
-use OpenAI\Exceptions\ResponseClientException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -48,7 +46,7 @@ final class HttpTransporter implements Transporter
         try {
             $response = $this->client->sendRequest($request);
         } catch (ClientExceptionInterface $clientException) {
-            throw new TransporterException($clientException);
+            throw new TransporterException($request, $clientException->getMessage(), $clientException->getCode());
         }
 
         $contents = (string) $response->getBody();
@@ -81,7 +79,7 @@ final class HttpTransporter implements Transporter
         try {
             $response = $this->client->sendRequest($request);
         } catch (ClientExceptionInterface $clientException) {
-            throw new TransporterException($clientException);
+            throw new TransporterException($request, $clientException->getMessage(), $clientException->getCode());
         }
 
         $contents = $response->getBody()->getContents();
@@ -109,13 +107,13 @@ final class HttpTransporter implements Transporter
 
         try {
             $response = ($this->streamHandler)($request);
-        } catch (ClientExceptionInterface | RequestException $clientException) {
-            throw new TransporterException($clientException);
+        } catch (ClientExceptionInterface $clientException) {
+            throw new TransporterException($request, $clientException->getMessage(), $clientException->getCode());
         }
 
         $statusCode = $response->getStatusCode();
         if ($statusCode >= 400 && $statusCode < 500) {
-            throw new ResponseClientException('Client error: ' . $statusCode, $request);
+            throw new TransporterException($request, 'Client error: ' . $statusCode, $statusCode);
         }
 
         return $response;
