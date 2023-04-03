@@ -5,6 +5,7 @@ test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
     'OpenAI\Exceptions',
     'OpenAI\Resources',
     'Psr\Http\Message\ResponseInterface',
+    'OpenAI\Responses',
 ]);
 
 test('exceptions')->expect('OpenAI\Exceptions')->toOnlyUse([
