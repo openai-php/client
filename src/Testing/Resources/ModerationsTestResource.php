@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\ModerationsContract;
+use OpenAI\Contracts\Resources\ModerationsContract;
 use OpenAI\Resources\Moderations;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;

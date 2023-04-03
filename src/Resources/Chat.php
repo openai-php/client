@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\ChatContract;
+use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;

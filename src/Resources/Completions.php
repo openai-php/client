@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\CompletionsContract;
+use OpenAI\Contracts\Resources\CompletionsContract;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;

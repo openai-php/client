@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\ImagesContract;
+use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;

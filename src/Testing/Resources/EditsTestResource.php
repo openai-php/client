@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\EditsContract;
+use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Resources\Edits;
 use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;

@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\ImagesContract;
+use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Resources\Images;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;

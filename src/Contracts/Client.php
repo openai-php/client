@@ -2,16 +2,16 @@
 
 namespace OpenAI\Contracts;
 
-use OpenAI\Resources\Contracts\AudioContract;
-use OpenAI\Resources\Contracts\ChatContract;
-use OpenAI\Resources\Contracts\CompletionsContract;
-use OpenAI\Resources\Contracts\EditsContract;
-use OpenAI\Resources\Contracts\EmbeddingsContract;
-use OpenAI\Resources\Contracts\FilesContract;
-use OpenAI\Resources\Contracts\FineTunesContract;
-use OpenAI\Resources\Contracts\ImagesContract;
-use OpenAI\Resources\Contracts\ModelsContract;
-use OpenAI\Resources\Contracts\ModerationsContract;
+use OpenAI\Contracts\Resources\AudioContract;
+use OpenAI\Contracts\Resources\ChatContract;
+use OpenAI\Contracts\Resources\CompletionsContract;
+use OpenAI\Contracts\Resources\EditsContract;
+use OpenAI\Contracts\Resources\EmbeddingsContract;
+use OpenAI\Contracts\Resources\FilesContract;
+use OpenAI\Contracts\Resources\FineTunesContract;
+use OpenAI\Contracts\Resources\ImagesContract;
+use OpenAI\Contracts\Resources\ModelsContract;
+use OpenAI\Contracts\Resources\ModerationsContract;
 
 interface Client
 {

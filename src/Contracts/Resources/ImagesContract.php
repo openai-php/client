@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenAI\Resources\Contracts;
+namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;

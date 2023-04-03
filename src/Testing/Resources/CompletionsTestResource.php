@@ -2,8 +2,8 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\CompletionsContract;
 use OpenAI\Resources\Completions;
-use OpenAI\Resources\Contracts\CompletionsContract;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;

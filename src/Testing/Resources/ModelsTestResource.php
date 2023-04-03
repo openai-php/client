@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\ModelsContract;
+use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Resources\Models;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;

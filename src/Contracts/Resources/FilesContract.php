@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenAI\Resources\Contracts;
+namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;

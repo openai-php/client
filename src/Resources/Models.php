@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\ModelsContract;
+use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;

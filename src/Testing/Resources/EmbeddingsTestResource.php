@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\EmbeddingsContract;
+use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;

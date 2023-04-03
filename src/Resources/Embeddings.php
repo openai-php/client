@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\EmbeddingsContract;
+use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 

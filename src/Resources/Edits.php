@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\EditsContract;
+use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 

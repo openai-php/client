@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\FineTunesContract;
+use OpenAI\Contracts\Resources\FineTunesContract;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;

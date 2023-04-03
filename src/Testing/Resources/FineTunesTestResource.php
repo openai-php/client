@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\FineTunesContract;
+use OpenAI\Contracts\Resources\FineTunesContract;
 use OpenAI\Resources\FineTunes;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;

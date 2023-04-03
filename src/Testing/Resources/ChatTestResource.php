@@ -2,8 +2,8 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Resources\Chat;
-use OpenAI\Resources\Contracts\ChatContract;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;

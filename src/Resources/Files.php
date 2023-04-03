@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Resources\Contracts\FilesContract;
+use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;

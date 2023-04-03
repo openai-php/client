@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenAI\Resources\Contracts;
+namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;

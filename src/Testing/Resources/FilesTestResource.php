@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
-use OpenAI\Resources\Contracts\FilesContract;
+use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Resources\Files;
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;

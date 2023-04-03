@@ -2,8 +2,8 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Resources\Audio;
-use OpenAI\Resources\Contracts\AudioContract;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
