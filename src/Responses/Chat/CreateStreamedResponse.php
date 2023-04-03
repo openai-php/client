@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Chat;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
- * @implements Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>}>
+ * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>}>
  */
-final class CreateStreamedResponse implements Response
+final class CreateStreamedResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>}>

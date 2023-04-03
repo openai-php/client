@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace OpenAI\ValueObjects;
 
-use OpenAI\Contracts\Stringable;
+use OpenAI\Contracts\StringableContract;
 
 /**
  * @internal
  */
-final class ResourceUri implements Stringable
+final class ResourceUri implements StringableContract
 {
     /**
      * Creates a new ResourceUri value object.

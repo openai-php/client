@@ -13,7 +13,7 @@ use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
 
-interface Client
+interface ClientContract
 {
     /**
      * Given a prompt, the model will return one or more predicted completions, and can also return the probabilities

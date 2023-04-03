@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Images;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements Response<array{url: string}|array{b64_json: string}>
+ * @implements ResponseContract<array{url: string}|array{b64_json: string}>
  */
-final class EditResponseData implements Response
+final class EditResponseData implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{url: string}|array{b64_json: string}>

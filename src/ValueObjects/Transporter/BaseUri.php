@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace OpenAI\ValueObjects\Transporter;
 
-use OpenAI\Contracts\Stringable;
+use OpenAI\Contracts\StringableContract;
 
 /**
  * @internal
  */
-final class BaseUri implements Stringable
+final class BaseUri implements StringableContract
 {
     /**
      * Creates a new Base URI value object.

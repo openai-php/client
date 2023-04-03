@@ -7,7 +7,7 @@ namespace OpenAI\Contracts;
 /**
  * @internal
  */
-interface Stringable
+interface StringableContract
 {
     /**
      * Returns the string representation of the object.

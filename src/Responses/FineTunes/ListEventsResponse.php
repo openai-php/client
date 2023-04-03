@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\FineTunes;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements Response<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
  */
-final class ListEventsResponse implements Response
+final class ListEventsResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>

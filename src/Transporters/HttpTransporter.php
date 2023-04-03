@@ -6,7 +6,7 @@ namespace OpenAI\Transporters;
 
 use Closure;
 use JsonException;
-use OpenAI\Contracts\Transporter;
+use OpenAI\Contracts\TransporterContract;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  */
-final class HttpTransporter implements Transporter
+final class HttpTransporter implements TransporterContract
 {
     /**
      * Creates a new Http Transporter instance.

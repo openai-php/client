@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\FineTunes;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements Response<array{object: string, created_at: int, level: string, message: string}>
+ * @implements ResponseContract<array{object: string, created_at: int, level: string, message: string}>
  */
-final class RetrieveResponseEvent implements Response
+final class RetrieveResponseEvent implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{object: string, created_at: int, level: string, message: string}>

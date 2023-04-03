@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Images;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
+ * @implements ResponseContract<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
  */
-final class EditResponse implements Response
+final class EditResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>

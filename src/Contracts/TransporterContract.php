@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  */
-interface Transporter
+interface TransporterContract
 {
     /**
      * Sends a request to a server.

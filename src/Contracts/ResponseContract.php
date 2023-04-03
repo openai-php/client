@@ -13,7 +13,7 @@ use ArrayAccess;
  *
  * @internal
  */
-interface Response extends ArrayAccess
+interface ResponseContract extends ArrayAccess
 {
     /**
      * Returns the array representation of the Response.

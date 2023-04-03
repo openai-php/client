@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace OpenAI;
 
-use OpenAI\Contracts\Transporter;
+use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\TransporterContract;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
@@ -16,12 +17,12 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 
-final class Client implements \OpenAI\Contracts\Client
+final class Client implements ClientContract
 {
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly Transporter $transporter)
+    public function __construct(private readonly TransporterContract $transporter)
     {
         // ..
     }

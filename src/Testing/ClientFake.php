@@ -2,8 +2,8 @@
 
 namespace OpenAI\Testing;
 
-use OpenAI\Contracts\Client;
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AudioTestResource;
@@ -22,7 +22,7 @@ use Throwable;
 /**
  * @noRector Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector
  */
-class ClientFake implements Client
+class ClientFake implements ClientContract
 {
     /**
      * @var array<array-key, TestRequest>
@@ -116,7 +116,7 @@ class ClientFake implements Client
         return array_filter($this->requests, fn (TestRequest $request): bool => $request->resource() === $type);
     }
 
-    public function record(TestRequest $request): Response|StreamResponse|string
+    public function record(TestRequest $request): ResponseContract|StreamResponse|string
     {
         $this->requests[] = $request;
 

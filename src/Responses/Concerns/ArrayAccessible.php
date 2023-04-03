@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Concerns;
 
 use BadMethodCallException;
-use OpenAI\Contracts\Response;
 
 /**
  * @template TArray of array

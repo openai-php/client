@@ -1,7 +1,7 @@
 <?php
 
 use OpenAI\Client;
-use OpenAI\Contracts\Transporter;
+use OpenAI\Contracts\TransporterContract;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 
 function mockClient(string $method, string $resource, array $params, array|string|ResponseInterface $response, $methodName = 'requestObject')
 {
-    $transporter = Mockery::mock(Transporter::class);
+    $transporter = Mockery::mock(TransporterContract::class);
 
     $transporter
         ->shouldReceive($methodName)
