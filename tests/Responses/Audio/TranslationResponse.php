@@ -91,3 +91,19 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(audioTranslationVerboseJson());
 });
+
+test('fake', function () {
+    $response = TranslationResponse::fake();
+
+    expect($response)
+        ->language->toBe('english');
+});
+
+test('fake with override', function () {
+    $response = TranslationResponse::fake([
+        'language' => 'german',
+    ]);
+
+    expect($response)
+        ->language->toBe('german');
+});

@@ -1,0 +1,12 @@
+data: {"object": "fine-tune-event", "level": "info", "message": "Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST", "created_at": 1668021917}
+data: {"object": "fine-tune-event", "level": "info", "message": "Fine-tune costs $0.00", "created_at": 1668021926}
+data: {"object": "fine-tune-event", "level": "info", "message": "Fine-tune enqueued. Queue number: 0", "created_at": 1668021927}
+data: {"object": "fine-tune-event", "level": "info", "message": "Fine-tune started", "created_at": 1668021929}
+data: {"object": "fine-tune-event", "level": "info", "message": "Completed epoch 1/4", "created_at": 1668021976}
+data: {"object": "fine-tune-event", "level": "info", "message": "Completed epoch 2/4", "created_at": 1668021977}
+data: {"object": "fine-tune-event", "level": "info", "message": "Completed epoch 3/4", "created_at": 1668021978}
+data: {"object": "fine-tune-event", "level": "info", "message": "Completed epoch 4/4", "created_at": 1668021978}
+data: {"object": "fine-tune-event", "level": "info", "message": "Uploaded model: curie:ft-gehri-dev-2022-11-09-19-26-40", "created_at": 1668022001}
+data: {"object": "fine-tune-event", "level": "info", "message": "Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l", "created_at": 1668022002}
+data: {"object": "fine-tune-event", "level": "info", "message": "Fine-tune succeeded", "created_at": 1668022002}
+data: [DONE]

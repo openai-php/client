@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\EmbeddingsContract;
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Embeddings
+final class Embeddings implements EmbeddingsContract
 {
     use Concerns\Transportable;
 

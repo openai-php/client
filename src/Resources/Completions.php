@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\CompletionsContract;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Completions
+final class Completions implements CompletionsContract
 {
     use Concerns\Transportable;
     use Concerns\Streamable;

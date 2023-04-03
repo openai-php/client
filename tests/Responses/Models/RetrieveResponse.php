@@ -30,3 +30,28 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(model());
 });
+
+test('fake', function () {
+    $response = RetrieveResponse::fake();
+
+    expect($response)
+        ->id->toBe('text-babbage:001')
+    ->and($response->permission[0])
+        ->allowCreateEngine->toBeFalse();
+});
+
+test('fake with override', function () {
+    $response = RetrieveResponse::fake([
+        'id' => 'text-1234',
+        'permission' => [
+            [
+                'allow_create_engine' => true,
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->id->toBe('text-1234')
+        ->and($response->permission[0])
+        ->allowCreateEngine->toBeTrue();
+});

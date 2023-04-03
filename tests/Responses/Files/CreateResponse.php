@@ -45,3 +45,19 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(fileResource());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'id' => 'file-1234',
+    ]);
+
+    expect($response)
+        ->id->toBe('file-1234');
+});

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\EditsContract;
 use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Edits
+final class Edits implements EditsContract
 {
     use Concerns\Transportable;
 

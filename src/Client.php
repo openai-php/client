@@ -16,7 +16,7 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 
-final class Client
+final class Client implements \OpenAI\Contracts\Client
 {
     /**
      * Creates a Client instance with the given API token.

@@ -3,6 +3,7 @@
 test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
+    'OpenAI\Resources',
     'Psr\Http\Message\ResponseInterface',
 ]);
 
@@ -20,6 +21,7 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'OpenAI\Enums',
     'OpenAI\Contracts',
+    'OpenAI\Testing\Responses\Concerns',
     'Psr\Http\Message\ResponseInterface',
     'Psr\Http\Message\StreamInterface',
 ]);
@@ -49,4 +51,4 @@ test('openai')->expect('OpenAI')->toOnlyUse([
     'Psr\Http\Message\RequestInterface',
     'Psr\Http\Message\ResponseInterface',
     'Psr\Http\Message\StreamInterface',
-]);
+])->ignoring('OpenAI\Testing');

@@ -26,3 +26,27 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(fineTuneListEventsResource());
 });
+
+test('fake', function () {
+    $response = ListEventsResponse::fake();
+
+    expect($response)
+        ->object->toBe('list')
+        ->and($response['data'][0])
+    ->level->toBe('info');
+});
+
+test('fake with override', function () {
+    $response = ListEventsResponse::fake([
+        'data' => [
+            [
+                'level' => 'error',
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->object->toBe('list')
+        ->and($response['data'][0])
+        ->level->toBe('error');
+});

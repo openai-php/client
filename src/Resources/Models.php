@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\ModelsContract;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Models
+final class Models implements ModelsContract
 {
     use Concerns\Transportable;
 

@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Chat;
 
 use OpenAI\Contracts\Response;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
  * @implements Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>}>
@@ -16,6 +17,8 @@ final class CreateStreamedResponse implements Response
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>}>
      */
     use ArrayAccessible;
+
+    use FakeableForStreamedResponse;
 
     /**
      * @param  array<int, CreateStreamedResponseChoice>  $choices

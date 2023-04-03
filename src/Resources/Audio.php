@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\AudioContract;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Audio
+final class Audio implements AudioContract
 {
     use Concerns\Transportable;
 

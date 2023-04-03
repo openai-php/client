@@ -31,3 +31,29 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(chatCompletion());
 });
+
+test('fake', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->id->toBe('chatcmpl-123');
+});
+
+test('fake with override', function () {
+    $response = CreateResponse::fake([
+        'id' => 'chatcmpl-111',
+        'choices' => [
+            [
+                'message' => [
+                    'content' => 'Hi, there!',
+                ],
+            ],
+        ],
+    ]);
+
+    expect($response)
+        ->id->toBe('chatcmpl-111')
+        ->and($response->choices[0])
+        ->message->content->toBe('Hi, there!')
+        ->message->role->toBe('assistant');
+});

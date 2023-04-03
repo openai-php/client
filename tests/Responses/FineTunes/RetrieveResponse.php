@@ -41,3 +41,19 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(fineTuneResource());
 });
+
+test('fake', function () {
+    $response = RetrieveResponse::fake();
+
+    expect($response)
+        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+});
+
+test('fake with override', function () {
+    $response = RetrieveResponse::fake([
+        'id' => 'ft-1234',
+    ]);
+
+    expect($response)
+        ->id->toBe('ft-1234');
+});

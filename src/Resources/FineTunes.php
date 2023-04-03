@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Resources\Contracts\FineTunesContract;
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
@@ -11,7 +12,7 @@ use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class FineTunes
+final class FineTunes implements FineTunesContract
 {
     use Concerns\Transportable;
 
