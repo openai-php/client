@@ -13,7 +13,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->skip([
-        __DIR__.'/src/Contracts/Response.php',
+        __DIR__.'/src/Contracts/ResponseContract.php',
     ]);
 
     $rectorConfig->rules([
