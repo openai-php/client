@@ -109,6 +109,58 @@ test('request object server errors', function () {
         });
 });
 
+test('error code may be null', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-42']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'The model `gpt-42` does not exist',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => null,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
+                ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('error type may be null', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(429, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'You exceeded your current quota, please check',
+            'type' => null,
+            'param' => null,
+            'code' => 'quota_exceeded',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('You exceeded your current quota, please check')
+                ->and($e->getErrorMessage())->toBe('You exceeded your current quota, please check')
+                ->and($e->getErrorCode())->toBe('quota_exceeded')
+                ->and($e->getErrorType())->toBeNull();
+        });
+});
+
 test('request object client errors', function () {
     $payload = Payload::list('models');
 
