@@ -59,7 +59,7 @@ final class Factory
      */
     public function withApiKey(string $apiKey): self
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey = trim($apiKey);
 
         return $this;
     }
