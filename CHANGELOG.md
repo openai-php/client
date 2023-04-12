@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.2 (2023-04-12)
+### Added
+- Testing support ([#71](https://github.com/openai-php/client/pull/71))
+
+### Changed
+- Trim ApiKey before sending it to the API ([#101](https://github.com/openai-php/client/pull/101))
+
+### Fixed
+- Nullable fields on error response  ([#102](https://github.com/openai-php/client/pull/102))
+
 ## v0.4.1 (2023-03-24)
 ### Added
 - Stream suppport ([#84](https://github.com/openai-php/client/pull/84))
