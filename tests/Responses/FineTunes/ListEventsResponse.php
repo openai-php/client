@@ -33,7 +33,7 @@ test('fake', function () {
     expect($response)
         ->object->toBe('list')
         ->and($response['data'][0])
-    ->level->toBe('info');
+        ->level->toBe('info');
 });
 
 test('fake with override', function () {

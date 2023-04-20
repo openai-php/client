@@ -31,7 +31,7 @@ test('fake', function () {
     $response = ListResponse::fake();
 
     expect($response)
-    ->object->toBe('list')
+        ->object->toBe('list')
         ->and($response->data[0])
         ->id->toBe('text-babbage:001');
 });
