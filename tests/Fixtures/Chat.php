@@ -28,6 +28,44 @@ function chatCompletion(): array
     ];
 }
 
+function chatCompletionStreamFirstChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'role' => 'assistant',
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
+function chatCompletionStreamContentChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'content' => 'Hello',
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
 /**
  * @return resource
  */
