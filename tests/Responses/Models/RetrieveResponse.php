@@ -36,7 +36,7 @@ test('fake', function () {
 
     expect($response)
         ->id->toBe('text-babbage:001')
-    ->and($response->permission[0])
+        ->and($response->permission[0])
         ->allowCreateEngine->toBeFalse();
 });
 
