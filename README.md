@@ -28,6 +28,8 @@
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
 - [Testing](#testing)
+- [Services](#services)
+  - [Azure](#azure)
 
 ## Get Started
 
@@ -805,6 +807,30 @@ $completion = $client->completions()->create([
     'prompt' => 'PHP is ',
 ]);
 ```
+
+## Services
+
+### Azure
+
+In order to use the Azure OpenAI Service, it is necessary to construct the client manually using the factory.
+
+```php
+$client = OpenAI::factory()
+    ->withBaseUri('{your-resource-name}.openai.azure.com/openai/deployments/{deployment-id}')
+    ->withHttpHeader('api-key', '{your-api-key}')
+    ->withQueryParam('api-version', '{version}')
+    ->make();
+```
+
+To use Azure, you must deploy a model, identified by the {deployment-id}, which is already incorporated into the API calls. As a result, you do not have to provide the model during the calls since it is included in the `BaseUri`.
+
+Therefore, a basic sample completion call would be:
+
+```php
+$result = $client->completions()->create([
+    'prompt' => 'PHP is'
+]);
+``` 
 
 ---
 
