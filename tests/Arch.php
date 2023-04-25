@@ -43,6 +43,7 @@ test('client')->expect('OpenAI\Client')->toOnlyUse([
 
 test('openai')->expect('OpenAI')->toOnlyUse([
     'GuzzleHttp\Client',
+    'GuzzleHttp\Exception\ClientException',
     'Http\Discovery\Psr17Factory',
     'Http\Discovery\Psr18ClientDiscovery',
     'Http\Message\MultipartStream\MultipartStreamBuilder',

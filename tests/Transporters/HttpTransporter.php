@@ -268,7 +268,7 @@ test('request content client errors', function () {
 test('request content server errors', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(401, [], json_encode([
+    $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'error' => [
             'message' => 'Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.',
             'type' => 'invalid_request_error',
@@ -312,4 +312,30 @@ test('request stream', function () {
         })->andReturn($response);
 
     $this->http->requestStream($payload);
+});
+
+test('request stream server errors', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => 'invalid_api_key',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
+                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
+                ->and($e->getErrorCode())->toBe('invalid_api_key')
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
 });
