@@ -28,9 +28,9 @@ final class CreateStreamedResponseDelta
      */
     public function toArray(): array
     {
-       return array_filter([
-           'role' => $this->role,
-           'content' => $this->content,
-       ], fn ($value): bool => ! is_null($value));
+        return array_filter([
+            'role' => $this->role,
+            'content' => $this->content,
+        ], fn ($value): bool => ! is_null($value));
     }
 }
