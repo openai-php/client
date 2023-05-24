@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.5.1 (2023-05-24)
+### Fixed
+- fix: stream broken after checking for errors (regression of [#113](https://github.com/openai-php/client/pull/113))
+
 ## v0.5.0 (2023-05-24)
 ### Added
 - Support for HTTP base uri ([#106](https://github.com/openai-php/client/pull/106))
