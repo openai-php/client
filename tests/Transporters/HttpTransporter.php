@@ -311,7 +311,10 @@ test('request stream', function () {
             return true;
         })->andReturn($response);
 
-    $this->http->requestStream($payload);
+    $response = $this->http->requestStream($payload);
+
+    expect($response->getBody()->eof())
+        ->toBeFalse();
 });
 
 test('request stream server errors', function () {

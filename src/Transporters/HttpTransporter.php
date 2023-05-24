@@ -89,7 +89,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn () => ($this->streamHandler)($request));
 
-        $this->throwIfJsonError($response, $response->getBody()->getContents());
+        $this->throwIfJsonError($response, $response);
 
         return $response;
     }
@@ -107,7 +107,7 @@ final class HttpTransporter implements TransporterContract
         }
     }
 
-    private function throwIfJsonError(ResponseInterface $response, string $contents): void
+    private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
     {
         if ($response->getStatusCode() < 400) {
             return;
@@ -115,6 +115,10 @@ final class HttpTransporter implements TransporterContract
 
         if ($response->getheader('Content-Type')[0] !== 'application/json; charset=utf-8') {
             return;
+        }
+
+        if ($contents instanceof ResponseInterface) {
+            $contents = $contents->getBody()->getContents();
         }
 
         try {
