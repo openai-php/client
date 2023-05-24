@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.5.0 (2023-05-24)
+### Added
+- Support for HTTP base uri ([#106](https://github.com/openai-php/client/pull/106))
+
+### Changed
+- unify exception handling between HTTP client implementations ([#113](https://github.com/openai-php/client/pull/113))
+
+### Fixed
+- fix toArray() on `CreateStreamedResponseDelta` to match the original API response  ([#108](https://github.com/openai-php/client/pull/108))
+
+### Docs
+- explain usage for "OpenAI on Azure" ([#109](https://github.com/openai-php/client/pull/109))
+
 ## v0.4.2 (2023-04-12)
 ### Added
 - Testing support ([#71](https://github.com/openai-php/client/pull/71))
