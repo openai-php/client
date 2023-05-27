@@ -19,7 +19,7 @@
         "psr/http-client": "^1.0.2",
         "psr/http-client-implementation": "^1.0.1",
         "psr/http-factory-implementation": "*",
-        "psr/http-message": "^1.1.0"
+        "psr/http-message": "^1.1.0|^2.0.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.6.1",
