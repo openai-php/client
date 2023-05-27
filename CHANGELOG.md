@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.5.2 (2023-05-27)
+### Added
+- Add support for psr/http-message ^2.0 ([#130](https://github.com/openai-php/client/issues/130))
+
 ## v0.5.1 (2023-05-24)
 ### Fixed
 - fix: stream broken after checking for errors (regression of [#113](https://github.com/openai-php/client/pull/113))
