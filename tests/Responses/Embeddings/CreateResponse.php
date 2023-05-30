@@ -29,7 +29,8 @@ test('fake', function () {
     $response = CreateResponse::fake();
 
     expect($response['data'][0])
-        ->object->toBe('embedding');
+        ->object->toBe('embedding')
+        ->embedding->toBe([-0.008906792, -0.013743395]);
 });
 
 test('fake with override', function () {
@@ -39,11 +40,25 @@ test('fake with override', function () {
                 'embedding' => [
                     0.1234,
                     0.5678,
+                    0.9876,
+                ],
+            ],
+            [
+                'object' => 'embedding',
+                'index' => 1,
+                'embedding' => [
+                    -0.1234,
+                    -0.5678,
+                    -0.9876,
                 ],
             ],
         ],
     ]);
 
     expect($response->embeddings[0])
-        ->embedding->toBe([0.1234, 0.5678]);
+        ->embedding->toBe([0.1234, 0.5678, 0.9876])
+        ->and($response->embeddings[1])
+        ->object->toBe('embedding')
+        ->index->toBe(1)
+        ->embedding->toBe([-0.1234, -0.5678, -0.9876]);
 });
