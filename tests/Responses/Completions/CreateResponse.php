@@ -55,3 +55,14 @@ test('fake with override', function () {
         ->text->toBe('awesome!')
         ->index->toBe(0);
 });
+
+test('fake can not add inexistent properties', function () {
+    $response = CreateResponse::fake([
+        'id' => 'cmpl-1234',
+        'something' => 'else',
+    ]);
+
+    expect($response)
+        ->id->toBe('cmpl-1234')
+        ->something->toBeNull();
+});

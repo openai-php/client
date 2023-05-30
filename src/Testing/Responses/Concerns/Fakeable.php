@@ -29,6 +29,17 @@ trait Fakeable
             $new[$key] = is_array($entry) ?
                 self::buildAttributes($entry, $override[$key] ?? []) :
                 $override[$key] ?? $entry;
+
+            unset($override[$key]);
+        }
+
+        // we are going to append all remaining overrides with numeric keys
+        foreach ($override as $key => $value) {
+            if (! is_numeric($key)) {
+                continue;
+            }
+
+            $new[$key] = $value;
         }
 
         return $new;
