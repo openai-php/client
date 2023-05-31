@@ -113,7 +113,7 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
-        if ($response->getheader('Content-Type')[0] !== 'application/json; charset=utf-8') {
+        if (! in_array($response->getheader('Content-Type')[0], ['application/json', 'application/json; charset=utf-8'])) {
             return;
         }
 
