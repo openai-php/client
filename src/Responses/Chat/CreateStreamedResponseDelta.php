@@ -31,6 +31,6 @@ final class CreateStreamedResponseDelta
         return array_filter([
             'role' => $this->role,
             'content' => $this->content,
-        ], fn ($value): bool => ! is_null($value));
+        ], fn (string|null $value): bool => ! is_null($value));
     }
 }
