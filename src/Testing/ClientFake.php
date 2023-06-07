@@ -19,10 +19,7 @@ use OpenAI\Testing\Resources\ModerationsTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Throwable;
 
-/**
- * @noRector Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector
- */
-final class ClientFake implements ClientContract
+class ClientFake implements ClientContract
 {
     /**
      * @var array<array-key, TestRequest>
