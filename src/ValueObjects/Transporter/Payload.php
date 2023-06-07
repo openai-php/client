@@ -161,7 +161,7 @@ final class Payload
 
         $request = $psr17Factory->createRequest($this->method->value, $uri);
 
-        if ($body !== null) {
+        if ($body instanceof StreamInterface) {
             $request = $request->withBody($body);
         }
 
