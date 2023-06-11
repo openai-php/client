@@ -69,4 +69,9 @@ final class StreamResponse implements IteratorAggregate
 
         return $buffer;
     }
+
+    public function getResponse(): ResponseInterface
+    {
+        return $this->response;
+    }
 }
