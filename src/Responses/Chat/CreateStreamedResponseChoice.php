@@ -26,7 +26,7 @@ final class CreateStreamedResponseChoice
     }
 
     /**
-     * @return array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}
+     * @return array{index: int, delta: array{role?: string, content?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}, finish_reason: string|null}
      */
     public function toArray(): array
     {
