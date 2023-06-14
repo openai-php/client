@@ -24,7 +24,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.7.0",
         "guzzlehttp/psr7": "^2.5.0",
-        "laravel/pint": "^1.10.0",
+        "laravel/pint": "^1.10.2",
         "nunomaduro/collision": "^7.5.2",
         "pestphp/pest": "dev-develop as 2.6.2",
         "pestphp/pest-plugin-arch": "^2.2.0",
