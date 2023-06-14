@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.6.0 (2023-06-14)
+### Added
+- Add support for function calling in the Chat Completions API ([#144](https://github.com/openai-php/client/issues/144))
+
 ## v0.5.3 (2023-06-07)
 ### Fixed
 - Exception handling for server error with non default content type header ([#134](https://github.com/openai-php/client/issues/134))
