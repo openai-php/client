@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.6.1 (2023-06-15)
+### Fixed
+- Chat/CreateResponse faking with function_call ([#145](https://github.com/openai-php/client/issues/145))
+
 ## v0.6.0 (2023-06-14)
 ### Added
 - Add support for function calling in the Chat Completions API ([#144](https://github.com/openai-php/client/issues/144))
