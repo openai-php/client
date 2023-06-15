@@ -273,7 +273,7 @@ foreach ($response->choices as $result) {
     $result->message->role; // 'assistant'
     $result->message->content; // null
     $result->message->functionCall->name; // 'get_current_weather'
-    $result->message->functionCall->parameters; // "{\n  \"location\": \"Boston, MA\"\n}"
+    $result->message->functionCall->arguments; // "{\n  \"location\": \"Boston, MA\"\n}"
     $result->finishReason; // 'function_call'
 }
 
