@@ -30,6 +30,7 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'OpenAI\Enums',
+    'OpenAI\Exceptions\ErrorException',
     'OpenAI\Contracts',
     'OpenAI\Testing\Responses\Concerns',
     'Psr\Http\Message\ResponseInterface',
