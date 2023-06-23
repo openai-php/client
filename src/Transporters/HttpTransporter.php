@@ -8,6 +8,7 @@ use Closure;
 use GuzzleHttp\Exception\ClientException;
 use JsonException;
 use OpenAI\Contracts\TransporterContract;
+use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
@@ -48,7 +49,7 @@ final class HttpTransporter implements TransporterContract
 
         $contents = $response->getBody()->getContents();
 
-        if ($response->getHeader('Content-Type')[0] === 'text/plain; charset=utf-8') {
+        if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
             return $contents;
         }
 
@@ -113,7 +114,7 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
-        if ($response->getheader('Content-Type')[0] !== 'application/json; charset=utf-8') {
+        if (! str_contains($response->getHeaderLine('Content-Type'), ContentType::JSON->value)) {
             return;
         }
 

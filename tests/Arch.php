@@ -1,16 +1,25 @@
 <?php
 
-test('contracts')->expect('OpenAI\Contracts')->toOnlyUse([
-    'OpenAI\ValueObjects',
-    'OpenAI\Exceptions',
-    'OpenAI\Resources',
-    'Psr\Http\Message\ResponseInterface',
-    'OpenAI\Responses',
-]);
+test('contracts')
+    ->expect('OpenAI\Contracts')
+    ->toOnlyUse([
+        'OpenAI\ValueObjects',
+        'OpenAI\Exceptions',
+        'OpenAI\Resources',
+        'Psr\Http\Message\ResponseInterface',
+        'OpenAI\Responses',
+    ])
+    ->toBeInterfaces();
 
-test('exceptions')->expect('OpenAI\Exceptions')->toOnlyUse([
-    'Psr\Http\Client',
-]);
+test('enums')
+    ->expect('OpenAI\Enums')
+    ->toBeEnums();
+
+test('exceptions')
+    ->expect('OpenAI\Exceptions')
+    ->toOnlyUse([
+        'Psr\Http\Client',
+    ])->toImplement(Throwable::class);
 
 test('resources')->expect('OpenAI\Resources')->toOnlyUse([
     'OpenAI\Contracts',

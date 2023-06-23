@@ -22,16 +22,17 @@
         "psr/http-message": "^1.1.0|^2.0.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^7.6.1",
+        "guzzlehttp/guzzle": "^7.7.0",
         "guzzlehttp/psr7": "^2.5.0",
-        "laravel/pint": "^1.10.0",
+        "laravel/pint": "^1.10.2",
         "nunomaduro/collision": "^7.5.2",
-        "pestphp/pest": "^2.6.1",
-        "pestphp/pest-plugin-arch": "^2.1.2",
+        "pestphp/pest": "dev-develop as 2.6.2",
+        "pestphp/pest-plugin-arch": "^2.2.0",
         "pestphp/pest-plugin-mock": "^2.0.0",
+        "pestphp/pest-plugin-type-coverage": "^2.0.0",
         "phpstan/phpstan": "^1.10.15",
-        "rector/rector": "^0.14.8",
-        "symfony/var-dumper": "^6.2.10"
+        "rector/rector": "^0.16.0",
+        "symfony/var-dumper": "^6.3.0"
     },
     "autoload": {
         "psr-4": {
@@ -62,11 +63,13 @@
         "test:lint": "pint --test -v",
         "test:refactor": "rector --dry-run",
         "test:types": "phpstan analyse --ansi",
+        "test:type-coverage": "pest --type-coverage --min=100",
         "test:unit": "pest --colors=always",
         "test": [
             "@test:lint",
             "@test:refactor",
             "@test:types",
+            "@test:type-coverage",
             "@test:unit"
         ]
     }

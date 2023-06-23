@@ -28,7 +28,7 @@ final class Chat implements ChatContract
 
         $payload = Payload::create('chat/completions', $parameters);
 
-        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: string}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}} $result */
+        /** @var array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}} $result */
         $result = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($result);

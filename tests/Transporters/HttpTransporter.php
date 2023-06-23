@@ -83,7 +83,7 @@ test('request object response', function () {
     ]);
 });
 
-test('request object server errors', function () {
+test('request object server user errors', function () {
     $payload = Payload::list('models');
 
     $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
@@ -106,6 +106,32 @@ test('request object server errors', function () {
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://beta.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('request object server errors', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-4']);
+
+    $response = new Response(401, ['Content-Type' => 'application/json'], json_encode([
+        'error' => [
+            'message' => 'That model is currently overloaded with other requests. You can ...',
+            'type' => 'server_error',
+            'param' => null,
+            'code' => null,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('That model is currently overloaded with other requests. You can ...')
+                ->and($e->getErrorMessage())->toBe('That model is currently overloaded with other requests. You can ...')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('server_error');
         });
 });
 

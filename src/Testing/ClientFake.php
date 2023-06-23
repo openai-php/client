@@ -19,9 +19,6 @@ use OpenAI\Testing\Resources\ModerationsTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Throwable;
 
-/**
- * @noRector Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector
- */
 class ClientFake implements ClientContract
 {
     /**
@@ -44,10 +41,7 @@ class ClientFake implements ClientContract
         $this->responses = [...$this->responses, ...$responses];
     }
 
-    /**
-     * @param  callable|int|null  $callback
-     */
-    public function assertSent(string $resource, $callback = null): void
+    public function assertSent(string $resource, callable|int|null $callback = null): void
     {
         if (is_int($callback)) {
             $this->assertSentTimes($resource, $callback);
@@ -61,7 +55,7 @@ class ClientFake implements ClientContract
         );
     }
 
-    protected function assertSentTimes(string $resource, int $times = 1): void
+    private function assertSentTimes(string $resource, int $times = 1): void
     {
         $count = count($this->sent($resource));
 
@@ -74,7 +68,7 @@ class ClientFake implements ClientContract
     /**
      * @return mixed[]
      */
-    protected function sent(string $resource, callable $callback = null): array
+    private function sent(string $resource, callable $callback = null): array
     {
         if (! $this->hasSent($resource)) {
             return [];
@@ -85,7 +79,7 @@ class ClientFake implements ClientContract
         return array_filter($this->resourcesOf($resource), fn (TestRequest $resource) => $callback($resource->method(), $resource->parameters()));
     }
 
-    protected function hasSent(string $resource): bool
+    private function hasSent(string $resource): bool
     {
         return $this->resourcesOf($resource) !== [];
     }
@@ -111,7 +105,7 @@ class ClientFake implements ClientContract
     /**
      * @return array<array-key, TestRequest>
      */
-    protected function resourcesOf(string $type): array
+    private function resourcesOf(string $type): array
     {
         return array_filter($this->requests, fn (TestRequest $request): bool => $request->resource() === $type);
     }
