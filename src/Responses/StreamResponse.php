@@ -4,6 +4,7 @@ namespace OpenAI\Responses;
 
 use Generator;
 use IteratorAggregate;
+use OpenAI\Exceptions\ErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -44,7 +45,12 @@ final class StreamResponse implements IteratorAggregate
                 break;
             }
 
+            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
             $response = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+
+            if (isset($response['error'])) {
+                throw new ErrorException($response['error']);
+            }
 
             yield $this->responseClass::from($response);
         }

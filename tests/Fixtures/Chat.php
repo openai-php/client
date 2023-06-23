@@ -128,3 +128,11 @@ function chatCompletionStream()
 {
     return fopen(__DIR__.'/Streams/ChatCompletionCreate.txt', 'r');
 }
+
+/**
+ * @return resource
+ */
+function chatCompletionStreamError()
+{
+    return fopen(__DIR__.'/Streams/ChatCompletionCreateError.txt', 'r');
+}

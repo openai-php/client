@@ -90,3 +90,27 @@ test('create streamed', function () {
         ->logprobs->toBe(null)
         ->finishReason->toBeNull();
 });
+
+test('handles error messages in stream', function () {
+    $response = new Response(
+        body: new Stream(chatCompletionStreamError())
+    );
+
+    $client = mockStreamClient('POST', 'chat/completions', [
+        'model' => 'gpt-3.5-turbo',
+        'messages' => ['role' => 'user', 'content' => 'Hello!'],
+    ], $response);
+
+    $result = $client->chat()->createStreamed([
+        'model' => 'gpt-3.5-turbo',
+        'messages' => ['role' => 'user', 'content' => 'Hello!'],
+    ]);
+
+    expect(fn () => $result->getIterator()->current())
+        ->toThrow(function (OpenAI\Exceptions\ErrorException $e) {
+            expect($e->getMessage())->toBe('The server had an error while processing your request. Sorry about that!')
+                ->and($e->getErrorMessage())->toBe('The server had an error while processing your request. Sorry about that!')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('server_error');
+        });
+});
