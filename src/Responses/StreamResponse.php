@@ -45,7 +45,7 @@ final class StreamResponse implements IteratorAggregate
                 break;
             }
 
-            /** @var array{error?: array{message: string, type: string, code: string}} $response */
+            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
             $response = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {

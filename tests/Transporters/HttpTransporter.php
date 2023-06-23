@@ -187,6 +187,34 @@ test('error type may be null', function () {
         });
 });
 
+test('error message may be an array', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-4']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => [
+                'Invalid schema for function \'get_current_weather\': In context=(\'properties\', \'location\'), array schema missing items',
+            ],
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => null,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Invalid schema for function \'get_current_weather\': In context=(\'properties\', \'location\'), array schema missing items')
+                ->and($e->getErrorMessage())->toBe('Invalid schema for function \'get_current_weather\': In context=(\'properties\', \'location\'), array schema missing items')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
 test('request object client errors', function () {
     $payload = Payload::list('models');
 
