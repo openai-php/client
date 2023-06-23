@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.6.2 (2023-06-23)
+### Changed
+- Error handling: use error code as exception message if error message is empty ([#150](https://github.com/openai-php/client/pull/150))
+
+### Fixed
+- Error handling: Catch error in stream responses ([#150](https://github.com/openai-php/client/pull/150))
+- Error handling: Handle errors where message is an array ([#150](https://github.com/openai-php/client/pull/150))
+
 ## v0.6.1 (2023-06-15)
 ### Fixed
 - Chat/CreateResponse faking with function_call ([#145](https://github.com/openai-php/client/issues/145))
