@@ -215,6 +215,58 @@ test('error message may be an array', function () {
         });
 });
 
+test('error message may be empty', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-4']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => '',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => 'invalid_api_key',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('invalid_api_key')
+                ->and($e->getErrorMessage())->toBe('invalid_api_key')
+                ->and($e->getErrorCode())->toBe('invalid_api_key')
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('error message and code may be empty', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-4']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => '',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => null,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Unknown error')
+                ->and($e->getErrorMessage())->toBe('Unknown error')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
 test('request object client errors', function () {
     $payload = Payload::list('models');
 
