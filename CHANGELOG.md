@@ -100,7 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.2.0 (2022-11-07)
 ### Added
-- Add `images()` resource to interact with [DALL-E](https://beta.openai.com/docs/api-reference/images)
+- Add `images()` resource to interact with [DALL-E](https://platform.openai.com/docs/api-reference/images)
 
 ### Fixed
 - Parse completions create response with logprobs correctly

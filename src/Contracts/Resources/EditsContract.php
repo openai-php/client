@@ -9,7 +9,7 @@ interface EditsContract
     /**
      * Creates a new edit for the provided input, instruction, and parameters.
      *
-     * @see https://beta.openai.com/docs/api-reference/edits/create
+     * @see https://platorm.openai.com/docs/api-reference/edits/create
      *
      * @param  array<string, mixed>  $parameters
      */

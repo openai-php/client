@@ -17,7 +17,7 @@ final class Images implements ImagesContract
     /**
      * Creates an image given a prompt.
      *
-     * @see https://beta.openai.com/docs/api-reference/images/create
+     * @see https://platorm.openai.com/docs/api-reference/images/create
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -34,7 +34,7 @@ final class Images implements ImagesContract
     /**
      * Creates an edited or extended image given an original image and a prompt.
      *
-     * @see https://beta.openai.com/docs/api-reference/images/create-edit
+     * @see https://platorm.openai.com/docs/api-reference/images/create-edit
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -51,7 +51,7 @@ final class Images implements ImagesContract
     /**
      * Creates a variation of a given image.
      *
-     * @see https://beta.openai.com/docs/api-reference/images/create-variation
+     * @see https://platorm.openai.com/docs/api-reference/images/create-variation
      *
      * @param  array<string, mixed>  $parameters
      */

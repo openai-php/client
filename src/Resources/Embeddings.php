@@ -15,7 +15,7 @@ final class Embeddings implements EmbeddingsContract
     /**
      * Creates an embedding vector representing the input text.
      *
-     * @see https://beta.openai.com/docs/api-reference/embeddings/create
+     * @see https://platorm.openai.com/docs/api-reference/embeddings/create
      *
      * @param  array<string, mixed>  $parameters
      */
