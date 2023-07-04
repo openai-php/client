@@ -12,28 +12,28 @@ interface FilesContract
     /**
      * Returns a list of files that belong to the user's organization.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/list
+     * @see https://platorm.openai.com/docs/api-reference/files/list
      */
     public function list(): ListResponse;
 
     /**
      * Returns information about a specific file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/retrieve
+     * @see https://platorm.openai.com/docs/api-reference/files/retrieve
      */
     public function retrieve(string $file): RetrieveResponse;
 
     /**
      * Returns the contents of the specified file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
+     * @see https://platorm.openai.com/docs/api-reference/files/retrieve-content
      */
     public function download(string $file): string;
 
     /**
      * Upload a file that contains document(s) to be used across various endpoints/features.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/upload
+     * @see https://platorm.openai.com/docs/api-reference/files/upload
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -42,7 +42,7 @@ interface FilesContract
     /**
      * Delete a file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/delete
+     * @see https://platorm.openai.com/docs/api-reference/files/delete
      */
     public function delete(string $file): DeleteResponse;
 }

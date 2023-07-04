@@ -19,7 +19,7 @@ interface ClientContract
      * Given a prompt, the model will return one or more predicted completions, and can also return the probabilities
      * of alternative tokens at each position.
      *
-     * @see https://beta.openai.com/docs/api-reference/completions
+     * @see https://platorm.openai.com/docs/api-reference/completions
      */
     public function completions(): CompletionsContract;
 
@@ -33,7 +33,7 @@ interface ClientContract
     /**
      * Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
      *
-     * @see https://beta.openai.com/docs/api-reference/embeddings
+     * @see https://platorm.openai.com/docs/api-reference/embeddings
      */
     public function embeddings(): EmbeddingsContract;
 
@@ -47,42 +47,42 @@ interface ClientContract
     /**
      * Given a prompt and an instruction, the model will return an edited version of the prompt.
      *
-     * @see https://beta.openai.com/docs/api-reference/edits
+     * @see https://platorm.openai.com/docs/api-reference/edits
      */
     public function edits(): EditsContract;
 
     /**
      * Files are used to upload documents that can be used with features like Fine-tuning.
      *
-     * @see https://beta.openai.com/docs/api-reference/files
+     * @see https://platorm.openai.com/docs/api-reference/files
      */
     public function files(): FilesContract;
 
     /**
      * List and describe the various models available in the API.
      *
-     * @see https://beta.openai.com/docs/api-reference/models
+     * @see https://platorm.openai.com/docs/api-reference/models
      */
     public function models(): ModelsContract;
 
     /**
      * Manage fine-tuning jobs to tailor a model to your specific training data.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes
      */
     public function fineTunes(): FineTunesContract;
 
     /**
      * Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
      *
-     * @see https://beta.openai.com/docs/api-reference/moderations
+     * @see https://platorm.openai.com/docs/api-reference/moderations
      */
     public function moderations(): ModerationsContract;
 
     /**
      * Given a prompt and/or an input image, the model will generate a new image.
      *
-     * @see https://beta.openai.com/docs/api-reference/images
+     * @see https://platorm.openai.com/docs/api-reference/images
      */
     public function images(): ImagesContract;
 }

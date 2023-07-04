@@ -21,7 +21,7 @@ final class FineTunes implements FineTunesContract
      *
      * Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/create
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/create
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -38,7 +38,7 @@ final class FineTunes implements FineTunesContract
     /**
      * List your organization's fine-tuning jobs.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/list
      */
     public function list(): ListResponse
     {
@@ -53,7 +53,7 @@ final class FineTunes implements FineTunesContract
     /**
      * Gets info about the fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/list
      */
     public function retrieve(string $fineTuneId): RetrieveResponse
     {
@@ -68,7 +68,7 @@ final class FineTunes implements FineTunesContract
     /**
      * Immediately cancel a fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/cancel
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/cancel
      */
     public function cancel(string $fineTuneId): RetrieveResponse
     {
@@ -83,7 +83,7 @@ final class FineTunes implements FineTunesContract
     /**
      * Get fine-grained status updates for a fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/events
      */
     public function listEvents(string $fineTuneId): ListEventsResponse
     {
@@ -98,7 +98,7 @@ final class FineTunes implements FineTunesContract
     /**
      * Get streamed fine-grained status updates for a fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
+     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/events
      *
      * @return StreamResponse<RetrieveStreamedResponseEvent>
      */
