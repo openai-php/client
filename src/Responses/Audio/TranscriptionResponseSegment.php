@@ -53,7 +53,7 @@ final class TranscriptionResponseSegment implements ResponseContract
             $attributes['avg_logprob'],
             $attributes['compression_ratio'],
             $attributes['no_speech_prob'],
-            $attributes['transient'],
+            $attributes['transient'] ?? false,
         );
     }
 
