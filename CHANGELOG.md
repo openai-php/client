@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.6.3 (2023-07-07)
+### Fixed
+- Breaking change on OpenAI API regarding "transient" field in Audio ([#160](https://github.com/openai-php/client/pull/160))
+
 ## v0.6.2 (2023-06-23)
 ### Changed
 - Error handling: use error code as exception message if error message is empty ([#150](https://github.com/openai-php/client/pull/150))

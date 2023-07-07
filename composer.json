@@ -30,7 +30,7 @@
         "pestphp/pest-plugin-arch": "^2.2.1",
         "pestphp/pest-plugin-mock": "^2.0.0",
         "pestphp/pest-plugin-type-coverage": "^2.0.0",
-        "phpstan/phpstan": "^1.10.22",
+        "phpstan/phpstan": "^1.10.25",
         "rector/rector": "^0.16.0",
         "symfony/var-dumper": "^6.3.1"
     },
