@@ -88,7 +88,7 @@ test('request object server user errors', function () {
 
     $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'error' => [
-            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.',
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.',
             'type' => 'invalid_request_error',
             'param' => null,
             'code' => 'invalid_api_key',
@@ -102,8 +102,8 @@ test('request object server user errors', function () {
 
     expect(fn () => $this->http->requestObject($payload))
         ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
-                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
+            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
+                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
@@ -376,7 +376,7 @@ test('request content server errors', function () {
 
     $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'error' => [
-            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.',
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.',
             'type' => 'invalid_request_error',
             'param' => null,
             'code' => 'invalid_api_key',
@@ -390,8 +390,8 @@ test('request content server errors', function () {
 
     expect(fn () => $this->http->requestContent($payload))
         ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
-                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
+            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
+                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
@@ -428,7 +428,7 @@ test('request stream server errors', function () {
 
     $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
         'error' => [
-            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.',
+            'message' => 'Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.',
             'type' => 'invalid_request_error',
             'param' => null,
             'code' => 'invalid_api_key',
@@ -442,8 +442,8 @@ test('request stream server errors', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
-                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platormopenai.com.')
+            expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
+                ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
