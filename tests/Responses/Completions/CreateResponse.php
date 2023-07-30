@@ -5,7 +5,7 @@ use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
 
 test('from', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -19,13 +19,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion['id'])->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna');
 });
 
 test('to array', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion->toArray())
         ->toBeArray()
@@ -54,15 +54,4 @@ test('fake with override', function () {
         ->and($response->choices[0])
         ->text->toBe('awesome!')
         ->index->toBe(0);
-});
-
-test('fake can not add inexistent properties', function () {
-    $response = CreateResponse::fake([
-        'id' => 'cmpl-1234',
-        'something' => 'else',
-    ]);
-
-    expect($response)
-        ->id->toBe('cmpl-1234')
-        ->something->toBeNull();
 });

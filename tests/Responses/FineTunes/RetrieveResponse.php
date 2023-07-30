@@ -6,7 +6,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
 
 test('from', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result)
         ->toBeInstanceOf(RetrieveResponse::class)
@@ -30,13 +30,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result['id'])->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 });
 
 test('to array', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result->toArray())
         ->toBe(fineTuneResource());

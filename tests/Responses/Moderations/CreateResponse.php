@@ -4,7 +4,7 @@ use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Responses\Moderations\CreateResponseResult;
 
 test('from', function () {
-    $moderation = CreateResponse::from(moderationResource());
+    $moderation = CreateResponse::from(moderationResource(), meta());
 
     expect($moderation)
         ->toBeInstanceOf(CreateResponse::class)
@@ -15,13 +15,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $moderation = CreateResponse::from(moderationResource());
+    $moderation = CreateResponse::from(moderationResource(), meta());
 
     expect($moderation['id'])->toBe('modr-5MWoLO');
 });
 
 test('to array', function () {
-    $moderation = CreateResponse::from(moderationResource());
+    $moderation = CreateResponse::from(moderationResource(), meta());
 
     expect($moderation->toArray())
         ->toBeArray()

@@ -75,4 +75,9 @@ final class StreamResponse implements IteratorAggregate
 
         return $buffer;
     }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return ResponseMetaInformation::from($this->response->getHeaders());
+    }
 }

@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Moderations;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -27,6 +28,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $id,
         public readonly string $model,
         public readonly array $results,
+        public readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -35,7 +37,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $results = array_map(fn (array $result): CreateResponseResult => CreateResponseResult::from(
             $result
@@ -45,6 +47,7 @@ final class CreateResponse implements ResponseContract
             $attributes['id'],
             $attributes['model'],
             $results,
+            $meta,
         );
     }
 

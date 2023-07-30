@@ -3,7 +3,7 @@
 use OpenAI\Responses\Files\RetrieveResponse;
 
 test('from', function () {
-    $result = RetrieveResponse::from(fileResource());
+    $result = RetrieveResponse::from(fileResource(), meta());
 
     expect($result)
         ->toBeInstanceOf(RetrieveResponse::class)
@@ -16,7 +16,7 @@ test('from', function () {
 });
 
 test('from with status error', function () {
-    $result = RetrieveResponse::from(fileWithErrorStatusResource());
+    $result = RetrieveResponse::from(fileWithErrorStatusResource(), meta());
 
     expect($result)
         ->toBeInstanceOf(RetrieveResponse::class)
@@ -31,13 +31,13 @@ test('from with status error', function () {
 });
 
 test('as array accessible', function () {
-    $result = RetrieveResponse::from(fileResource());
+    $result = RetrieveResponse::from(fileResource(), meta());
 
     expect($result['id'])->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
 });
 
 test('to array', function () {
-    $result = RetrieveResponse::from(fileResource());
+    $result = RetrieveResponse::from(fileResource(), meta());
 
     expect($result->toArray())
         ->toBe(fileResource());

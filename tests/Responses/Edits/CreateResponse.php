@@ -5,7 +5,7 @@ use OpenAI\Responses\Edits\CreateResponseChoice;
 use OpenAI\Responses\Edits\CreateResponseUsage;
 
 test('from', function () {
-    $response = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
@@ -17,13 +17,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $response = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit(), meta());
 
     expect($response['created'])->toBe(1664135921);
 });
 
 test('to array', function () {
-    $response = CreateResponse::from(edit());
+    $response = CreateResponse::from(edit(), meta());
 
     expect($response->toArray())
         ->toBeArray()

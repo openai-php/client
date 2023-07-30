@@ -13,7 +13,7 @@ test('create', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageCreateWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUrl(), metaHeaders()));
 
     $result = $client->images()->create([
         'prompt' => 'A cute baby sea otter',
@@ -40,7 +40,7 @@ test('edit', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageEditWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUrl(), metaHeaders()));
 
     $result = $client->images()->edit([
         'image' => fileResourceResource(),
@@ -67,7 +67,7 @@ test('variation', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageVariationWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUrl(), metaHeaders()));
 
     $result = $client->images()->variation([
         'image' => fileResourceResource(),

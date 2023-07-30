@@ -3,7 +3,7 @@
 use OpenAI\Responses\Files\CreateResponse;
 
 test('from', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
@@ -18,7 +18,7 @@ test('from', function () {
 });
 
 test('from with status error', function () {
-    $response = CreateResponse::from(fileWithErrorStatusResource());
+    $response = CreateResponse::from(fileWithErrorStatusResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
@@ -33,13 +33,13 @@ test('from with status error', function () {
 });
 
 test('as array accessible', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response['id'])->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
 });
 
 test('to array', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response->toArray())
         ->toBeArray()

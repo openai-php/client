@@ -6,7 +6,7 @@ use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\Responses\Models\RetrieveResponsePermission;
 
 test('list', function () {
-    $client = mockClient('GET', 'models', [], modelList());
+    $client = mockClient('GET', 'models', [], \OpenAI\ValueObjects\Transporter\Response::from(modelList(), metaHeaders()));
 
     $result = $client->models()->list();
 
@@ -21,7 +21,7 @@ test('list', function () {
 });
 
 test('retrieve', function () {
-    $client = mockClient('GET', 'models/da-vince', [], model());
+    $client = mockClient('GET', 'models/da-vince', [], \OpenAI\ValueObjects\Transporter\Response::from(model(), metaHeaders()));
 
     $result = $client->models()->retrieve('da-vince');
 
@@ -52,7 +52,7 @@ test('retrieve', function () {
 });
 
 test('delete fine tuned model', function () {
-    $client = mockClient('DELETE', 'models/curie:ft-acmeco-2021-03-03-21-44-20', [], fineTunedModelDeleteResource());
+    $client = mockClient('DELETE', 'models/curie:ft-acmeco-2021-03-03-21-44-20', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTunedModelDeleteResource(), metaHeaders()));
 
     $result = $client->models()->delete('curie:ft-acmeco-2021-03-03-21-44-20');
 

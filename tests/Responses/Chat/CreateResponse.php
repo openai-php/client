@@ -5,7 +5,7 @@ use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
 
 test('from', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -19,7 +19,7 @@ test('from', function () {
 });
 
 test('from function response', function () {
-    $completion = CreateResponse::from(chatCompletionWithFunction());
+    $completion = CreateResponse::from(chatCompletionWithFunction(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -33,13 +33,13 @@ test('from function response', function () {
 });
 
 test('as array accessible', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion['id'])->toBe('chatcmpl-123');
 });
 
 test('to array', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion->toArray())
         ->toBeArray()

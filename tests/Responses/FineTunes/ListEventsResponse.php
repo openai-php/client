@@ -4,7 +4,7 @@ use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 
 test('from', function () {
-    $response = ListEventsResponse::from(fineTuneListEventsResource());
+    $response = ListEventsResponse::from(fineTuneListEventsResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(ListEventsResponse::class)
@@ -14,13 +14,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $response = ListEventsResponse::from(fineTuneListEventsResource());
+    $response = ListEventsResponse::from(fineTuneListEventsResource(), meta());
 
     expect($response['object'])->toBe('list');
 });
 
 test('to array', function () {
-    $response = ListEventsResponse::from(fineTuneListEventsResource());
+    $response = ListEventsResponse::from(fineTuneListEventsResource(), meta());
 
     expect($response->toArray())
         ->toBeArray()

@@ -4,7 +4,7 @@ use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
 
 test('from json', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionJson(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -16,7 +16,7 @@ test('from json', function () {
 });
 
 test('from verbose json', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -30,7 +30,7 @@ test('from verbose json', function () {
 });
 
 test('from text', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionText());
+    $transcription = TranscriptionResponse::from(audioTranscriptionText(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -42,7 +42,7 @@ test('from text', function () {
 });
 
 test('from srt', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionSrt());
+    $transcription = TranscriptionResponse::from(audioTranscriptionSrt(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -60,7 +60,7 @@ SRT
 });
 
 test('from vtt', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVtt());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVtt(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -79,13 +79,13 @@ VTT
 });
 
 test('as array accessible', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionJson(), meta());
 
     expect($transcription['text'])->toBe('Hello, how are you?');
 });
 
 test('to array', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson(), meta());
 
     expect($transcription->toArray())
         ->toBeArray()

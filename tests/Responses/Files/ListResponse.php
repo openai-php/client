@@ -4,7 +4,7 @@ use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
 
 test('from', function () {
-    $response = ListResponse::from(fileListResource());
+    $response = ListResponse::from(fileListResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(ListResponse::class)
@@ -14,13 +14,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $response = ListResponse::from(fileListResource());
+    $response = ListResponse::from(fileListResource(), meta());
 
     expect($response['object'])->toBe('list');
 });
 
 test('to array', function () {
-    $response = ListResponse::from(fileListResource());
+    $response = ListResponse::from(fileListResource(), meta());
 
     expect($response->toArray())
         ->toBeArray()

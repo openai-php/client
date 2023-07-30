@@ -15,6 +15,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__.'/src/Contracts/ResponseContract.php',
+        __DIR__.'/src/Contracts/ResponseMetaContract.php',
         __DIR__.'/src/Testing/ClientFake.php' => FinalizeClassesWithoutChildrenRector::class,
     ]);
 

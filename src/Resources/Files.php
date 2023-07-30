@@ -25,9 +25,9 @@ final class Files implements FilesContract
         $payload = Payload::list('files');
 
         /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
-        return ListResponse::from($result);
+        return ListResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -83,9 +83,9 @@ final class Files implements FilesContract
     {
         $payload = Payload::delete('files', $file);
 
-        /** @var array{id: string, object: string, deleted: bool} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var array{id: string, object: string, deleted: bool} $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return DeleteResponse::from($result);
+        return DeleteResponse::from($response->data(), $response->meta());
     }
 }

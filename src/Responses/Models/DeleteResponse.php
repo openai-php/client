@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Models;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -24,6 +25,7 @@ final class DeleteResponse implements ResponseContract
         public readonly string $id,
         public readonly string $object,
         public readonly bool $deleted,
+        public readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -32,12 +34,13 @@ final class DeleteResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, deleted: bool}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['deleted'],
+            $meta,
         );
     }
 
@@ -51,5 +54,10 @@ final class DeleteResponse implements ResponseContract
             'object' => $this->object,
             'deleted' => $this->deleted,
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

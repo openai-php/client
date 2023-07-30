@@ -16,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\QueryParams;
+use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -41,7 +42,7 @@ final class HttpTransporter implements TransporterContract
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload): array|string
+    public function requestObject(Payload $payload): Response
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
@@ -50,19 +51,19 @@ final class HttpTransporter implements TransporterContract
         $contents = $response->getBody()->getContents();
 
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
-            return $contents;
+            return Response::from($contents, $response->getHeaders());
         }
 
         $this->throwIfJsonError($response, $contents);
 
         try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $response */
-            $response = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+            /** @var array{error?: array{message: string, type: string, code: string}} $data */
+            $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
         }
 
-        return $response;
+        return Response::from($data, $response->getHeaders());
     }
 
     /**

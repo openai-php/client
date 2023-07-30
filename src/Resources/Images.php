@@ -25,10 +25,10 @@ final class Images implements ImagesContract
     {
         $payload = Payload::create('images/generations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -42,10 +42,10 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/edits', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return EditResponse::from($result);
+        return EditResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -59,9 +59,9 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/variations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return VariationResponse::from($result);
+        return VariationResponse::from($response->data(), $response->meta());
     }
 }

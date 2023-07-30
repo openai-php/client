@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Images;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,6 +27,7 @@ final class VariationResponse implements ResponseContract
     private function __construct(
         public readonly int $created,
         public readonly array $data,
+        public readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -34,7 +36,7 @@ final class VariationResponse implements ResponseContract
      *
      * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string}>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $results = array_map(fn (array $result): VariationResponseData => VariationResponseData::from(
             $result
@@ -43,6 +45,7 @@ final class VariationResponse implements ResponseContract
         return new self(
             $attributes['created'],
             $results,
+            $meta,
         );
     }
 
@@ -58,5 +61,10 @@ final class VariationResponse implements ResponseContract
                 $this->data,
             ),
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

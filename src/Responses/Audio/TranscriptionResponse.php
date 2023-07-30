@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Audio;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -29,6 +30,7 @@ final class TranscriptionResponse implements ResponseContract
         public readonly ?float $duration,
         public readonly array $segments,
         public readonly string $text,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -37,7 +39,7 @@ final class TranscriptionResponse implements ResponseContract
      *
      * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string  $attributes
      */
-    public static function from(array|string $attributes): self
+    public static function from(array|string $attributes, ResponseMetaInformation $meta): self
     {
         if (is_string($attributes)) {
             $attributes = ['text' => $attributes];
@@ -53,6 +55,7 @@ final class TranscriptionResponse implements ResponseContract
             $attributes['duration'] ?? null,
             $segments,
             $attributes['text'],
+            $meta,
         );
     }
 
@@ -71,5 +74,10 @@ final class TranscriptionResponse implements ResponseContract
             ),
             'text' => $this->text,
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

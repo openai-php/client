@@ -4,7 +4,7 @@ use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\Responses\Images\VariationResponseData;
 
 test('from with url', function () {
-    $response = VariationResponse::from(imageVariationWithUrl());
+    $response = VariationResponse::from(imageVariationWithUrl(), meta());
 
     expect($response)
         ->toBeInstanceOf(VariationResponse::class)
@@ -14,13 +14,13 @@ test('from with url', function () {
 });
 
 test('as array accessible with url', function () {
-    $response = VariationResponse::from(imageVariationWithUrl());
+    $response = VariationResponse::from(imageVariationWithUrl(), meta());
 
     expect($response['created'])->toBe(1664136088);
 });
 
 test('to array with url', function () {
-    $response = VariationResponse::from(imageVariationWithUrl());
+    $response = VariationResponse::from(imageVariationWithUrl(), meta());
 
     expect($response->toArray())
         ->toBeArray()
@@ -28,7 +28,7 @@ test('to array with url', function () {
 });
 
 test('from with b64_json', function () {
-    $response = VariationResponse::from(imageVariationWithB46Json());
+    $response = VariationResponse::from(imageVariationWithB46Json(), meta());
 
     expect($response)
         ->toBeInstanceOf(VariationResponse::class)
@@ -38,13 +38,13 @@ test('from with b64_json', function () {
 });
 
 test('as array accessible with b64_json', function () {
-    $response = VariationResponse::from(imageVariationWithB46Json());
+    $response = VariationResponse::from(imageVariationWithB46Json(), meta());
 
     expect($response['created'])->toBe(1664136088);
 });
 
 test('to array with b64_json', function () {
-    $response = VariationResponse::from(imageVariationWithB46Json());
+    $response = VariationResponse::from(imageVariationWithB46Json(), meta());
 
     expect($response->toArray())
         ->toBeArray()

@@ -4,7 +4,7 @@ use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
 
 test('from', function () {
-    $response = ListResponse::from(modelList());
+    $response = ListResponse::from(modelList(), meta());
 
     expect($response)
         ->toBeInstanceOf(ListResponse::class)
@@ -14,13 +14,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $response = ListResponse::from(modelList());
+    $response = ListResponse::from(modelList(), meta());
 
     expect($response['object'])->toBe('list');
 });
 
 test('to array', function () {
-    $response = ListResponse::from(modelList());
+    $response = ListResponse::from(modelList(), meta());
 
     expect($response->toArray())
         ->toBeArray()

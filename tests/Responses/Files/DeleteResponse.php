@@ -3,7 +3,7 @@
 use OpenAI\Responses\Files\DeleteResponse;
 
 test('from', function () {
-    $result = DeleteResponse::from(fileDeleteResource());
+    $result = DeleteResponse::from(fileDeleteResource(), meta());
 
     expect($result)
         ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
@@ -12,13 +12,13 @@ test('from', function () {
 });
 
 test('as array accessible', function () {
-    $result = DeleteResponse::from(fileDeleteResource());
+    $result = DeleteResponse::from(fileDeleteResource(), meta());
 
     expect($result['id'])->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
 });
 
 test('to array', function () {
-    $result = DeleteResponse::from(fileDeleteResource());
+    $result = DeleteResponse::from(fileDeleteResource(), meta());
 
     expect($result->toArray())
         ->toBe(fileDeleteResource());
