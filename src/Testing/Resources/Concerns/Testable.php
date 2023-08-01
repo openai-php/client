@@ -16,7 +16,7 @@ trait Testable
     abstract protected function resource(): string;
 
     /**
-     * @param  array<string, mixed>|string|null  $parameters
+     * @param  array<string, mixed>|string  $parameters
      */
     protected function record(string $method, array|string $parameters = null): ResponseContract|StreamResponse|string
     {
