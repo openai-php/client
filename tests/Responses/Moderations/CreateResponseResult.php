@@ -8,7 +8,7 @@ test('from', function () {
 
     expect($result)
         ->flagged->toBeTrue()
-        ->categories->toHaveCount(7)
+        ->categories->toHaveCount(11)
         ->each->toBeInstanceOf(CreateResponseCategory::class);
 });
 
