@@ -18,17 +18,17 @@ trait Testable
     /**
      * @param  array<string, mixed>|string|null  $parameters
      */
-    protected function record(string $method, array|string|null $parameters = null): ResponseContract|StreamResponse|string
+    protected function record(string $method, array|string $parameters = null): ResponseContract|StreamResponse|string
     {
         return $this->fake->record(new TestRequest($this->resource(), $method, $parameters));
     }
 
-    public function assertSent(callable|int|null $callback = null): void
+    public function assertSent(callable|int $callback = null): void
     {
         $this->fake->assertSent($this->resource(), $callback);
     }
 
-    public function assertNotSent(callable|int|null $callback = null): void
+    public function assertNotSent(callable|int $callback = null): void
     {
         $this->fake->assertNotSent($this->resource(), $callback);
     }
