@@ -25,11 +25,16 @@ test('create', function () {
 
     expect($result->results[0])
         ->flagged->toBeTrue()
-        ->categories->toHaveCount(7)
+        ->categories->toHaveCount(11)
         ->each->toBeInstanceOf(CreateResponseCategory::class);
 
     expect($result->results[0]->categories[Category::Hate->value])
         ->category->toBe(Category::Hate)
         ->violated->toBe(false)
         ->score->toBe(0.22714105248451233);
+
+    expect($result->results[0]->categories[Category::Violence->value])
+        ->category->toBe(Category::Violence)
+        ->violated->toBe(true)
+        ->score->toBe(0.9223177433013916);
 });
