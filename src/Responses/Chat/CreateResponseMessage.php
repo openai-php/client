@@ -20,7 +20,7 @@ final class CreateResponseMessage
     {
         return new self(
             $attributes['role'],
-            $attributes['content'],
+            $attributes['content'] ?? null,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
         );
     }
