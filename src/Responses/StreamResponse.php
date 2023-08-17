@@ -28,6 +28,14 @@ final class StreamResponse implements IteratorAggregate
     }
 
     /**
+     * Get the response instance.
+     */
+    public function getResponse(): ResponseInterface
+    {
+        return $this->response;
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public function getIterator(): Generator
