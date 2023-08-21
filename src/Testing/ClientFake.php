@@ -41,7 +41,7 @@ class ClientFake implements ClientContract
         $this->responses = [...$this->responses, ...$responses];
     }
 
-    public function assertSent(string $resource, callable|int|null $callback = null): void
+    public function assertSent(string $resource, callable|int $callback = null): void
     {
         if (is_int($callback)) {
             $this->assertSentTimes($resource, $callback);

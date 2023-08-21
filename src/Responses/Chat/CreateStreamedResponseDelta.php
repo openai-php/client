@@ -33,7 +33,7 @@ final class CreateStreamedResponseDelta
         $data = array_filter([
             'role' => $this->role,
             'content' => $this->content,
-        ], fn (string|null $value): bool => ! is_null($value));
+        ], fn (?string $value): bool => ! is_null($value));
 
         if ($this->functionCall instanceof CreateStreamedResponseFunctionCall) {
             $data['content'] = null;

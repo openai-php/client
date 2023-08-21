@@ -11,7 +11,7 @@ interface CompletionsContract
     /**
      * Creates a completion for the provided prompt and parameters
      *
-     * @see https://beta.openai.com/docs/api-reference/completions/create-completion
+     * @see https://platorm.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -20,7 +20,7 @@ interface CompletionsContract
     /**
      * Creates a streamed completion for the provided prompt and parameters
      *
-     * @see https://beta.openai.com/docs/api-reference/completions/create-completion
+     * @see https://platorm.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>

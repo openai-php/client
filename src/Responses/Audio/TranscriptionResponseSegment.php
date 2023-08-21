@@ -38,7 +38,7 @@ final class TranscriptionResponseSegment implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}  $attributes
+     * @param  array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -53,7 +53,7 @@ final class TranscriptionResponseSegment implements ResponseContract
             $attributes['avg_logprob'],
             $attributes['compression_ratio'],
             $attributes['no_speech_prob'],
-            $attributes['transient'],
+            $attributes['transient'] ?? false,
         );
     }
 
