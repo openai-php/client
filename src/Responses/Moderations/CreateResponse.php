@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Moderations;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
  */
-final class CreateResponse implements ResponseContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -28,7 +31,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $id,
         public readonly string $model,
         public readonly array $results,
-        public readonly ResponseMetaInformation $meta,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 

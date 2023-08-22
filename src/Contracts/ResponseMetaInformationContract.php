@@ -13,7 +13,7 @@ use ArrayAccess;
  *
  * @internal
  */
-interface ResponseMetaContract extends ArrayAccess
+interface ResponseMetaInformationContract extends ArrayAccess
 {
     /**
      * Returns the array representation of the meta information.

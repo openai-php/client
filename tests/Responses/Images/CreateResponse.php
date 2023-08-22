@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\CreateResponseData;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from with url', function () {
     $response = CreateResponse::from(imageCreateWithUrl(), meta());
@@ -10,7 +11,8 @@ test('from with url', function () {
         ->toBeInstanceOf(CreateResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(CreateResponseData::class);
+        ->data->each->toBeInstanceOf(CreateResponseData::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible with url', function () {
@@ -34,7 +36,8 @@ test('from with b64_json', function () {
         ->toBeInstanceOf(CreateResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(CreateResponseData::class);
+        ->data->each->toBeInstanceOf(CreateResponseData::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible with b64_json', function () {

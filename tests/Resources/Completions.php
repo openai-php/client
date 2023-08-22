@@ -7,6 +7,7 @@ use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
 use OpenAI\Responses\Completions\CreateStreamedResponse;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -40,6 +41,9 @@ test('create', function () {
         ->promptTokens->toBe(1)
         ->completionTokens->toBe(16)
         ->totalTokens->toBe(17);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('create throws an exception if stream option is true', function () {
@@ -52,7 +56,8 @@ test('create throws an exception if stream option is true', function () {
 
 test('create streamed', function () {
     $response = new Response(
-        body: new Stream(completionStream())
+        body: new Stream(completionStream()),
+        headers: metaHeaders(),
     );
 
     $client = mockStreamClient('POST', 'completions', [
@@ -87,4 +92,7 @@ test('create streamed', function () {
         ->index->toBe(0)
         ->logprobs->toBe(null)
         ->finishReason->toBeNull();
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

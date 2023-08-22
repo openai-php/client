@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Chat;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
-final class CreateResponse implements ResponseContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -73,10 +76,5 @@ final class CreateResponse implements ResponseContract
             ),
             'usage' => $this->usage->toArray(),
         ];
-    }
-
-    public function meta(): ResponseMetaInformation
-    {
-        return $this->meta;
     }
 }

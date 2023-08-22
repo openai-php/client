@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Models;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}>
  */
-final class ListResponse implements ResponseContract
+final class ListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -27,7 +30,7 @@ final class ListResponse implements ResponseContract
     private function __construct(
         public readonly string $object,
         public readonly array $data,
-        public readonly ResponseMetaInformation $meta,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -62,10 +65,5 @@ final class ListResponse implements ResponseContract
                 $this->data,
             ),
         ];
-    }
-
-    public function meta(): ResponseMetaInformation
-    {
-        return $this->meta;
     }
 }

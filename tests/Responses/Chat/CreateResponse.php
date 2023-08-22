@@ -3,6 +3,7 @@
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $completion = CreateResponse::from(chatCompletion(), meta());
@@ -15,7 +16,8 @@ test('from', function () {
         ->model->toBe('gpt-3.5-turbo')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('from function response', function () {
@@ -29,7 +31,8 @@ test('from function response', function () {
         ->model->toBe('gpt-3.5-turbo-0613')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

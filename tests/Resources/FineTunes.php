@@ -9,6 +9,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
 use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -61,6 +62,9 @@ test('create', function () {
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->updatedAt->toBe(1614807865);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('list', function () {
@@ -72,6 +76,9 @@ test('list', function () {
         ->toBeInstanceOf(ListResponse::class)
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('retrieve', function () {
@@ -121,6 +128,9 @@ test('retrieve', function () {
         ->learningRateMultiplier->toBe(0.1)
         ->nEpochs->toBe(4)
         ->promptLossWeight->toBe(0.1);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('cancel', function () {
@@ -147,6 +157,9 @@ test('cancel', function () {
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->updatedAt->toBe(1614807865);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('list events', function () {
@@ -165,11 +178,15 @@ test('list events', function () {
         ->createdAt->toBe(1614807352)
         ->level->toBe('info')
         ->message->toBe('Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('list events streamed', function () {
     $response = new Response(
-        body: new Stream(fineTuneListEventsStream())
+        body: new Stream(fineTuneListEventsStream()),
+        headers: metaHeaders(),
     );
 
     $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', [], $response);
@@ -189,4 +206,7 @@ test('list events streamed', function () {
         ->createdAt->toBe(1678253295)
         ->level->toBe('info')
         ->message->toBe('Created fine-tune: ft-MaoEAULREoazpupm8uB7qoIl');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

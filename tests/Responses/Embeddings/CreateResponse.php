@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $response = CreateResponse::from(embeddingList(), meta());
@@ -10,7 +11,8 @@ test('from', function () {
         ->toBeInstanceOf(CreateResponse::class)
         ->object->toBe('list')
         ->embeddings->toBeArray()->toHaveCount(2)
-        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class);
+        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

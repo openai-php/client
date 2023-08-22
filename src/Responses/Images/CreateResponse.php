@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Images;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
  */
-final class CreateResponse implements ResponseContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -27,7 +30,7 @@ final class CreateResponse implements ResponseContract
     private function __construct(
         public readonly int $created,
         public readonly array $data,
-        public readonly ResponseMetaInformation $meta,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -61,10 +64,5 @@ final class CreateResponse implements ResponseContract
                 $this->data,
             ),
         ];
-    }
-
-    public function meta(): ResponseMetaInformation
-    {
-        return $this->meta;
     }
 }

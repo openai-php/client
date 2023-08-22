@@ -3,6 +3,7 @@
 use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\Responses\Edits\CreateResponseChoice;
 use OpenAI\Responses\Edits\CreateResponseUsage;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('create', function () {
     $client = mockClient('POST', 'edits', [
@@ -33,4 +34,7 @@ test('create', function () {
         ->promptTokens->toBe(25)
         ->completionTokens->toBe(28)
         ->totalTokens->toBe(53);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

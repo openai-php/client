@@ -2,13 +2,13 @@
 
 namespace OpenAI\Responses;
 
-use OpenAI\Contracts\ResponseMetaContract;
+use OpenAI\Contracts\ResponseMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseMetaContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
+ * @implements ResponseMetaInformationContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
  */
-final class ResponseMetaInformation implements ResponseMetaContract
+final class ResponseMetaInformation implements ResponseMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>

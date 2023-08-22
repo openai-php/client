@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Files\DeleteResponse;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $result = DeleteResponse::from(fileDeleteResource(), meta());
@@ -8,7 +9,8 @@ test('from', function () {
     expect($result)
         ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
         ->object->toBe('file')
-        ->deleted->toBe(true);
+        ->deleted->toBe(true)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

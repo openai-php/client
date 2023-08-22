@@ -4,6 +4,7 @@ use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('transcribe to text', function () {
     $client = mockClient('POST', 'audio/transcriptions', [
@@ -25,6 +26,9 @@ test('transcribe to text', function () {
         ->duration->toBeNull()
         ->segments->toBeEmpty()
         ->text->toBe('Hello, how are you?');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('transcribe to json', function () {
@@ -47,6 +51,9 @@ test('transcribe to json', function () {
         ->duration->toBeNull()
         ->segments->toBeEmpty()
         ->text->toBe('Hello, how are you?');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('transcribe to verbose json', function () {
@@ -87,6 +94,9 @@ test('transcribe to verbose json', function () {
         ->compressionRatio->toBe(0.7037037037037037)
         ->noSpeechProb->toBe(0.1076972484588623)
         ->transient->toBeFalse();
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('translate to text', function () {
@@ -109,6 +119,9 @@ test('translate to text', function () {
         ->duration->toBeNull()
         ->segments->toBeEmpty()
         ->text->toBe('Hello, how are you?');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('translate to json', function () {
@@ -131,6 +144,9 @@ test('translate to json', function () {
         ->duration->toBeNull()
         ->segments->toBeEmpty()
         ->text->toBe('Hello, how are you?');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('translate to verbose json', function () {
@@ -171,4 +187,7 @@ test('translate to verbose json', function () {
         ->compressionRatio->toBe(0.7037037037037037)
         ->noSpeechProb->toBe(0.1076972484588623)
         ->transient->toBeFalse();
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

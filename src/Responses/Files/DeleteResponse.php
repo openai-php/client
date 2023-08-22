@@ -5,27 +5,30 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Files;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, object: string, deleted: bool}>
  */
-final class DeleteResponse implements ResponseContract
+final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     private function __construct(
         public readonly string $id,
         public readonly string $object,
         public readonly bool $deleted,
-        public readonly ResponseMetaInformation $meta,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -54,10 +57,5 @@ final class DeleteResponse implements ResponseContract
             'object' => $this->object,
             'deleted' => $this->deleted,
         ];
-    }
-
-    public function meta(): ResponseMetaInformation
-    {
-        return $this->meta;
     }
 }

@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\EditResponseData;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from with url', function () {
     $response = EditResponse::from(imageEditWithUrl(), meta());
@@ -10,7 +11,8 @@ test('from with url', function () {
         ->toBeInstanceOf(EditResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(EditResponseData::class);
+        ->data->each->toBeInstanceOf(EditResponseData::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible with url', function () {
@@ -34,7 +36,8 @@ test('from with b64_json', function () {
         ->toBeInstanceOf(EditResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(EditResponseData::class);
+        ->data->each->toBeInstanceOf(EditResponseData::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible with b64_json', function () {

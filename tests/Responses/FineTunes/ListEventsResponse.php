@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\FineTunes\ListEventsResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $response = ListEventsResponse::from(fineTuneListEventsResource(), meta());
@@ -10,7 +11,8 @@ test('from', function () {
         ->toBeInstanceOf(ListEventsResponse::class)
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
-        ->data->each->toBeInstanceOf(RetrieveResponseEvent::class);
+        ->data->each->toBeInstanceOf(RetrieveResponseEvent::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

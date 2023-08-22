@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from json', function () {
     $Translation = TranslationResponse::from(audioTranslationJson(), meta());
@@ -12,7 +13,8 @@ test('from json', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('from verbose json', function () {
@@ -26,7 +28,8 @@ test('from verbose json', function () {
         ->segments->toBeArray()
         ->segments->toHaveCount(1)
         ->segments->each->toBeInstanceOf(TranslationResponseSegment::class)
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('from text', function () {
@@ -38,7 +41,8 @@ test('from text', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('from srt', function () {
@@ -56,7 +60,8 @@ test('from srt', function () {
 Hello, how are you?
 
 SRT
-        );
+        )
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('from vtt', function () {
@@ -75,7 +80,8 @@ WEBVTT
 Hello, how are you?
 
 VTT
-        );
+        )
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

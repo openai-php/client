@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\FineTunes;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
  */
-final class ListEventsResponse implements ResponseContract
+final class ListEventsResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -61,10 +64,5 @@ final class ListEventsResponse implements ResponseContract
                 $this->data,
             ),
         ];
-    }
-
-    public function meta(): ResponseMetaInformation
-    {
-        return $this->meta;
     }
 }

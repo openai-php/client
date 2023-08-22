@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\Responses\Models\RetrieveResponsePermission;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $result = RetrieveResponse::from(model(), meta());
@@ -15,7 +16,8 @@ test('from', function () {
         ->permission->toBeArray()->toHaveCount(1)
         ->permission->each->toBeInstanceOf(RetrieveResponsePermission::class)
         ->root->toBe('text-babbage:001')
-        ->parent->toBe(null);
+        ->parent->toBe(null)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {

@@ -4,6 +4,7 @@ use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\Responses\Models\RetrieveResponsePermission;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('list', function () {
     $client = mockClient('GET', 'models', [], \OpenAI\ValueObjects\Transporter\Response::from(modelList(), metaHeaders()));
@@ -18,6 +19,9 @@ test('list', function () {
 
     expect($result->data[0])
         ->id->toBe('text-babbage:001');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('retrieve', function () {
@@ -49,6 +53,9 @@ test('retrieve', function () {
         ->organization->toBe('*')
         ->group->toBe(null)
         ->isBlocking->toBe(false);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('delete fine tuned model', function () {
@@ -61,4 +68,7 @@ test('delete fine tuned model', function () {
         ->id->toBe('curie:ft-acmeco-2021-03-03-21-44-20')
         ->object->toBe('model')
         ->deleted->toBe(true);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

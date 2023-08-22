@@ -4,6 +4,7 @@ namespace OpenAI\Responses;
 
 use Generator;
 use IteratorAggregate;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Exceptions\ErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -13,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * @implements IteratorAggregate<int, TResponse>
  */
-final class StreamResponse implements IteratorAggregate
+final class StreamResponse implements IteratorAggregate, ResponseHasMetaInformationContract
 {
     /**
      * Creates a new Stream Response instance.

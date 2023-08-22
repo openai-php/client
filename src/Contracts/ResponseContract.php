@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Contracts;
 
 use ArrayAccess;
-use OpenAI\Responses\ResponseMetaInformation;
 
 /**
  * @template TArray of array
@@ -50,6 +49,4 @@ interface ResponseContract extends ArrayAccess
      * @param  TOffsetKey  $offset
      */
     public function offsetUnset(mixed $offset): never;
-
-    //    public function meta(): ResponseMetaInformation;
 }

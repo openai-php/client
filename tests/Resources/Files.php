@@ -4,6 +4,7 @@ use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('list', function () {
     $client = mockClient('GET', 'files', [], \OpenAI\ValueObjects\Transporter\Response::from(fileListResource(), metaHeaders()));
@@ -15,6 +16,9 @@ test('list', function () {
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('retrieve', function () {
@@ -30,6 +34,9 @@ test('retrieve', function () {
         ->createdAt->toBe(1613779121)
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('download', function () {
@@ -59,6 +66,9 @@ test('upload', function () {
         ->createdAt->toBe(1613779121)
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune');
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('delete', function () {
@@ -71,4 +81,7 @@ test('delete', function () {
         ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
         ->object->toBe('file')
         ->deleted->toBe(true);
+
+    expect($result->meta())
+        ->toBeInstanceOf(ResponseMetaInformation::class);
 });

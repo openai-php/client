@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
+use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $response = ListResponse::from(modelList(), meta());
@@ -10,7 +11,8 @@ test('from', function () {
         ->toBeInstanceOf(ListResponse::class)
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
-        ->data->each->toBeInstanceOf(RetrieveResponse::class);
+        ->data->each->toBeInstanceOf(RetrieveResponse::class)
+        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
 });
 
 test('as array accessible', function () {
