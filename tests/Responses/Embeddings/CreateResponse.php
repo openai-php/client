@@ -41,11 +41,25 @@ test('fake with override', function () {
                 'embedding' => [
                     0.1234,
                     0.5678,
+                    0.9876,
+                ],
+            ],
+            [
+                'object' => 'embedding',
+                'index' => 1,
+                'embedding' => [
+                    -0.1234,
+                    -0.5678,
+                    -0.9876,
                 ],
             ],
         ],
     ]);
 
     expect($response->embeddings[0])
-        ->embedding->toBe([0.1234, 0.5678]);
+        ->embedding->toBe([0.1234, 0.5678, 0.9876])
+        ->and($response->embeddings[1])
+        ->object->toBe('embedding')
+        ->index->toBe(1)
+        ->embedding->toBe([-0.1234, -0.5678, -0.9876]);
 });
