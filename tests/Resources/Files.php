@@ -4,9 +4,10 @@ use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('list', function () {
-    $client = mockClient('GET', 'files', [], fileListResource());
+    $client = mockClient('GET', 'files', [], \OpenAI\ValueObjects\Transporter\Response::from(fileListResource(), metaHeaders()));
 
     $result = $client->files()->list();
 
@@ -15,10 +16,13 @@ test('list', function () {
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('retrieve', function () {
-    $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileResource());
+    $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()));
 
     $result = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');
 
@@ -30,6 +34,9 @@ test('retrieve', function () {
         ->createdAt->toBe(1613779121)
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('download', function () {
@@ -44,7 +51,7 @@ test('upload', function () {
     $client = mockClient('POST', 'files', [
         'purpose' => 'fine-tune',
         'file' => fileResourceResource(),
-    ], fileResource());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()));
 
     $result = $client->files()->upload([
         'purpose' => 'fine-tune',
@@ -59,10 +66,13 @@ test('upload', function () {
         ->createdAt->toBe(1613779121)
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('delete', function () {
-    $client = mockClient('DELETE', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileDeleteResource());
+    $client = mockClient('DELETE', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], \OpenAI\ValueObjects\Transporter\Response::from(fileDeleteResource(), metaHeaders()));
 
     $result = $client->files()->delete('file-XjGxS3KTG0uNmNOK362iJua3');
 
@@ -71,4 +81,7 @@ test('delete', function () {
         ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
         ->object->toBe('file')
         ->deleted->toBe(true);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });

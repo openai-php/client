@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ModerationsContract;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Moderations implements ModerationsContract
 {
@@ -23,9 +24,9 @@ final class Moderations implements ModerationsContract
     {
         $payload = Payload::create('moderations', $parameters);
 
-        /** @var array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 }

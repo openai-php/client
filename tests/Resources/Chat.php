@@ -7,13 +7,14 @@ use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponseChoice;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
     $client = mockClient('POST', 'chat/completions', [
         'model' => 'gpt-3.5-turbo',
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
-    ], chatCompletion());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(chatCompletion(), metaHeaders()));
 
     $result = $client->chat()->create([
         'model' => 'gpt-3.5-turbo',
@@ -41,6 +42,9 @@ test('create', function () {
         ->promptTokens->toBe(9)
         ->completionTokens->toBe(12)
         ->totalTokens->toBe(21);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('create throws an exception if stream option is true', function () {
@@ -53,7 +57,8 @@ test('create throws an exception if stream option is true', function () {
 
 test('create streamed', function () {
     $response = new Response(
-        body: new Stream(chatCompletionStream())
+        body: new Stream(chatCompletionStream()),
+        headers: metaHeaders(),
     );
 
     $client = mockStreamClient('POST', 'chat/completions', [
@@ -89,6 +94,9 @@ test('create streamed', function () {
         ->index->toBe(0)
         ->logprobs->toBe(null)
         ->finishReason->toBeNull();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('handles error messages in stream', function () {

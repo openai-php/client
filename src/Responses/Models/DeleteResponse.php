@@ -5,25 +5,30 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Models;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, object: string, deleted: bool}>
  */
-final class DeleteResponse implements ResponseContract
+final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     private function __construct(
         public readonly string $id,
         public readonly string $object,
         public readonly bool $deleted,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -32,12 +37,13 @@ final class DeleteResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, deleted: bool}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['deleted'],
+            $meta,
         );
     }
 

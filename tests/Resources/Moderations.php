@@ -1,15 +1,17 @@
 <?php
 
 use OpenAI\Enums\Moderations\Category;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Responses\Moderations\CreateResponseCategory;
 use OpenAI\Responses\Moderations\CreateResponseResult;
+use OpenAI\ValueObjects\Transporter\Response;
 
-test('create', function () {
+test('create', closure: function () {
     $client = mockClient('POST', 'moderations', [
         'model' => 'text-moderation-latest',
         'input' => 'I want to kill them.',
-    ], moderationResource());
+    ], Response::from(moderationResource(), metaHeaders()));
 
     $result = $client->moderations()->create([
         'model' => 'text-moderation-latest',
@@ -37,4 +39,7 @@ test('create', function () {
         ->category->toBe(Category::Violence)
         ->violated->toBe(true)
         ->score->toBe(0.9223177433013916);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });

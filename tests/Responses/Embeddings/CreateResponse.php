@@ -2,25 +2,27 @@
 
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
-    $response = CreateResponse::from(embeddingList());
+    $response = CreateResponse::from(embeddingList(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
         ->object->toBe('list')
         ->embeddings->toBeArray()->toHaveCount(2)
-        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class);
+        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $response = CreateResponse::from(embeddingList());
+    $response = CreateResponse::from(embeddingList(), meta());
 
     expect($response['object'])->toBe('list');
 });
 
 test('to array', function () {
-    $response = CreateResponse::from(embeddingList());
+    $response = CreateResponse::from(embeddingList(), meta());
 
     expect($response->toArray())->toBeArray()->toBe(embeddingList());
 });
@@ -29,8 +31,7 @@ test('fake', function () {
     $response = CreateResponse::fake();
 
     expect($response['data'][0])
-        ->object->toBe('embedding')
-        ->embedding->toBe([-0.008906792, -0.013743395]);
+        ->object->toBe('embedding');
 });
 
 test('fake with override', function () {

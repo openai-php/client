@@ -3,9 +3,10 @@
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -15,17 +16,18 @@ test('from', function () {
         ->model->toBe('davinci')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion['id'])->toBe('cmpl-5uS6a68SwurhqAqLBpZtibIITICna');
 });
 
 test('to array', function () {
-    $completion = CreateResponse::from(completion());
+    $completion = CreateResponse::from(completion(), meta());
 
     expect($completion->toArray())
         ->toBeArray()

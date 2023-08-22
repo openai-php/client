@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Embeddings implements EmbeddingsContract
 {
@@ -23,9 +24,9 @@ final class Embeddings implements EmbeddingsContract
     {
         $payload = Payload::create('embeddings', $parameters);
 
-        /** @var array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 }

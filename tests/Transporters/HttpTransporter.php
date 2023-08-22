@@ -34,7 +34,7 @@ beforeEach(function () {
 test('request object', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8', ...metaHeaders()], json_encode([
         'qdwq',
     ]));
 
@@ -57,7 +57,7 @@ test('request object', function () {
 test('request object response', function () {
     $payload = Payload::list('models');
 
-    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8', ...metaHeaders()], json_encode([
         [
             'text' => 'Hey!',
             'index' => 0,
@@ -73,7 +73,7 @@ test('request object response', function () {
 
     $response = $this->http->requestObject($payload);
 
-    expect($response)->toBe([
+    expect($response->data())->toBe([
         [
             'text' => 'Hey!',
             'index' => 0,
@@ -302,7 +302,7 @@ test('request object serialization errors', function () {
 test('request plain text', function () {
     $payload = Payload::upload('audio/transcriptions', []);
 
-    $response = new Response(200, ['Content-Type' => 'text/plain; charset=utf-8'], 'Hello, how are you?');
+    $response = new Response(200, ['Content-Type' => 'text/plain; charset=utf-8', ...metaHeaders()], 'Hello, how are you?');
 
     $this->client
         ->shouldReceive('sendRequest')
@@ -311,7 +311,7 @@ test('request plain text', function () {
 
     $response = $this->http->requestObject($payload);
 
-    expect($response)->toBe('Hello, how are you?');
+    expect($response->data())->toBe('Hello, how are you?');
 });
 
 test('request content', function () {

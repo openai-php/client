@@ -6,6 +6,7 @@ use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\EditResponseData;
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\Responses\Images\VariationResponseData;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('create', function () {
     $client = mockClient('POST', 'images/generations', [
@@ -13,7 +14,7 @@ test('create', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageCreateWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUrl(), metaHeaders()));
 
     $result = $client->images()->create([
         'prompt' => 'A cute baby sea otter',
@@ -30,6 +31,9 @@ test('create', function () {
 
     expect($result->data[0])
         ->url->toBe('https://openai.com/image.png');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('edit', function () {
@@ -40,7 +44,7 @@ test('edit', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageEditWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUrl(), metaHeaders()));
 
     $result = $client->images()->edit([
         'image' => fileResourceResource(),
@@ -59,6 +63,9 @@ test('edit', function () {
 
     expect($result->data[0])
         ->url->toBe('https://openai.com/image.png');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('variation', function () {
@@ -67,7 +74,7 @@ test('variation', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], imageVariationWithUrl());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUrl(), metaHeaders()));
 
     $result = $client->images()->variation([
         'image' => fileResourceResource(),
@@ -84,4 +91,7 @@ test('variation', function () {
 
     expect($result->data[0])
         ->url->toBe('https://openai.com/image.png');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });

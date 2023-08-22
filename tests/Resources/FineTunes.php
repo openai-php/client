@@ -9,6 +9,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
 use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -25,7 +26,7 @@ test('create', function () {
         'classification_positive_class' => null,
         'classification_betas' => [],
         'suffix' => null,
-    ], fineTuneResource());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(fineTuneResource(), metaHeaders()));
 
     $result = $client->fineTunes()->create([
         'training_file' => 'file-XjGxS3KTG0uNmNOK362iJua3',
@@ -61,10 +62,13 @@ test('create', function () {
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->updatedAt->toBe(1614807865);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list', function () {
-    $client = mockClient('GET', 'fine-tunes', [], fineTuneListResource());
+    $client = mockClient('GET', 'fine-tunes', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuneListResource(), metaHeaders()));
 
     $result = $client->fineTunes()->list();
 
@@ -72,10 +76,13 @@ test('list', function () {
         ->toBeInstanceOf(ListResponse::class)
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('retrieve', function () {
-    $client = mockClient('GET', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F', [], fineTuneResource());
+    $client = mockClient('GET', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuneResource(), metaHeaders()));
 
     $result = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 
@@ -121,10 +128,13 @@ test('retrieve', function () {
         ->learningRateMultiplier->toBe(0.1)
         ->nEpochs->toBe(4)
         ->promptLossWeight->toBe(0.1);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('cancel', function () {
-    $client = mockClient('POST', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], [...fineTuneResource(), 'status' => 'cancelled']);
+    $client = mockClient('POST', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], \OpenAI\ValueObjects\Transporter\Response::from([...fineTuneResource(), 'status' => 'cancelled'], metaHeaders()));
 
     $result = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 
@@ -147,10 +157,13 @@ test('cancel', function () {
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->updatedAt->toBe(1614807865);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list events', function () {
-    $client = mockClient('GET', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], fineTuneListEventsResource());
+    $client = mockClient('GET', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuneListEventsResource(), metaHeaders()));
 
     $result = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 
@@ -165,11 +178,15 @@ test('list events', function () {
         ->createdAt->toBe(1614807352)
         ->level->toBe('info')
         ->message->toBe('Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list events streamed', function () {
     $response = new Response(
-        body: new Stream(fineTuneListEventsStream())
+        body: new Stream(fineTuneListEventsStream()),
+        headers: metaHeaders(),
     );
 
     $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', [], $response);
@@ -189,4 +206,7 @@ test('list events streamed', function () {
         ->createdAt->toBe(1678253295)
         ->level->toBe('info')
         ->message->toBe('Created fine-tune: ft-MaoEAULREoazpupm8uB7qoIl');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });

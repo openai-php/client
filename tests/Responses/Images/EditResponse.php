@@ -2,25 +2,27 @@
 
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\EditResponseData;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from with url', function () {
-    $response = EditResponse::from(imageEditWithUrl());
+    $response = EditResponse::from(imageEditWithUrl(), meta());
 
     expect($response)
         ->toBeInstanceOf(EditResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(EditResponseData::class);
+        ->data->each->toBeInstanceOf(EditResponseData::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible with url', function () {
-    $response = EditResponse::from(imageEditWithUrl());
+    $response = EditResponse::from(imageEditWithUrl(), meta());
 
     expect($response['created'])->toBe(1664136088);
 });
 
 test('to array with url', function () {
-    $response = EditResponse::from(imageEditWithUrl());
+    $response = EditResponse::from(imageEditWithUrl(), meta());
 
     expect($response->toArray())
         ->toBeArray()
@@ -28,23 +30,24 @@ test('to array with url', function () {
 });
 
 test('from with b64_json', function () {
-    $response = EditResponse::from(imageEditWithB46Json());
+    $response = EditResponse::from(imageEditWithB46Json(), meta());
 
     expect($response)
         ->toBeInstanceOf(EditResponse::class)
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
-        ->data->each->toBeInstanceOf(EditResponseData::class);
+        ->data->each->toBeInstanceOf(EditResponseData::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible with b64_json', function () {
-    $response = EditResponse::from(imageEditWithB46Json());
+    $response = EditResponse::from(imageEditWithB46Json(), meta());
 
     expect($response['created'])->toBe(1664136088);
 });
 
 test('to array with b64_json', function () {
-    $response = EditResponse::from(imageEditWithB46Json());
+    $response = EditResponse::from(imageEditWithB46Json(), meta());
 
     expect($response->toArray())
         ->toBeArray()

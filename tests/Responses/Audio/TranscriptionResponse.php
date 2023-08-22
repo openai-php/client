@@ -2,9 +2,10 @@
 
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from json', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionJson(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -12,11 +13,12 @@ test('from json', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from verbose json', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -26,11 +28,12 @@ test('from verbose json', function () {
         ->segments->toBeArray()
         ->segments->toHaveCount(1)
         ->segments->each->toBeInstanceOf(TranscriptionResponseSegment::class)
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from text', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionText());
+    $transcription = TranscriptionResponse::from(audioTranscriptionText(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -38,11 +41,12 @@ test('from text', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
-        ->text->toBe('Hello, how are you?');
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from srt', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionSrt());
+    $transcription = TranscriptionResponse::from(audioTranscriptionSrt(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -56,11 +60,12 @@ test('from srt', function () {
 Hello, how are you?
 
 SRT
-        );
+        )
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from vtt', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVtt());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVtt(), meta());
 
     expect($transcription)
         ->toBeInstanceOf(TranscriptionResponse::class)
@@ -75,17 +80,18 @@ WEBVTT
 Hello, how are you?
 
 VTT
-        );
+        )
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionJson(), meta());
 
     expect($transcription['text'])->toBe('Hello, how are you?');
 });
 
 test('to array', function () {
-    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson());
+    $transcription = TranscriptionResponse::from(audioTranscriptionVerboseJson(), meta());
 
     expect($transcription->toArray())
         ->toBeArray()

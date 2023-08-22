@@ -1,9 +1,10 @@
 <?php
 
 use OpenAI\Responses\Files\CreateResponse;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
@@ -14,11 +15,12 @@ test('from', function () {
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune')
         ->status->toBe('succeeded')
-        ->statusDetails->toBeNull();
+        ->statusDetails->toBeNull()
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from with status error', function () {
-    $response = CreateResponse::from(fileWithErrorStatusResource());
+    $response = CreateResponse::from(fileWithErrorStatusResource(), meta());
 
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
@@ -29,17 +31,18 @@ test('from with status error', function () {
         ->filename->toBe('mydata_corrupt.jsonl')
         ->purpose->toBe('fine-tune')
         ->status->toBe('error')
-        ->statusDetails->toBe("Invalid file format. Example 1273 cannot be parsed. Error: line contains invalid json: Expecting ',' delimiter: line 1 column 79 (char 78) (line 1273)");
+        ->statusDetails->toBe("Invalid file format. Example 1273 cannot be parsed. Error: line contains invalid json: Expecting ',' delimiter: line 1 column 79 (char 78) (line 1273)")
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response['id'])->toBe('file-XjGxS3KTG0uNmNOK362iJua3');
 });
 
 test('to array', function () {
-    $response = CreateResponse::from(fileResource());
+    $response = CreateResponse::from(fileResource(), meta());
 
     expect($response->toArray())
         ->toBeArray()

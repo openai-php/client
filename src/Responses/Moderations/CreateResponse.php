@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Moderations;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
  */
-final class CreateResponse implements ResponseContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -27,6 +31,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $id,
         public readonly string $model,
         public readonly array $results,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -35,7 +40,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $results = array_map(fn (array $result): CreateResponseResult => CreateResponseResult::from(
             $result
@@ -45,6 +50,7 @@ final class CreateResponse implements ResponseContract
             $attributes['id'],
             $attributes['model'],
             $results,
+            $meta,
         );
     }
 

@@ -3,9 +3,10 @@
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -15,11 +16,12 @@ test('from', function () {
         ->model->toBe('gpt-3.5-turbo')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('from function response', function () {
-    $completion = CreateResponse::from(chatCompletionWithFunction());
+    $completion = CreateResponse::from(chatCompletionWithFunction(), meta());
 
     expect($completion)
         ->toBeInstanceOf(CreateResponse::class)
@@ -29,17 +31,18 @@ test('from function response', function () {
         ->model->toBe('gpt-3.5-turbo-0613')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion['id'])->toBe('chatcmpl-123');
 });
 
 test('to array', function () {
-    $completion = CreateResponse::from(chatCompletion());
+    $completion = CreateResponse::from(chatCompletion(), meta());
 
     expect($completion->toArray())
         ->toBeArray()

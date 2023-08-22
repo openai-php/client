@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Models;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>
  */
-final class RetrieveResponse implements ResponseContract
+final class RetrieveResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -31,6 +35,7 @@ final class RetrieveResponse implements ResponseContract
         public readonly array $permission,
         public readonly string $root,
         public readonly ?string $parent,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -39,7 +44,7 @@ final class RetrieveResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $permission = array_map(fn (array $result): RetrieveResponsePermission => RetrieveResponsePermission::from(
             $result
@@ -53,6 +58,7 @@ final class RetrieveResponse implements ResponseContract
             $permission,
             $attributes['root'],
             $attributes['parent'],
+            $meta,
         );
     }
 

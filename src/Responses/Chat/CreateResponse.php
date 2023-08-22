@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Chat;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
-final class CreateResponse implements ResponseContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
      */
     use ArrayAccessible;
 
+    use HasMetaInformation;
     use Fakeable;
 
     /**
@@ -30,6 +34,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $model,
         public readonly array $choices,
         public readonly CreateResponseUsage $usage,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -38,7 +43,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $choices = array_map(fn (array $result): CreateResponseChoice => CreateResponseChoice::from(
             $result
@@ -50,7 +55,8 @@ final class CreateResponse implements ResponseContract
             $attributes['created'],
             $attributes['model'],
             $choices,
-            CreateResponseUsage::from($attributes['usage'])
+            CreateResponseUsage::from($attributes['usage']),
+            $meta,
         );
     }
 

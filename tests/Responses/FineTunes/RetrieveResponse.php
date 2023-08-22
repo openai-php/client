@@ -4,9 +4,10 @@ use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result)
         ->toBeInstanceOf(RetrieveResponse::class)
@@ -26,17 +27,18 @@ test('from', function () {
         ->validationFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
-        ->updatedAt->toBe(1614807865);
+        ->updatedAt->toBe(1614807865)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result['id'])->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 });
 
 test('to array', function () {
-    $result = RetrieveResponse::from(fineTuneResource());
+    $result = RetrieveResponse::from(fineTuneResource(), meta());
 
     expect($result->toArray())
         ->toBe(fineTuneResource());
