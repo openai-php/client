@@ -71,17 +71,17 @@ final class MetaInformation implements MetaInformationContract
     public function toArray(): array
     {
         return array_filter([
-            'x-request-id' => $this->requestId,
             'openai-model' => $this->openai->model,
             'openai-organization' => $this->openai->organization,
             'openai-processing-ms' => $this->openai->processingMs,
             'openai-version' => $this->openai->version,
             'x-ratelimit-limit-requests' => $this->requestLimit->limit ?? null,
-            'x-ratelimit-remaining-requests' => $this->requestLimit->remaining ?? null,
-            'x-ratelimit-reset-requests' => $this->requestLimit->reset ?? null,
             'x-ratelimit-limit-tokens' => $this->tokenLimit->limit ?? null,
+            'x-ratelimit-remaining-requests' => $this->requestLimit->remaining ?? null,
             'x-ratelimit-remaining-tokens' => $this->tokenLimit->remaining ?? null,
+            'x-ratelimit-reset-requests' => $this->requestLimit->reset ?? null,
             'x-ratelimit-reset-tokens' => $this->tokenLimit->reset ?? null,
+            'x-request-id' => $this->requestId,
         ], fn (string|int|null $value): bool => ! is_null($value));
     }
 }
