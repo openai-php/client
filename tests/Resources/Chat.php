@@ -13,7 +13,7 @@ test('create', function () {
     $client = mockClient('POST', 'chat/completions', [
         'model' => 'gpt-3.5-turbo',
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
-    ], chatCompletion());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(chatCompletion(), metaHeaders()));
 
     $result = $client->chat()->create([
         'model' => 'gpt-3.5-turbo',

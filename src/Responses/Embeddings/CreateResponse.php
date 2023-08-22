@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Embeddings;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -27,6 +28,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $object,
         public readonly array $embeddings,
         public readonly CreateResponseUsage $usage,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -35,7 +37,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $embeddings = array_map(fn (array $result): CreateResponseEmbedding => CreateResponseEmbedding::from(
             $result
@@ -44,7 +46,8 @@ final class CreateResponse implements ResponseContract
         return new self(
             $attributes['object'],
             $embeddings,
-            CreateResponseUsage::from($attributes['usage'])
+            CreateResponseUsage::from($attributes['usage']),
+            $meta,
         );
     }
 
@@ -61,5 +64,10 @@ final class CreateResponse implements ResponseContract
             ),
             'usage' => $this->usage->toArray(),
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

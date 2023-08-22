@@ -13,7 +13,7 @@ test('create', function () {
     $client = mockClient('POST', 'completions', [
         'model' => 'da-vince',
         'prompt' => 'hi',
-    ], completion());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(completion(), metaHeaders()));
 
     $result = $client->completions()->create([
         'model' => 'da-vince',

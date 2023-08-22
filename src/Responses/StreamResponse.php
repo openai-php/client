@@ -78,6 +78,7 @@ final class StreamResponse implements IteratorAggregate
 
     public function meta(): ResponseMetaInformation
     {
+        // @phpstan-ignore-next-line
         return ResponseMetaInformation::from($this->response->getHeaders());
     }
 }

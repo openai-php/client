@@ -4,7 +4,7 @@ use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
 
 test('from json', function () {
-    $Translation = TranslationResponse::from(audioTranslationJson());
+    $Translation = TranslationResponse::from(audioTranslationJson(), meta());
 
     expect($Translation)
         ->toBeInstanceOf(TranslationResponse::class)
@@ -16,7 +16,7 @@ test('from json', function () {
 });
 
 test('from verbose json', function () {
-    $Translation = TranslationResponse::from(audioTranslationVerboseJson());
+    $Translation = TranslationResponse::from(audioTranslationVerboseJson(), meta());
 
     expect($Translation)
         ->toBeInstanceOf(TranslationResponse::class)
@@ -30,7 +30,7 @@ test('from verbose json', function () {
 });
 
 test('from text', function () {
-    $Translation = TranslationResponse::from(audioTranslationText());
+    $Translation = TranslationResponse::from(audioTranslationText(), meta());
 
     expect($Translation)
         ->toBeInstanceOf(TranslationResponse::class)
@@ -42,7 +42,7 @@ test('from text', function () {
 });
 
 test('from srt', function () {
-    $Translation = TranslationResponse::from(audioTranslationSrt());
+    $Translation = TranslationResponse::from(audioTranslationSrt(), meta());
 
     expect($Translation)
         ->toBeInstanceOf(TranslationResponse::class)
@@ -60,7 +60,7 @@ SRT
 });
 
 test('from vtt', function () {
-    $Translation = TranslationResponse::from(audioTranslationVtt());
+    $Translation = TranslationResponse::from(audioTranslationVtt(), meta());
 
     expect($Translation)
         ->toBeInstanceOf(TranslationResponse::class)
@@ -79,13 +79,13 @@ VTT
 });
 
 test('as array accessible', function () {
-    $Translation = TranslationResponse::from(audioTranslationJson());
+    $Translation = TranslationResponse::from(audioTranslationJson(), meta());
 
     expect($Translation['text'])->toBe('Hello, how are you?');
 });
 
 test('to array', function () {
-    $Translation = TranslationResponse::from(audioTranslationVerboseJson());
+    $Translation = TranslationResponse::from(audioTranslationVerboseJson(), meta());
 
     expect($Translation->toArray())
         ->toBeArray()

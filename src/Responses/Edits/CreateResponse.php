@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Edits;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -28,6 +29,7 @@ final class CreateResponse implements ResponseContract
         public readonly int $created,
         public readonly array $choices,
         public readonly CreateResponseUsage $usage,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -36,7 +38,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $choices = array_map(fn (array $result): CreateResponseChoice => CreateResponseChoice::from(
             $result
@@ -46,7 +48,8 @@ final class CreateResponse implements ResponseContract
             $attributes['object'],
             $attributes['created'],
             $choices,
-            CreateResponseUsage::from($attributes['usage'])
+            CreateResponseUsage::from($attributes['usage']),
+            $meta,
         );
     }
 
@@ -64,5 +67,10 @@ final class CreateResponse implements ResponseContract
             ),
             'usage' => $this->usage->toArray(),
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

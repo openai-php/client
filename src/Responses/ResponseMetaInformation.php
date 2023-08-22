@@ -6,12 +6,12 @@ use OpenAI\Contracts\ResponseMetaContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseMetaContract<array{openai-model: string, openai-organization: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests: int, x-ratelimit-limit-tokens: int, x-ratelimit-remaining-requests: int, x-ratelimit-remaining-tokens: int, x-ratelimit-reset-requests: string, x-ratelimit-reset-tokens: string, x-request-id: string}>
+ * @implements ResponseMetaContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
  */
 final class ResponseMetaInformation implements ResponseMetaContract
 {
     /**
-     * @use ArrayAccessible<array{openai-model: string, openai-organization: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests: int, x-ratelimit-limit-tokens: int, x-ratelimit-remaining-requests: int, x-ratelimit-remaining-tokens: int, x-ratelimit-reset-requests: string, x-ratelimit-reset-tokens: string, x-request-id: string}>
+     * @use ArrayAccessible<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
      */
     use ArrayAccessible;
 
@@ -39,8 +39,8 @@ final class ResponseMetaInformation implements ResponseMetaContract
 
         if (isset($headers['x-ratelimit-limit-requests'][0])) {
             $requestLimit = RequestLimitMetaInformation::from([
-                'limit' => (int)$headers['x-ratelimit-limit-requests'][0],
-                'remaining' => (int)$headers['x-ratelimit-remaining-requests'][0],
+                'limit' => (int) $headers['x-ratelimit-limit-requests'][0],
+                'remaining' => (int) $headers['x-ratelimit-remaining-requests'][0],
                 'reset' => $headers['x-ratelimit-reset-requests'][0],
             ]);
         } else {
@@ -82,6 +82,6 @@ final class ResponseMetaInformation implements ResponseMetaContract
             'x-ratelimit-limit-tokens' => $this->tokenLimit->limit ?? null,
             'x-ratelimit-remaining-tokens' => $this->tokenLimit->remaining ?? null,
             'x-ratelimit-reset-tokens' => $this->tokenLimit->reset ?? null,
-        ], fn (string|null $value): bool => ! is_null($value));
+        ], fn (string|int|null $value): bool => ! is_null($value));
     }
 }

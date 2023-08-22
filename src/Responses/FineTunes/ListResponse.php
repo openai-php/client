@@ -6,6 +6,7 @@ namespace OpenAI\Responses\FineTunes;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,6 +27,7 @@ final class ListResponse implements ResponseContract
     private function __construct(
         public readonly string $object,
         public readonly array $data,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -34,7 +36,7 @@ final class ListResponse implements ResponseContract
      *
      * @param  array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, updated_at: int}>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $data = array_map(fn (array $result): RetrieveResponse => RetrieveResponse::from(
             $result
@@ -43,6 +45,7 @@ final class ListResponse implements ResponseContract
         return new self(
             $attributes['object'],
             $data,
+            $meta,
         );
     }
 
@@ -58,5 +61,10 @@ final class ListResponse implements ResponseContract
                 $this->data,
             ),
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

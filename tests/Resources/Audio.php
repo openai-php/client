@@ -10,7 +10,7 @@ test('transcribe to text', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'text',
-    ], audioTranscriptionText());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranscriptionText(), metaHeaders()));
 
     $result = $client->audio()->transcribe([
         'file' => audioFileResource(),
@@ -32,7 +32,7 @@ test('transcribe to json', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'json',
-    ], audioTranscriptionJson());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranscriptionJson(), metaHeaders()));
 
     $result = $client->audio()->transcribe([
         'file' => audioFileResource(),
@@ -54,7 +54,7 @@ test('transcribe to verbose json', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'verbose_json',
-    ], audioTranscriptionVerboseJson());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranscriptionVerboseJson(), metaHeaders()));
 
     $result = $client->audio()->transcribe([
         'file' => audioFileResource(),
@@ -94,7 +94,7 @@ test('translate to text', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'text',
-    ], audioTranslationText());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranslationText(), metaHeaders()));
 
     $result = $client->audio()->translate([
         'file' => audioFileResource(),
@@ -116,7 +116,7 @@ test('translate to json', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'json',
-    ], audioTranslationJson());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranslationJson(), metaHeaders()));
 
     $result = $client->audio()->translate([
         'file' => audioFileResource(),
@@ -138,7 +138,7 @@ test('translate to verbose json', function () {
         'file' => audioFileResource(),
         'model' => 'whisper-1',
         'response_format' => 'verbose_json',
-    ], audioTranslationVerboseJson());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranslationVerboseJson(), metaHeaders()));
 
     $result = $client->audio()->translate([
         'file' => audioFileResource(),

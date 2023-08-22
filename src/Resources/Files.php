@@ -10,6 +10,7 @@ use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Files implements FilesContract
 {
@@ -24,7 +25,7 @@ final class Files implements FilesContract
     {
         $payload = Payload::list('files');
 
-        /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>} $result */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListResponse::from($response->data(), $response->meta());
@@ -39,10 +40,10 @@ final class Files implements FilesContract
     {
         $payload = Payload::retrieve('files', $file);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return RetrieveResponse::from($result);
+        return RetrieveResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -68,10 +69,10 @@ final class Files implements FilesContract
     {
         $payload = Payload::upload('files', $parameters);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -83,7 +84,7 @@ final class Files implements FilesContract
     {
         $payload = Payload::delete('files', $file);
 
-        /** @var array{id: string, object: string, deleted: bool} $response */
+        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return DeleteResponse::from($response->data(), $response->meta());

@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Files;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -32,6 +33,7 @@ final class CreateResponse implements ResponseContract
         public readonly string $purpose,
         public readonly string $status,
         public readonly array|string|null $statusDetails,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -40,7 +42,7 @@ final class CreateResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         return new self(
             $attributes['id'],
@@ -51,6 +53,7 @@ final class CreateResponse implements ResponseContract
             $attributes['purpose'],
             $attributes['status'],
             $attributes['status_details'],
+            $meta,
         );
     }
 
@@ -69,5 +72,10 @@ final class CreateResponse implements ResponseContract
             'status' => $this->status,
             'status_details' => $this->statusDetails,
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

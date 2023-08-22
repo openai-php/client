@@ -9,6 +9,7 @@ use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Images implements ImagesContract
 {
@@ -25,7 +26,7 @@ final class Images implements ImagesContract
     {
         $payload = Payload::create('images/generations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($response->data(), $response->meta());
@@ -42,7 +43,7 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/edits', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return EditResponse::from($response->data(), $response->meta());
@@ -59,7 +60,7 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/variations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $response */
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VariationResponse::from($response->data(), $response->meta());

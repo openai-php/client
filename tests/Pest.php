@@ -10,7 +10,7 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Message\ResponseInterface;
 
-function mockClient(string $method, string $resource, array $params, Response|ResponseInterface $response, $methodName = 'requestObject')
+function mockClient(string $method, string $resource, array $params, Response|ResponseInterface|string $response, $methodName = 'requestObject')
 {
     $transporter = Mockery::mock(TransporterContract::class);
 

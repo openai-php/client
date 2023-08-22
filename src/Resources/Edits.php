@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Edits implements EditsContract
 {
@@ -23,9 +24,9 @@ final class Edits implements EditsContract
     {
         $payload = Payload::create('edits', $parameters);
 
-        /** @var array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 }

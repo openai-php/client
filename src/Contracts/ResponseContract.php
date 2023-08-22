@@ -51,5 +51,5 @@ interface ResponseContract extends ArrayAccess
      */
     public function offsetUnset(mixed $offset): never;
 
-//    public function meta(): ResponseMetaInformation;
+    //    public function meta(): ResponseMetaInformation;
 }

@@ -6,7 +6,7 @@ use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
 
 test('list', function () {
-    $client = mockClient('GET', 'files', [], fileListResource());
+    $client = mockClient('GET', 'files', [], \OpenAI\ValueObjects\Transporter\Response::from(fileListResource(), metaHeaders()));
 
     $result = $client->files()->list();
 
@@ -18,7 +18,7 @@ test('list', function () {
 });
 
 test('retrieve', function () {
-    $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileResource());
+    $client = mockClient('GET', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()));
 
     $result = $client->files()->retrieve('file-XjGxS3KTG0uNmNOK362iJua3');
 
@@ -44,7 +44,7 @@ test('upload', function () {
     $client = mockClient('POST', 'files', [
         'purpose' => 'fine-tune',
         'file' => fileResourceResource(),
-    ], fileResource());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()));
 
     $result = $client->files()->upload([
         'purpose' => 'fine-tune',
@@ -62,7 +62,7 @@ test('upload', function () {
 });
 
 test('delete', function () {
-    $client = mockClient('DELETE', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], fileDeleteResource());
+    $client = mockClient('DELETE', 'files/file-XjGxS3KTG0uNmNOK362iJua3', [], \OpenAI\ValueObjects\Transporter\Response::from(fileDeleteResource(), metaHeaders()));
 
     $result = $client->files()->delete('file-XjGxS3KTG0uNmNOK362iJua3');
 

@@ -9,6 +9,7 @@ use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Models implements ModelsContract
 {
@@ -23,7 +24,7 @@ final class Models implements ModelsContract
     {
         $payload = Payload::list('models');
 
-        /** @var array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>} $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListResponse::from($response->data(), $response->meta());
@@ -38,7 +39,7 @@ final class Models implements ModelsContract
     {
         $payload = Payload::retrieve('models', $model);
 
-        /** @var array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string} $response */
+        /** @var Response<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveResponse::from($response->data(), $response->meta());
@@ -53,7 +54,7 @@ final class Models implements ModelsContract
     {
         $payload = Payload::delete('models', $model);
 
-        /** @var array{id: string, object: string, deleted: bool} $response */
+        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return DeleteResponse::from($response->data(), $response->meta());

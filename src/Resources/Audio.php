@@ -8,6 +8,7 @@ use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 final class Audio implements AudioContract
 {
@@ -24,7 +25,7 @@ final class Audio implements AudioContract
     {
         $payload = Payload::upload('audio/transcriptions', $parameters);
 
-        /** @var array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string $result */
+        /** @var Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return TranscriptionResponse::from($response->data(), $response->meta());
@@ -41,9 +42,9 @@ final class Audio implements AudioContract
     {
         $payload = Payload::upload('audio/translations', $parameters);
 
-        /** @var array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return TranslationResponse::from($result);
+        return TranslationResponse::from($response->data(), $response->meta());
     }
 }

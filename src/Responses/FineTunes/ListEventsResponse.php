@@ -6,6 +6,7 @@ namespace OpenAI\Responses\FineTunes;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,6 +27,7 @@ final class ListEventsResponse implements ResponseContract
     private function __construct(
         public readonly string $object,
         public readonly array $data,
+        private readonly ResponseMetaInformation $meta,
     ) {
     }
 
@@ -34,7 +36,7 @@ final class ListEventsResponse implements ResponseContract
      *
      * @param  array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, ResponseMetaInformation $meta): self
     {
         $data = array_map(fn (array $result): RetrieveResponseEvent => RetrieveResponseEvent::from(
             $result
@@ -43,6 +45,7 @@ final class ListEventsResponse implements ResponseContract
         return new self(
             $attributes['object'],
             $data,
+            $meta,
         );
     }
 
@@ -58,5 +61,10 @@ final class ListEventsResponse implements ResponseContract
                 $this->data,
             ),
         ];
+    }
+
+    public function meta(): ResponseMetaInformation
+    {
+        return $this->meta;
     }
 }

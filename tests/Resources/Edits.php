@@ -9,7 +9,7 @@ test('create', function () {
         'model' => 'text-davinci-edit-001',
         'input' => 'What day of the wek is it?',
         'instruction' => 'Fix the spelling mistakes',
-    ], edit());
+    ], \OpenAI\ValueObjects\Transporter\Response::from(edit(), metaHeaders()));
 
     $result = $client->edits()->create([
         'object' => 'edit',
