@@ -1,7 +1,7 @@
 <?php
 
 use OpenAI\Responses\Files\DeleteResponse;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
     $result = DeleteResponse::from(fileDeleteResource(), meta());
@@ -10,7 +10,7 @@ test('from', function () {
         ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
         ->object->toBe('file')
         ->deleted->toBe(true)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {

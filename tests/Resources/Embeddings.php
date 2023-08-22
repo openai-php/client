@@ -3,7 +3,7 @@
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
 use OpenAI\Responses\Embeddings\CreateResponseUsage;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('create', function () {
     $client = mockClient('POST', 'embeddings', [
@@ -37,5 +37,5 @@ test('create', function () {
         ->totalTokens->toBe(8);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });

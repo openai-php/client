@@ -4,7 +4,7 @@ use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('transcribe to text', function () {
     $client = mockClient('POST', 'audio/transcriptions', [
@@ -28,7 +28,7 @@ test('transcribe to text', function () {
         ->text->toBe('Hello, how are you?');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('transcribe to json', function () {
@@ -53,7 +53,7 @@ test('transcribe to json', function () {
         ->text->toBe('Hello, how are you?');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('transcribe to verbose json', function () {
@@ -96,7 +96,7 @@ test('transcribe to verbose json', function () {
         ->transient->toBeFalse();
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('translate to text', function () {
@@ -121,7 +121,7 @@ test('translate to text', function () {
         ->text->toBe('Hello, how are you?');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('translate to json', function () {
@@ -146,7 +146,7 @@ test('translate to json', function () {
         ->text->toBe('Hello, how are you?');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('translate to verbose json', function () {
@@ -189,5 +189,5 @@ test('translate to verbose json', function () {
         ->transient->toBeFalse();
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });

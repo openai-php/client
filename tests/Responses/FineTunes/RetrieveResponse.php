@@ -4,7 +4,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
     $result = RetrieveResponse::from(fineTuneResource(), meta());
@@ -28,7 +28,7 @@ test('from', function () {
         ->trainingFiles->toBeArray()->toHaveCount(2)
         ->trainingFiles->each->toBeInstanceOf(RetrieveResponseFile::class)
         ->updatedAt->toBe(1614807865)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {

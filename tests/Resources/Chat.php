@@ -7,7 +7,7 @@ use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponseChoice;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -44,7 +44,7 @@ test('create', function () {
         ->totalTokens->toBe(21);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('create throws an exception if stream option is true', function () {
@@ -96,7 +96,7 @@ test('create streamed', function () {
         ->finishReason->toBeNull();
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('handles error messages in stream', function () {

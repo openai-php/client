@@ -9,7 +9,7 @@ use OpenAI\Responses\FineTunes\RetrieveResponseEvent;
 use OpenAI\Responses\FineTunes\RetrieveResponseFile;
 use OpenAI\Responses\FineTunes\RetrieveResponseHyperparams;
 use OpenAI\Responses\FineTunes\RetrieveStreamedResponseEvent;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -64,7 +64,7 @@ test('create', function () {
         ->updatedAt->toBe(1614807865);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list', function () {
@@ -78,7 +78,7 @@ test('list', function () {
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('retrieve', function () {
@@ -130,7 +130,7 @@ test('retrieve', function () {
         ->promptLossWeight->toBe(0.1);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('cancel', function () {
@@ -159,7 +159,7 @@ test('cancel', function () {
         ->updatedAt->toBe(1614807865);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list events', function () {
@@ -180,7 +180,7 @@ test('list events', function () {
         ->message->toBe('Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('list events streamed', function () {
@@ -208,5 +208,5 @@ test('list events streamed', function () {
         ->message->toBe('Created fine-tune: ft-MaoEAULREoazpupm8uB7qoIl');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });

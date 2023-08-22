@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenAI\Responses;
+namespace OpenAI\Responses\Meta;
 
-final class OpenAIMetaInformation
+final class MetaInformaionOpenAI
 {
     public function __construct(
         public readonly ?string $model,

@@ -8,7 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -30,7 +30,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
     private function __construct(
         public readonly string $object,
         public readonly array $data,
-        private readonly ResponseMetaInformation $meta,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -39,7 +39,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
      *
      * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}  $attributes
      */
-    public static function from(array $attributes, ResponseMetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $data = array_map(fn (array $result): RetrieveResponse => RetrieveResponse::from(
             $result,

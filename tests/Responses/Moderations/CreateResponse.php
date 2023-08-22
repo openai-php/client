@@ -1,8 +1,8 @@
 <?php
 
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Responses\Moderations\CreateResponseResult;
-use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $moderation = CreateResponse::from(moderationResource(), meta());
@@ -13,7 +13,7 @@ test('from', function () {
         ->model->toBe('text-moderation-001')
         ->results->toBeArray()->toHaveCount(1)
         ->results->each->toBeInstanceOf(CreateResponseResult::class)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {

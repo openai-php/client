@@ -1,14 +1,14 @@
 <?php
 
-namespace OpenAI\Responses;
+namespace OpenAI\Responses\Meta;
 
-use OpenAI\Contracts\ResponseMetaInformationContract;
+use OpenAI\Contracts\MetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseMetaInformationContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
+ * @implements MetaInformationContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
  */
-final class ResponseMetaInformation implements ResponseMetaInformationContract
+final class MetaInformation implements MetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
@@ -17,9 +17,9 @@ final class ResponseMetaInformation implements ResponseMetaInformationContract
 
     private function __construct(
         public string $requestId,
-        public readonly OpenAIMetaInformation $openai,
-        public readonly ?RequestLimitMetaInformation $requestLimit,
-        public readonly ?RequestLimitMetaInformation $tokenLimit,
+        public readonly MetaInformaionOpenAI $openai,
+        public readonly ?MetaInformationRateLimit $requestLimit,
+        public readonly ?MetaInformationRateLimit $tokenLimit,
     ) {
     }
 
@@ -30,7 +30,7 @@ final class ResponseMetaInformation implements ResponseMetaInformationContract
     {
         $requestId = $headers['x-request-id'][0];
 
-        $openai = OpenAIMetaInformation::from([
+        $openai = MetaInformaionOpenAI::from([
             'model' => $headers['openai-model'][0] ?? null,
             'organization' => $headers['openai-organization'][0] ?? null,
             'version' => $headers['openai-version'][0],
@@ -38,7 +38,7 @@ final class ResponseMetaInformation implements ResponseMetaInformationContract
         ]);
 
         if (isset($headers['x-ratelimit-limit-requests'][0])) {
-            $requestLimit = RequestLimitMetaInformation::from([
+            $requestLimit = MetaInformationRateLimit::from([
                 'limit' => (int) $headers['x-ratelimit-limit-requests'][0],
                 'remaining' => (int) $headers['x-ratelimit-remaining-requests'][0],
                 'reset' => $headers['x-ratelimit-reset-requests'][0],
@@ -48,7 +48,7 @@ final class ResponseMetaInformation implements ResponseMetaInformationContract
         }
 
         if (isset($headers['x-ratelimit-limit-tokens'][0])) {
-            $tokenLimit = RequestLimitMetaInformation::from([
+            $tokenLimit = MetaInformationRateLimit::from([
                 'limit' => (int) $headers['x-ratelimit-limit-tokens'][0],
                 'remaining' => (int) $headers['x-ratelimit-remaining-tokens'][0],
                 'reset' => $headers['x-ratelimit-reset-tokens'][0],

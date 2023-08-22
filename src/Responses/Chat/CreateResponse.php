@@ -8,7 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -34,7 +34,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $model,
         public readonly array $choices,
         public readonly CreateResponseUsage $usage,
-        private readonly ResponseMetaInformation $meta,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -43,7 +43,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      *
      * @param  array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes, ResponseMetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $choices = array_map(fn (array $result): CreateResponseChoice => CreateResponseChoice::from(
             $result

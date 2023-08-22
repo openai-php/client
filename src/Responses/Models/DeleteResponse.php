@@ -8,7 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -28,7 +28,7 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $id,
         public readonly string $object,
         public readonly bool $deleted,
-        private readonly ResponseMetaInformation $meta,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -37,7 +37,7 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
      *
      * @param  array{id: string, object: string, deleted: bool}  $attributes
      */
-    public static function from(array $attributes, ResponseMetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             $attributes['id'],

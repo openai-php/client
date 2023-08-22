@@ -1,7 +1,7 @@
 <?php
 
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Models\DeleteResponse;
-use OpenAI\Responses\ResponseMetaInformation;
 
 test('from', function () {
     $result = DeleteResponse::from(fineTunedModelDeleteResource(), meta());
@@ -10,7 +10,7 @@ test('from', function () {
         ->id->toBe('curie:ft-acmeco-2021-03-03-21-44-20')
         ->object->toBe('model')
         ->deleted->toBe(true)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {

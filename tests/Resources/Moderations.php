@@ -1,10 +1,10 @@
 <?php
 
 use OpenAI\Enums\Moderations\Category;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Responses\Moderations\CreateResponseCategory;
 use OpenAI\Responses\Moderations\CreateResponseResult;
-use OpenAI\Responses\ResponseMetaInformation;
 use OpenAI\ValueObjects\Transporter\Response;
 
 test('create', closure: function () {
@@ -41,5 +41,5 @@ test('create', closure: function () {
         ->score->toBe(0.9223177433013916);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });

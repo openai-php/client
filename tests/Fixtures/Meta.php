@@ -1,6 +1,6 @@
 <?php
 
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 function metaHeaders(): array
 {
@@ -19,7 +19,7 @@ function metaHeaders(): array
     ];
 }
 
-function meta(): ResponseMetaInformation
+function meta(): MetaInformation
 {
-    return ResponseMetaInformation::from(metaHeaders());
+    return MetaInformation::from(metaHeaders());
 }

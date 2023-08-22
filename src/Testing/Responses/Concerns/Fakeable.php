@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace OpenAI\Testing\Responses\Concerns;
 
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 trait Fakeable
 {
     /**
      * @param  array<string, mixed>  $override
      */
-    public static function fake(array $override = [], ResponseMetaInformation $meta = null): static
+    public static function fake(array $override = [], MetaInformation $meta = null): static
     {
         $class = str_replace('Responses\\', 'Testing\\Responses\\Fixtures\\', static::class).'Fixture';
 
@@ -37,9 +37,9 @@ trait Fakeable
         return $new;
     }
 
-    public static function fakeResponseMetaInformation(): ResponseMetaInformation
+    public static function fakeResponseMetaInformation(): MetaInformation
     {
-        return ResponseMetaInformation::from([
+        return MetaInformation::from([
             'openai-model' => 'text-davinci-003',
             'openai-organization' => 'org-1234',
             'openai-processing-ms' => '410',

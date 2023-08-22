@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts;
 
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 interface ResponseHasMetaInformationContract
 {
-    public function meta(): ResponseMetaInformation;
+    public function meta(): MetaInformation;
 }

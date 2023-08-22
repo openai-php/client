@@ -6,6 +6,7 @@ use Generator;
 use IteratorAggregate;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Responses\Meta\MetaInformation;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -77,9 +78,9 @@ final class StreamResponse implements IteratorAggregate, ResponseHasMetaInformat
         return $buffer;
     }
 
-    public function meta(): ResponseMetaInformation
+    public function meta(): MetaInformation
     {
         // @phpstan-ignore-next-line
-        return ResponseMetaInformation::from($this->response->getHeaders());
+        return MetaInformation::from($this->response->getHeaders());
     }
 }

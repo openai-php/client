@@ -8,7 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -31,7 +31,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $object,
         public readonly array $embeddings,
         public readonly CreateResponseUsage $usage,
-        private readonly ResponseMetaInformation $meta,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      *
      * @param  array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes, ResponseMetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $embeddings = array_map(fn (array $result): CreateResponseEmbedding => CreateResponseEmbedding::from(
             $result

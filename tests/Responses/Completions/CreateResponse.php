@@ -3,7 +3,7 @@
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateResponseChoice;
 use OpenAI\Responses\Completions\CreateResponseUsage;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
     $completion = CreateResponse::from(completion(), meta());
@@ -17,7 +17,7 @@ test('from', function () {
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
         ->usage->toBeInstanceOf(CreateResponseUsage::class)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {

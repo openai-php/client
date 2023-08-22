@@ -8,7 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -33,7 +33,7 @@ final class TranscriptionResponse implements ResponseContract, ResponseHasMetaIn
         public readonly ?float $duration,
         public readonly array $segments,
         public readonly string $text,
-        private readonly ResponseMetaInformation $meta,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -42,7 +42,7 @@ final class TranscriptionResponse implements ResponseContract, ResponseHasMetaIn
      *
      * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string  $attributes
      */
-    public static function from(array|string $attributes, ResponseMetaInformation $meta): self
+    public static function from(array|string $attributes, MetaInformation $meta): self
     {
         if (is_string($attributes)) {
             $attributes = ['text' => $attributes];

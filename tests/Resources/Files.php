@@ -4,7 +4,7 @@ use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('list', function () {
     $client = mockClient('GET', 'files', [], \OpenAI\ValueObjects\Transporter\Response::from(fileListResource(), metaHeaders()));
@@ -18,7 +18,7 @@ test('list', function () {
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('retrieve', function () {
@@ -36,7 +36,7 @@ test('retrieve', function () {
         ->purpose->toBe('fine-tune');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('download', function () {
@@ -68,7 +68,7 @@ test('upload', function () {
         ->purpose->toBe('fine-tune');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('delete', function () {
@@ -83,5 +83,5 @@ test('delete', function () {
         ->deleted->toBe(true);
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });

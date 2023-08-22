@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenAI\Responses;
+namespace OpenAI\Responses\Meta;
 
-final class RequestLimitMetaInformation
+final class MetaInformationRateLimit
 {
     public function __construct(
         public readonly int $limit,

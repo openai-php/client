@@ -2,7 +2,7 @@
 
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\Responses\Images\VariationResponseData;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('from with url', function () {
     $response = VariationResponse::from(imageVariationWithUrl(), meta());
@@ -12,7 +12,7 @@ test('from with url', function () {
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
         ->data->each->toBeInstanceOf(VariationResponseData::class)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible with url', function () {
@@ -37,7 +37,7 @@ test('from with b64_json', function () {
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
         ->data->each->toBeInstanceOf(VariationResponseData::class)
-        ->meta()->toBeInstanceOf(ResponseMetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible with b64_json', function () {

@@ -6,7 +6,7 @@ use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\EditResponseData;
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\Responses\Images\VariationResponseData;
-use OpenAI\Responses\ResponseMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
 
 test('create', function () {
     $client = mockClient('POST', 'images/generations', [
@@ -33,7 +33,7 @@ test('create', function () {
         ->url->toBe('https://openai.com/image.png');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('edit', function () {
@@ -65,7 +65,7 @@ test('edit', function () {
         ->url->toBe('https://openai.com/image.png');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('variation', function () {
@@ -93,5 +93,5 @@ test('variation', function () {
         ->url->toBe('https://openai.com/image.png');
 
     expect($result->meta())
-        ->toBeInstanceOf(ResponseMetaInformation::class);
+        ->toBeInstanceOf(MetaInformation::class);
 });
