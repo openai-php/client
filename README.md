@@ -27,6 +27,7 @@
   - [FineTunes Resource](#finetunes-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
+- [Meta Information](#meta-information)
 - [Testing](#testing)
 - [Services](#services)
   - [Azure](#azure)
@@ -759,6 +760,67 @@ foreach ($response->data as $data) {
 
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
 ```
+
+## Meta Information
+
+On all response objects you can access the meta information returned by the API via the `meta()` method.
+
+```php
+$response = $client->completions()->create([
+    'model' => 'text-davinci-003',
+    'prompt' => 'Say this is a test',
+]);
+
+$meta = $response->meta();
+
+$meta->requestId; // '574a03e2faaf4e9fd703958e4ddc66f5'
+
+$meta->openai->model; // 'text-davinci-003'
+$meta->openai->organization; // 'org-jwe45798ASN82s'
+$meta->openai->version; // '2020-10-01'
+$meta->openai->processingMs; // 425
+
+$meta->requestLimit->limit; // 3000
+$meta->requestLimit->remaining; // 2999
+$meta->requestLimit->reset; // '20ms'
+
+$meta->tokenLimit->limit; // 250000
+$meta->tokenLimit->remaining; // 249984
+$meta->tokenLimit->reset; // '3ms'
+```
+
+The `toArray()` method returns the meta information in the form originally returned by the API.
+
+```php
+$meta->toArray();
+
+// [ 
+//   'x-request-id' => '574a03e2faaf4e9fd703958e4ddc66f5',
+//   'openai-model' => 'text-davinci-003',
+//   'openai-organization' => 'org-jwe45798ASN82s',
+//   'openai-processing-ms' => 402,
+//   'openai-version' => '2020-10-01',
+//   'x-ratelimit-limit-requests' => 3000,
+//   'x-ratelimit-remaining-requests' => 2999,
+//   'x-ratelimit-reset-requests' => '20ms',
+//   'x-ratelimit-limit-tokens' => 250000,
+//   'x-ratelimit-remaining-tokens' => 249983,
+//   'x-ratelimit-reset-tokens' => '3ms',
+// ]
+```
+
+On streaming responses you can access the meta information on the reponse stream object.
+
+```php
+$stream = $client->completions()->createStreamed([
+    'model' => 'text-davinci-003',
+    'prompt' => 'Say this is a test',
+]);
+    
+$stream->meta(); 
+```
+
+For further details about the rates limits and what to do if you hit them visit the [OpenAI documentation](https://platform.openai.com/docs/guides/rate-limits/rate-limits).
 
 ## Testing
 
