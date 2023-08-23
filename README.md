@@ -21,12 +21,12 @@
   - [Completions Resource](#completions-resource)
   - [Chat Resource](#chat-resource)
   - [Audio Resource](#audio-resource)
-  - [Edits Resource](#edits-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
   - [FineTunes Resource](#finetunes-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
+  - [Edits Resource (deprecated)](#edits-resource)
 - [Meta Information](#meta-information)
 - [Testing](#testing)
 - [Services](#services)
@@ -370,34 +370,6 @@ foreach ($response->segments as $segment) {
 }
 
 $response->toArray(); // ['task' => 'translate', ...]
-```
-
-### `Edits` Resource
-
-#### `create`
-
-Creates a new edit for the provided input, instruction, and parameters.
-
-```php
-$response = $client->edits()->create([
-    'model' => 'text-davinci-edit-001',
-    'input' => 'What day of the wek is it?',
-    'instruction' => 'Fix the spelling mistakes',
-]);
-
-$response->object; // 'edit'
-$response->created; // 1589478378
-
-foreach ($response->choices as $result) {
-    $result->text; // 'What day of the week is it?'
-    $result->index; // 0
-}
-
-$response->usage->promptTokens; // 25,
-$response->usage->completionTokens; // 32,
-$response->usage->totalTokens; // 57
-
-$response->toArray(); // ['object' => 'edit', ...]
 ```
 
 ### `Embeddings` Resource
@@ -759,6 +731,37 @@ foreach ($response->data as $data) {
 }
 
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+### `Edits` Resource (deprecated)
+
+> OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
+> https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
+
+#### `create`
+
+Creates a new edit for the provided input, instruction, and parameters.
+
+```php
+$response = $client->edits()->create([
+    'model' => 'text-davinci-edit-001',
+    'input' => 'What day of the wek is it?',
+    'instruction' => 'Fix the spelling mistakes',
+]);
+
+$response->object; // 'edit'
+$response->created; // 1589478378
+
+foreach ($response->choices as $result) {
+    $result->text; // 'What day of the week is it?'
+    $result->index; // 0
+}
+
+$response->usage->promptTokens; // 25,
+$response->usage->completionTokens; // 32,
+$response->usage->totalTokens; // 57
+
+$response->toArray(); // ['object' => 'edit', ...]
 ```
 
 ## Meta Information
