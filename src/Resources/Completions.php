@@ -19,7 +19,7 @@ final class Completions implements CompletionsContract
     /**
      * Creates a completion for the provided prompt and parameters
      *
-     * @see https://platorm.openai.com/docs/api-reference/completions/create-completion
+     * @see https://platform.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -38,7 +38,7 @@ final class Completions implements CompletionsContract
     /**
      * Creates a streamed completion for the provided prompt and parameters
      *
-     * @see https://platorm.openai.com/docs/api-reference/completions/create-completion
+     * @see https://platform.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>

@@ -19,7 +19,7 @@ final class Files implements FilesContract
     /**
      * Returns a list of files that belong to the user's organization.
      *
-     * @see https://platorm.openai.com/docs/api-reference/files/list
+     * @see https://platform.openai.com/docs/api-reference/files/list
      */
     public function list(): ListResponse
     {
@@ -34,7 +34,7 @@ final class Files implements FilesContract
     /**
      * Returns information about a specific file.
      *
-     * @see https://platorm.openai.com/docs/api-reference/files/retrieve
+     * @see https://platform.openai.com/docs/api-reference/files/retrieve
      */
     public function retrieve(string $file): RetrieveResponse
     {
@@ -49,7 +49,7 @@ final class Files implements FilesContract
     /**
      * Returns the contents of the specified file.
      *
-     * @see https://platorm.openai.com/docs/api-reference/files/retrieve-content
+     * @see https://platform.openai.com/docs/api-reference/files/retrieve-content
      */
     public function download(string $file): string
     {
@@ -61,7 +61,7 @@ final class Files implements FilesContract
     /**
      * Upload a file that contains document(s) to be used across various endpoints/features.
      *
-     * @see https://platorm.openai.com/docs/api-reference/files/upload
+     * @see https://platform.openai.com/docs/api-reference/files/upload
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -78,7 +78,7 @@ final class Files implements FilesContract
     /**
      * Delete a file.
      *
-     * @see https://platorm.openai.com/docs/api-reference/files/delete
+     * @see https://platform.openai.com/docs/api-reference/files/delete
      */
     public function delete(string $file): DeleteResponse
     {

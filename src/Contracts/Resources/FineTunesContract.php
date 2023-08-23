@@ -15,7 +15,7 @@ interface FineTunesContract
      *
      * Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/create
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/create
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -24,35 +24,35 @@ interface FineTunesContract
     /**
      * List your organization's fine-tuning jobs.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/list
      */
     public function list(): ListResponse;
 
     /**
      * Gets info about the fine-tune job.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/list
      */
     public function retrieve(string $fineTuneId): RetrieveResponse;
 
     /**
      * Immediately cancel a fine-tune job.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/cancel
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/cancel
      */
     public function cancel(string $fineTuneId): RetrieveResponse;
 
     /**
      * Get fine-grained status updates for a fine-tune job.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/events
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/events
      */
     public function listEvents(string $fineTuneId): ListEventsResponse;
 
     /**
      * Get streamed fine-grained status updates for a fine-tune job.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/events
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/events
      *
      * @return StreamResponse<RetrieveStreamedResponseEvent>
      */

@@ -9,7 +9,7 @@ interface ModerationsContract
     /**
      * Classifies if text violates OpenAI's Content Policy.
      *
-     * @see https://platorm.openai.com/docs/api-reference/moderations/create
+     * @see https://platform.openai.com/docs/api-reference/moderations/create
      *
      * @param  array<string, mixed>  $parameters
      */

@@ -18,7 +18,7 @@ final class Models implements ModelsContract
     /**
      * Lists the currently available models, and provides basic information about each one such as the owner and availability.
      *
-     * @see https://platorm.openai.com/docs/api-reference/models/list
+     * @see https://platform.openai.com/docs/api-reference/models/list
      */
     public function list(): ListResponse
     {
@@ -33,7 +33,7 @@ final class Models implements ModelsContract
     /**
      * Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
      *
-     * @see https://platorm.openai.com/docs/api-reference/models/retrieve
+     * @see https://platform.openai.com/docs/api-reference/models/retrieve
      */
     public function retrieve(string $model): RetrieveResponse
     {
@@ -48,7 +48,7 @@ final class Models implements ModelsContract
     /**
      * Delete a fine-tuned model. You must have the Owner role in your organization.
      *
-     * @see https://platorm.openai.com/docs/api-reference/fine-tunes/delete-model
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/delete-model
      */
     public function delete(string $model): DeleteResponse
     {
