@@ -18,8 +18,8 @@
 - [Get Started](#get-started)
 - [Usage](#usage)
   - [Models Resource](#models-resource)
-  - [Completions Resource](#completions-resource)
   - [Chat Resource](#chat-resource)
+  - [Completions Resource](#completions-resource-legacy) (legacy)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
@@ -54,12 +54,14 @@ Then, interact with OpenAI's API:
 $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
-$result = $client->completions()->create([
-    'model' => 'text-davinci-003',
-    'prompt' => 'PHP is',
+$result = $client->chat()->create([
+    'model' => 'gpt-3.5-turbo',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
 ]);
 
-echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
+echo $result->choices[0]->message->content; // Hello! How can I assist you today?
 ```
 
 If necessary, it is possible to configure and create a separate client.
@@ -148,7 +150,7 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
 ```
 
-### `Completions` Resource
+### `Completions` Resource (legacy)
 
 #### `create`
 
