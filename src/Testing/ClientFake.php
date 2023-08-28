@@ -13,6 +13,7 @@ use OpenAI\Testing\Resources\EditsTestResource;
 use OpenAI\Testing\Resources\EmbeddingsTestResource;
 use OpenAI\Testing\Resources\FilesTestResource;
 use OpenAI\Testing\Resources\FineTunesTestResource;
+use OpenAI\Testing\Resources\FineTuningTestResource;
 use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
@@ -165,6 +166,11 @@ class ClientFake implements ClientContract
     public function fineTunes(): FineTunesTestResource
     {
         return new FineTunesTestResource($this);
+    }
+
+    public function fineTuning(): FineTuningTestResource
+    {
+        return new FineTuningTestResource($this);
     }
 
     public function moderations(): ModerationsTestResource

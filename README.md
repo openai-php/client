@@ -23,9 +23,10 @@
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
-  - [FineTunes Resource](#finetunes-resource)
+  - [FineTuning Resource](#finetuning-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
+  - [FineTunes Resource (deprecated)](#finetunes-resource)
   - [Edits Resource (deprecated)](#edits-resource)
 - [Meta Information](#meta-information)
 - [Testing](#testing)
@@ -479,6 +480,109 @@ Returns the contents of the specified file.
 
 ```php
 $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
+```
+
+### `FineTuning` Resource (deprecated)
+
+#### `create job`
+
+Creates a job that fine-tunes a specified model from a given dataset.
+
+```php
+$response = $client->fineTuning()->createJob([
+    'training_file' => 'file-abc123',
+    'validation_file' => null,
+    'model' => 'gpt-3.5-turbo',
+    'hyperparameters' => [
+        'n_epochs' => 4,
+    ],
+    'suffix' => null,
+]);
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine_tuning.job'
+$response->model; // 'gpt-3.5-turbo-0613'
+$response->fineTunedModel; // null
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list jobs`
+
+List your organization's fine-tuning jobs.
+
+```php
+$response = $client->fineTuning()->listJobs();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->object; // 'fine_tuning.job'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `retrieve jobs`
+
+Get info about a fine-tuning job.
+
+```php
+$response = $client->fineTuning()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine_tuning.job'
+$response->model; // 'gpt-3.5-turbo-0613'
+$response->createdAt; // 1614807352
+$response->finishedAt; // 1692819450
+$response->fineTunedModel; // 'ft:gpt-3.5-turbo-0613:jwe-dev::7qnxQ0sQ'
+$response->organizationId; // 'org-jwe45798ASN82s'
+$response->resultFiles[0]; // 'file-1bl05WrhsKDDEdg8XSP617QF'
+$response->status; // 'succeeded'
+$response->validation_file; // null
+$response->training_file; // 'file-abc123'
+$response->trained_tokens; // 5049
+
+$response->hyperparameters->nEpochs; // 9
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `cancel job`
+
+Immediately cancel a fine-tune job.
+
+```php
+$response = $client->fineTuning()->cancelJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine_tuning.job'
+// ...
+$response->status; // 'cancelled'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list job events`
+
+Get status updates for a fine-tuning job.
+
+```php
+$response = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->object; // 'fine_tuning.job.event' 
+    $result->createdAt; // 1614807352
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
 ### `FineTunes` Resource
