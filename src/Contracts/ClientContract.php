@@ -9,6 +9,7 @@ use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Contracts\Resources\FineTunesContract;
+use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
@@ -48,6 +49,8 @@ interface ClientContract
      * Given a prompt and an instruction, the model will return an edited version of the prompt.
      *
      * @see https://platform.openai.com/docs/api-reference/edits
+     * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
+     * https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
      */
     public function edits(): EditsContract;
 
@@ -68,7 +71,16 @@ interface ClientContract
     /**
      * Manage fine-tuning jobs to tailor a model to your specific training data.
      *
+     * @see https://platform.openai.com/docs/api-reference/fine-tuning
+     */
+    public function fineTuning(): FineTuningContract;
+
+    /**
+     * Manage fine-tuning jobs to tailor a model to your specific training data.
+     *
      * @see https://platform.openai.com/docs/api-reference/fine-tunes
+     * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
+     * https://openai.com/blog/gpt-3-5-turbo-fine-tuning-and-api-updates#updated-gpt-3-models
      */
     public function fineTunes(): FineTunesContract;
 

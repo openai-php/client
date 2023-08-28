@@ -13,6 +13,7 @@ use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
 use OpenAI\Resources\FineTunes;
+use OpenAI\Resources\FineTuning;
 use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
@@ -101,7 +102,19 @@ final class Client implements ClientContract
     /**
      * Manage fine-tuning jobs to tailor a model to your specific training data.
      *
+     * @see https://platform.openai.com/docs/api-reference/fine-tuning
+     */
+    public function fineTuning(): FineTuning
+    {
+        return new FineTuning($this->transporter);
+    }
+
+    /**
+     * Manage fine-tuning jobs to tailor a model to your specific training data.
+     *
      * @see https://platform.openai.com/docs/api-reference/fine-tunes
+     * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
+     * https://openai.com/blog/gpt-3-5-turbo-fine-tuning-and-api-updates#updated-gpt-3-models
      */
     public function fineTunes(): FineTunes
     {

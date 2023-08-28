@@ -46,14 +46,16 @@ final class Payload
 
     /**
      * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public static function retrieve(string $resource, string $id, string $suffix = ''): self
+    public static function retrieve(string $resource, string $id, string $suffix = '', array $parameters = []): self
     {
         $contentType = ContentType::JSON;
         $method = Method::GET;
         $uri = ResourceUri::retrieve($resource, $id, $suffix);
 
-        return new self($contentType, $method, $uri);
+        return new self($contentType, $method, $uri, $parameters);
     }
 
     /**
@@ -130,8 +132,14 @@ final class Payload
         $body = null;
 
         $uri = $baseUri->toString().$this->uri->toString();
-        if (! empty($queryParams->toArray())) {
-            $uri .= '?'.http_build_query($queryParams->toArray());
+
+        $queryParams = $queryParams->toArray();
+        if ($this->method === Method::GET) {
+            $queryParams = [...$queryParams, ...$this->parameters];
+        }
+
+        if ($queryParams !== []) {
+            $uri .= '?'.http_build_query($queryParams);
         }
 
         $headers = $headers->withContentType($this->contentType);
