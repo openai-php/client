@@ -21,6 +21,15 @@ test('from function response', function () {
         ->functionCall->toBeInstanceOf(CreateResponseFunctionCall::class);
 });
 
+test('from function response without content', function () {
+    $result = CreateResponseMessage::from(chatCompletionMessageWithFunctionAndNoContent());
+
+    expect($result)
+        ->role->toBe('assistant')
+        ->content->toBeNull()
+        ->functionCall->toBeInstanceOf(CreateResponseFunctionCall::class);
+});
+
 test('to array', function () {
     $result = CreateResponseMessage::from(chatCompletion()['choices'][0]['message']);
 

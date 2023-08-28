@@ -35,20 +35,6 @@ test('from function response', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
-test('from function response without content', function () {
-    $completion = CreateResponse::from(chatCompletionWithFunctionAndNoContent());
-
-    expect($completion)
-        ->toBeInstanceOf(CreateResponse::class)
-        ->id->toBe('chatcmpl-123')
-        ->object->toBe('chat.completion')
-        ->created->toBe(1686689333)
-        ->model->toBe('gpt-3.5-turbo-0613')
-        ->choices->toBeArray()->toHaveCount(1)
-        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
-        ->usage->toBeInstanceOf(CreateResponseUsage::class);
-});
-
 test('as array accessible', function () {
     $completion = CreateResponse::from(chatCompletion(), meta());
 
