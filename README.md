@@ -26,8 +26,8 @@
   - [FineTuning Resource](#finetuning-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
-  - [FineTunes Resource (deprecated)](#finetunes-resource)
-  - [Edits Resource (deprecated)](#edits-resource)
+  - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
+  - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
 - [Testing](#testing)
 - [Services](#services)
@@ -482,7 +482,7 @@ Returns the contents of the specified file.
 $client->files()->download($file); // '{"prompt": "<prompt text>", ...'
 ```
 
-### `FineTuning` Resource (deprecated)
+### `FineTuning` Resource
 
 #### `create job`
 
@@ -526,12 +526,12 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
-#### `retrieve jobs`
+#### `retrieve job`
 
 Get info about a fine-tuning job.
 
 ```php
-$response = $client->fineTuning()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+$response = $client->fineTuning()->retrieveJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 
 $response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine_tuning.job'
@@ -542,9 +542,9 @@ $response->fineTunedModel; // 'ft:gpt-3.5-turbo-0613:jwe-dev::7qnxQ0sQ'
 $response->organizationId; // 'org-jwe45798ASN82s'
 $response->resultFiles[0]; // 'file-1bl05WrhsKDDEdg8XSP617QF'
 $response->status; // 'succeeded'
-$response->validation_file; // null
-$response->training_file; // 'file-abc123'
-$response->trained_tokens; // 5049
+$response->validationFile; // null
+$response->trainingFile; // 'file-abc123'
+$response->trainedTokens; // 5049
 
 $response->hyperparameters->nEpochs; // 9
 
@@ -585,7 +585,16 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
-### `FineTunes` Resource
+You can pass additional parameters to the `listJobEvents` method to narrow down the results.
+
+```php
+$response = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F', [
+    'limit' => 3, // Number of events to retrieve (Default: 20)
+    'after' => 'ftevent-kLPSMIcsqshEUEJVOVBVcHlP', // Identifier for the last event from the previous pagination request.
+]);
+```
+
+### `FineTunes` Resource (deprecated)
 
 #### `create`
 
