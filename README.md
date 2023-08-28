@@ -150,60 +150,6 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
 ```
 
-### `Completions` Resource (legacy)
-
-#### `create`
-
-Creates a completion for the provided prompt and parameters.
-
-```php
-$response = $client->completions()->create([
-    'model' => 'text-davinci-003',
-    'prompt' => 'Say this is a test',
-    'max_tokens' => 6,
-    'temperature' => 0
-]);
-
-$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
-$response->object; // 'text_completion'
-$response->created; // 1589478378
-$response->model; // 'text-davinci-003'
-
-foreach ($response->choices as $result) {
-    $result->text; // '\n\nThis is a test'
-    $result->index; // 0
-    $result->logprobs; // null
-    $result->finishReason; // 'length' or null
-}
-
-$response->usage->promptTokens; // 5,
-$response->usage->completionTokens; // 6,
-$response->usage->totalTokens; // 11
-
-$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
-```
-
-#### `create streamed`
-
-Creates a streamed completion for the provided prompt and parameters.
-
-```php
-$stream = $client->completions()->createStreamed([
-        'model' => 'text-davinci-003',
-        'prompt' => 'Hi',
-        'max_tokens' => 10,
-    ]);
-
-foreach($stream as $response){
-    $response->choices[0]->text;
-}
-// 1. iteration => 'I'
-// 2. iteration => ' am'
-// 3. iteration => ' very'
-// 4. iteration => ' excited'
-// ...
-```
-
 ### `Chat` Resource
 
 #### `create`
@@ -304,6 +250,60 @@ foreach($stream as $response){
 // 1. iteration => ['index' => 0, 'delta' => ['role' => 'assistant'], 'finish_reason' => null]
 // 2. iteration => ['index' => 0, 'delta' => ['content' => 'Hello'], 'finish_reason' => null]
 // 3. iteration => ['index' => 0, 'delta' => ['content' => '!'], 'finish_reason' => null]
+// ...
+```
+
+### `Completions` Resource (legacy)
+
+#### `create`
+
+Creates a completion for the provided prompt and parameters.
+
+```php
+$response = $client->completions()->create([
+    'model' => 'text-davinci-003',
+    'prompt' => 'Say this is a test',
+    'max_tokens' => 6,
+    'temperature' => 0
+]);
+
+$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
+$response->object; // 'text_completion'
+$response->created; // 1589478378
+$response->model; // 'text-davinci-003'
+
+foreach ($response->choices as $result) {
+    $result->text; // '\n\nThis is a test'
+    $result->index; // 0
+    $result->logprobs; // null
+    $result->finishReason; // 'length' or null
+}
+
+$response->usage->promptTokens; // 5,
+$response->usage->completionTokens; // 6,
+$response->usage->totalTokens; // 11
+
+$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
+```
+
+#### `create streamed`
+
+Creates a streamed completion for the provided prompt and parameters.
+
+```php
+$stream = $client->completions()->createStreamed([
+        'model' => 'text-davinci-003',
+        'prompt' => 'Hi',
+        'max_tokens' => 10,
+    ]);
+
+foreach($stream as $response){
+    $response->choices[0]->text;
+}
+// 1. iteration => 'I'
+// 2. iteration => ' am'
+// 3. iteration => ' very'
+// 4. iteration => ' excited'
 // ...
 ```
 
