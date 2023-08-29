@@ -1,7 +1,7 @@
 <?php
 
-use OpenAI\Responses\Meta\MetaInformaionOpenAI;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Meta\MetaInformationOpenAI;
 use OpenAI\Responses\Meta\MetaInformationRateLimit;
 
 test('from response headers', function () {
@@ -10,7 +10,7 @@ test('from response headers', function () {
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
         ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
-        ->openai->toBeInstanceOf(MetaInformaionOpenAI::class)
+        ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
         ->openai->model->toBe('text-davinci-003')
         ->openai->organization->toBe('org-1234')
         ->openai->version->toBe('2020-10-01')
