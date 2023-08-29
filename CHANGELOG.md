@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.0 (2023-08-29)
+### Added
+- Add support for the fine-tuning API ([#199](https://github.com/openai-php/client/pull/199))
+- Provide access to header / meta information for all responses ([#195](https://github.com/openai-php/client/pull/195))
+
+### Changed
+- Mark `FineTunes` resource as deprecated
+- Mark `Edits` resource as deprecated
+- Add missing moderation enums ([#178](https://github.com/openai-php/client/pull/178))
+
+### Fixed
+- Chat completion create response with function calling on Azure ([#184](https://github.com/openai-php/client/pull/184))
+- Breaking change on OpenAI API regarding "transient" field in Audio translations ([#168](https://github.com/openai-php/client/pull/168))
+- Docs: fix OpenAI URL
+
 ## v0.6.3 (2023-07-07)
 ### Fixed
 - Breaking change on OpenAI API regarding "transient" field in Audio ([#160](https://github.com/openai-php/client/pull/160))
