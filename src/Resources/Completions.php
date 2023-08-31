@@ -13,8 +13,8 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Completions implements CompletionsContract
 {
-    use Concerns\Transportable;
     use Concerns\Streamable;
+    use Concerns\Transportable;
 
     /**
      * Creates a completion for the provided prompt and parameters

@@ -21,8 +21,8 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<array-key, mixed>|null  $statusDetails

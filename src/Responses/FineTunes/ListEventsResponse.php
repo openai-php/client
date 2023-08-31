@@ -21,8 +21,8 @@ final class ListEventsResponse implements ResponseContract, ResponseHasMetaInfor
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, RetrieveResponseEvent>  $data

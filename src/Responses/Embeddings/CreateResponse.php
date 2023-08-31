@@ -21,8 +21,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, CreateResponseEmbedding>  $embeddings

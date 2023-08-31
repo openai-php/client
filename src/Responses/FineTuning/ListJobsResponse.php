@@ -21,8 +21,8 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, RetrieveJobResponse>  $data

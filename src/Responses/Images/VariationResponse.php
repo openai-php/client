@@ -21,8 +21,8 @@ final class VariationResponse implements ResponseContract, ResponseHasMetaInform
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, VariationResponseData>  $data

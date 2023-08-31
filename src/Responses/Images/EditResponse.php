@@ -21,8 +21,8 @@ final class EditResponse implements ResponseContract, ResponseHasMetaInformation
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, EditResponseData>  $data

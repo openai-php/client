@@ -21,8 +21,8 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     private function __construct(
         public readonly string $id,

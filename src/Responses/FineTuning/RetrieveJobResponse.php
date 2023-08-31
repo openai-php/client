@@ -21,8 +21,8 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
      */
     use ArrayAccessible;
 
-    use HasMetaInformation;
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, string>  $resultFiles
