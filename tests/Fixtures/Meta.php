@@ -19,6 +19,15 @@ function metaHeaders(): array
     ];
 }
 
+function metaHeadersFromAzure(): array
+{
+    return [
+        'openai-model' => ['text-davinci-003'],
+        'openai-processing-ms' => [3482.8264],
+        'x-request-id' => ['3813fa4fa3f17bdf0d7654f0f49ebab4'],
+    ];
+}
+
 function meta(): MetaInformation
 {
     return MetaInformation::from(metaHeaders());

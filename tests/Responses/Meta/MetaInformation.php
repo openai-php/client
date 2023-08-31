@@ -25,6 +25,21 @@ test('from response headers', function () {
         ->tokenLimit->reset->toBe('2ms');
 });
 
+test('from azure response headers', function () {
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersFromAzure()))->getHeaders());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
+        ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
+        ->openai->model->toBe('text-davinci-003')
+        ->openai->organization->toBeNull()
+        ->openai->version->toBeNull()
+        ->openai->processingMs->toBe(3482)
+        ->requestLimit->toBeNull()
+        ->tokenLimit->toBeNull();
+});
+
 test('as array accessible', function () {
     $meta = MetaInformation::from(metaHeaders());
 

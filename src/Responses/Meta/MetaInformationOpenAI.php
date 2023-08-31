@@ -7,13 +7,13 @@ final class MetaInformationOpenAI
     public function __construct(
         public readonly ?string $model,
         public readonly ?string $organization,
-        public readonly string $version,
+        public readonly ?string $version,
         public readonly int $processingMs,
     ) {
     }
 
     /**
-     * @param  array{model: ?string, organization: ?string, version: string, processingMs: int}  $attributes
+     * @param  array{model: ?string, organization: ?string, version: ?string, processingMs: int}  $attributes
      */
     public static function from(array $attributes): self
     {

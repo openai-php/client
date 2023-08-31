@@ -6,12 +6,12 @@ use OpenAI\Contracts\MetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements MetaInformationContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
+ * @implements MetaInformationContract<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version?: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
  */
 final class MetaInformation implements MetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
+     * @use ArrayAccessible<array{x-request-id: string, openai-model?: string, openai-organization?: string, openai-processing-ms: int, openai-version?: string, x-ratelimit-limit-requests?: int, x-ratelimit-limit-tokens?: int, x-ratelimit-remaining-requests?: int, x-ratelimit-remaining-tokens?: int, x-ratelimit-reset-requests?: string, x-ratelimit-reset-tokens?: string, x-request-id: string}>
      */
     use ArrayAccessible;
 
@@ -33,7 +33,7 @@ final class MetaInformation implements MetaInformationContract
         $openai = MetaInformationOpenAI::from([
             'model' => $headers['openai-model'][0] ?? null,
             'organization' => $headers['openai-organization'][0] ?? null,
-            'version' => $headers['openai-version'][0],
+            'version' => $headers['openai-version'][0] ?? null,
             'processingMs' => (int) $headers['openai-processing-ms'][0],
         ]);
 
