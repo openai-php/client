@@ -11,7 +11,7 @@ final class ErrorException extends Exception
     /**
      * Creates a new Exception instance.
      *
-     * @param  array{message: string|array<int, string>, type: ?string, code: ?string}  $contents
+     * @param array{message: string|array<int, string>, type: ?string, code: ?string} $contents
      */
     public function __construct(private readonly array $contents)
     {
@@ -43,7 +43,7 @@ final class ErrorException extends Exception
     /**
      * Returns the error type.
      */
-    public function getErrorCode(): ?string
+    public function getErrorCode(): string|int|null
     {
         return $this->contents['code'];
     }
