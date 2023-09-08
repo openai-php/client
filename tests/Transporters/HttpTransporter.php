@@ -161,6 +161,32 @@ test('error code may be null', function () {
         });
 });
 
+test('error code may be integer', function () {
+    $payload = Payload::create('completions', ['model' => 'gpt-42']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'The model `gpt-42` does not exist',
+            'type' => 'invalid_request_error',
+            'param' => null,
+            'code' => 123,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestObject($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
+                ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
+                ->and($e->getErrorCode())->toBe(123)
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
 test('error type may be null', function () {
     $payload = Payload::list('models');
 
