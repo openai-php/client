@@ -37,13 +37,15 @@ final class FineTuning implements FineTuningContract
     /**
      * List your organization's fine-tuning jobs.
      *
-     * @see TODO: There is no official documentation yet
+     * @see https://platform.openai.com/docs/api-reference/fine-tuning/undefined
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function listJobs(): ListJobsResponse
+    public function listJobs(array $parameters = []): ListJobsResponse
     {
-        $payload = Payload::list('fine_tuning/jobs');
+        $payload = Payload::list('fine_tuning/jobs', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListJobsResponse::from($response->data(), $response->meta());
@@ -52,7 +54,7 @@ final class FineTuning implements FineTuningContract
     /**
      * Gets info about the fine-tune job.
      *
-     * @see https://platform.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platform.openai.com/docs/api-reference/fine-tuning/retrieve
      */
     public function retrieveJob(string $jobId): RetrieveJobResponse
     {
@@ -90,7 +92,7 @@ final class FineTuning implements FineTuningContract
     {
         $payload = Payload::retrieve('fine_tuning/jobs', $jobId, '/events', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListJobEventsResponse::from($response->data(), $response->meta());

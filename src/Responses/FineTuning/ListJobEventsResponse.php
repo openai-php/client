@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>, has_more: bool}>
  */
 final class ListJobEventsResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -30,6 +30,7 @@ final class ListJobEventsResponse implements ResponseContract, ResponseHasMetaIn
     private function __construct(
         public readonly string $object,
         public readonly array $data,
+        public readonly bool $hasMore,
         private readonly MetaInformation $meta,
     ) {
     }
@@ -37,7 +38,7 @@ final class ListJobEventsResponse implements ResponseContract, ResponseHasMetaIn
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>}  $attributes
+     * @param  array{object: string, data: array<int, array{object: string, id: string, created_at: int, level: string, message: string, data: array{step: int, train_loss: float, train_mean_token_accuracy: float}|null, type: string}>, has_more: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -48,6 +49,7 @@ final class ListJobEventsResponse implements ResponseContract, ResponseHasMetaIn
         return new self(
             $attributes['object'],
             $data,
+            $attributes['has_more'],
             $meta,
         );
     }
@@ -63,6 +65,7 @@ final class ListJobEventsResponse implements ResponseContract, ResponseHasMetaIn
                 static fn (ListJobEventsResponseEvent $response): array => $response->toArray(),
                 $this->data,
             ),
+            'has_more' => $this->hasMore,
         ];
     }
 }

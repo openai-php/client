@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}>
  */
 final class ListJobsResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -30,6 +30,7 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
     private function __construct(
         public readonly string $object,
         public readonly array $data,
+        public readonly bool $hasMore,
         private readonly MetaInformation $meta,
     ) {
     }
@@ -37,7 +38,7 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -49,6 +50,7 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
         return new self(
             $attributes['object'],
             $data,
+            $attributes['has_more'],
             $meta,
         );
     }
@@ -64,6 +66,7 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
                 static fn (RetrieveJobResponse $response): array => $response->toArray(),
                 $this->data,
             ),
+            'has_more' => $this->hasMore,
         ];
     }
 }

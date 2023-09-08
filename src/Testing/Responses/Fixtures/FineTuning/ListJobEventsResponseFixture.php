@@ -17,5 +17,6 @@ final class ListJobEventsResponseFixture
                 'type' => 'message',
             ],
         ],
+        'has_more' => false,
     ];
 }

@@ -9,5 +9,6 @@ final class ListJobsResponseFixture
         'data' => [
             RetrieveJobResponseFixture::ATTRIBUTES,
         ],
+        'has_more' => false,
     ];
 }
