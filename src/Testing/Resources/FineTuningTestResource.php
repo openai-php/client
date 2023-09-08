@@ -23,7 +23,7 @@ final class FineTuningTestResource implements FineTuningContract
         return $this->record(__FUNCTION__, $parameters);
     }
 
-    public function listJobs(): ListJobsResponse
+    public function listJobs(array $parameters = []): ListJobsResponse
     {
         return $this->record(__FUNCTION__);
     }

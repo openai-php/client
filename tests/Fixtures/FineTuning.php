@@ -61,6 +61,7 @@ function fineTuningJobListResource(): array
             fineTuningJobRetrieveResource(),
             fineTuningJobRetrieveResource(),
         ],
+        'has_more' => false,
     ];
 }
 
@@ -111,5 +112,6 @@ function fineTuningJobListEventsResource(): array
             fineTuningJobMessageEventResource(),
             fineTuningJobMetricsEventResource(),
         ],
+        'has_more' => true,
     ];
 }

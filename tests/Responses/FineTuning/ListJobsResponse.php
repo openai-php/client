@@ -12,6 +12,7 @@ test('from', function () {
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveJobResponse::class)
+        ->hasMore->toBeFalse()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 

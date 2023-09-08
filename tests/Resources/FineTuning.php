@@ -63,6 +63,17 @@ test('list jobs', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('list jobs with params', function () {
+    $client = mockClient('GET', 'fine_tuning/jobs', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListResource(), metaHeaders()));
+
+    $result = $client->fineTuning()->listJobs(['limit' => 3]);
+
+    expect($result)
+        ->toBeInstanceOf(ListJobsResponse::class)
+        ->data->toBeArray()->toHaveCount(2)
+        ->data->each->toBeInstanceOf(RetrieveJobResponse::class);
+});
+
 test('retrieve job', function () {
     $client = mockClient('GET', 'fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobRetrieveResource(), metaHeaders()));
 

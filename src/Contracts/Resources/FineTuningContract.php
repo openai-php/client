@@ -22,9 +22,11 @@ interface FineTuningContract
     /**
      * List your organization's fine-tuning jobs.
      *
-     * @see TODO: There is no official documentation yet
+     * @see https://platform.openai.com/docs/api-reference/fine-tuning/undefined
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function listJobs(): ListJobsResponse;
+    public function listJobs(array $parameters = []): ListJobsResponse;
 
     /**
      * Get info about a fine-tuning job.

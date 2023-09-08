@@ -526,6 +526,15 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', 'data' => [...]]
 ```
 
+You can pass additional parameters to the `listJobs` method to narrow down the results.
+
+```php
+$response = $client->fineTuning()->listJobs([
+    'limit' => 3, // Number of jobs to retrieve (Default: 20)
+    'after' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', // Identifier for the last job from the previous pagination request.
+]);
+```
+
 #### `retrieve job`
 
 Get info about a fine-tuning job.
