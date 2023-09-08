@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.3 (2023-09-08)
+### Added
+- Add "has_more" to fine-tuning jobs and events list responses ([#206](https://github.com/openai-php/client/pull/206))
+
+### Changed
+- Add parameters to the fine-tuning jobs list request to filter the results ([#206](https://github.com/openai-php/client/pull/206))
+
+### Fixed
+- error_code may be int
+
+## v0.7.2 (2023-08-31)
+### Fixed
+- Missing openai-version header from Azure
+
+## v0.7.1 (2023-08-29)
+### Fixed
+- Typo in class name MetaInformationOpenAI
+
 ## v0.7.0 (2023-08-29)
 ### Added
 - Add support for the fine-tuning API ([#199](https://github.com/openai-php/client/pull/199))
