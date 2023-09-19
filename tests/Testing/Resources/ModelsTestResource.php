@@ -11,11 +11,11 @@ it('records a model retrieve request', function () {
         RetrieveResponse::fake(),
     ]);
 
-    $fake->models()->retrieve('text-davinci-003');
+    $fake->models()->retrieve('gpt-3.5-turbo-instruct');
 
     $fake->assertSent(Models::class, function ($method, $parameters) {
         return $method === 'retrieve' &&
-            $parameters === 'text-davinci-003';
+            $parameters === 'gpt-3.5-turbo-instruct';
     });
 });
 

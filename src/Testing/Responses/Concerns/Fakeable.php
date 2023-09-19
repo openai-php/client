@@ -50,7 +50,7 @@ trait Fakeable
     public static function fakeResponseMetaInformation(): MetaInformation
     {
         return MetaInformation::from([
-            'openai-model' => 'text-davinci-003',
+            'openai-model' => 'gpt-3.5-turbo-instruct',
             'openai-organization' => 'org-1234',
             'openai-processing-ms' => '410',
             'openai-version' => '2020-10-01',

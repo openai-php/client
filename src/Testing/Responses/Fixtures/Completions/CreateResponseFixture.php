@@ -8,7 +8,7 @@ final class CreateResponseFixture
         'id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7',
         'object' => 'text_completion',
         'created' => 1_589_478_378,
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'choices' => [
             [
                 'text' => "\n\nThis is a fake completion response.",

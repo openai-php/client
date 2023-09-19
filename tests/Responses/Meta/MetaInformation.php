@@ -11,7 +11,7 @@ test('from response headers', function () {
         ->toBeInstanceOf(MetaInformation::class)
         ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
         ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
-        ->openai->model->toBe('text-davinci-003')
+        ->openai->model->toBe('gpt-3.5-turbo-instruct')
         ->openai->organization->toBe('org-1234')
         ->openai->version->toBe('2020-10-01')
         ->openai->processingMs->toBe(410)
@@ -32,7 +32,7 @@ test('from azure response headers', function () {
         ->toBeInstanceOf(MetaInformation::class)
         ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
         ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
-        ->openai->model->toBe('text-davinci-003')
+        ->openai->model->toBe('gpt-3.5-turbo-instruct')
         ->openai->organization->toBeNull()
         ->openai->version->toBeNull()
         ->openai->processingMs->toBe(3482)
@@ -52,7 +52,7 @@ test('to array', function () {
     expect($meta->toArray())
         ->toBeArray()
         ->toBe([
-            'openai-model' => 'text-davinci-003',
+            'openai-model' => 'gpt-3.5-turbo-instruct',
             'openai-organization' => 'org-1234',
             'openai-processing-ms' => 410,
             'openai-version' => '2020-10-01',

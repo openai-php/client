@@ -55,7 +55,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
 $result = $client->completions()->create([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'PHP is',
 ]);
 
@@ -94,7 +94,7 @@ $response = $client->models()->list();
 $response->object; // 'list'
 
 foreach ($response->data as $result) {
-    $result->id; // 'text-davinci-003'
+    $result->id; // 'gpt-3.5-turbo-instruct'
     $result->object; // 'model'
     // ...
 }
@@ -107,13 +107,13 @@ $response->toArray(); // ['object' => 'list', 'data' => [...]]
 Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 
 ```php
-$response = $client->models()->retrieve('text-davinci-003');
+$response = $client->models()->retrieve('gpt-3.5-turbo-instruct');
 
-$response->id; // 'text-davinci-003'
+$response->id; // 'gpt-3.5-turbo-instruct'
 $response->object; // 'model'
 $response->created; // 1642018370
 $response->ownedBy; // 'openai'
-$response->root; // 'text-davinci-003'
+$response->root; // 'gpt-3.5-turbo-instruct'
 $response->parent; // null
 
 foreach ($response->permission as $result) {
@@ -131,7 +131,7 @@ foreach ($response->permission as $result) {
     $result->isBlocking; // false 
 }
 
-$response->toArray(); // ['id' => 'text-davinci-003', ...]
+$response->toArray(); // ['id' => 'gpt-3.5-turbo-instruct', ...]
 ```
 
 #### `delete`
@@ -156,7 +156,7 @@ Creates a completion for the provided prompt and parameters.
 
 ```php
 $response = $client->completions()->create([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'Say this is a test',
     'max_tokens' => 6,
     'temperature' => 0
@@ -165,7 +165,7 @@ $response = $client->completions()->create([
 $response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
 $response->object; // 'text_completion'
 $response->created; // 1589478378
-$response->model; // 'text-davinci-003'
+$response->model; // 'gpt-3.5-turbo-instruct'
 
 foreach ($response->choices as $result) {
     $result->text; // '\n\nThis is a test'
@@ -187,7 +187,7 @@ Creates a streamed completion for the provided prompt and parameters.
 
 ```php
 $stream = $client->completions()->createStreamed([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'Hi',
         'max_tokens' => 10,
     ]);
@@ -892,7 +892,7 @@ On all response objects you can access the meta information returned by the API 
 
 ```php
 $response = $client->completions()->create([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'Say this is a test',
 ]);
 
@@ -900,7 +900,7 @@ $meta = $response->meta();
 
 $meta->requestId; // '574a03e2faaf4e9fd703958e4ddc66f5'
 
-$meta->openai->model; // 'text-davinci-003'
+$meta->openai->model; // 'gpt-3.5-turbo-instruct'
 $meta->openai->organization; // 'org-jwe45798ASN82s'
 $meta->openai->version; // '2020-10-01'
 $meta->openai->processingMs; // 425
@@ -921,7 +921,7 @@ $meta->toArray();
 
 // [ 
 //   'x-request-id' => '574a03e2faaf4e9fd703958e4ddc66f5',
-//   'openai-model' => 'text-davinci-003',
+//   'openai-model' => 'gpt-3.5-turbo-instruct',
 //   'openai-organization' => 'org-jwe45798ASN82s',
 //   'openai-processing-ms' => 402,
 //   'openai-version' => '2020-10-01',
@@ -938,7 +938,7 @@ On streaming responses you can access the meta information on the reponse stream
 
 ```php
 $stream = $client->completions()->createStreamed([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'Say this is a test',
 ]);
     
@@ -972,7 +972,7 @@ $client = new ClientFake([
 ]);
 
 $completion = $client->completions()->create([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'PHP is ',
 ]);
 
@@ -1006,7 +1006,7 @@ After the requests have been sent there are various methods to ensure that the e
 // assert completion create request was sent
 $client->assertSent(Completions::class, function (string $method, array $parameters): bool {
     return $method === 'create' &&
-        $parameters['model'] === 'text-davinci-003' &&
+        $parameters['model'] === 'gpt-3.5-turbo-instruct' &&
         $parameters['prompt'] === 'PHP is ';
 });
 // or
@@ -1039,7 +1039,7 @@ $client = new ClientFake([
 
 // the `ErrorException` will be thrown
 $completion = $client->completions()->create([
-    'model' => 'text-davinci-003',
+    'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'PHP is ',
 ]);
 ```

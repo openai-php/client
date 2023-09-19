@@ -17,7 +17,7 @@ it('returns a fake response', function () {
     ]);
 
     $completion = $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -34,7 +34,7 @@ it('throws fake exceptions', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 })->expectExceptionMessage('The model `gpt-1` does not exist');
@@ -45,12 +45,12 @@ it('throws an exception if there is no more fake response', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 })->expectExceptionMessage('No fake responses left');
@@ -63,7 +63,7 @@ it('allows to add more responses', function () {
     ]);
 
     $completion = $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -77,7 +77,7 @@ it('allows to add more responses', function () {
     ]);
 
     $completion = $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -91,13 +91,13 @@ it('asserts a request was sent', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
     $fake->assertSent(Completions::class, function ($method, $parameters) {
         return $method === 'create' &&
-            $parameters['model'] === 'text-davinci-003' &&
+            $parameters['model'] === 'gpt-3.5-turbo-instruct' &&
             $parameters['prompt'] === 'PHP is ';
     });
 });
@@ -109,7 +109,7 @@ it('throws an exception if a request was not sent', function () {
 
     $fake->assertSent(Completions::class, function ($method, $parameters) {
         return $method === 'create' &&
-            $parameters['model'] === 'text-davinci-003' &&
+            $parameters['model'] === 'gpt-3.5-turbo-instruct' &&
             $parameters['prompt'] === 'PHP is ';
     });
 })->expectException(ExpectationFailedException::class);
@@ -120,13 +120,13 @@ it('asserts a request was sent on the resource', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
     $fake->completions()->assertSent(function ($method, $parameters) {
         return $method === 'create' &&
-            $parameters['model'] === 'text-davinci-003' &&
+            $parameters['model'] === 'gpt-3.5-turbo-instruct' &&
             $parameters['prompt'] === 'PHP is ';
     });
 });
@@ -138,12 +138,12 @@ it('asserts a request was sent n times', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -157,7 +157,7 @@ it('throws an exception if a request was not sent n times', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -176,7 +176,7 @@ it('throws an exception if an unexpected request was sent', function () {
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 
@@ -203,7 +203,7 @@ it('throws an exception if any request was sent when non was expected', function
     ]);
 
     $fake->completions()->create([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
 

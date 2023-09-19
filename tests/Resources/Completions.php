@@ -61,12 +61,12 @@ test('create streamed', function () {
     );
 
     $client = mockStreamClient('POST', 'completions', [
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'hi',
     ], $response);
 
     $result = $client->completions()->createStreamed([
-        'model' => 'text-davinci-003',
+        'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'hi',
     ]);
 
@@ -82,7 +82,7 @@ test('create streamed', function () {
         ->id->toBe('cmpl-6wcyFqMKXiZffiydSfWHhjcgsf3KD')
         ->object->toBe('text_completion')
         ->created->toBe(1679430847)
-        ->model->toBe('text-davinci-003')
+        ->model->toBe('gpt-3.5-turbo-instruct')
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
         ->usage->toBeNull();
