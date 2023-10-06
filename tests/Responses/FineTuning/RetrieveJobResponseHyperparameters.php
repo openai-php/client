@@ -16,3 +16,13 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(fineTuningJobRetrieveResource()['hyperparameters']);
 });
+
+test('nEpochs can be a string', function () {
+    $result = RetrieveJobResponseHyperparameters::from([
+        'n_epochs' => 'auto',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveJobResponseHyperparameters::class)
+        ->nEpochs->toBe('auto');
+});

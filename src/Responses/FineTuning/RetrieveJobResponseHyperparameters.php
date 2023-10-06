@@ -8,24 +8,24 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseContract<array{n_epochs: int}>
+ * @implements ResponseContract<array{n_epochs: int|string}>
  */
 final class RetrieveJobResponseHyperparameters implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{n_epochs: int}>
+     * @use ArrayAccessible<array{n_epochs: int|string}>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public readonly int $nEpochs,
+        public readonly int|string $nEpochs,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{n_epochs: int}  $attributes
+     * @param  array{n_epochs: int|string}  $attributes
      */
     public static function from(array $attributes): self
     {
