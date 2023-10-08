@@ -82,6 +82,8 @@ final class Payload
         $contentType = ContentType::JSON;
         $method = Method::POST;
         $uri = ResourceUri::create($resource);
+        
+        $parameters['model'] = $parameters['model'] ?? getenv('OPENAI_MODEL');
 
         return new self($contentType, $method, $uri, $parameters);
     }
