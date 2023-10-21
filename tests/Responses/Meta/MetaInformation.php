@@ -40,6 +40,24 @@ test('from azure response headers', function () {
         ->tokenLimit->toBeNull();
 });
 
+test('from azure response headers without processing time', function () {
+    $headers = metaHeadersFromAzure();
+    unset($headers['openai-processing-ms']);
+
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
+        ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
+        ->openai->model->toBe('gpt-3.5-turbo-instruct')
+        ->openai->organization->toBeNull()
+        ->openai->version->toBeNull()
+        ->openai->processingMs->toBeNull()
+        ->requestLimit->toBeNull()
+        ->tokenLimit->toBeNull();
+});
+
 test('as array accessible', function () {
     $meta = MetaInformation::from(metaHeaders());
 
