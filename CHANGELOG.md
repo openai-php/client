@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.4 (2023-10-21)
+### Fixed
+- nEpochs on RetrieveJobResponseHyperparameters may be string
+- processingMs ond MetaInformationOpenAI may be null ([#218](https://github.com/openai-php/client/pull/218))
+
 ## v0.7.3 (2023-09-08)
 ### Added
 - Add "has_more" to fine-tuning jobs and events list responses ([#206](https://github.com/openai-php/client/pull/206))
