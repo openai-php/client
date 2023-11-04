@@ -501,13 +501,13 @@ $response = $client->fineTuning()->createJob([
     'suffix' => null,
 ]);
 
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->id; // 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine_tuning.job'
 $response->model; // 'gpt-3.5-turbo-0613'
 $response->fineTunedModel; // null
 // ...
 
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response->toArray(); // ['id' => 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list jobs`
@@ -520,7 +520,7 @@ $response = $client->fineTuning()->listJobs();
 $response->object; // 'list'
 
 foreach ($response->data as $result) {
-    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->id; // 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F'
     $result->object; // 'fine_tuning.job'
     // ...
 }
@@ -533,7 +533,7 @@ You can pass additional parameters to the `listJobs` method to narrow down the r
 ```php
 $response = $client->fineTuning()->listJobs([
     'limit' => 3, // Number of jobs to retrieve (Default: 20)
-    'after' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', // Identifier for the last job from the previous pagination request.
+    'after' => 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', // Identifier for the last job from the previous pagination request.
 ]);
 ```
 
@@ -542,9 +542,9 @@ $response = $client->fineTuning()->listJobs([
 Get info about a fine-tuning job.
 
 ```php
-$response = $client->fineTuning()->retrieveJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+$response = $client->fineTuning()->retrieveJob('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->id; // 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine_tuning.job'
 $response->model; // 'gpt-3.5-turbo-0613'
 $response->createdAt; // 1614807352
@@ -559,7 +559,7 @@ $response->trainedTokens; // 5049
 
 $response->hyperparameters->nEpochs; // 9
 
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response->toArray(); // ['id' => 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `cancel job`
@@ -567,15 +567,15 @@ $response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 Immediately cancel a fine-tune job.
 
 ```php
-$response = $client->fineTuning()->cancelJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+$response = $client->fineTuning()->cancelJob('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->id; // 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F'
 $response->object; // 'fine_tuning.job'
 // ...
 $response->status; // 'cancelled'
 // ...
 
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+$response->toArray(); // ['id' => 'ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 ```
 
 #### `list job events`
@@ -583,7 +583,7 @@ $response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
 Get status updates for a fine-tuning job.
 
 ```php
-$response = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+$response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
 $response->object; // 'list'
 
@@ -599,7 +599,7 @@ $response->toArray(); // ['object' => 'list', 'data' => [...]]
 You can pass additional parameters to the `listJobEvents` method to narrow down the results.
 
 ```php
-$response = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F', [
+$response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', [
     'limit' => 3, // Number of events to retrieve (Default: 20)
     'after' => 'ftevent-kLPSMIcsqshEUEJVOVBVcHlP', // Identifier for the last event from the previous pagination request.
 ]);
