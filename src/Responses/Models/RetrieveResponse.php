@@ -42,13 +42,13 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}  $attributes
+     * @param  array{id: string, object: string, created: int, owned_by: string, permission: ?array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: ?string, parent: ?string}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $permission = array_map(fn (array $result): RetrieveResponsePermission => RetrieveResponsePermission::from(
+        $permission = array_map(static fn (array $result): RetrieveResponsePermission => RetrieveResponsePermission::from(
             $result
-        ), $attributes['permission']);
+        ), $attributes['permission'] ?? []);
 
         return new self(
             $attributes['id'],
@@ -56,8 +56,8 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             $attributes['created'],
             $attributes['owned_by'],
             $permission,
-            $attributes['root'],
-            $attributes['parent'],
+            $attributes['root'] ?? '',
+            $attributes['parent'] ?? null,
             $meta,
         );
     }
