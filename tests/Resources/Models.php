@@ -4,7 +4,6 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
-use OpenAI\Responses\Models\RetrieveResponsePermission;
 
 test('list', function () {
     $client = mockClient('GET', 'models', [], \OpenAI\ValueObjects\Transporter\Response::from(modelList(), metaHeaders()));
@@ -34,25 +33,7 @@ test('retrieve', function () {
         ->id->toBe('text-babbage:001')
         ->object->toBe('model')
         ->created->toBe(1642018370)
-        ->ownedBy->toBe('openai')
-        ->permission->toBeArray()->toHaveCount(1)
-        ->permission->each->toBeInstanceOf(RetrieveResponsePermission::class)
-        ->root->toBe('text-babbage:001')
-        ->parent->toBe(null);
-
-    expect($result->permission[0])
-        ->id->toBe('snapperm-7oP3WFr9x7qf5xb3eZrVABAH')
-        ->object->toBe('model_permission')
-        ->created->toBe(1642018480)
-        ->allowCreateEngine->toBe(false)
-        ->allowSampling->toBe(true)
-        ->allowLogprobs->toBe(true)
-        ->allowSearchIndices->toBe(false)
-        ->allowView->toBe(true)
-        ->allowFineTuning->toBe(false)
-        ->organization->toBe('*')
-        ->group->toBe(null)
-        ->isBlocking->toBe(false);
+        ->ownedBy->toBe('openai');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
