@@ -8,6 +8,15 @@ use OpenAI\Responses\Audio\TranslationResponse;
 interface AudioContract
 {
     /**
+     * Generates audio from the input text.
+     *
+     * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function speech(array $parameters): string;
+
+    /**
      * Transcribes audio into the input language.
      *
      * @see https://platform.openai.com/docs/api-reference/audio/create

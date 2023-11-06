@@ -15,6 +15,20 @@ final class Audio implements AudioContract
     use Concerns\Transportable;
 
     /**
+     * Generates audio from the input text.
+     *
+     * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function speech(array $parameters): string
+    {
+        $payload = Payload::create('audio/speech', $parameters);
+
+        return $this->transporter->requestContent($payload);
+    }
+
+    /**
      * Transcribes audio into the input language.
      *
      * @see https://platform.openai.com/docs/api-reference/audio/create

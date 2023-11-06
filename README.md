@@ -292,6 +292,18 @@ foreach($stream as $response){
 
 ### `Audio` Resource
 
+#### `speech`
+
+Generates audio from the input text.
+
+```php
+$client->audio()->speech([
+    'model' => 'tts-1',
+    'input' => 'The quick brown fox jumped over the lazy dog.',
+    'voice' => 'alloy',
+]); // audio file content as string
+```
+
 #### `transcribe`
 
 Transcribes audio into the input language.

@@ -17,6 +17,11 @@ final class AudioTestResource implements AudioContract
         return Audio::class;
     }
 
+    public function speech(array $parameters): string
+    {
+        return $this->record(__FUNCTION__, $parameters);
+    }
+
     public function transcribe(array $parameters): TranscriptionResponse
     {
         return $this->record(__FUNCTION__, $parameters);

@@ -191,3 +191,21 @@ test('translate to verbose json', function () {
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
 });
+
+test('text to speech', function () {
+    $client = mockContentClient('POST', 'audio/speech', [
+        'model' => 'tts-1',
+        'input' => 'Hello, how are you?',
+        'voice' => 'alloy',
+    ], audioFileContent());
+
+    $result = $client->audio()->speech([
+        'model' => 'tts-1',
+        'input' => 'Hello, how are you?',
+        'voice' => 'alloy',
+    ]);
+
+    expect($result)
+        ->toBeString()
+        ->toBe(audioFileContent());
+});
