@@ -54,12 +54,14 @@ Then, interact with OpenAI's API:
 $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
-$result = $client->completions()->create([
+$result = $client->chat()->create([
     'model' => 'gpt-3.5-turbo-instruct',
-    'prompt' => 'PHP is',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
 ]);
 
-echo $result['choices'][0]['text']; // an open-source, widely-used, server-side scripting language.
+echo $result->choices[0]->message->content; // Hello! How can I assist you today?
 ```
 
 If necessary, it is possible to configure and create a separate client.
