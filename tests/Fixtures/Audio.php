@@ -153,3 +153,8 @@ function audioFileResource()
 {
     return fopen(__DIR__.'/audio.mp3', 'r');
 }
+
+function audioFileContent(): string
+{
+    return file_get_contents(__DIR__.'/audio.mp3');
+}

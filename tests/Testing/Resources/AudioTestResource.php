@@ -5,6 +5,27 @@ use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Testing\ClientFake;
 
+it('records a speech request', function () {
+    $fake = new ClientFake([
+        'fake-mp3-content',
+    ]);
+
+    $fake->audio()->speech([
+        'model' => 'tts-1',
+        'input' => 'Hello, how are you?',
+        'voice' => 'alloy',
+    ]);
+
+    $fake->assertSent(Audio::class, function ($method, $parameters) {
+        return $method === 'speech' &&
+            $parameters === [
+                'model' => 'tts-1',
+                'input' => 'Hello, how are you?',
+                'voice' => 'alloy',
+            ];
+    });
+});
+
 it('records an audio transcription request', function () {
     $fake = new ClientFake([
         TranscriptionResponse::fake(),
