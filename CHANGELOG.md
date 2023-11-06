@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.5 (2023-11-06)
+### Changed
+- Update Models endpoint response object to the latest API changes ([#235](https://github.com/openai-php/client/pull/235))
+
+### Docs
+- Update FineTuning job id names ([#230](https://github.com/openai-php/client/pull/230))
+- Use Chat resource as the primary example
+
 ## v0.7.4 (2023-10-21)
 ### Fixed
 - nEpochs on RetrieveJobResponseHyperparameters may be string
