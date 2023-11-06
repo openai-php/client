@@ -115,23 +115,6 @@ $response->id; // 'gpt-3.5-turbo-instruct'
 $response->object; // 'model'
 $response->created; // 1642018370
 $response->ownedBy; // 'openai'
-$response->root; // 'gpt-3.5-turbo-instruct'
-$response->parent; // null
-
-foreach ($response->permission as $result) {
-    $result->id; // 'modelperm-7E53j9OtnMZggjqlwMxW4QG7' 
-    $result->object; // 'model_permission' 
-    $result->created; // 1664307523 
-    $result->allowCreateEngine; // false 
-    $result->allowSampling; // true 
-    $result->allowLogprobs; // true 
-    $result->allowSearchIndices; // false 
-    $result->allowView; // true 
-    $result->allowFineTuning; // false 
-    $result->organization; // '*' 
-    $result->group; // null 
-    $result->isBlocking; // false 
-}
 
 $response->toArray(); // ['id' => 'gpt-3.5-turbo-instruct', ...]
 ```
