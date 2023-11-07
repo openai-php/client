@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Chat;
 
-/**
- * @deprecated
- */
-final class CreateResponseFunctionCall
+final class CreateResponseToolCallFunction
 {
     private function __construct(
         public readonly string $name,

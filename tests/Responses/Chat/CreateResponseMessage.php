@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Chat\CreateResponseFunctionCall;
 use OpenAI\Responses\Chat\CreateResponseMessage;
+use OpenAI\Responses\Chat\CreateResponseToolCall;
 
 test('from', function () {
     $result = CreateResponseMessage::from(chatCompletion()['choices'][0]['message']);
@@ -19,6 +20,17 @@ test('from function response', function () {
         ->role->toBe('assistant')
         ->content->toBeNull()
         ->functionCall->toBeInstanceOf(CreateResponseFunctionCall::class);
+});
+
+test('from tool calls response', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithToolCalls()['choices'][0]['message']);
+
+    expect($result)
+        ->role->toBe('assistant')
+        ->content->toBeNull()
+        ->toolCalls->toBeArray()
+        ->toolCalls->toHaveCount(1)
+        ->toolCalls->each->toBeInstanceOf(CreateResponseToolCall::class);
 });
 
 test('from function response without content', function () {

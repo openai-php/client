@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Chat\CreateStreamedResponseDelta;
 use OpenAI\Responses\Chat\CreateStreamedResponseFunctionCall;
+use OpenAI\Responses\Chat\CreateStreamedResponseToolCall;
 
 test('from first chunk', function () {
     $result = CreateStreamedResponseDelta::from(chatCompletionStreamFirstChunk()['choices'][0]['delta']);
@@ -27,6 +28,17 @@ test('from function call chunk', function () {
         ->role->toBeNull()
         ->content->toBeNull()
         ->functionCall->toBeInstanceOf(CreateStreamedResponseFunctionCall::class);
+});
+
+test('from tool calls chunk', function () {
+    $result = CreateStreamedResponseDelta::from(chatCompletionStreamToolCallsChunk()['choices'][0]['delta']);
+
+    expect($result)
+        ->role->toBeNull()
+        ->content->toBeNull()
+        ->toolCalls->toBeArray()
+        ->toolCalls->toHaveCount(1)
+        ->toolCalls->each->toBeInstanceOf(CreateStreamedResponseToolCall::class);
 });
 
 test('to array from first chunk', function () {

@@ -63,6 +63,44 @@ function chatCompletionWithFunction(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithToolCalls(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1699333252,
+        'model' => 'gpt-3.5-turbo-0613',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => null,
+                    'tool_calls' => [
+                        [
+                            'id' => 'call_trlgKnhMpYSC7CFXKw3CceUZ',
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'get_current_weather',
+                                'arguments' => "{\n  \"location\": \"Boston, MA\"\n}",
+                            ],
+                        ],
+                    ],
+                ],
+                'finish_reason' => 'tool_calls',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 71,
+            'completion_tokens' => 17,
+            'total_tokens' => 88,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionMessageWithFunctionAndNoContent(): array
 {
     return [
@@ -127,6 +165,35 @@ function chatCompletionStreamFunctionCallChunk(): array
                     'function_call' => [
                         'name' => 'get_current_weather',
                         'arguments' => '',
+                    ],
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
+function chatCompletionStreamToolCallsChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'content' => null,
+                    'tool_calls' => [
+                        [
+                            'id' => 'call_trlgKnhMpYSC7CFXKw3CceUZ',
+                            'type' => 'function',
+                            'function' => [
+                                'name' => 'get_current_weather',
+                                'arguments' => '',
+                            ],
+                        ],
                     ],
                 ],
                 'finish_reason' => null,
