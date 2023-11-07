@@ -112,6 +112,33 @@ function chatCompletionMessageWithFunctionAndNoContent(): array
     ];
 }
 
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionFromVision(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-4-1106-vision-preview',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'The image shows a beautiful, tranquil natural landscape. A wooden boardwalk path stretches',
+                ],
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 1114,
+            'completion_tokens' => 16,
+            'total_tokens' => 1130,
+        ],
+    ];
+}
+
 function chatCompletionStreamFirstChunk(): array
 {
     return [
@@ -197,6 +224,24 @@ function chatCompletionStreamToolCallsChunk(): array
                     ],
                 ],
                 'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
+function chatCompletionStreamVisionContentChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-1106-vision-preview',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'content' => 'This',
+                ],
             ],
         ],
     ];

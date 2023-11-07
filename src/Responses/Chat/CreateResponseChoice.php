@@ -21,7 +21,7 @@ final class CreateResponseChoice
         return new self(
             $attributes['index'],
             CreateResponseMessage::from($attributes['message']),
-            $attributes['finish_reason'],
+            $attributes['finish_reason'] ?? null,
         );
     }
 

@@ -12,6 +12,15 @@ test('from', function () {
         ->finishReason->toBeIn(['stop', null]);
 });
 
+test('from vision chunk', function () {
+    $result = CreateStreamedResponseChoice::from(chatCompletionStreamVisionContentChunk()['choices'][0]);
+
+    expect($result)
+        ->index->toBe(0)
+        ->delta->toBeInstanceOf(CreateStreamedResponseDelta::class)
+        ->finishReason->toBeNull();
+});
+
 test('to array', function () {
     $result = CreateStreamedResponseChoice::from(chatCompletionStreamFirstChunk()['choices'][0]);
 
