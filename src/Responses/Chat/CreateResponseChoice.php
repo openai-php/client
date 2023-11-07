@@ -14,7 +14,7 @@ final class CreateResponseChoice
     }
 
     /**
-     * @param  array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}}, finish_reason: string|null}  $attributes
+     * @param  array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, finish_reason: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -26,7 +26,7 @@ final class CreateResponseChoice
     }
 
     /**
-     * @return array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}}, finish_reason: string|null}
+     * @return array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, finish_reason: string|null}
      */
     public function toArray(): array
     {
