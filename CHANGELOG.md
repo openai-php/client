@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.7 (2023-11-07)
+### Added
+-  Add support for tool calls on the chat completion endpoint ([#239](https://github.com/openai-php/client/pull/239))
+
+## v0.7.6 (2023-11-06)
+### Added
+-  Add support for the audio speech endpoint ([#237](https://github.com/openai-php/client/pull/237))
+
 ## v0.7.5 (2023-11-06)
 ### Changed
 - Update Models endpoint response object to the latest API changes ([#235](https://github.com/openai-php/client/pull/235))
