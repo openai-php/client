@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.7.8 (2023-11-07)
+### Added
+-  Add support for GTP-4 vision on the chat completion endpoint ([#241](https://github.com/openai-php/client/pull/241))
+
 ## v0.7.7 (2023-11-07)
 ### Added
 -  Add support for tool calls on the chat completion endpoint ([#239](https://github.com/openai-php/client/pull/239))
