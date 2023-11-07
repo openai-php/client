@@ -21,7 +21,7 @@ final class CreateStreamedResponseChoice
         return new self(
             $attributes['index'],
             CreateStreamedResponseDelta::from($attributes['delta']),
-            $attributes['finish_reason'],
+            $attributes['finish_reason'] ?? null,
         );
     }
 
