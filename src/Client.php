@@ -6,6 +6,7 @@ namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\TransporterContract;
+use OpenAI\Resources\Assistant;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
@@ -139,5 +140,15 @@ final class Client implements ClientContract
     public function images(): Images
     {
         return new Images($this->transporter);
+    }
+
+    /**
+     * Build assistants that can call models and use tools to perform tasks.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants
+     */
+    public function assistant(): Assistant
+    {
+        return new Assistant($this->transporter);
     }
 }

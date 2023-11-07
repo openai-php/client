@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts;
 
+use OpenAI\Contracts\Resources\AssistantContract;
 use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
@@ -97,4 +98,11 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/images
      */
     public function images(): ImagesContract;
+
+    /**
+     * Build assistants that can call models and use tools to perform tasks.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants
+     */
+    public function assistant(): AssistantContract;
 }
