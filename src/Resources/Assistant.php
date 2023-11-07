@@ -6,8 +6,10 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantContract;
 use OpenAI\Contracts\Resources\ImagesContract;
+use OpenAI\Contracts\Resources\ListAssistantsResponse;
+use OpenAI\Responses\Assistant\AssistantListResponse;
 use OpenAI\Responses\Assistant\AssistantResponse;
-use OpenAI\Responses\Assistant\DeleteResponse;
+use OpenAI\Responses\Assistant\AssistantDeleteResponse;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
@@ -72,13 +74,30 @@ final class Assistant implements AssistantContract
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/deleteAssistant
      */
-    public function delete(string $id): DeleteResponse
+    public function delete(string $id): AssistantDeleteResponse
     {
         $payload = Payload::delete('assistants', $id);
 
         /** @var Response<array{id: string, object: string, deleted: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
-        return DeleteResponse::from($response->data(), $response->meta());
+        return AssistantDeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Returns a list of assistants.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants/listAssistants
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function list(array $parameters = []): AssistantListResponse
+    {
+        $payload = Payload::list('assistants', $parameters);
+
+        /** @var Response<array{data: array<int, array{id: string, object: string, created: int, data: array<int, array{url?: string, b64_json?: string}>}>}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return AssistantListResponse::from($response->data(), $response->meta());
     }
 }

@@ -2,9 +2,11 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\Assistant\AssistantListResponse;
 use OpenAI\Responses\Assistant\AssistantResponse;
-use OpenAI\Responses\Assistant\DeleteResponse;
+use OpenAI\Responses\Assistant\AssistantDeleteResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
+use OpenAI\Responses\FineTuning\ListJobsResponse;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
@@ -41,5 +43,14 @@ interface AssistantContract
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/deleteAssistant
      */
-    public function delete(string $id): DeleteResponse;
+    public function delete(string $id): AssistantDeleteResponse;
+
+    /**
+     * Returns a list of assistants.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants/listAssistants
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function list(array $parameters = []): AssistantListResponse;
 }

@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{id: string, object: string, deleted: bool}>
  */
-final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
+final class AssistantDeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
