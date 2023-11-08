@@ -48,7 +48,7 @@ final class ListJobsResponse implements ResponseContract, ResponseHasMetaInforma
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $data,
             $attributes['has_more'],
             $meta,

@@ -46,7 +46,7 @@ final class EditResponse implements ResponseContract, ResponseHasMetaInformation
         ), $attributes['data']);
 
         return new self(
-            $attributes['created'],
+            $attributes['created'] ?? '',
             $results,
             $meta,
         );

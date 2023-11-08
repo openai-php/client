@@ -45,8 +45,8 @@ final class CreateStreamedResponse implements ResponseContract
 
         return new self(
             $attributes['id'],
-            $attributes['object'],
-            $attributes['created'],
+            $attributes['object'] ?? '',
+            $attributes['created'] ?? '',
             $attributes['model'],
             $choices,
         );

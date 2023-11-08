@@ -47,7 +47,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $data,
             $meta,
         );

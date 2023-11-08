@@ -46,7 +46,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         ), $attributes['data']);
 
         return new self(
-            $attributes['created'],
+            $attributes['created'] ?? '',
             $results,
             $meta,
         );

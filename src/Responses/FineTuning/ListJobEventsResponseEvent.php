@@ -37,7 +37,7 @@ final class ListJobEventsResponseEvent implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['id'],
             $attributes['created_at'],
             FineTuningEventLevel::from($attributes['level']),

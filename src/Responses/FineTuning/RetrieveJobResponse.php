@@ -54,7 +54,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
     {
         return new self(
             $attributes['id'],
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['model'],
             $attributes['created_at'],
             $attributes['finished_at'],

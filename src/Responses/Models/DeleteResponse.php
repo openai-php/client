@@ -41,7 +41,7 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
     {
         return new self(
             $attributes['id'],
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['deleted'],
             $meta,
         );

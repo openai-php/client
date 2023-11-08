@@ -22,7 +22,7 @@ final class CreateResponseEmbedding
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['index'],
             $attributes['embedding'],
         );

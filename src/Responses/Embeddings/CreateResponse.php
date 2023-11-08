@@ -47,7 +47,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $embeddings,
             CreateResponseUsage::from($attributes['usage']),
             $meta,

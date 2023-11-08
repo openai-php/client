@@ -49,7 +49,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     {
         return new self(
             $attributes['id'],
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['bytes'],
             $attributes['created_at'],
             $attributes['filename'],

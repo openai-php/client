@@ -52,8 +52,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
 
         return new self(
             $attributes['id'],
-            $attributes['object'],
-            $attributes['created'],
+            $attributes['object'] ?? '',
+            $attributes['created'] ?? '',
             $attributes['model'],
             $attributes['system_fingerprint'] ?? null,
             $choices,

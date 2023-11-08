@@ -48,8 +48,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         ), $attributes['choices']);
 
         return new self(
-            $attributes['object'],
-            $attributes['created'],
+            $attributes['object'] ?? '',
+            $attributes['created'] ?? '',
             $choices,
             CreateResponseUsage::from($attributes['usage']),
             $meta,

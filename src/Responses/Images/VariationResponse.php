@@ -46,7 +46,7 @@ final class VariationResponse implements ResponseContract, ResponseHasMetaInform
         ), $attributes['data']);
 
         return new self(
-            $attributes['created'],
+            $attributes['created'] ?? '',
             $results,
             $meta,
         );

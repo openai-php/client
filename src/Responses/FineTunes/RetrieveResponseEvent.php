@@ -33,7 +33,7 @@ final class RetrieveResponseEvent implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $attributes['created_at'],
             $attributes['level'],
             $attributes['message'],

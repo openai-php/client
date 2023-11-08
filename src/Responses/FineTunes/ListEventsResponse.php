@@ -46,7 +46,7 @@ final class ListEventsResponse implements ResponseContract, ResponseHasMetaInfor
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
+            $attributes['object'] ?? '',
             $data,
             $meta,
         );
