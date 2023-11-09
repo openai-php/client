@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Assistant;
+namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}>
  */
-final class AssistantListResponse implements ResponseContract, ResponseHasMetaInformationContract
+final class ThreadMessageListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}>
@@ -30,8 +30,8 @@ final class AssistantListResponse implements ResponseContract, ResponseHasMetaIn
     private function __construct(
         public readonly string $object,
         public readonly array $data,
-        public readonly string $firstId,
-        public readonly string $lastId,
+        public readonly ?string $firstId,
+        public readonly ?string $lastId,
         public readonly bool $hasMore,
         private readonly MetaInformation $meta,
     ) {
@@ -44,7 +44,7 @@ final class AssistantListResponse implements ResponseContract, ResponseHasMetaIn
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $data = array_map(fn (array $result): AssistantResponse => AssistantResponse::from(
+        $data = array_map(fn (array $result): ThreadMessageResponse => ThreadMessageResponse::from(
             $result,
             $meta,
         ), $attributes['data']);
@@ -67,7 +67,7 @@ final class AssistantListResponse implements ResponseContract, ResponseHasMetaIn
         return [
             'object' => $this->object,
             'data' => array_map(
-                static fn (AssistantResponse $response): array => $response->toArray(),
+                static fn (ThreadMessageResponse $response): array => $response->toArray(),
                 $this->data,
             ),
             'first_id' => $this->firstId,

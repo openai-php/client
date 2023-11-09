@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
 use OpenAI\Contracts\Resources\ListAssistantsResponse;
-use OpenAI\Responses\Assistant\AssistantDeleteResponse;
-use OpenAI\Responses\Assistant\AssistantFileDeleteResponse;
-use OpenAI\Responses\Assistant\AssistantFileListResponse;
-use OpenAI\Responses\Assistant\AssistantFileResponse;
-use OpenAI\Responses\Assistant\AssistantListResponse;
-use OpenAI\Responses\Assistant\AssistantResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileDeleteResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileListResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 

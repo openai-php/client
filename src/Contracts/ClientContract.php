@@ -14,6 +14,7 @@ use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
+use OpenAI\Contracts\Resources\ThreadsContract;
 
 interface ClientContract
 {
@@ -105,4 +106,11 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/assistants
      */
     public function assistants(): AssistantsContract;
+
+    /**
+     * Create threads that assistants can interact with.
+     *
+     * @see https://platform.openai.com/docs/api-reference/threads
+     */
+    public function threads(): ThreadsContract;
 }

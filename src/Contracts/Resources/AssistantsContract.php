@@ -2,9 +2,9 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Assistant\AssistantListResponse;
-use OpenAI\Responses\Assistant\AssistantResponse;
-use OpenAI\Responses\Assistant\AssistantDeleteResponse;
+use OpenAI\Responses\Assistants\AssistantListResponse;
+use OpenAI\Responses\Assistants\AssistantResponse;
+use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\Responses\FineTuning\ListJobsResponse;
 use OpenAI\Responses\Images\CreateResponse;
@@ -57,7 +57,7 @@ interface AssistantsContract
     /**
      * Manage files attached to an assistant.
      *
-     * @see https://platform.openai.com/docs/api-reference/assistants/file-object
+     * @see https://platform.openai.com/docs/api-reference/assistants
      */
     public function files(): AssistantsFilesContract;
 }

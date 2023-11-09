@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Resources\Assistants;
 use OpenAI\Resources\Audio;
@@ -18,6 +19,7 @@ use OpenAI\Resources\FineTuning;
 use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
+use OpenAI\Resources\Threads;
 
 final class Client implements ClientContract
 {
@@ -150,5 +152,15 @@ final class Client implements ClientContract
     public function assistants(): Assistants
     {
         return new Assistants($this->transporter);
+    }
+
+    /**
+     * Create threads that assistants can interact with.
+     *
+     * @see https://platform.openai.com/docs/api-reference/threads
+     */
+    public function threads(): ThreadsContract
+    {
+        return new Threads($this->transporter);
     }
 }

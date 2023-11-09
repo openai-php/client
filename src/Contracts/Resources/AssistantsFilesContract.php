@@ -2,12 +2,9 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Assistant\AssistantDeleteResponse;
-use OpenAI\Responses\Assistant\AssistantFileDeleteResponse;
-use OpenAI\Responses\Assistant\AssistantFileListResponse;
-use OpenAI\Responses\Assistant\AssistantFileResponse;
-use OpenAI\Responses\Assistant\AssistantListResponse;
-use OpenAI\Responses\Assistant\AssistantResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileDeleteResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileListResponse;
+use OpenAI\Responses\Assistants\Files\AssistantFileResponse;
 
 interface AssistantsFilesContract
 {

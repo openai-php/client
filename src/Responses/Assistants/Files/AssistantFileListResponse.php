@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Assistant;
+namespace OpenAI\Responses\Assistants\Files;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
@@ -30,8 +30,8 @@ final class AssistantFileListResponse implements ResponseContract, ResponseHasMe
     private function __construct(
         public readonly string $object,
         public readonly array $data,
-        public readonly string $firstId,
-        public readonly string $lastId,
+        public readonly ?string $firstId,
+        public readonly ?string $lastId,
         public readonly bool $hasMore,
         private readonly MetaInformation $meta,
     ) {

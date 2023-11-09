@@ -8,9 +8,9 @@ use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ListAssistantsResponse;
-use OpenAI\Responses\Assistant\AssistantListResponse;
-use OpenAI\Responses\Assistant\AssistantResponse;
-use OpenAI\Responses\Assistant\AssistantDeleteResponse;
+use OpenAI\Responses\Assistants\AssistantListResponse;
+use OpenAI\Responses\Assistants\AssistantResponse;
+use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
@@ -105,7 +105,7 @@ final class Assistants implements AssistantsContract
     /**
      * Manage files attached to an assistant.
      *
-     * @see https://platform.openai.com/docs/api-reference/assistants/file-object
+     * @see https://platform.openai.com/docs/api-reference/assistants
      */
     public function files(): AssistantsFilesContract
     {
