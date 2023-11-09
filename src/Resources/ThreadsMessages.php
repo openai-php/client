@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ListAssistantsResponse;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
+use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
 use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
@@ -99,5 +100,15 @@ final class ThreadsMessages implements ThreadsMessagesContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageListResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage files attached to a thred message.
+     *
+     * @see https://platform.openai.com/docs/api-reference/messages/file-object
+     */
+    public function files(): ThreadsMessagesFilesContract
+    {
+        return new ThreadsMessagesFiles($this->transporter);
     }
 }

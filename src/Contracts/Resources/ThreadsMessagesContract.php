@@ -51,4 +51,11 @@ interface ThreadsMessagesContract
      * @param  array<string, mixed>  $parameters
      */
     public function list(string $threadId, array $parameters = []): ThreadMessageListResponse;
+
+    /**
+     * Manage files attached to a thred message.
+     *
+     * @see https://platform.openai.com/docs/api-reference/messages/file-object
+     */
+    public function files(): ThreadsMessagesFilesContract;
 }
