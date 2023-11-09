@@ -11,7 +11,7 @@ use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
 
-interface AssistantContract
+interface AssistantsContract
 {
     /**
      * Create an assistant with a model and instructions.
@@ -53,4 +53,11 @@ interface AssistantContract
      * @param  array<string, mixed>  $parameters
      */
     public function list(array $parameters = []): AssistantListResponse;
+
+    /**
+     * Manage files attached to an assistant.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants/file-object
+     */
+    public function files(): AssistantsFilesContract;
 }

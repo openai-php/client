@@ -2,7 +2,7 @@
 
 namespace OpenAI\Contracts;
 
-use OpenAI\Contracts\Resources\AssistantContract;
+use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
@@ -104,5 +104,5 @@ interface ClientContract
      *
      * @see https://platform.openai.com/docs/api-reference/assistants
      */
-    public function assistant(): AssistantContract;
+    public function assistants(): AssistantsContract;
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\AssistantContract;
+use OpenAI\Contracts\Resources\AssistantsContract;
+use OpenAI\Contracts\Resources\AssistantsFilesContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ListAssistantsResponse;
 use OpenAI\Responses\Assistant\AssistantListResponse;
@@ -16,7 +17,7 @@ use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Assistant implements AssistantContract
+final class Assistants implements AssistantsContract
 {
     use Concerns\Transportable;
 
@@ -99,5 +100,15 @@ final class Assistant implements AssistantContract
         $response = $this->transporter->requestObject($payload);
 
         return AssistantListResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage files attached to an assistant.
+     *
+     * @see https://platform.openai.com/docs/api-reference/assistants/file-object
+     */
+    public function files(): AssistantsFilesContract
+    {
+        return new AssistantsFiles($this->transporter);
     }
 }
