@@ -844,6 +844,7 @@ Creates an image given a prompt.
 
 ```php
 $response = $client->images()->create([
+    'model' => 'dall-e-3',
     'prompt' => 'A cute baby sea otter',
     'n' => 1,
     'size' => '256x256',
