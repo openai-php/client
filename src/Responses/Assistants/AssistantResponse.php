@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>
  */
 final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -25,7 +25,9 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     use HasMetaInformation;
 
     /**
-     * @param  array<int, TranscriptionResponseSegment>  $segments
+     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction>  $tools
+     * @param  array<int, string>  $fileIds
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public string $id,
@@ -45,13 +47,18 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param    $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
      */
-    public static function from(array|string $attributes, MetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
-        $tools = array_map(fn (array $result): AssistantToolResponse => AssistantToolResponse::from(
-            $result
-        ), $attributes['tools']);
+        $tools = array_map(
+            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction => match ($tool['type']) {
+                'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
+                'retrieval' => AssistantResponseToolRetrieval::from($tool),
+                'function' => AssistantResponseToolFunction::from($tool),
+            },
+            $attributes['tools'],
+        );
 
         return new self(
             $attributes['id'],
@@ -81,7 +88,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'description' => $this->description,
             'model' => $this->model,
             'instructions' => $this->instructions,
-            'tools' => array_map(fn (AssistantToolResponse $tool): array => $tool->toArray(), $this->tools),
+            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
             'file_ids' => $this->fileIds,
             'metadata' => $this->metadata,
         ];

@@ -27,7 +27,7 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::create('assistants', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantResponse::from($response->data(), $response->meta());
@@ -42,7 +42,7 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::retrieve('assistants', $id);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantResponse::from($response->data(), $response->meta());
@@ -59,7 +59,7 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::modify('assistants', $id, $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantResponse::from($response->data(), $response->meta());
@@ -91,7 +91,7 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::list('assistants', $parameters);
 
-        /** @var Response<array{data: array<int, array{id: string, object: string, created: int, data: array<int, array{url?: string, b64_json?: string}>}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantListResponse::from($response->data(), $response->meta());
