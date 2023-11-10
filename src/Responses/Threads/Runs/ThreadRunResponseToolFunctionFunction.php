@@ -20,7 +20,7 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $description,
         public string $name,
         public string $parameters,

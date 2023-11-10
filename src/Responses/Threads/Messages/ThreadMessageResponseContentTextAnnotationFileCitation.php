@@ -20,7 +20,7 @@ final class ThreadMessageResponseContentTextAnnotationFileCitation implements Re
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $fileId,
         public string $quote,
     ) {
@@ -29,7 +29,7 @@ final class ThreadMessageResponseContentTextAnnotationFileCitation implements Re
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{file_id: string, quote: string} $attributes
+     * @param  array{file_id: string, quote: string}  $attributes
      */
     public static function from(array $attributes): self
     {

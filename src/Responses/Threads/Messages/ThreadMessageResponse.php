@@ -25,9 +25,9 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
     use HasMetaInformation;
 
     /**
-     * @param array<int, ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject> $content
-     * @param array<int, string> $fileIds
-     * @param array<string, string> $metadata
+     * @param  array<int, ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject>  $content
+     * @param  array<int, string>  $fileIds
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public string $id,

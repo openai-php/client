@@ -21,7 +21,7 @@ final class ThreadRunStepResponseRetrievalToolCall implements ResponseContract
     use Fakeable;
 
     /**
-     * @param array<string, string> $retrieval
+     * @param  array<string, string>  $retrieval
      */
     private function __construct(
         public string $id,

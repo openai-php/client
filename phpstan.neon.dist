@@ -1,7 +1,7 @@
 parameters:
     level: max
     paths:
-        - src/Responses/Threads/Runs
+        - src
     excludePaths:
             analyse:
                 - src/Testing

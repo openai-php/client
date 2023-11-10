@@ -20,7 +20,7 @@ final class ThreadRunResponseRequiredActionFunctionToolCall implements ResponseC
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $id,
         public string $type,
         public ThreadRunResponseRequiredActionFunctionToolCallFunction $function,

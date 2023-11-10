@@ -29,7 +29,7 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::create('threads', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
@@ -61,7 +61,7 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::retrieve('threads', $id);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
@@ -78,7 +78,7 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::modify('threads', $id, $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());

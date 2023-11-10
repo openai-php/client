@@ -118,11 +118,10 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             'metadata' => $this->metadata,
         ];
 
-
-        if($this->requiredAction !== null){
+        if ($this->requiredAction instanceof ThreadRunResponseRequiredAction) {
             $data['required_action'] = $this->requiredAction->toArray();
         }
-        if($this->lastError !== null) {
+        if ($this->lastError instanceof ThreadRunResponseLastError) {
             $data['last_error'] = $this->lastError->toArray();
         }
 

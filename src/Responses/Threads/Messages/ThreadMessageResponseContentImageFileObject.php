@@ -20,7 +20,7 @@ final class ThreadMessageResponseContentImageFileObject implements ResponseContr
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $type,
         public ThreadMessageResponseContentImageFile $imageFile,
     ) {

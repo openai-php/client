@@ -20,7 +20,7 @@ final class ThreadRunStepResponseCodeToolCall implements ResponseContract
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $id,
         public string $type,
         public ThreadRunStepResponseCodeInterpreter $codeInterpreter,

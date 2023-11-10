@@ -25,7 +25,7 @@ final class ThreadRunStepResponse implements ResponseContract
     use HasMetaInformation;
 
     /**
-     * @param array<string, string> $metadata
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public string $id,

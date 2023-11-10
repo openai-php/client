@@ -20,7 +20,7 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $type,
         public string $text,
         public ThreadMessageResponseContentTextAnnotationFileCitation $fileCitation,
@@ -32,7 +32,7 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int} $attributes
+     * @param  array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}  $attributes
      */
     public static function from(array $attributes): self
     {

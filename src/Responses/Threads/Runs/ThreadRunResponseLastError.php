@@ -20,7 +20,7 @@ final class ThreadRunResponseLastError implements ResponseContract
 
     use Fakeable;
 
-   private function __construct(
+    private function __construct(
         public string $code,
         public string $message,
     ) {
