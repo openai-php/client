@@ -28,7 +28,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
     {
         $payload = Payload::create("threads/$threadId/messages", $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageResponse::from($response->data(), $response->meta());
@@ -43,7 +43,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
     {
         $payload = Payload::retrieve("threads/$threadId/messages", $messageId);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageResponse::from($response->data(), $response->meta());
@@ -60,7 +60,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
     {
         $payload = Payload::modify("threads/$threadId/messages", $messageId, $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageResponse::from($response->data(), $response->meta());

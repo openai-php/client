@@ -12,21 +12,18 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, message_id: string}>
  */
 final class ThreadMessageFileResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, message_id: string}>
      */
     use ArrayAccessible;
 
     use Fakeable;
     use HasMetaInformation;
 
-    /**
-     * @param  array<int, ThreadMessageResponseContentTextObject|ThreadMessageResponseContentImageFileObject>  $content
-     */
     private function __construct(
         public string $id,
         public string $object,
@@ -39,9 +36,9 @@ final class ThreadMessageFileResponse implements ResponseContract, ResponseHasMe
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string  $attributes
+     * @param  array{id: string, object: string, created_at: int, message_id: string}  $attributes
      */
-    public static function from(array|string $attributes, MetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             $attributes['id'],

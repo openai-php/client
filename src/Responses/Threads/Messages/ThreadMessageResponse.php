@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: string, image_file: array{file_id: string}}|array{type: string, text: array{value: string, annotations: array<int, array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: string, text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}>
  */
 final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: string, image_file: array{file_id: string}}|array{type: string, text: array{value: string, annotations: array<int, array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: string, text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -25,7 +25,9 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
     use HasMetaInformation;
 
     /**
-     * @param  array<int, ThreadMessageResponseContentTextObject|ThreadMessageResponseContentImageFileObject>  $content
+     * @param array<int, ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject> $content
+     * @param array<int, string> $fileIds
+     * @param array<string, string> $metadata
      */
     private function __construct(
         public string $id,
@@ -45,9 +47,9 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string  $attributes
+     * @param  array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
      */
-    public static function from(array|string $attributes, MetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $content = array_map(
             fn (array $content): \OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextObject|\OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFileObject => match ($content['type']) {

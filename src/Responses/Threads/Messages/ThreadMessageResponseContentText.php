@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\InvalidTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+ * @implements ResponseContract<array{value: string, annotations: array<int, array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: string, text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}>
  */
 final class ThreadMessageResponseContentText implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+     * @use ArrayAccessible<array{value: string, annotations: array<int, array{type: string, text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: string, text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}>
      */
     use ArrayAccessible;
 
@@ -32,12 +33,12 @@ final class ThreadMessageResponseContentText implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string  $attributes
+     * @param  array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}  $attributes
      */
-    public static function from(array|string $attributes): self
+    public static function from(array $attributes): self
     {
         $annotations = array_map(
-            fn (array $annotation): \OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFileCitationObject|\OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFilePathObject => match ($annotation['type']) {
+            fn (array $annotation): ThreadMessageResponseContentTextAnnotationFileCitationObject|ThreadMessageResponseContentTextAnnotationFilePathObject => match ($annotation['type']) {
                 'file_citation' => ThreadMessageResponseContentTextAnnotationFileCitationObject::from($annotation),
                 'file_path' => ThreadMessageResponseContentTextAnnotationFilePathObject::from($annotation),
             },
