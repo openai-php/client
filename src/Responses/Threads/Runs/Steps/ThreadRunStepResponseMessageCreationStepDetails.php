@@ -9,20 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{type: string, message_creation: array{message_id: string}}>
  */
 final class ThreadRunStepResponseMessageCreationStepDetails implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{type: string, message_creation: array{message_id: string}}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
-    /**
-     * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
-     */
     private function __construct(
         public string $type,
         public ThreadRunStepResponseMessageCreation $messageCreation,
@@ -32,7 +29,7 @@ final class ThreadRunStepResponseMessageCreationStepDetails implements ResponseC
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{type: 'message_creation', message_creation: array{message_id: string}}  $attributes
      */
     public static function from(array $attributes): self
     {

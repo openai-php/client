@@ -9,20 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{file_id: string}>
  */
 final class ThreadRunStepResponseCodeInterpreterOutputImageImage implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{file_id: string}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
-    /**
-     * @param  array<int, ThreadRunStepResponseCodeInterpreterOutputLogs|ThreadRunStepResponseCodeInterpreterOutputImage>  $outputs
-     */
     private function __construct(
         public string $fileId,
     ) {
@@ -31,7 +28,7 @@ final class ThreadRunStepResponseCodeInterpreterOutputImageImage implements Resp
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{file_id: string}  $attributes
      */
     public static function from(array $attributes): self
     {
