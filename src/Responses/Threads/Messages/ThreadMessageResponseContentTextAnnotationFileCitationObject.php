@@ -23,9 +23,9 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
     private function __construct(
         public string $type,
         public string $text,
-        public ThreadMessageResponseContentTextAnnotationFileCitation $fileCitation,
         public int $startIndex,
         public int $endIndex,
+        public ThreadMessageResponseContentTextAnnotationFileCitation $fileCitation,
     ) {
     }
 
@@ -39,9 +39,9 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
         return new self(
             $attributes['type'],
             $attributes['text'],
-            ThreadMessageResponseContentTextAnnotationFileCitation::from($attributes['file_citation']),
             $attributes['start_index'],
             $attributes['end_index'],
+            ThreadMessageResponseContentTextAnnotationFileCitation::from($attributes['file_citation']),
         );
     }
 
@@ -53,9 +53,9 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
         return [
             'type' => $this->type,
             'text' => $this->text,
-            'file_citation' => $this->fileCitation->toArray(),
             'start_index' => $this->startIndex,
             'end_index' => $this->endIndex,
+            'file_citation' => $this->fileCitation->toArray(),
         ];
     }
 }

@@ -23,9 +23,9 @@ final class ThreadMessageResponseContentTextAnnotationFilePathObject implements 
     private function __construct(
         public string $type,
         public string $text,
-        public ThreadMessageResponseContentTextAnnotationFilePath $filePath,
         public int $startIndex,
         public int $endIndex,
+        public ThreadMessageResponseContentTextAnnotationFilePath $filePath,
     ) {
     }
 
@@ -39,9 +39,9 @@ final class ThreadMessageResponseContentTextAnnotationFilePathObject implements 
         return new self(
             $attributes['type'],
             $attributes['text'],
-            ThreadMessageResponseContentTextAnnotationFilePath::from($attributes['file_path']),
             $attributes['start_index'],
             $attributes['end_index'],
+            ThreadMessageResponseContentTextAnnotationFilePath::from($attributes['file_path']),
         );
     }
 
@@ -53,9 +53,9 @@ final class ThreadMessageResponseContentTextAnnotationFilePathObject implements 
         return [
             'type' => $this->type,
             'text' => $this->text,
-            'file_path' => $this->filePath->toArray(),
             'start_index' => $this->startIndex,
             'end_index' => $this->endIndex,
+            'file_path' => $this->filePath->toArray(),
         ];
     }
 }

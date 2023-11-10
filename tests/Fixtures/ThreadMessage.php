@@ -17,7 +17,32 @@ function threadMessageResource(): array
                 'text' => [
                     'value' => 'How does AI work? Explain it in simple terms.',
                     'annotations' => [
+                        [
+                            'type' => 'file_path',
+                            'text' => 'sandbox:/mnt/data/shuffled_file.csv',
+                            'start_index' => 167,
+                            'end_index' => 202,
+                            'file_path' => [
+                                'file_id' => 'file-oSgJAzAnnQkVB3u7yCoE9CBe',
+                            ],
+                        ],
+                        [
+                            'type' => 'file_citation',
+                            'text' => 'The content to replace.',
+                            'start_index' => 23,
+                            'end_index' => 25,
+                            'file_citation' => [
+                                'file_id' => 'file-oSgJAzAnnQkVB3u7yCoE9CBe',
+                                'quote' => 'To be or not to be, that is the question.',
+                            ],
+                        ],
                     ],
+                ],
+            ],
+            [
+                'type' => 'image_file',
+                'image_file' => [
+                    'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                 ],
             ],
         ],

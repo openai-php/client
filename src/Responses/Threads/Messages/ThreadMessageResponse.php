@@ -89,9 +89,9 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
                 fn (ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject $content): array => $content->toArray(),
                 $this->content,
             ),
+            'file_ids' => $this->fileIds,
             'assistant_id' => $this->assistantId,
             'run_id' => $this->runId,
-            'file_ids' => $this->fileIds,
             'metadata' => $this->metadata,
         ];
     }

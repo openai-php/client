@@ -4,6 +4,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
+use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFileObject;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextObject;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -50,8 +51,9 @@ test('create', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(1)
-        ->content->each->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->toHaveCount(2)
+        ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
         ->fileIds->toBeArray()
         ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
         ->assistantId->toBeNull()
@@ -84,8 +86,9 @@ test('modify', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(1)
-        ->content->each->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->toHaveCount(2)
+        ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
         ->fileIds->toBeArray()
         ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
         ->assistantId->toBeNull()
@@ -110,8 +113,9 @@ test('retrieve', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(1)
-        ->content->each->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->toHaveCount(2)
+        ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
+        ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
         ->fileIds->toBeArray()
         ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
         ->assistantId->toBeNull()
