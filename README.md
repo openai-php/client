@@ -26,6 +26,7 @@
   - [FineTuning Resource](#finetuning-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
+  - [Assistants Resource (beta)](#assistants-resource-beta)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -905,6 +906,118 @@ foreach ($response->data as $data) {
 }
 
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+### `Assistants` Resource (beta)
+
+#### `create`
+
+Create an assistant with a model and instructions.
+
+```php
+$response = $client->assistants()->create([
+    'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+    'name' => 'Math Tutor',
+    'tools' => [
+        [
+            'type' => 'code_interpreter',
+        ],
+    ],
+    'model' => 'gpt-4',
+]);
+
+$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+```
+
+#### `retrieve`
+
+Retrieves an assistant.
+
+```php
+$response = $client->assistants()->retrieve('asst_gxzBkD1wkKEloYqZ410pT5pd');
+
+$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+```
+
+#### `modify`
+
+Modifies an assistant.
+
+```php
+$response = $client->assistants()->modify('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+        'name' => 'New Math Tutor',
+    ]);
+
+$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'New Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+```
+
+#### `delete`
+
+Delete an assistant.
+
+```php
+$response = $client->assistants()->delete('asst_gxzBkD1wkKEloYqZ410pT5pd');
+
+$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->object; // 'assistant.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+```
+
+#### `list`
+
+Returns a list of assistants.
+
+```php
+$response = $client->assistants()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->lastId; // 'asst_reHHtAM0jKLDIxanM6gP6DaR'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', , ...]]
 ```
 
 ### `Edits` Resource (deprecated)
