@@ -32,31 +32,83 @@ function threadRunResource(): array
     ];
 }
 
-///**
-// * @return array<string, mixed>
-// */
-//function threadListResource(): array
-//{
-//    return [
-//        'object' => 'list',
-//        'data' => [
-//            threadResource(),
-//            threadResource(),
-//        ],
-//        'first_id' => 'thread_agvtHUGezjTCt4SKgQg0NJ2Y',
-//        'last_id' => 'thread_qVpWfffa654XBdU3tl2iUdVy',
-//        'has_more' => false,
-//    ];
-//}
-//
-///**
-// * @return array<string, mixed>
-// */
-//function threadDeleteResource(): array
-//{
-//    return [
-//        'id' => 'thread_agvtHUGezjTCt4SKgQg0NJ2Y',
-//        'object' => 'thread.deleted',
-//        'deleted' => true,
-//    ];
-//}
+/**
+ * @return array<string, mixed>
+ */
+function threadRunWithSubmitToolOutputsResource(): array
+{
+    return [
+        'id' => 'run_vqUh7mLCAIYjudfN34dMQx4b',
+        'object' => 'thread.run',
+        'created_at' => 1699626348,
+        'assistant_id' => 'asst_elNhDubXFZcsWQd8GuTu93vZ',
+        'thread_id' => 'thread_vAG0173KCY4VKDLQakucIszZ',
+        'status' => 'requires_action',
+        'started_at' => 1699626349,
+        'expires_at' => 1699626948,
+        'cancelled_at' => null,
+        'failed_at' => null,
+        'completed_at' => null,
+        'required_action' => [
+            'type' => 'submit_tool_outputs',
+            'submit_tool_outputs' => [
+                'tool_calls' => [
+                    [
+                        'id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
+                        'type' => 'function',
+                        'function' => [
+                            'name' => 'add',
+                            'arguments' => '{ "a": 5, "b": 7 }',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'last_error' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+        'tools' => [
+            [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'add',
+                    'description' => 'Returns the sum of two numbers',
+                    'parameters' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'a' => [
+                                'type' => 'number',
+                            ],
+                            'b' => [
+                                'type' => 'number',
+                            ],
+                        ],
+                        'required' => [
+                            'a',
+                            'b',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'file_ids' => [],
+        'metadata' => [],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function threadRunListResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            threadRunResource(),
+            threadRunResource(),
+        ],
+        'first_id' => 'run_4RCYyYzX9m41WQicoJtUQAb8',
+        'last_id' => 'run_4RCYyYzX9m41WQicoJtUQAb8',
+        'has_more' => false,
+    ];
+}
