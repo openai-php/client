@@ -26,7 +26,7 @@ final class AssistantsFiles implements AssistantsFilesContract
     {
         $payload = Payload::create("assistants/$assistantId/files", $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, assistant_id: string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantFileResponse::from($response->data(), $response->meta());
@@ -41,7 +41,7 @@ final class AssistantsFiles implements AssistantsFilesContract
     {
         $payload = Payload::retrieve("assistants/$assistantId/files", $fileId);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, assistant_id: string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantFileResponse::from($response->data(), $response->meta());
