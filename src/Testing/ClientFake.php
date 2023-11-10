@@ -6,6 +6,7 @@ use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Resources\Assistants;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AudioTestResource;
@@ -187,11 +188,11 @@ class ClientFake implements ClientContract
 
     public function assistants(): AssistantsContract
     {
-        // TODO: Implement assistants() method.
+        return new Assistants($this);
     }
 
     public function threads(): ThreadsContract
     {
-        // TODO: Implement threads() method.
+        return new Assistants($this);
     }
 }

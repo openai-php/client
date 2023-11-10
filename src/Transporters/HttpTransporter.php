@@ -49,6 +49,8 @@ final class HttpTransporter implements TransporterContract
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
         $contents = $response->getBody()->getContents();
+        echo var_export((json_decode($contents, true, 512, JSON_THROW_ON_ERROR)));
+        exit();
 
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
             return Response::from($contents, $response->getHeaders());
