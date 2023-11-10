@@ -27,6 +27,7 @@
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
   - [Assistants Resource (beta)](#assistants-resource-beta)
+    - [AssistantsFiles Resource (beta)](#assistantsfiles-resource-beta)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -926,7 +927,7 @@ $response = $client->assistants()->create([
     'model' => 'gpt-4',
 ]);
 
-$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
 $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
@@ -937,7 +938,7 @@ $response->tools[0]->type; // 'code_interpreter'
 $response->fileIds; // []
 $response->metadata; // []
 
-$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
 
 #### `retrieve`
@@ -947,7 +948,7 @@ Retrieves an assistant.
 ```php
 $response = $client->assistants()->retrieve('asst_gxzBkD1wkKEloYqZ410pT5pd');
 
-$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
 $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
@@ -958,7 +959,7 @@ $response->tools[0]->type; // 'code_interpreter'
 $response->fileIds; // []
 $response->metadata; // []
 
-$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
 
 #### `modify`
@@ -970,7 +971,7 @@ $response = $client->assistants()->modify('asst_gxzBkD1wkKEloYqZ410pT5pd', [
         'name' => 'New Math Tutor',
     ]);
 
-$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
 $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'New Math Tutor'
@@ -981,7 +982,7 @@ $response->tools[0]->type; // 'code_interpreter'
 $response->fileIds; // []
 $response->metadata; // []
 
-$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
 
 #### `delete`
@@ -991,11 +992,11 @@ Delete an assistant.
 ```php
 $response = $client->assistants()->delete('asst_gxzBkD1wkKEloYqZ410pT5pd');
 
-$response->id; // asst_gxzBkD1wkKEloYqZ410pT5pd
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
 $response->object; // 'assistant.deleted'
 $response->deleted; // true
 
-$response->toArray(); // ['id' => asst_gxzBkD1wkKEloYqZ410pT5pd, , ...]]
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
 
 #### `list`
@@ -1017,7 +1018,83 @@ foreach ($response->data as $result) {
     // ...
 }
 
-$response->toArray(); // ['object' => 'list', , ...]]
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `AssistantsFiles` Resource (beta)
+
+#### `create`
+
+Create an assistant file by attaching a file to an assistant.
+
+```php
+$response = $client->assistants())->files()->create('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+    'file_id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH',
+]);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `retrieve`
+
+Retrieves an AssistantFile.
+
+```php
+$response = $client->assistants()->files()->retrieve(
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
+    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `delete`
+
+Delete an assistant.
+
+```php
+$response = $client->assistants()->files()->delete(
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
+    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `list`
+
+Returns a list of assistant files.
+
+```php
+$response = $client->assistants()->files()->list('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+    'limit' => 2,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->lastId; // 'file-6EsV79Y261TEmi0PY5iHbZdS'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]
 ```
 
 ### `Edits` Resource (deprecated)
