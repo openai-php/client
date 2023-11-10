@@ -49,23 +49,8 @@ final class HttpTransporter implements TransporterContract
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
         $contents = $response->getBody()->getContents();
-        //                                        echo var_export((json_decode($contents, true, 512, JSON_THROW_ON_ERROR)));
-        //                                        exit();
-
-        if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
-            return Response::from($contents, $response->getHeaders());
-        }
-
-        $this->throwIfJsonError($response, $contents);
-
-        try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $data */
-            $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $jsonException) {
-            throw new UnserializableResponse($jsonException);
-        }
-
-        return Response::from($data, $response->getHeaders());
+        echo var_export((json_decode($contents, true, 512, JSON_THROW_ON_ERROR)));
+        exit();
     }
 
     /**

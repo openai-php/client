@@ -41,6 +41,43 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('create and run', function () {
+    $client = mockClient('POST', 'threads', [
+        'assistant_id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'thread' => [
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => 'Explain deep learning to a 5 year old.',
+                ],
+            ],
+        ],
+    ], Response::from(threadResource(), metaHeaders()));
+
+    $result = $client->threads()->createAndRun([
+        'assistant_id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'thread' => [
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => 'Explain deep learning to a 5 year old.',
+                ],
+            ],
+        ],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(ThreadResponse::class)
+        ->id->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
+        ->object->toBe('thread')
+        ->createdAt->toBe(1699621778)
+        ->metadata->toBeArray()
+        ->metadata->toBeEmpty();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
 test('modify', function () {
     $client = mockClient('POST', 'threads/thread_agvtHUGezjTCt4SKgQg0NJ2Y', [
         'metadata' => [
