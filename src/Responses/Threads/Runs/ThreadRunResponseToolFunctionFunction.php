@@ -24,8 +24,8 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
      * @param  array<string, mixed>  $parameters
      */
     private function __construct(
-        public string $description,
         public string $name,
+        public string $description,
         public array $parameters,
     ) {
     }
@@ -38,8 +38,8 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['description'],
             $attributes['name'],
+            $attributes['description'],
             $attributes['parameters'],
         );
     }
@@ -50,8 +50,8 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
     public function toArray(): array
     {
         return [
-            'description' => $this->description,
             'name' => $this->name,
+            'description' => $this->description,
             'parameters' => $this->parameters,
         ];
     }
