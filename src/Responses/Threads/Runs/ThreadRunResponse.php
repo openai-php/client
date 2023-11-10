@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error?: array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>
  */
 final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error?: array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -26,6 +26,8 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
 
     /**
      * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
+     * @param  array<int, string>  $fileIds
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public string $id,
@@ -53,12 +55,12 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error?: array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
      */
-    public static function from(array|string $attributes, MetaInformation $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
-            fn (array $tool): \OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter|\OpenAI\Responses\Threads\Runs\ThreadRunResponseToolRetrieval|\OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction => match ($tool['type']) {
+            fn (array $tool): ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => ThreadRunResponseToolCodeInterpreter::from($tool),
                 'retrieval' => ThreadRunResponseToolRetrieval::from($tool),
                 'function' => ThreadRunResponseToolFunction::from($tool),
@@ -94,15 +96,13 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'object' => $this->object,
             'created_at' => $this->createdAt,
             'thread_id' => $this->threadId,
             'assistant_id' => $this->assistantId,
             'status' => $this->status,
-            'required_action' => $this->requiredAction?->toArray(),
-            'last_error' => $this->lastError?->toArray(),
             'expires_at' => $this->expiresAt,
             'started_at' => $this->startedAt,
             'cancelled_at' => $this->cancelledAt,
@@ -117,5 +117,15 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             'file_ids' => $this->fileIds,
             'metadata' => $this->metadata,
         ];
+
+
+        if($this->requiredAction !== null){
+            $data['required_action'] = $this->requiredAction->toArray();
+        }
+        if($this->lastError !== null) {
+            $data['last_error'] = $this->lastError->toArray();
+        }
+
+        return $data;
     }
 }

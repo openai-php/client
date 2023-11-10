@@ -9,21 +9,18 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{description: string, name: string, parameters: string}>
  */
 final class ThreadRunResponseToolFunctionFunction implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{description: string, name: string, parameters: string}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
-    /**
-     * @param  array<int, TranscriptionResponseSegment>  $segments
-     */
-    private function __construct(
+   private function __construct(
         public string $description,
         public string $name,
         public string $parameters,
@@ -33,7 +30,7 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{description: string, name: string, parameters: string}  $attributes
      */
     public static function from(array $attributes): self
     {

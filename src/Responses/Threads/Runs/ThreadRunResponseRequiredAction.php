@@ -9,20 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}>
  */
 final class ThreadRunResponseRequiredAction implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
-    /**
-     * @param  array<int, TranscriptionResponseSegment>  $segments
-     */
     private function __construct(
         public string $type,
         public ThreadRunResponseRequiredActionSubmitToolOutputs $submitToolOutputs,
@@ -32,14 +29,13 @@ final class ThreadRunResponseRequiredAction implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['type'],
             ThreadRunResponseRequiredActionSubmitToolOutputs::from($attributes['submit_tool_outputs']),
-
         );
     }
 

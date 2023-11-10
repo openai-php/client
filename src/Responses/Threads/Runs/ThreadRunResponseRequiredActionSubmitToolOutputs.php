@@ -9,19 +9,19 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{}>
+ * @implements ResponseContract<array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}>
  */
 final class ThreadRunResponseRequiredActionSubmitToolOutputs implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{}>
+     * @use ArrayAccessible<array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  array<int, RequiredActionFunctionToolCall>  $toolCalls
+     * @param  array<int, ThreadRunResponseRequiredActionFunctionToolCall>  $toolCalls
      */
     private function __construct(
         public array $toolCalls,
@@ -31,11 +31,11 @@ final class ThreadRunResponseRequiredActionSubmitToolOutputs implements Response
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{}  $attributes
+     * @param  array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}  $attributes
      */
     public static function from(array $attributes): self
     {
-        $toolCalls = array_map(fn (array $toolCall): \OpenAI\Responses\Threads\Runs\ThreadRunResponseRequiredActionFunctionToolCall => ThreadRunResponseRequiredActionFunctionToolCall::from($toolCall), $attributes['tool_calls']);
+        $toolCalls = array_map(fn (array $toolCall): ThreadRunResponseRequiredActionFunctionToolCall => ThreadRunResponseRequiredActionFunctionToolCall::from($toolCall), $attributes['tool_calls']);
 
         return new self(
             $toolCalls,
