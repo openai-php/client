@@ -22,6 +22,13 @@ test('from', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('as array accessible', function () {
+    $result = AssistantResponse::from(assistantWithAllToolsResource(), meta());
+
+    expect($result['id'])
+        ->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc');
+});
+
 test('to array', function () {
     $result = AssistantResponse::from(assistantWithAllToolsResource(), meta());
 

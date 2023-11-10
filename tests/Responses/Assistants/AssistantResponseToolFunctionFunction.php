@@ -25,6 +25,13 @@ test('from', function () {
         ]);
 });
 
+test('as array accessible', function () {
+    $result = AssistantResponseToolFunctionFunction::from(assistantWithFunctionToolResource()['tools'][0]['function']);
+
+    expect($result['name'])
+        ->toBe('add');
+});
+
 test('to array', function () {
     $result = AssistantResponseToolFunctionFunction::from(assistantWithFunctionToolResource()['tools'][0]['function']);
 
