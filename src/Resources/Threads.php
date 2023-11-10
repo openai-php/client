@@ -9,9 +9,11 @@ use OpenAI\Contracts\Resources\AssistantsFilesContract;
 use OpenAI\Contracts\Resources\ListAssistantsResponse;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
+use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadListResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
@@ -37,6 +39,23 @@ final class Threads implements ThreadsContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Create a thread and run it in one request.
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/createThreadAndRun
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function createAndRun(array $parameters): ThreadRunResponse
+    {
+        $payload = Payload::create('threads/runs', $parameters);
+
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return ThreadRunResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -111,5 +130,15 @@ final class Threads implements ThreadsContract
     public function messages(): ThreadsMessagesContract
     {
         return new ThreadsMessages($this->transporter);
+    }
+
+    /**
+     * Represents an execution run on a thread.
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs
+     */
+    public function runs(): ThreadsRunsContract
+    {
+        return new ThreadsRuns($this->transporter);
     }
 }
