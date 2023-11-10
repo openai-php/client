@@ -108,6 +108,7 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             'cancelled_at' => $this->cancelledAt,
             'failed_at' => $this->failedAt,
             'completed_at' => $this->completedAt,
+            'required_action' => $this->requiredAction?->toArray(),
             'last_error' => $this->lastError?->toArray(),
             'model' => $this->model,
             'instructions' => $this->instructions,
@@ -119,8 +120,8 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             'metadata' => $this->metadata,
         ];
 
-        if ($this->requiredAction instanceof ThreadRunResponseRequiredAction) {
-            $data['required_action'] = $this->requiredAction->toArray();
+        if ($data['required_action'] === null) {
+            unset($data['required_action']);
         }
 
         return $data;

@@ -40,6 +40,13 @@ test('to array', function () {
         ->toBe(threadRunStepResource());
 });
 
+test('to array with metadata', function () {
+    $result = ThreadRunStepResponse::from([...threadRunStepResource(), 'metadata' => ['name' => 'foo']], meta());
+
+    expect($result->toArray())
+        ->toBe([...threadRunStepResource(), 'metadata' => ['name' => 'foo']]);
+});
+
 test('fake', function () {
     $response = ThreadRunStepResponse::fake();
 

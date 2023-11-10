@@ -85,6 +85,7 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
                 ],
             ],
         ],
+        'metadata' => ['name' => 'the step name'],
     ];
 }
 

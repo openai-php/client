@@ -3,6 +3,7 @@
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction;
 
 test('from', function () {
     $result = ThreadRunResponse::from(threadRunResource(), meta());
@@ -30,6 +31,32 @@ test('from', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from with submit tool outputs', function () {
+    $result = ThreadRunResponse::from(threadRunWithSubmitToolOutputsResource(), meta());
+
+    expect($result)
+        ->id->toBe('run_vqUh7mLCAIYjudfN34dMQx4b')
+        ->object->toBe('thread.run')
+        ->createdAt->toBe(1699626348)
+        ->threadId->toBe('thread_vAG0173KCY4VKDLQakucIszZ')
+        ->assistantId->toBe('asst_elNhDubXFZcsWQd8GuTu93vZ')
+        ->status->toBe('requires_action')
+        ->startedAt->toBe(1699626349)
+        ->expiresAt->toBe(1699626948)
+        ->cancelledAt->toBeNull()
+        ->failedAt->toBeNull()
+        ->completedAt->toBeNull()
+        ->lastError->toBeNull()
+        ->model->toBe('gpt-4')
+        ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
+        ->tools->toBeArray()
+        ->tools->tohaveCount(1)
+        ->tools->{0}->toBeInstanceOf(ThreadRunResponseToolFunction::class)
+        ->fileIds->toBe([])
+        ->metadata->toBe([])
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('as array accessible', function () {
     $result = ThreadRunResponse::from(threadRunResource(), meta());
 
@@ -42,6 +69,13 @@ test('to array', function () {
 
     expect($result->toArray())
         ->toBe(threadRunResource());
+});
+
+test('to array with submit tool outputs', function () {
+    $result = ThreadRunResponse::from(threadRunWithSubmitToolOutputsResource(), meta());
+
+    expect($result->toArray())
+        ->toBe(threadRunWithSubmitToolOutputsResource());
 });
 
 test('fake', function () {
