@@ -24,9 +24,8 @@ final class ThreadRunResponseToolCodeInterpreter implements ResponseContract
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $type,
-    )
-    {
+        public string $type,
+    ) {
     }
 
     /**
@@ -36,7 +35,7 @@ final class ThreadRunResponseToolCodeInterpreter implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
         );
     }

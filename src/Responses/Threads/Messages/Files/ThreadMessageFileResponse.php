@@ -28,13 +28,12 @@ final class ThreadMessageFileResponse implements ResponseContract, ResponseHasMe
      * @param  array<int, ThreadMessageResponseContentTextObject|ThreadMessageResponseContentImageFileObject>  $content
      */
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public string                    $messageId,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public string $messageId,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -44,7 +43,7 @@ final class ThreadMessageFileResponse implements ResponseContract, ResponseHasMe
      */
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
-       return new self(
+        return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['created_at'],

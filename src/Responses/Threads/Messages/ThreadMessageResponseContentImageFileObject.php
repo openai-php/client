@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -26,9 +25,8 @@ final class ThreadMessageResponseContentImageFileObject implements ResponseContr
      */
     private function __construct(
         public string $type,
-        public ThreadMessageResponseContentImageFile                    $imageFile,
-    )
-    {
+        public ThreadMessageResponseContentImageFile $imageFile,
+    ) {
     }
 
     /**
@@ -38,7 +36,7 @@ final class ThreadMessageResponseContentImageFileObject implements ResponseContr
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
             ThreadMessageResponseContentImageFile::from($attributes['image_file']),
         );

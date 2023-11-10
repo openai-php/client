@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -25,10 +24,9 @@ final class ThreadMessageResponseContentTextObject implements ResponseContract
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $type,
-        public ThreadMessageResponseContentText                    $text,
-    )
-    {
+        public string $type,
+        public ThreadMessageResponseContentText $text,
+    ) {
     }
 
     /**
@@ -38,9 +36,9 @@ final class ThreadMessageResponseContentTextObject implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
-          ThreadMessageResponseContentText::from($attributes['text']),
+            ThreadMessageResponseContentText::from($attributes['text']),
 
         );
     }

@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,9 +25,8 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
      */
     private function __construct(
         public string $input,
-        public array                    $outputs,
-    )
-    {
+        public array $outputs,
+    ) {
     }
 
     /**
@@ -39,14 +37,14 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     public static function from(array|string $attributes): self
     {
         $outputs = array_map(
-            fn (array $output) => match ($output['type']) {
+            fn (array $output): \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs => match ($output['type']) {
                 'image' => ThreadRunStepResponseCodeInterpreterOutputImage::from($output),
                 'logs' => ThreadRunStepResponseCodeInterpreterOutputLogs::from($output),
             },
             $attributes['outputs'],
         );
 
-      return new self(
+        return new self(
             $attributes['input'],
             $outputs,
         );
@@ -60,7 +58,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
         return [
             'input' => $this->input,
             'outputs' => array_map(
-                fn (ThreadRunStepResponseCodeInterpreterOutputImage|ThreadRunStepResponseCodeInterpreterOutputLogs $output) => $output->toArray(),
+                fn (ThreadRunStepResponseCodeInterpreterOutputImage|ThreadRunStepResponseCodeInterpreterOutputLogs $output): array => $output->toArray(),
                 $this->outputs,
             ),
         ];

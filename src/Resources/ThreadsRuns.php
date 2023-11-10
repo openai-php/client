@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\ListAssistantsResponse;
-use OpenAI\Contracts\Resources\ThreadsMessagesContract;
-use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
-use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
-use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -59,7 +52,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/modifyRun
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
@@ -76,7 +69,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function submitToolOutputs(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
@@ -93,7 +86,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/cancelRun
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function cancel(string $threadId, string $runId): ThreadRunResponse
     {

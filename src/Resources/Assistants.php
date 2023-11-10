@@ -6,14 +6,9 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
-use OpenAI\Contracts\Resources\ImagesContract;
-use OpenAI\Contracts\Resources\ListAssistantsResponse;
+use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
-use OpenAI\Responses\Assistants\AssistantDeleteResponse;
-use OpenAI\Responses\Images\CreateResponse;
-use OpenAI\Responses\Images\EditResponse;
-use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -58,7 +53,7 @@ final class Assistants implements AssistantsContract
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/modifyAssistant
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $id, array $parameters): AssistantResponse
     {

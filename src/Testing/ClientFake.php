@@ -3,6 +3,8 @@
 namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\Resources\AssistantsContract;
+use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
@@ -181,5 +183,15 @@ class ClientFake implements ClientContract
     public function images(): ImagesTestResource
     {
         return new ImagesTestResource($this);
+    }
+
+    public function assistants(): AssistantsContract
+    {
+        // TODO: Implement assistants() method.
+    }
+
+    public function threads(): ThreadsContract
+    {
+        // TODO: Implement threads() method.
     }
 }

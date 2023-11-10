@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -14,6 +13,8 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  */
 final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContract
 {
+    public $messageCreation;
+
     /**
      * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
      */
@@ -25,10 +26,9 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
      * @param  array<int, ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseRetrievalToolCall|ThreadRunStepResponseFunctionToolCall>  $tools
      */
     private function __construct(
-        public string                    $type,
+        public string $type,
         public array $toolCalls,
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,7 +38,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
             ThreadRunStepResponseMessageCreation::from($attributes['message_creation']),
         );

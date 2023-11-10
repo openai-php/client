@@ -28,19 +28,18 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public ?string                   $name,
-        public ?string                   $description,
-        public string                    $model,
-        public ?string                   $instructions,
-        public array                     $tools,
-        public array                     $fileIds,
-        public array                     $metadata,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public ?string $name,
+        public ?string $description,
+        public string $model,
+        public ?string $instructions,
+        public array $tools,
+        public array $fileIds,
+        public array $metadata,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -50,7 +49,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
      */
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
-       $tools = array_map(fn (array $result): AssistantToolResponse => AssistantToolResponse::from(
+        $tools = array_map(fn (array $result): AssistantToolResponse => AssistantToolResponse::from(
             $result
         ), $attributes['tools']);
 

@@ -24,9 +24,8 @@ final class ThreadRunResponseRequiredActionSubmitToolOutputs implements Response
      * @param  array<int, RequiredActionFunctionToolCall>  $toolCalls
      */
     private function __construct(
-        public array                    $toolCalls,
-    )
-    {
+        public array $toolCalls,
+    ) {
     }
 
     /**
@@ -36,9 +35,9 @@ final class ThreadRunResponseRequiredActionSubmitToolOutputs implements Response
      */
     public static function from(array|string $attributes): self
     {
-        $toolCalls = array_map(fn(array $toolCall) => ThreadRunResponseRequiredActionFunctionToolCall::from($toolCall), $attributes['tool_calls']);
+        $toolCalls = array_map(fn (array $toolCall): \OpenAI\Responses\Threads\Runs\ThreadRunResponseRequiredActionFunctionToolCall => ThreadRunResponseRequiredActionFunctionToolCall::from($toolCall), $attributes['tool_calls']);
 
-      return new self(
+        return new self(
             $toolCalls,
         );
     }
@@ -49,7 +48,7 @@ final class ThreadRunResponseRequiredActionSubmitToolOutputs implements Response
     public function toArray(): array
     {
         return [
-            'tool_calls' => array_map(fn(ThreadRunResponseRequiredActionFunctionToolCall $toolCall) => $toolCall->toArray(), $this->toolCalls),
+            'tool_calls' => array_map(fn (ThreadRunResponseRequiredActionFunctionToolCall $toolCall): array => $toolCall->toArray(), $this->toolCalls),
         ];
     }
 }

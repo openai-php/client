@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Assistants;
 
-use OpenAI\Responses\Chat\CreateResponseToolCallFunction;
-
 final class AssistantToolResponse
 {
     private function __construct(

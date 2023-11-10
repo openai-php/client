@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -25,10 +24,9 @@ final class ThreadRunStepResponseMessageCreationStepDetails implements ResponseC
      * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
      */
     private function __construct(
-        public string                    $type,
+        public string $type,
         public ThreadRunStepResponseMessageCreation $messageCreation,
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,7 +36,7 @@ final class ThreadRunStepResponseMessageCreationStepDetails implements ResponseC
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
             ThreadRunStepResponseMessageCreation::from($attributes['message_creation']),
         );

@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\ListAssistantsResponse;
-use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
 use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
-use OpenAI\Responses\Threads\ThreadListResponse;
-use OpenAI\Responses\Threads\ThreadResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -58,7 +54,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
      *
      * @see https://platform.openai.com/docs/api-reference/messages/modifyMessage
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $threadId, string $messageId, array $parameters): ThreadMessageResponse
     {

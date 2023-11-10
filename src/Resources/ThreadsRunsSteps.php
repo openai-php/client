@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\ListAssistantsResponse;
-use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
-use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileListResponse;
-use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepListResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 use OpenAI\ValueObjects\Transporter\Payload;

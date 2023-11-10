@@ -3,8 +3,6 @@
 namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 
@@ -31,7 +29,7 @@ interface ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/modifyRun
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $threadId, string $runId, array $parameters): ThreadRunResponse;
 
@@ -40,7 +38,7 @@ interface ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function submitToolOutputs(string $threadId, string $runId, array $parameters): ThreadRunResponse;
 
@@ -49,16 +47,16 @@ interface ThreadsRunsContract
      *
      * @see https://platform.openai.com/docs/api-reference/runs/cancelRun
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function cancel(string $threadId, string $runId): ThreadRunResponse;
 
-//    /**
-//     * Delete an message.
-//     *
-//     * @see TBD - there is no documentation yet
-//     */
-//    public function delete(string $threadId, string $messageId): ThreadMessageDeleteResponse;
+    //    /**
+    //     * Delete an message.
+    //     *
+    //     * @see TBD - there is no documentation yet
+    //     */
+    //    public function delete(string $threadId, string $messageId): ThreadMessageDeleteResponse;
 
     /**
      * Returns a list of runs belonging to a thread.

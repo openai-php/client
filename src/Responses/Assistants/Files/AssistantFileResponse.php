@@ -28,13 +28,12 @@ final class AssistantFileResponse implements ResponseContract, ResponseHasMetaIn
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public string                   $assistantId,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public string $assistantId,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -44,7 +43,7 @@ final class AssistantFileResponse implements ResponseContract, ResponseHasMetaIn
      */
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
-      return new self(
+        return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['created_at'],

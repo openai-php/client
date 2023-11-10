@@ -28,19 +28,18 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
      * @param  array<int, ThreadMessageResponseContentTextObject|ThreadMessageResponseContentImageFileObject>  $content
      */
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public string                    $threadId,
-        public string                    $role,
-        public array                     $content,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public string $threadId,
+        public string $role,
+        public array $content,
         public ?string $assistantId,
         public ?string $runId,
         public array $fileIds,
-        public array                     $metadata,
+        public array $metadata,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -51,14 +50,14 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
         $content = array_map(
-            fn (array $content) => match ($content['type']) {
+            fn (array $content): \OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextObject|\OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFileObject => match ($content['type']) {
                 'text' => ThreadMessageResponseContentTextObject::from($content),
                 'image_file' => ThreadMessageResponseContentImageFileObject::from($content),
             },
             $attributes['content'],
         );
 
-      return new self(
+        return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['created_at'],
@@ -85,7 +84,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
             'thread_id' => $this->threadId,
             'role' => $this->role,
             'content' => array_map(
-                fn (ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject $content) => $content->toArray(),
+                fn (ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject $content): array => $content->toArray(),
                 $this->content,
             ),
             'assistant_id' => $this->assistantId,

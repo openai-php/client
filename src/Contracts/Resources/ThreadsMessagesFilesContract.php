@@ -4,9 +4,6 @@ namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileListResponse;
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 
 interface ThreadsMessagesFilesContract
 {

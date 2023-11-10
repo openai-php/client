@@ -24,11 +24,10 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $description,
-        public string                    $name,
-        public string                    $parameters,
-    )
-    {
+        public string $description,
+        public string $name,
+        public string $parameters,
+    ) {
     }
 
     /**
@@ -38,7 +37,7 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['description'],
             $attributes['name'],
             $attributes['parameters'],

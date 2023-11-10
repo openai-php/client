@@ -27,8 +27,7 @@ final class ThreadRunResponseRequiredActionFunctionToolCall implements ResponseC
         public string $id,
         public string $type,
         public ThreadRunResponseRequiredActionFunctionToolCallFunction $function,
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,7 +37,7 @@ final class ThreadRunResponseRequiredActionFunctionToolCall implements ResponseC
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['id'],
             $attributes['type'],
             ThreadRunResponseRequiredActionFunctionToolCallFunction::from($attributes['function']),

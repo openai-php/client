@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
-use OpenAI\Contracts\Resources\ListAssistantsResponse;
 use OpenAI\Responses\Assistants\Files\AssistantFileDeleteResponse;
 use OpenAI\Responses\Assistants\Files\AssistantFileListResponse;
 use OpenAI\Responses\Assistants\Files\AssistantFileResponse;

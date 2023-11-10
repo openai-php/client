@@ -24,10 +24,9 @@ final class ThreadRunResponseRequiredActionFunctionToolCallFunction implements R
      * @param  array<int, RequiredActionFunctionToolCall>  $toolCalls
      */
     private function __construct(
-        public string                                                  $name,
-        public string                                                  $arguments,
-    )
-    {
+        public string $name,
+        public string $arguments,
+    ) {
     }
 
     /**
@@ -37,7 +36,7 @@ final class ThreadRunResponseRequiredActionFunctionToolCallFunction implements R
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['name'],
             $attributes['arguments'],
         );

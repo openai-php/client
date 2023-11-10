@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -25,9 +24,8 @@ final class ThreadMessageResponseContentTextAnnotationFilePath implements Respon
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $fileId,
-    )
-    {
+        public string $fileId,
+    ) {
     }
 
     /**
@@ -37,7 +35,7 @@ final class ThreadMessageResponseContentTextAnnotationFilePath implements Respon
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['file_id'],
 
         );

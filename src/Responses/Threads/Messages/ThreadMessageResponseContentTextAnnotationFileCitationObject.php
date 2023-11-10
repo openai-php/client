@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -25,13 +24,12 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $type,
-        public string                    $text,
+        public string $type,
+        public string $text,
         public ThreadMessageResponseContentTextAnnotationFileCitation $fileCitation,
         public int $startIndex,
         public int $endIndex,
-    )
-    {
+    ) {
     }
 
     /**
@@ -41,12 +39,12 @@ final class ThreadMessageResponseContentTextAnnotationFileCitationObject impleme
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
             $attributes['text'],
-          ThreadMessageResponseContentTextAnnotationFileCitation::from($attributes['file_citation']),
-                $attributes['start_index'],
-                $attributes['end_index'],
+            ThreadMessageResponseContentTextAnnotationFileCitation::from($attributes['file_citation']),
+            $attributes['start_index'],
+            $attributes['end_index'],
         );
     }
 

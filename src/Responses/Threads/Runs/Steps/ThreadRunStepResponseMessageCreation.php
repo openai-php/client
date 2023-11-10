@@ -5,11 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -28,9 +24,8 @@ final class ThreadRunStepResponseMessageCreation implements ResponseContract
      * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
      */
     private function __construct(
-        public string                    $messageId,
-    )
-    {
+        public string $messageId,
+    ) {
     }
 
     /**
@@ -40,7 +35,7 @@ final class ThreadRunStepResponseMessageCreation implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['message_id'],
         );
     }

@@ -2,8 +2,6 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileListResponse;
-use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepListResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 

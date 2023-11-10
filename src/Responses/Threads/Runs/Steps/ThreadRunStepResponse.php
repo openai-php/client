@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseRequiredAction;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -27,24 +25,23 @@ final class ThreadRunStepResponse implements ResponseContract
     use HasMetaInformation;
 
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public string                    $threadId,
-        public string                    $assistantId,
-        public string                    $runId,
-        public string                    $type,
-        public string                    $status,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public string $threadId,
+        public string $assistantId,
+        public string $runId,
+        public string $type,
+        public string $status,
         public ThreadRunStepResponseMessageCreationStepDetails|ThreadRunStepResponseToolCallsStepDetails $stepDetails,
         public ?ThreadRunResponseLastError $lastError,
         public ?int $expiresAt,
         public ?int $cancelledAt,
         public ?int $failedAt,
         public ?int $completedAt,
-        public array                     $metadata,
+        public array $metadata,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -55,11 +52,11 @@ final class ThreadRunStepResponse implements ResponseContract
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
         $stepDetails = match ($attributes['step_details']['type']) {
-                'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
-                'tool_calls' => ThreadRunStepResponseToolCallsStepDetails::from($attributes['step_details']),
-            };
+            'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
+            'tool_calls' => ThreadRunStepResponseToolCallsStepDetails::from($attributes['step_details']),
+        };
 
-      return new self(
+        return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['created_at'],

@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,10 +25,9 @@ final class ThreadRunStepResponseFunction implements ResponseContract
      */
     private function __construct(
         public string $name,
-        public string                    $arguments,
+        public string $arguments,
         public ?string $output,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,7 +37,7 @@ final class ThreadRunStepResponseFunction implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['name'],
             $attributes['arguments'],
             $attributes['output'],

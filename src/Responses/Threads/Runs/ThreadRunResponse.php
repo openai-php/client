@@ -28,12 +28,12 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
      * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
      */
     private function __construct(
-        public string                    $id,
-        public string                    $object,
-        public int                   $createdAt,
-        public string                    $threadId,
-        public string                    $assistantId,
-        public string                    $status,
+        public string $id,
+        public string $object,
+        public int $createdAt,
+        public string $threadId,
+        public string $assistantId,
+        public string $status,
         public ?ThreadRunResponseRequiredAction $requiredAction,
         public ?ThreadRunResponseLastError $lastError,
         public ?int $expiresAt,
@@ -45,10 +45,9 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
         public string $instructions,
         public array $tools,
         public array $fileIds,
-        public array                     $metadata,
+        public array $metadata,
         private readonly MetaInformation $meta,
-    )
-    {
+    ) {
     }
 
     /**
@@ -59,7 +58,7 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
     public static function from(array|string $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
-            fn (array $tool) => match ($tool['type']) {
+            fn (array $tool): \OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter|\OpenAI\Responses\Threads\Runs\ThreadRunResponseToolRetrieval|\OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => ThreadRunResponseToolCodeInterpreter::from($tool),
                 'retrieval' => ThreadRunResponseToolRetrieval::from($tool),
                 'function' => ThreadRunResponseToolFunction::from($tool),
@@ -67,7 +66,7 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['tools'],
         );
 
-      return new self(
+        return new self(
             $attributes['id'],
             $attributes['object'],
             $attributes['created_at'],
@@ -112,7 +111,7 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             'model' => $this->model,
             'instructions' => $this->instructions,
             'tools' => array_map(
-                fn (ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction $tool) => $tool->toArray(),
+                fn (ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction $tool): array => $tool->toArray(),
                 $this->tools,
             ),
             'file_ids' => $this->fileIds,

@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -26,8 +25,7 @@ final class ThreadRunStepResponseCodeInterpreterOutputImageImage implements Resp
      */
     private function __construct(
         public string $fileId,
-    )
-    {
+    ) {
     }
 
     /**

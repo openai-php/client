@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentText;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -25,10 +24,9 @@ final class ThreadRunResponseRequiredAction implements ResponseContract
      * @param  array<int, TranscriptionResponseSegment>  $segments
      */
     private function __construct(
-        public string                    $type,
-        public ThreadRunResponseRequiredActionSubmitToolOutputs                    $submitToolOutputs,
-    )
-    {
+        public string $type,
+        public ThreadRunResponseRequiredActionSubmitToolOutputs $submitToolOutputs,
+    ) {
     }
 
     /**
@@ -38,9 +36,9 @@ final class ThreadRunResponseRequiredAction implements ResponseContract
      */
     public static function from(array|string $attributes): self
     {
-      return new self(
+        return new self(
             $attributes['type'],
-          ThreadRunResponseRequiredActionSubmitToolOutputs::from($attributes['submit_tool_outputs']),
+            ThreadRunResponseRequiredActionSubmitToolOutputs::from($attributes['submit_tool_outputs']),
 
         );
     }

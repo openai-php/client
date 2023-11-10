@@ -5,9 +5,6 @@ namespace OpenAI\Contracts\Resources;
 use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
-use OpenAI\Responses\Threads\ThreadDeleteResponse;
-use OpenAI\Responses\Threads\ThreadListResponse;
-use OpenAI\Responses\Threads\ThreadResponse;
 
 interface ThreadsMessagesContract
 {
@@ -32,7 +29,7 @@ interface ThreadsMessagesContract
      *
      * @see https://platform.openai.com/docs/api-reference/messages/modifyMessage
      *
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $threadId, string $messageId, array $parameters): ThreadMessageResponse;
 

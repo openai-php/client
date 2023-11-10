@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -27,8 +26,7 @@ final class ThreadRunStepResponseCodeInterpreterOutputLogs implements ResponseCo
     private function __construct(
         public string $type,
         public string $logs,
-    )
-    {
+    ) {
     }
 
     /**
