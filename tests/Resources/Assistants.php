@@ -4,9 +4,6 @@ use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
 use OpenAI\Responses\Assistants\AssistantResponseToolCodeInterpreter;
-use OpenAI\Responses\Files\CreateResponse;
-use OpenAI\Responses\Files\DeleteResponse;
-use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -36,7 +33,7 @@ test('create', function () {
         'model' => 'gpt-4',
     ], Response::from(assistantResource(), metaHeaders()));
 
-    $result = $client->assistants()->create( [
+    $result = $client->assistants()->create([
         'instructions' => 'You are a personal math tutor.',
         'name' => 'Math Tutor',
         'tools' => [['type' => 'code_interpreter']],
