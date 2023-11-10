@@ -50,8 +50,8 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
     public function toArray(): array
     {
         return [
-            'description' => $this->description,
             'name' => $this->name,
+            'description' => $this->description,
             'parameters' => $this->parameters,
         ];
     }
