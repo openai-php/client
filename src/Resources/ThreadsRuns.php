@@ -85,8 +85,6 @@ final class ThreadsRuns implements ThreadsRunsContract
      * Cancels a run that is `in_progress`.
      *
      * @see https://platform.openai.com/docs/api-reference/runs/cancelRun
-     *
-     * @param  array<string, mixed>  $parameters
      */
     public function cancel(string $threadId, string $runId): ThreadRunResponse
     {
@@ -109,7 +107,7 @@ final class ThreadsRuns implements ThreadsRunsContract
     {
         $payload = Payload::list('threads/'.$threadId.'/runs', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error?: array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: string}}>, file_ids: array<int, string>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadRunListResponse::from($response->data(), $response->meta());

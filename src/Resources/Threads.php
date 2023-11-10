@@ -110,7 +110,7 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::list('threads', $parameters);
 
-        /** @var Response<array{data: array<int, array{id: string, object: string, created: int, data: array<int, array{url?: string, b64_json?: string}>}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadListResponse::from($response->data(), $response->meta());

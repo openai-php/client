@@ -23,7 +23,7 @@ final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
     {
         $payload = Payload::retrieve("threads/$threadId/messages/$messageId/files", $fileId);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, message_id: string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageFileResponse::from($response->data(), $response->meta());
@@ -40,7 +40,7 @@ final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
     {
         $payload = Payload::list("threads/$threadId/messages/$messageId/files", $parameters);
 
-        /** @var Response<array{data: array<int, array{id: string, object: string, created: int, data: array<int, array{url?: string, b64_json?: string}>}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, message_id: string}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageFileListResponse::from($response->data(), $response->meta());

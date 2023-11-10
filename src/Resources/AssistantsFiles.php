@@ -73,7 +73,7 @@ final class AssistantsFiles implements AssistantsFilesContract
     {
         $payload = Payload::list("assistants/$assistantId/files", $parameters);
 
-        /** @var Response<array{data: array<int, array{id: string, object: string, created: int, data: array<int, array{url?: string, b64_json?: string}>}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, assistant_id: string}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return AssistantFileListResponse::from($response->data(), $response->meta());
