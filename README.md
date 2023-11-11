@@ -27,12 +27,12 @@
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
   - [Assistants Resource (beta)](#assistants-resource-beta)
-    - [AssistantsFiles Resource (beta)](#assistantsfiles-resource-beta)
+  - [Assistants Files Resource (beta)](#assistants-files-resource-beta)
   - [Threads Resource (beta)](#threads-resource-beta)
-    - [ThreadsMessages Resource (beta)](#threadsmessages-resource-beta)
-      - [ThreadsMessagesFiles Resource (beta)](#threadsmessagesfiles-resource-beta)
-    - [ThreadsRuns Resource (beta)](#threadsruns-resource-beta)
-      - [ThreadsRunsSteps Resource (beta)](#threadsrunssteps-resource-beta)
+  - [Threads Messages Resource (beta)](#threads-messages-resource-beta)
+  - [Threads Messages Files Resource (beta)](#threads-messages-files-resource-beta)
+  - [Threads Runs Resource (beta)](#threads-runs-resource-beta)
+  - [Threads Runs Steps Resource (beta)](#threads-runs-steps-resource-beta)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -1026,7 +1026,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `AssistantsFiles` Resource (beta)
+### `Assistants Files` Resource (beta)
 
 #### `create`
 
