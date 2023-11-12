@@ -1124,9 +1124,8 @@ $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 Create a thread and run it in one request.
 
 ```php
-$response = $client->threads()->runs()->createAndRun(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', 
-    parameters: [
+$response = $client->threads()->createAndRun(
+    [
         'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
         'thread' => [
             'messages' =>
