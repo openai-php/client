@@ -1119,6 +1119,48 @@ $response->metadata; // []
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
 
+#### `create`
+
+Create a thread and run it in one request.
+
+```php
+$response = $client->threads()->runs()->createAndRun(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', 
+    parameters: [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+        'thread' => [
+            'messages' =>
+                [
+                    [
+                        'role' => 'user',
+                        'content' => 'Explain deep learning to a 5 year old.',
+                    ],
+                ],
+        ],
+    ],
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools; // []
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
 #### `retrieve`
 
 Retrieves a thread.
@@ -1367,9 +1409,12 @@ $response->toArray(); // ['object' => 'list', ...]]
 Create a run.
 
 ```php
-$response = $client->threads()->runs()->create(threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', [
-    'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
-]);
+$response = $client->threads()->runs()->create(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', 
+    parameters: [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    ],
+);
 
 $response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
 $response->object; // 'thread.run'
