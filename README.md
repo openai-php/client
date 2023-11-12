@@ -1313,6 +1313,53 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+### `Threads Messages Files` Resource (beta)
+
+#### `retrieve`
+
+Retrieves a message file.
+
+```php
+ $client->threads()->messages()->files()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    fileId: 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+);
+
+$response->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->object; // 'thread.message.file'
+$response->createdAt; // 1623936000
+$response->threadId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+
+$response->toArray(); // ['id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI', ...]
+```
+
+#### `list`
+
+Returns a list of message files.
+
+```php
+$response = $clien->threads()->messages()->files()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->lastId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
 ### `Edits` Resource (deprecated)
 
 > OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
