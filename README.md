@@ -1599,6 +1599,64 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+### `Threads Runs Steps` Resource (beta)
+
+#### `retrieve`
+
+Retrieves a run step.
+
+```php
+$response = $client->threads()->runs()->steps()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    stepId: 'step_1spQXgbAabXFm1YXrwiGIMUz',
+);
+
+$response->id; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->object; // 'thread.run.step'
+$response->createdAt; // 1699564106
+$response->runId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->type; // 'message_creation'
+$response->status; // 'completed'
+$response->cancelledAt; // null
+$response->completedAt; // 1699564119
+$response->expiresAt; // null
+$response->failedAt; // null
+$response->lastError; // null
+$response->stepDetails->type; // 'message_creation'
+$response->stepDetails->messageCreation->messageId; // 'msg_i404PxKbB92d0JAmdOIcX7vA'
+
+$response->toArray(); // ['id' => 'step_1spQXgbAabXFm1YXrwiGIMUz', ...]
+```
+
+#### `list`
+
+Returns a list of run steps belonging to a run.
+
+```php
+$response = $client->threads()->runs()->steps()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->lastId; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
 ### `Edits` Resource (deprecated)
 
 > OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
