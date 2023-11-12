@@ -1102,6 +1102,217 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]
 ```
 
+### `Threads` Resource (beta)
+
+#### `create`
+
+Create a thread.
+
+```php
+$response = $client->threads()->create([]);
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `retrieve`
+
+Retrieves a thread.
+
+```php
+$response = $client->threads()->retrieve('thread_tKFLqzRN9n7MnyKKvc1Q7868');
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `modify`
+
+Modifies a thread.
+
+```php
+$response = $client->threads()->modify('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+        'metadata' => [
+            'name' => 'My new thread name',
+        ],
+    ]);
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // ['name' => 'My new thread name']
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `delete`
+
+Delete a thread.
+
+```php
+$response = $client->threads()->delete('thread_tKFLqzRN9n7MnyKKvc1Q7868');
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `list`
+
+Returns a list of threads.
+
+```php
+$response = $client->threads()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->lastId; // 'thread_qVpWfffa654XBdU3tl2iUdVy'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Messages` Resource (beta)
+
+#### `create`
+
+Create a message.
+
+```php
+$response = $client->threads()->messages()->create('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+    'role' => 'user',
+    'content' => 'What is the sum of 5 and 7?',
+]);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `retrieve`
+
+Retrieve a message.
+
+```php
+ $client->threads()->messages()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `modify`
+
+Modifies a message.
+
+```php
+ $client->threads()->messages()->modify(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    parameteres:  [
+        'metadata' => [
+            'name' => 'My new message name',
+        ],
+    ],
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // ['name' => 'My new message name']
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `delete`
+
+Delete a message.
+
+```php
+$response = $client->threads()->messages()->delete(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `list`
+
+Returns a list of messages for a given thread.
+
+```php
+$response = $clien->threads()->messages()->list('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->lastId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
 ### `Edits` Resource (deprecated)
 
 > OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
