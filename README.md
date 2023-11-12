@@ -1222,7 +1222,7 @@ $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 Retrieve a message.
 
 ```php
- $client->threads()->messages()->retrieve(
+$response = $client->threads()->messages()->retrieve(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
 );
@@ -1248,7 +1248,7 @@ $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 Modifies a message.
 
 ```php
- $client->threads()->messages()->modify(
+$response = $client->threads()->messages()->modify(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
     parameteres:  [
@@ -1296,7 +1296,7 @@ $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 Returns a list of messages for a given thread.
 
 ```php
-$response = $clien->threads()->messages()->list('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+$response = $client->threads()->messages()->list('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
     'limit' => 10,
 ]);
 
@@ -1320,7 +1320,7 @@ $response->toArray(); // ['object' => 'list', ...]]
 Retrieves a message file.
 
 ```php
- $client->threads()->messages()->files()->retrieve(
+$response = $client->threads()->messages()->files()->retrieve(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
     fileId: 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
@@ -1339,10 +1339,10 @@ $response->toArray(); // ['id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI', ...]
 Returns a list of message files.
 
 ```php
-$response = $clien->threads()->messages()->files()->list(
+$response = $client->threads()->messages()->files()->list(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
-    [
+    parameters: [
         'limit' => 10,
     ],
 );
@@ -1354,6 +1354,200 @@ $response->hasMore; // false
 
 foreach ($response->data as $result) {
     $result->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Runs` Resource (beta)
+
+#### `create`
+
+Create a run.
+
+```php
+$response = $client->threads()->runs()->create(threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+    'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+]);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `retrieve`
+
+Retrieves a run.
+
+```php
+$response = $client->threads()->runs()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `modify`
+
+Modifies a run.
+
+```php
+$response = $client->threads()->runs()->modify(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameteres:  [
+        'metadata' => [
+            'name' => 'My new run name',
+        ],
+    ],
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // ['name' => 'My new run name']
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `cancel`
+
+Cancels a run that is `in_progress`.
+
+```php
+$response = $client->threads()->runs()->cancel(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'cancelling'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `submitToolOutputs`
+
+When a run has the status: `requires_action` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+
+```php
+$response = $client->threads()->runs()->submitToolOutputs(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameters: [
+        'tool_outputs' => [
+            [
+                'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
+                'output' => '12',
+            ],
+        ],
+    ]
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'in_progress'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'function'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `list`
+
+Returns a list of runs belonging to a thread.
+
+```php
+$response = $client->threads()->runs()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->lastId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
     // ...
 }
 
