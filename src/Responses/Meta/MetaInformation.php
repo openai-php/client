@@ -28,7 +28,7 @@ final class MetaInformation implements MetaInformationContract
      */
     public static function from(array $headers): self
     {
-        $requestId = $headers['x-request-id'][0];
+        $requestId = isset($headers['x-request-id']) ? $headers['x-request-id'][0] : 'n/a';
 
         $openai = MetaInformationOpenAI::from([
             'model' => $headers['openai-model'][0] ?? null,
