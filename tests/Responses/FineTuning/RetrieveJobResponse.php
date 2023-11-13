@@ -9,7 +9,7 @@ test('from create response', function () {
 
     expect($result)
         ->toBeInstanceOf(RetrieveJobResponse::class)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F')
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F')
         ->object->toBe('fine_tuning.job')
         ->model->toBe('gpt-3.5-turbo-0613')
         ->createdAt->toBe(1614807352)
@@ -30,7 +30,7 @@ test('from retrieve response', function () {
 
     expect($result)
         ->toBeInstanceOf(RetrieveJobResponse::class)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F')
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F')
         ->object->toBe('fine_tuning.job')
         ->model->toBe('gpt-3.5-turbo-0613')
         ->createdAt->toBe(1614807352)
@@ -50,7 +50,7 @@ test('from retrieve response', function () {
 test('as array accessible', function () {
     $result = RetrieveJobResponse::from(fineTuningJobCreateResource(), meta());
 
-    expect($result['id'])->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+    expect($result['id'])->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 });
 
 test('to array', function () {
@@ -64,7 +64,7 @@ test('fake', function () {
     $response = RetrieveJobResponse::fake();
 
     expect($response)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 });
 
 test('fake with override', function () {

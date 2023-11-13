@@ -28,7 +28,7 @@ final class FineTuning implements FineTuningContract
     {
         $payload = Payload::create('fine_tuning/jobs', $parameters);
 
-        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}> $response */
+        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: array{code: string, param: string, message: string}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveJobResponse::from($response->data(), $response->meta());
@@ -45,7 +45,7 @@ final class FineTuning implements FineTuningContract
     {
         $payload = Payload::list('fine_tuning/jobs', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>, has_more: bool}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: array{code: string, param: string, message: string}}>, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListJobsResponse::from($response->data(), $response->meta());
@@ -60,7 +60,7 @@ final class FineTuning implements FineTuningContract
     {
         $payload = Payload::retrieve('fine_tuning/jobs', $jobId);
 
-        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}> $response */
+        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: array{code: string, param: string, message: string}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveJobResponse::from($response->data(), $response->meta());
@@ -75,7 +75,7 @@ final class FineTuning implements FineTuningContract
     {
         $payload = Payload::cancel('fine_tuning/jobs', $jobId);
 
-        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}> $response */
+        /** @var Response<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: array{code: string, param: string, message: string}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveJobResponse::from($response->data(), $response->meta());
