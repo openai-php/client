@@ -14,7 +14,7 @@ final class RetrieveJobResponseFixture
         'hyperparameters' => [
             'n_epochs' => 9,
             'batch_size' => 1,
-            'learning_rate_multiplier' => 2
+            'learning_rate_multiplier' => 2,
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [
@@ -24,6 +24,6 @@ final class RetrieveJobResponseFixture
         'validation_file' => null,
         'training_file' => 'file-abc123',
         'trained_tokens' => 5049,
-        'error' => null
+        'error' => null,
     ];
 }

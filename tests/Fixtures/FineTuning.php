@@ -23,7 +23,7 @@ function fineTuningJobCreateResource(): array
         'validation_file' => null,
         'training_file' => 'file-abc123',
         'trained_tokens' => null,
-        'error' => null
+        'error' => null,
     ];
 }
 
@@ -42,7 +42,7 @@ function fineTuningJobRetrieveResource(): array
         'hyperparameters' => [
             'n_epochs' => 9,
             'batch_size' => 1,
-            'learning_rate_multiplier' => 2
+            'learning_rate_multiplier' => 2,
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [
@@ -52,10 +52,9 @@ function fineTuningJobRetrieveResource(): array
         'validation_file' => null,
         'training_file' => 'file-abc123',
         'trained_tokens' => 5049,
-        'error' => null
+        'error' => null,
     ];
 }
-
 
 /**
  * @return array<string, mixed>
@@ -72,7 +71,7 @@ function fineTuningFailedJobRetrieveResource(): array
         'hyperparameters' => [
             'n_epochs' => 9,
             'batch_size' => 'auto',
-            'learning_rate_multiplier' => 'auto'
+            'learning_rate_multiplier' => 'auto',
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [],
@@ -83,7 +82,7 @@ function fineTuningFailedJobRetrieveResource(): array
         'error' => [
             'code' => 'invalid_n_examples',
             'param' => 'training_file',
-            'message' => 'Training file has 3 example(s), but must have at least 10 examples'
+            'message' => 'Training file has 3 example(s), but must have at least 10 examples',
         ],
     ];
 }
