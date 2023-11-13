@@ -26,6 +26,13 @@
   - [FineTuning Resource](#finetuning-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
+  - [Assistants Resource (beta)](#assistants-resource-beta)
+  - [Assistants Files Resource (beta)](#assistants-files-resource-beta)
+  - [Threads Resource (beta)](#threads-resource-beta)
+  - [Threads Messages Resource (beta)](#threads-messages-resource-beta)
+  - [Threads Messages Files Resource (beta)](#threads-messages-files-resource-beta)
+  - [Threads Runs Resource (beta)](#threads-runs-resource-beta)
+  - [Threads Runs Steps Resource (beta)](#threads-runs-steps-resource-beta)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -905,6 +912,753 @@ foreach ($response->data as $data) {
 }
 
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
+```
+
+### `Assistants` Resource (beta)
+
+> **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
+> ```php
+> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v1')
+> ```
+
+#### `create`
+
+Create an assistant with a model and instructions.
+
+```php
+$response = $client->assistants()->create([
+    'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+    'name' => 'Math Tutor',
+    'tools' => [
+        [
+            'type' => 'code_interpreter',
+        ],
+    ],
+    'model' => 'gpt-4',
+]);
+
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
+```
+
+#### `retrieve`
+
+Retrieves an assistant.
+
+```php
+$response = $client->assistants()->retrieve('asst_gxzBkD1wkKEloYqZ410pT5pd');
+
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
+```
+
+#### `modify`
+
+Modifies an assistant.
+
+```php
+$response = $client->assistants()->modify('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+        'name' => 'New Math Tutor',
+    ]);
+
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->object; // 'assistant'
+$response->createdAt; // 1623936000
+$response->name; // 'New Math Tutor'
+$response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
+$response->model; // 'gpt-4'
+$response->description; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
+```
+
+#### `delete`
+
+Delete an assistant.
+
+```php
+$response = $client->assistants()->delete('asst_gxzBkD1wkKEloYqZ410pT5pd');
+
+$response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->object; // 'assistant.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
+```
+
+#### `list`
+
+Returns a list of assistants.
+
+```php
+$response = $client->assistants()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->lastId; // 'asst_reHHtAM0jKLDIxanM6gP6DaR'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Assistants Files` Resource (beta)
+
+#### `create`
+
+Create an assistant file by attaching a file to an assistant.
+
+```php
+$response = $client->assistants())->files()->create('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+    'file_id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH',
+]);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `retrieve`
+
+Retrieves an AssistantFile.
+
+```php
+$response = $client->assistants()->files()->retrieve(
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
+    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `delete`
+
+Delete an assistant.
+
+```php
+$response = $client->assistants()->files()->delete(
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
+    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+);
+
+$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->object; // 'assistant.file.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
+```
+
+#### `list`
+
+Returns a list of assistant files.
+
+```php
+$response = $client->assistants()->files()->list('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+    'limit' => 2,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+$response->lastId; // 'file-6EsV79Y261TEmi0PY5iHbZdS'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]
+```
+
+### `Threads` Resource (beta)
+
+#### `create`
+
+Create a thread.
+
+```php
+$response = $client->threads()->create([]);
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `create`
+
+Create a thread and run it in one request.
+
+```php
+$response = $client->threads()->createAndRun(
+    [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+        'thread' => [
+            'messages' =>
+                [
+                    [
+                        'role' => 'user',
+                        'content' => 'Explain deep learning to a 5 year old.',
+                    ],
+                ],
+        ],
+    ],
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools; // []
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `retrieve`
+
+Retrieves a thread.
+
+```php
+$response = $client->threads()->retrieve('thread_tKFLqzRN9n7MnyKKvc1Q7868');
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `modify`
+
+Modifies a thread.
+
+```php
+$response = $client->threads()->modify('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+        'metadata' => [
+            'name' => 'My new thread name',
+        ],
+    ]);
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread'
+$response->createdAt; // 1623936000
+$response->metadata; // ['name' => 'My new thread name']
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `delete`
+
+Delete a thread.
+
+```php
+$response = $client->threads()->delete('thread_tKFLqzRN9n7MnyKKvc1Q7868');
+
+$response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->object; // 'thread.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
+```
+
+#### `list`
+
+Returns a list of threads.
+
+```php
+$response = $client->threads()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->lastId; // 'thread_qVpWfffa654XBdU3tl2iUdVy'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Messages` Resource (beta)
+
+#### `create`
+
+Create a message.
+
+```php
+$response = $client->threads()->messages()->create('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+    'role' => 'user',
+    'content' => 'What is the sum of 5 and 7?',
+]);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `retrieve`
+
+Retrieve a message.
+
+```php
+$response = $client->threads()->messages()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `modify`
+
+Modifies a message.
+
+```php
+$response = $client->threads()->messages()->modify(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    parameteres:  [
+        'metadata' => [
+            'name' => 'My new message name',
+        ],
+    ],
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message'
+$response->createdAt; // 1623936000
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->role; // 'user'
+$response->content[0]->type; // 'text'
+$response->content[0]->text->value; // 'What is the sum of 5 and 7?'
+$response->content[0]->text->annotations; // []
+$response->assistantId; // null
+$response->runId; // null
+$response->fileIds; // []
+$response->metadata; // ['name' => 'My new message name']
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `delete`
+
+Delete a message.
+
+```php
+$response = $client->threads()->messages()->delete(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `list`
+
+Returns a list of messages for a given thread.
+
+```php
+$response = $client->threads()->messages()->list('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->lastId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Messages Files` Resource (beta)
+
+#### `retrieve`
+
+Retrieves a message file.
+
+```php
+$response = $client->threads()->messages()->files()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    fileId: 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+);
+
+$response->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->object; // 'thread.message.file'
+$response->createdAt; // 1623936000
+$response->threadId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+
+$response->toArray(); // ['id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI', ...]
+```
+
+#### `list`
+
+Returns a list of message files.
+
+```php
+$response = $client->threads()->messages()->files()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->lastId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Runs` Resource (beta)
+
+#### `create`
+
+Create a run.
+
+```php
+$response = $client->threads()->runs()->create(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', 
+    parameters: [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    ],
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `retrieve`
+
+Retrieves a run.
+
+```php
+$response = $client->threads()->runs()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `modify`
+
+Modifies a run.
+
+```php
+$response = $client->threads()->runs()->modify(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameteres:  [
+        'metadata' => [
+            'name' => 'My new run name',
+        ],
+    ],
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'queued'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // ['name' => 'My new run name']
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `cancel`
+
+Cancels a run that is `in_progress`.
+
+```php
+$response = $client->threads()->runs()->cancel(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'cancelling'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'code_interpreter'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `submitToolOutputs`
+
+When a run has the status: `requires_action` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+
+```php
+$response = $client->threads()->runs()->submitToolOutputs(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameters: [
+        'tool_outputs' => [
+            [
+                'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
+                'output' => '12',
+            ],
+        ],
+    ]
+);
+
+$response->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->object; // 'thread.run'
+$response->createdAt; // 1623936000
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'in_progress'
+$response->startedAt; // null
+$response->expiresAt; // 1699622335
+$response->cancelledAt; // null
+$response->failedAt; // null
+$response->completedAt; // null
+$response->lastError; // null
+$response->model; // 'gpt-4'
+$response->instructions; // null
+$response->tools[0]->type; // 'function'
+$response->fileIds; // []
+$response->metadata; // []
+
+$response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
+```
+
+#### `list`
+
+Returns a list of runs belonging to a thread.
+
+```php
+$response = $client->threads()->runs()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->lastId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+### `Threads Runs Steps` Resource (beta)
+
+#### `retrieve`
+
+Retrieves a run step.
+
+```php
+$response = $client->threads()->runs()->steps()->retrieve(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    stepId: 'step_1spQXgbAabXFm1YXrwiGIMUz',
+);
+
+$response->id; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->object; // 'thread.run.step'
+$response->createdAt; // 1699564106
+$response->runId; // 'run_4RCYyYzX9m41WQicoJtUQAb8'
+$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
+$response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->type; // 'message_creation'
+$response->status; // 'completed'
+$response->cancelledAt; // null
+$response->completedAt; // 1699564119
+$response->expiresAt; // null
+$response->failedAt; // null
+$response->lastError; // null
+$response->stepDetails->type; // 'message_creation'
+$response->stepDetails->messageCreation->messageId; // 'msg_i404PxKbB92d0JAmdOIcX7vA'
+
+$response->toArray(); // ['id' => 'step_1spQXgbAabXFm1YXrwiGIMUz', ...]
+```
+
+#### `list`
+
+Returns a list of run steps belonging to a run.
+
+```php
+$response = $client->threads()->runs()->steps()->list(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->lastId; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
 ```
 
 ### `Edits` Resource (deprecated)
