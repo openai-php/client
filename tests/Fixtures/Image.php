@@ -18,6 +18,22 @@ function imageCreateWithUrl(): array
 /**
  * @return array<string, mixed>
  */
+function imageCreateWithUrlDallE3(): array
+{
+    return [
+        'created' => 1664136088,
+        'data' => [
+            [
+                'url' => 'https://openai.com/image.png',
+                'revised_prompt' => 'This is a revised prompt.',
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function imageCreateWithB46Json(): array
 {
     return [
