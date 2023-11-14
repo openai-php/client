@@ -14,6 +14,9 @@
 - Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
 - Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
 
+> **Looking for Assistants / Threads support?** \
+> => Please use [v0.8.0-beta.x](https://github.com/openai-php/client/tree/0.8.x)
+
 ## Table of Contents
 - [Get Started](#get-started)
 - [Usage](#usage)
@@ -62,7 +65,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
 $result = $client->chat()->create([
-    'model' => 'gpt-3.5-turbo-instruct',
+    'model' => 'gpt-4',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
