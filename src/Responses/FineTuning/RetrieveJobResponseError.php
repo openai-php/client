@@ -8,12 +8,12 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseContract<array{code: string, param: string, message: string}>
+ * @implements ResponseContract<array{code: string, param: ?string, message: string}>
  */
 final class RetrieveJobResponseError implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{code: string, param: string, message: string}>
+     * @use ArrayAccessible<array{code: string, param: ?string, message: string}>
      */
     use ArrayAccessible;
 
@@ -27,7 +27,7 @@ final class RetrieveJobResponseError implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{code: string, param: string, message: string}|null  $attributes
+     * @param  array{code: string, param: ?string, message: string}|null  $attributes
      */
     public static function from(?array $attributes): ?self
     {

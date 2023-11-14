@@ -42,7 +42,8 @@ function fineTuningJobRetrieveResource(): array
         'hyperparameters' => [
             'n_epochs' => 9,
             'batch_size' => 1,
-            'learning_rate_multiplier' => 2,
+            'learning_rate_multiplier' => 2.0,
+            'prompt_loss_weight' => 0.1,
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [
@@ -72,6 +73,7 @@ function fineTuningFailedJobRetrieveResource(): array
             'n_epochs' => 9,
             'batch_size' => 'auto',
             'learning_rate_multiplier' => 'auto',
+            'prompt_loss_weight' => null,
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [],

@@ -8,26 +8,27 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements ResponseContract<array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}>
+ * @implements ResponseContract<array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null, prompt_loss_weight: float|string|null}>
  */
 final class RetrieveJobResponseHyperparameters implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}>
+     * @use ArrayAccessible<array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null, prompt_loss_weight: float|string|null}>
      */
     use ArrayAccessible;
 
     private function __construct(
         public readonly int|string $nEpochs,
-        public readonly int|string $batchSize,
-        public readonly float|string $learningRateMultiplier,
+        public readonly int|string|null $batchSize,
+        public readonly float|string|null $learningRateMultiplier,
+        public readonly float|string|null $promptLossWeight,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{n_epochs: int|string, batch_size: int|string, learning_rate_multiplier: int|string}  $attributes
+     * @param  array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null, prompt_loss_weight: float|string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -35,6 +36,7 @@ final class RetrieveJobResponseHyperparameters implements ResponseContract
             $attributes['n_epochs'],
             $attributes['batch_size'],
             $attributes['learning_rate_multiplier'],
+            $attributes['prompt_loss_weight'] ?? null,
         );
     }
 
@@ -47,6 +49,7 @@ final class RetrieveJobResponseHyperparameters implements ResponseContract
             'n_epochs' => $this->nEpochs,
             'batch_size' => $this->batchSize,
             'learning_rate_multiplier' => $this->learningRateMultiplier,
+            'prompt_loss_weight' => $this->promptLossWeight,
         ];
     }
 }

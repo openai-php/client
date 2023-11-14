@@ -9,7 +9,8 @@ test('from', function () {
         ->toBeInstanceOf(RetrieveJobResponseHyperparameters::class)
         ->nEpochs->toBe(9)
         ->batchSize->toBe(1)
-        ->learningRateMultiplier->toBe(2);
+        ->learningRateMultiplier->toBe(2.0)
+        ->promptLossWeight->toBe(0.1);
 });
 
 test('failed job from', function () {
@@ -19,7 +20,8 @@ test('failed job from', function () {
         ->toBeInstanceOf(RetrieveJobResponseHyperparameters::class)
         ->nEpochs->toBe(9)
         ->batchSize->toBe('auto')
-        ->learningRateMultiplier->toBe('auto');
+        ->learningRateMultiplier->toBe('auto')
+        ->promptLossWeight->toBeNull();
 });
 
 test('to array', function () {
@@ -47,5 +49,6 @@ test('hyperparameters params can be a string', function () {
         ->toBeInstanceOf(RetrieveJobResponseHyperparameters::class)
         ->nEpochs->toBe('auto')
         ->batchSize->toBe('auto')
-        ->learningRateMultiplier->toBe('auto');
+        ->learningRateMultiplier->toBe('auto')
+        ->promptLossWeight->toBeNull();
 });
