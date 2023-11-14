@@ -42,7 +42,7 @@ function fineTuningJobRetrieveResource(): array
         'hyperparameters' => [
             'n_epochs' => 9,
             'batch_size' => 1,
-            'learning_rate_multiplier' => 2.0,
+            'learning_rate_multiplier' => 2.2,
         ],
         'organization_id' => 'org-jwe45798ASN82s',
         'result_files' => [

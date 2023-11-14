@@ -3,12 +3,6 @@
 use OpenAI\Responses\FineTuning\RetrieveJobResponseError;
 
 test('from', function () {
-    $result = \OpenAI\Responses\FineTuning\RetrieveJobResponseError::from(fineTuningJobRetrieveResource()['error']);
-
-    expect($result)->toBeNull();
-});
-
-test('failed job from', function () {
     $result = RetrieveJobResponseError::from(fineTuningFailedJobRetrieveResource()['error']);
 
     expect($result)
@@ -18,14 +12,13 @@ test('failed job from', function () {
         ->message->toBe('Training file has 3 example(s), but must have at least 10 examples');
 });
 
-test('to array', function () {
-    $result = RetrieveJobResponseError::from(fineTuningJobRetrieveResource()['error']);
+test('as array accessible', function () {
+    $result = RetrieveJobResponseError::from(fineTuningFailedJobRetrieveResource()['error']);
 
-    expect($result?->toArray())
-        ->toBeNull();
+    expect($result['code'])->toBe('invalid_n_examples');
 });
 
-test('failed job to array', function () {
+test('to array', function () {
     $result = RetrieveJobResponseError::from(fineTuningFailedJobRetrieveResource()['error']);
 
     expect($result->toArray())

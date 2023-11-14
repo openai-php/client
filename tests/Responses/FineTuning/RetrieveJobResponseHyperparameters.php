@@ -9,10 +9,10 @@ test('from', function () {
         ->toBeInstanceOf(RetrieveJobResponseHyperparameters::class)
         ->nEpochs->toBe(9)
         ->batchSize->toBe(1)
-        ->learningRateMultiplier->toBe(2.0);
+        ->learningRateMultiplier->toBe(2.2);
 });
 
-test('failed job from', function () {
+test('from failed job', function () {
     $result = RetrieveJobResponseHyperparameters::from(fineTuningFailedJobRetrieveResource()['hyperparameters']);
 
     expect($result)
@@ -29,14 +29,14 @@ test('to array', function () {
         ->toBe(fineTuningJobRetrieveResource()['hyperparameters']);
 });
 
-test('failed to array', function () {
+test('to array from failed', function () {
     $result = RetrieveJobResponseHyperparameters::from(fineTuningFailedJobRetrieveResource()['hyperparameters']);
 
     expect($result->toArray())
         ->toBe(fineTuningFailedJobRetrieveResource()['hyperparameters']);
 });
 
-test('hyperparameters params can be a string', function () {
+test('hyperparameters params can be strings', function () {
     $result = RetrieveJobResponseHyperparameters::from([
         'n_epochs' => 'auto',
         'batch_size' => 'auto',

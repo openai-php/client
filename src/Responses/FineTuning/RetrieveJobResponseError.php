@@ -27,14 +27,10 @@ final class RetrieveJobResponseError implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{code: string, param: ?string, message: string}|null  $attributes
+     * @param  array{code: string, param: ?string, message: string}  $attributes
      */
-    public static function from(?array $attributes): ?self
+    public static function from(array $attributes): ?self
     {
-        if (is_null($attributes)) {
-            return null;
-        }
-
         return new self(
             $attributes['code'],
             $attributes['param'],
