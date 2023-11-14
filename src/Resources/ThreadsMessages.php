@@ -98,7 +98,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
     }
 
     /**
-     * Manage files attached to a thred message.
+     * Manage files attached to a thread message.
      *
      * @see https://platform.openai.com/docs/api-reference/messages/file-object
      */

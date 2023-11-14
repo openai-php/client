@@ -50,7 +50,7 @@ interface ThreadsMessagesContract
     public function list(string $threadId, array $parameters = []): ThreadMessageListResponse;
 
     /**
-     * Manage files attached to a thred message.
+     * Manage files attached to a thread message.
      *
      * @see https://platform.openai.com/docs/api-reference/messages/file-object
      */

@@ -60,7 +60,7 @@ interface ThreadsContract
     public function list(array $parameters = []): ThreadListResponse;
 
     /**
-     * Manage messages attached to a thred.
+     * Manage messages attached to a thread.
      *
      * @see https://platform.openai.com/docs/api-reference/messages
      */
