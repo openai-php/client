@@ -20,7 +20,7 @@ final class RetrieveJobResponseHyperparameters implements ResponseContract
     private function __construct(
         public readonly int|string $nEpochs,
         public readonly int|string $batchSize,
-        public readonly int|string $learningRateMultiplier,
+        public readonly float|string $learningRateMultiplier,
     ) {
     }
 
