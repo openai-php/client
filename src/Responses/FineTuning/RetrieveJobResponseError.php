@@ -19,7 +19,7 @@ final class RetrieveJobResponseError implements ResponseContract
 
     private function __construct(
         public readonly string $code,
-        public readonly string $param,
+        public readonly ?string $param,
         public readonly string $message,
     ) {
     }
