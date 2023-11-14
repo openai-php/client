@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>
+ * @implements ResponseContract<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: ?array{code: string, param: ?string, message: string}}>
  */
 final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}>
+     * @use ArrayAccessible<array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: ?array{code: string, param: ?string, message: string}}>
      */
     use ArrayAccessible;
 
@@ -41,6 +41,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
         public readonly ?string $validationFile,
         public readonly string $trainingFile,
         public readonly ?int $trainedTokens,
+        public readonly ?RetrieveJobResponseError $error,
         private readonly MetaInformation $meta,
     ) {
     }
@@ -48,7 +49,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int}  $attributes
+     * @param  array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: ?array{code: string, param: ?string, message: string}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -66,6 +67,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['validation_file'],
             $attributes['training_file'],
             $attributes['trained_tokens'],
+            isset($attributes['error']) ? RetrieveJobResponseError::from($attributes['error']) : null,
             $meta,
         );
     }
@@ -89,6 +91,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
             'validation_file' => $this->validationFile,
             'training_file' => $this->trainingFile,
             'trained_tokens' => $this->trainedTokens,
+            'error' => $this->error?->toArray(),
         ];
     }
 }

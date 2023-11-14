@@ -31,7 +31,7 @@ test('create job', function () {
 
     expect($result)
         ->toBeInstanceOf(RetrieveJobResponse::class)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F')
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F')
         ->object->toBe('fine_tuning.job')
         ->model->toBe('gpt-3.5-turbo-0613')
         ->createdAt->toBe(1614807352)
@@ -43,7 +43,8 @@ test('create job', function () {
         ->status->toBe('created')
         ->validationFile->toBeNull()
         ->trainingFile->toBe('file-abc123')
-        ->trainedTokens->toBeNull();
+        ->trainedTokens->toBeNull()
+        ->error->toBeNull();
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
@@ -75,13 +76,13 @@ test('list jobs with params', function () {
 });
 
 test('retrieve job', function () {
-    $client = mockClient('GET', 'fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobRetrieveResource(), metaHeaders()));
+    $client = mockClient('GET', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobRetrieveResource(), metaHeaders()));
 
-    $result = $client->fineTuning()->retrieveJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+    $result = $client->fineTuning()->retrieveJob('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
     expect($result)
         ->toBeInstanceOf(RetrieveJobResponse::class)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F')
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F')
         ->object->toBe('fine_tuning.job')
         ->model->toBe('gpt-3.5-turbo-0613')
         ->createdAt->toBe(1614807352)
@@ -105,13 +106,13 @@ test('retrieve job', function () {
 });
 
 test('cancel job', function () {
-    $client = mockClient('POST', 'fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], \OpenAI\ValueObjects\Transporter\Response::from([...fineTuningJobRetrieveResource(), 'status' => 'cancelled'], metaHeaders()));
+    $client = mockClient('POST', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], \OpenAI\ValueObjects\Transporter\Response::from([...fineTuningJobRetrieveResource(), 'status' => 'cancelled'], metaHeaders()));
 
-    $result = $client->fineTuning()->cancelJob('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+    $result = $client->fineTuning()->cancelJob('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
     expect($result)
         ->toBeInstanceOf(RetrieveJobResponse::class)
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F')
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F')
         ->object->toBe('fine_tuning.job')
         ->model->toBe('gpt-3.5-turbo-0613')
         ->createdAt->toBe(1614807352)
@@ -131,9 +132,9 @@ test('cancel job', function () {
 });
 
 test('list job events', function () {
-    $client = mockClient('GET', 'fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
+    $client = mockClient('GET', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
 
-    $result = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+    $result = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 
     expect($result)
         ->toBeInstanceOf(ListJobEventsResponse::class)
@@ -171,9 +172,9 @@ test('list job events', function () {
 });
 
 test('list job events with params', function () {
-    $client = mockClient('GET', 'fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
+    $client = mockClient('GET', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
 
-    $result = $client->fineTuning()->listJobEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F', ['limit' => 3]);
+    $result = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', ['limit' => 3]);
 
     expect($result)
         ->toBeInstanceOf(ListJobEventsResponse::class)

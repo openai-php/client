@@ -36,7 +36,7 @@ test('fake', function () {
     expect($response)
         ->object->toBe('list')
         ->and($response['data'][0])
-        ->id->toBe('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+        ->id->toBe('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F');
 });
 
 test('fake with override', function () {
