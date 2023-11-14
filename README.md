@@ -58,7 +58,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
 $result = $client->chat()->create([
-    'model' => 'gpt-3.5-turbo-instruct',
+    'model' => 'gpt-4',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
