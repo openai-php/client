@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.0-beta.2 (2023-11-14)
+### Fixed
+-  instruction on ThreadRunResponse may be nullable
+
 ## v0.7.9 (2023-11-14)
 ### Added
 -  Add revised_prompt property to CreateResponseData on the image create endpoint ([#257](https://github.com/openai-php/client/pull/257))
@@ -11,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Docs
 - Fix model in one of the examples
 
-## v0.8.0-beta.1 (2023-11-07)
+## v0.8.0-beta.1 (2023-11-13)
 ### Added
 -  Add support for Assistants and Threads endpoint ([#243](https://github.com/openai-php/client/pull/243))
 
