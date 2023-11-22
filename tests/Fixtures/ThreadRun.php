@@ -157,6 +157,9 @@ function threadRunWithSubmitToolOutputsResource(): array
                     ],
                 ],
             ],
+            [
+                'type' => 'retrieval',
+            ],
         ],
         'file_ids' => [],
         'metadata' => [],

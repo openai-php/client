@@ -4,6 +4,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolRetrieval;
 
 test('from', function () {
     $result = ThreadRunResponse::from(threadRunResource(), meta());
@@ -50,8 +51,9 @@ test('from with submit tool outputs', function () {
         ->model->toBe('gpt-4')
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()
-        ->tools->tohaveCount(1)
+        ->tools->tohaveCount(2)
         ->tools->{0}->toBeInstanceOf(ThreadRunResponseToolFunction::class)
+        ->tools->{1}->toBeInstanceOf(ThreadRunResponseToolRetrieval::class)
         ->fileIds->toBe([])
         ->metadata->toBe([])
         ->meta()->toBeInstanceOf(MetaInformation::class);
