@@ -48,3 +48,17 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(chatCompletion()['choices'][0]['message']);
 });
+
+test('to array from function response', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithFunction()['choices'][0]['message']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionWithFunction()['choices'][0]['message']);
+});
+
+test('to array from tool calls response', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithToolCalls()['choices'][0]['message']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionWithToolCalls()['choices'][0]['message']);
+});
