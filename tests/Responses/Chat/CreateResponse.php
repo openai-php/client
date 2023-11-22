@@ -74,6 +74,8 @@ test('from tool calls response', function () {
 test('as array accessible', function () {
     $completion = CreateResponse::from(chatCompletion(), meta());
 
+    expect(isset($completion['id']))->toBeTrue();
+
     expect($completion['id'])->toBe('chatcmpl-123');
 });
 

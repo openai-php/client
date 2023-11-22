@@ -18,8 +18,8 @@ final class VariationResponseData implements ResponseContract
     use ArrayAccessible;
 
     private function __construct(
-        public readonly string $url = '',
-        public readonly string $b64_json = '',
+        public readonly string $url,
+        public readonly string $b64_json,
     ) {
     }
 
