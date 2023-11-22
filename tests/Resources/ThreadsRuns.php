@@ -160,8 +160,8 @@ test('submit tool outputs', function () {
     $client = mockClient('POST', 'threads/thread_agvtHUGezjTCt4SKgQg0NJ2Y/runs/run_4RCYyYzX9m41WQicoJtUQAb8/submit_tool_outputs', [
         'tool_outputs' => [
             [
-                'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
-                'output' => '12',
+                'tool_call_id' => 'tool_1',
+                'output' => 'This is the output of tool 1',
             ],
         ],
     ], Response::from(threadRunResource(), metaHeaders()));

@@ -13,9 +13,9 @@ test('create', function () {
     ], \OpenAI\ValueObjects\Transporter\Response::from(edit(), metaHeaders()));
 
     $result = $client->edits()->create([
-        'object' => 'edit',
-        'created' => 1664135921,
-        'choices' => [],
+        'model' => 'text-davinci-edit-001',
+        'input' => 'What day of the wek is it?',
+        'instruction' => 'Fix the spelling mistakes',
     ]);
 
     expect($result)
