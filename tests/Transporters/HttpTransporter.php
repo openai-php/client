@@ -339,6 +339,35 @@ test('request object client errors', function () {
     });
 });
 
+test('request object client error in response', function () {
+    $payload = Payload::list('models');
+
+    $baseUri = BaseUri::from('api.openai.com');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andThrow(new \GuzzleHttp\Exception\ClientException(
+            message: 'Could not resolve host.',
+            request: $payload->toRequest($baseUri, $headers, $queryParams),
+            response: new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+                'error' => [
+                    'message' => 'Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.',
+                    'type' => 'invalid_request_error',
+                    'param' => null,
+                    'code' => 'invalid_api_key',
+                ],
+            ]))
+        ));
+
+    expect(fn () => $this->http->requestObject($payload))->toThrow(function (ErrorException $e) {
+        expect($e->getMessage())
+            ->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.');
+    });
+});
+
 test('request object serialization errors', function () {
     $payload = Payload::list('models');
 
