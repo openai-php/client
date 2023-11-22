@@ -240,7 +240,6 @@ function chatCompletionStreamToolCallsChunk(): array
             [
                 'index' => 0,
                 'delta' => [
-                    'content' => null,
                     'tool_calls' => [
                         [
                             'id' => 'call_trlgKnhMpYSC7CFXKw3CceUZ',

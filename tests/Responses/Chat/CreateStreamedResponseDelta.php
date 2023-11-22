@@ -61,3 +61,30 @@ test('to array for a function call chunk', function () {
     expect($result->toArray())
         ->toBe(chatCompletionStreamFunctionCallChunk()['choices'][0]['delta']);
 });
+
+test('to array for a tool calls chunk', function () {
+    $result = CreateStreamedResponseDelta::from(chatCompletionStreamToolCallsChunk()['choices'][0]['delta']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionStreamToolCallsChunk()['choices'][0]['delta']);
+});
+
+test('to array for a tool calls chunk without tool id', function () {
+    $data = chatCompletionStreamToolCallsChunk()['choices'][0]['delta'];
+    unset($data['tool_calls'][0]['id']);
+
+    $result = CreateStreamedResponseDelta::from($data);
+
+    expect($result->toArray())
+        ->toBe($data);
+});
+
+test('to array for a tool calls chunk without function name', function () {
+    $data = chatCompletionStreamToolCallsChunk()['choices'][0]['delta'];
+    unset($data['tool_calls'][0]['function']['name']);
+
+    $result = CreateStreamedResponseDelta::from($data);
+
+    expect($result->toArray())
+        ->toBe($data);
+});
