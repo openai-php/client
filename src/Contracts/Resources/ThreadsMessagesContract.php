@@ -34,7 +34,7 @@ interface ThreadsMessagesContract
     public function modify(string $threadId, string $messageId, array $parameters): ThreadMessageResponse;
 
     /**
-     * Delete an message.
+     * Delete a message.
      *
      * @see TBD - there is no documentation yet
      */

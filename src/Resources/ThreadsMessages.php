@@ -66,7 +66,7 @@ final class ThreadsMessages implements ThreadsMessagesContract
     }
 
     /**
-     * Delete an message.
+     * Delete a message.
      *
      * @see TBD - there is no documentation yet
      */

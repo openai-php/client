@@ -9,7 +9,6 @@ use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
-use OpenAI\Responses\Threads\ThreadListResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
@@ -97,23 +96,6 @@ final class Threads implements ThreadsContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadDeleteResponse::from($response->data(), $response->meta());
-    }
-
-    /**
-     * Returns a list of assistants.
-     *
-     * @see https://platform.openai.com/docs/api-reference/assistants/listAssistants
-     *
-     * @param  array<string, mixed>  $parameters
-     */
-    public function list(array $parameters = []): ThreadListResponse
-    {
-        $payload = Payload::list('threads', $parameters);
-
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
-
-        return ThreadListResponse::from($response->data(), $response->meta());
     }
 
     /**
