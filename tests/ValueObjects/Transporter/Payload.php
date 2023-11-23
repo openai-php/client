@@ -22,14 +22,16 @@ it('has a uri', function () {
 
     $baseUri = BaseUri::from('api.openai.com/v1');
     $headers = Headers::withAuthorization(ApiKey::from('foo'))->withContentType(ContentType::JSON);
-    $queryParams = QueryParams::create()->withParam('foo', 'bar');
+    $queryParams = QueryParams::create()
+        ->withParam('foo', 'bar')
+        ->withParam('baz', 'qux');
 
     $uri = $payload->toRequest($baseUri, $headers, $queryParams)->getUri();
 
     expect($uri->getHost())->toBe('api.openai.com')
         ->and($uri->getScheme())->toBe('https')
         ->and($uri->getPath())->toBe('/v1/models')
-        ->and($uri->getQuery())->toBe('foo=bar');
+        ->and($uri->getQuery())->toBe('foo=bar&baz=qux');
 });
 
 test('get verb does not have a body', function () {
@@ -69,7 +71,7 @@ test('builds upload request', function () {
     $request = $payload->toRequest($baseUri, $headers, $queryParams);
 
     expect($request->getHeader('Content-Type')[0])
-        ->toStartWith('multipart/form-data; boundary=');
+        ->toMatch('/multipart\/form-data; boundary=.+/');
 
     expect($request->getBody()->getContents())
         ->toContain('Content-Disposition: form-data; name="purpose"')

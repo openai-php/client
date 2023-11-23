@@ -83,3 +83,15 @@ test('to array', function () {
             'x-request-id' => '3813fa4fa3f17bdf0d7654f0f49ebab4',
         ]);
 });
+
+test('to array from azure', function () {
+    $meta = MetaInformation::from(metaHeadersFromAzure());
+
+    expect($meta->toArray())
+        ->toBeArray()
+        ->toBe([
+            'openai-model' => 'gpt-3.5-turbo-instruct',
+            'openai-processing-ms' => 3482,
+            'x-request-id' => '3813fa4fa3f17bdf0d7654f0f49ebab4',
+        ]);
+});

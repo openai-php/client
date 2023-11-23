@@ -51,7 +51,7 @@ test('upload', function () {
     $client = mockClient('POST', 'files', [
         'purpose' => 'fine-tune',
         'file' => fileResourceResource(),
-    ], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()));
+    ], \OpenAI\ValueObjects\Transporter\Response::from(fileResource(), metaHeaders()), validateParams: false);
 
     $result = $client->files()->upload([
         'purpose' => 'fine-tune',

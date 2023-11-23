@@ -14,10 +14,31 @@ test('from', function () {
         ->object->toBe('chat.completion')
         ->created->toBe(1677652288)
         ->model->toBe('gpt-3.5-turbo')
+        ->systemFingerprint->toBeNull()
         ->choices->toBeArray()->toHaveCount(1)
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
         ->usage->toBeInstanceOf(CreateResponseUsage::class)
         ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from with system fingerprint', function () {
+    $completion = CreateResponse::from(chatCompletionWithSystemFingerprint(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('chatcmpl-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1677652288)
+        ->model->toBe('gpt-3.5-turbo')
+        ->systemFingerprint->toBe('fp_44709d6fcb')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+
+    expect($completion->toArray())
+        ->toBeArray()
+        ->toBe(chatCompletionWithSystemFingerprint());
 });
 
 test('from function response', function () {
@@ -52,6 +73,8 @@ test('from tool calls response', function () {
 
 test('as array accessible', function () {
     $completion = CreateResponse::from(chatCompletion(), meta());
+
+    expect(isset($completion['id']))->toBeTrue();
 
     expect($completion['id'])->toBe('chatcmpl-123');
 });

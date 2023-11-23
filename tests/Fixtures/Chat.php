@@ -31,6 +31,35 @@ function chatCompletion(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithSystemFingerprint(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'system_fingerprint' => 'fp_44709d6fcb',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => "\n\nHello there, how may I assist you today?",
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 9,
+            'completion_tokens' => 12,
+            'total_tokens' => 21,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithFunction(): array
 {
     return [
@@ -211,7 +240,6 @@ function chatCompletionStreamToolCallsChunk(): array
             [
                 'index' => 0,
                 'delta' => [
-                    'content' => null,
                     'tool_calls' => [
                         [
                             'id' => 'call_trlgKnhMpYSC7CFXKw3CceUZ',

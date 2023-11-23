@@ -4,7 +4,7 @@ namespace OpenAI\Responses\Meta;
 
 final class MetaInformationOpenAI
 {
-    public function __construct(
+    private function __construct(
         public readonly ?string $model,
         public readonly ?string $organization,
         public readonly ?string $version,

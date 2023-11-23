@@ -53,7 +53,7 @@ test('create throws an exception if stream option is true', function () {
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
         'stream' => true,
     ]);
-})->expectException(\OpenAI\Exceptions\InvalidArgumentException::class);
+})->throws(OpenAI\Exceptions\InvalidArgumentException::class, 'Stream option is not supported. Please use the createStreamed() method instead.');
 
 test('create streamed', function () {
     $response = new Response(
@@ -64,6 +64,7 @@ test('create streamed', function () {
     $client = mockStreamClient('POST', 'chat/completions', [
         'model' => 'gpt-3.5-turbo',
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
+        'stream' => true,
     ], $response);
 
     $result = $client->chat()->createStreamed([
@@ -107,6 +108,7 @@ test('handles error messages in stream', function () {
     $client = mockStreamClient('POST', 'chat/completions', [
         'model' => 'gpt-3.5-turbo',
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
+        'stream' => true,
     ], $response);
 
     $result = $client->chat()->createStreamed([

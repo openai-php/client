@@ -189,7 +189,7 @@ test('list events streamed', function () {
         headers: metaHeaders(),
     );
 
-    $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', [], $response);
+    $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', ['stream' => 'true'], $response);
 
     $result = $client->fineTunes()->listEventsStreamed('ft-MaoEAULREoazpupm8uB7qoIl');
 

@@ -58,7 +58,7 @@ final class HttpTransporter implements TransporterContract
 
         try {
             /** @var array{error?: array{message: string, type: string, code: string}} $data */
-            $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
         }
@@ -125,7 +125,7 @@ final class HttpTransporter implements TransporterContract
 
         try {
             /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
-            $response = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+            $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {
                 throw new ErrorException($response['error']);
