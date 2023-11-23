@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.0-beta.3 (2023-11-23)
+### Removed
+-  Remove `list()` from Threads resource
+
 ## v0.8.0-beta.2 (2023-11-14)
 ### Fixed
 -  instruction on ThreadRunResponse may be nullable
