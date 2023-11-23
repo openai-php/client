@@ -25,6 +25,7 @@
         "guzzlehttp/guzzle": "^7.8.0",
         "guzzlehttp/psr7": "^2.6.1",
         "laravel/pint": "^1.13.6",
+        "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^7.10.0",
         "pestphp/pest": "^2.24.3",
         "pestphp/pest-plugin-arch": "^2.4.1",
