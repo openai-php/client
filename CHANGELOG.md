@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 -  instruction on ThreadRunResponse may be nullable
 
+## v0.7.10 (2023-11-14)
+### Added
+-  Add RetrieveJobResponseError and batch_size, learning_rate_multiplier parameters on RetrieveJobResponseHyperparameters for fine-tuning endpoint ([#255](https://github.com/openai-php/client/pull/255))
+
 ## v0.7.9 (2023-11-14)
 ### Added
 -  Add revised_prompt property to CreateResponseData on the image create endpoint ([#257](https://github.com/openai-php/client/pull/257))

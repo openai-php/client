@@ -24,15 +24,15 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8.0",
         "guzzlehttp/psr7": "^2.6.1",
-        "laravel/pint": "^1.13.2",
-        "nunomaduro/collision": "^7.9.0",
-        "pestphp/pest": "^2.19.2",
-        "pestphp/pest-plugin-arch": "^2.3.3",
-        "pestphp/pest-plugin-mock": "^2.0.0",
-        "pestphp/pest-plugin-type-coverage": "^2.2.0",
-        "phpstan/phpstan": "^1.10.35",
+        "laravel/pint": "^1.13.6",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^7.10.0",
+        "pestphp/pest": "^2.24.3",
+        "pestphp/pest-plugin-arch": "^2.4.1",
+        "pestphp/pest-plugin-type-coverage": "^2.5.0",
+        "phpstan/phpstan": "^1.10.42",
         "rector/rector": "^0.16.0",
-        "symfony/var-dumper": "^6.3.4"
+        "symfony/var-dumper": "^6.3.8"
     },
     "autoload": {
         "psr-4": {
