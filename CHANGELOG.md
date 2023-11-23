@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.0 (2023-11-23)
+### Added
+-  Add support for Assistants and Threads endpoint ([#271](https://github.com/openai-php/client/pull/271))
+
 ## v0.8.0-beta.3 (2023-11-23)
 ### Removed
 -  Remove `list()` from Threads resource
