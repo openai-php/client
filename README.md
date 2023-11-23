@@ -26,13 +26,13 @@
   - [FineTuning Resource](#finetuning-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
-  - [Assistants Resource (beta)](#assistants-resource-beta)
-  - [Assistants Files Resource (beta)](#assistants-files-resource-beta)
-  - [Threads Resource (beta)](#threads-resource-beta)
-  - [Threads Messages Resource (beta)](#threads-messages-resource-beta)
-  - [Threads Messages Files Resource (beta)](#threads-messages-files-resource-beta)
-  - [Threads Runs Resource (beta)](#threads-runs-resource-beta)
-  - [Threads Runs Steps Resource (beta)](#threads-runs-steps-resource-beta)
+  - [Assistants Resource](#assistants-resource)
+  - [Assistants Files Resource](#assistants-files-resource)
+  - [Threads Resource](#threads-resource)
+  - [Threads Messages Resource](#threads-messages-resource)
+  - [Threads Messages Files Resource](#threads-messages-files-resource)
+  - [Threads Runs Resource](#threads-runs-resource)
+  - [Threads Runs Steps Resource](#threads-runs-steps-resource)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -914,7 +914,7 @@ foreach ($response->data as $data) {
 $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
 ```
 
-### `Assistants` Resource (beta)
+### `Assistants` Resource
 
 > **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
 > ```php
@@ -1031,7 +1031,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Assistants Files` Resource (beta)
+### `Assistants Files` Resource
 
 #### `create`
 
@@ -1107,7 +1107,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]
 ```
 
-### `Threads` Resource (beta)
+### `Threads` Resource
 
 #### `create`
 
@@ -1235,7 +1235,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Messages` Resource (beta)
+### `Threads Messages` Resource
 
 #### `create`
 
@@ -1359,7 +1359,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Messages Files` Resource (beta)
+### `Threads Messages Files` Resource
 
 #### `retrieve`
 
@@ -1406,7 +1406,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Runs` Resource (beta)
+### `Threads Runs` Resource
 
 #### `create`
 
@@ -1603,7 +1603,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Runs Steps` Resource (beta)
+### `Threads Runs Steps` Resource
 
 #### `retrieve`
 
