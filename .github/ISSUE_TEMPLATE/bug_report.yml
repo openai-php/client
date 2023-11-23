@@ -1,0 +1,47 @@
+name: Bug Report
+description: Report an Issue or Bug with the OpenAI PHP Client
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the following information to help us resolve your issue.
+        
+        Keep in mind that this package is a PHP wrapper for the OpenAI API. If you have a question about the API itself, please refer to the [OpenAI API Documentation](https://platform.openai.com/docs/introduction) or reach out to the [OpenAI Community Forum](https://community.openai.com/categories).
+  - type: textarea
+    attributes:
+      label: Description
+      description: Provide a detailed description of the issue you are facing.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps To Reproduce
+      description: Provide detailed steps to reproduce your issue. If necessary, please provide a GitHub repository to demonstrate your issue.
+    validations:
+      required: true
+  - type: input
+    id: client-version
+    attributes:
+      label: OpenAI PHP Client Version
+      description: What version of our Package are you running? Please be as specific as possible
+      placeholder: v0.7.10
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      description: What version of PHP are you running? Please be as specific as possible
+      placeholder: 8.1.20
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Use this field to provide any other notes that you feel might be relevant to the issue.
+    validations:
+      required: false
