@@ -3,7 +3,10 @@
 namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\Resources\AssistantsContract;
+use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Resources\Assistants;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AudioTestResource;
@@ -181,5 +184,15 @@ class ClientFake implements ClientContract
     public function images(): ImagesTestResource
     {
         return new ImagesTestResource($this);
+    }
+
+    public function assistants(): AssistantsContract
+    {
+        return new Assistants($this);
+    }
+
+    public function threads(): ThreadsContract
+    {
+        return new Assistants($this);
     }
 }

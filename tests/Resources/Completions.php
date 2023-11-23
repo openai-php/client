@@ -63,6 +63,7 @@ test('create streamed', function () {
     $client = mockStreamClient('POST', 'completions', [
         'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'hi',
+        'stream' => true,
     ], $response);
 
     $result = $client->completions()->createStreamed([

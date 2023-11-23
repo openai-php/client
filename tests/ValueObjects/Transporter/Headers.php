@@ -22,6 +22,16 @@ it('can have content/type', function () {
     ]);
 });
 
+it('can have content/type with suffix', function () {
+    $headers = Headers::withAuthorization(ApiKey::from('foo'))
+        ->withContentType(ContentType::MULTIPART, '; boundary=---XYZ');
+
+    expect($headers->toArray())->toBe([
+        'Authorization' => 'Bearer foo',
+        'Content-Type' => 'multipart/form-data; boundary=---XYZ',
+    ]);
+});
+
 it('can have organization', function () {
     $headers = Headers::withAuthorization(ApiKey::from('foo'))
         ->withContentType(ContentType::JSON)
@@ -31,5 +41,17 @@ it('can have organization', function () {
         'Authorization' => 'Bearer foo',
         'Content-Type' => 'application/json',
         'OpenAI-Organization' => 'nunomaduro',
+    ]);
+});
+
+it('can have custom header', function () {
+    $headers = Headers::withAuthorization(ApiKey::from('foo'))
+        ->withContentType(ContentType::JSON)
+        ->withCustomHeader('X-Foo', 'bar');
+
+    expect($headers->toArray())->toBe([
+        'Authorization' => 'Bearer foo',
+        'Content-Type' => 'application/json',
+        'X-Foo' => 'bar',
     ]);
 });

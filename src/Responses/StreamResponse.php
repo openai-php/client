@@ -48,7 +48,7 @@ final class StreamResponse implements IteratorAggregate, ResponseHasMetaInformat
             }
 
             /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
-            $response = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            $response = json_decode($data, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {
                 throw new ErrorException($response['error']);

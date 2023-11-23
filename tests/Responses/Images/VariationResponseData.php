@@ -31,3 +31,13 @@ test('to array with b64_json', function () {
     expect($result->toArray())
         ->toBe(imageVariationWithB46Json()['data'][0]);
 });
+
+test('to array with b64_json when url is zero as string', function () {
+    $data = imageVariationWithB46Json()['data'][0];
+    $data['url'] = '0';
+
+    $result = VariationResponseData::from($data);
+
+    expect($result->toArray())
+        ->toBe(imageVariationWithB46Json()['data'][0]);
+});

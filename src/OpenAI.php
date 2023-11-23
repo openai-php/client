@@ -15,6 +15,7 @@ final class OpenAI
         return self::factory()
             ->withApiKey($apiKey)
             ->withOrganization($organization)
+            ->withHttpHeader('OpenAI-Beta', 'assistants=v1')
             ->make();
     }
 

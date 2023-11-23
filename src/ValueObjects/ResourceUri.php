@@ -52,6 +52,14 @@ final class ResourceUri implements StringableContract
     }
 
     /**
+     * Creates a new ResourceUri value object that modifies the given resource.
+     */
+    public static function modify(string $resource, string $id): self
+    {
+        return new self("{$resource}/{$id}");
+    }
+
+    /**
      * Creates a new ResourceUri value object that retrieves the given resource content.
      */
     public static function retrieveContent(string $resource, string $id): self

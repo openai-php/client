@@ -65,7 +65,7 @@ test('list jobs', function () {
 });
 
 test('list jobs with params', function () {
-    $client = mockClient('GET', 'fine_tuning/jobs', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListResource(), metaHeaders()));
+    $client = mockClient('GET', 'fine_tuning/jobs', ['limit' => 3], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListResource(), metaHeaders()));
 
     $result = $client->fineTuning()->listJobs(['limit' => 3]);
 
@@ -172,7 +172,7 @@ test('list job events', function () {
 });
 
 test('list job events with params', function () {
-    $client = mockClient('GET', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F/events', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
+    $client = mockClient('GET', 'fine_tuning/jobs/ftjob-AF1WoRqd3aJAHsqc9NY7iL8F/events', ['limit' => 3], \OpenAI\ValueObjects\Transporter\Response::from(fineTuningJobListEventsResource(), metaHeaders()));
 
     $result = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F', ['limit' => 3]);
 

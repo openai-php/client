@@ -4,7 +4,7 @@ namespace OpenAI\Responses\Meta;
 
 final class MetaInformationRateLimit
 {
-    public function __construct(
+    private function __construct(
         public readonly int $limit,
         public readonly int $remaining,
         public readonly string $reset,
