@@ -29,7 +29,7 @@
         "nunomaduro/collision": "^7.10.0",
         "pestphp/pest": "^2.24.3",
         "pestphp/pest-plugin-arch": "^2.4.1",
-        "pestphp/pest-plugin-type-coverage": "^2.4.0",
+        "pestphp/pest-plugin-type-coverage": "^2.5.0",
         "phpstan/phpstan": "^1.10.42",
         "rector/rector": "^0.16.0",
         "symfony/var-dumper": "^6.3.8"
