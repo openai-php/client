@@ -1213,28 +1213,6 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
 
-#### `list`
-
-Returns a list of threads.
-
-```php
-$response = $client->threads()->list([
-    'limit' => 10,
-]);
-
-$response->object; // 'list'
-$response->firstId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
-$response->lastId; // 'thread_qVpWfffa654XBdU3tl2iUdVy'
-$response->hasMore; // true
-
-foreach ($response->data as $result) {
-    $result->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', ...]]
-```
-
 ### `Threads Messages` Resource
 
 #### `create`
