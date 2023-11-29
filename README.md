@@ -1070,7 +1070,7 @@ $response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
 
 #### `delete`
 
-Delete an assistant.
+Delete an assistant file.
 
 ```php
 $response = $client->assistants()->files()->delete(
