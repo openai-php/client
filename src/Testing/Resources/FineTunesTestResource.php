@@ -21,7 +21,7 @@ final class FineTunesTestResource implements FineTunesContract
 
     public function create(array $parameters): RetrieveResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function list(): ListResponse
@@ -31,21 +31,21 @@ final class FineTunesTestResource implements FineTunesContract
 
     public function retrieve(string $fineTuneId): RetrieveResponse
     {
-        return $this->record(__FUNCTION__, $fineTuneId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function cancel(string $fineTuneId): RetrieveResponse
     {
-        return $this->record(__FUNCTION__, $fineTuneId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function listEvents(string $fineTuneId): ListEventsResponse
     {
-        return $this->record(__FUNCTION__, $fineTuneId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function listEventsStreamed(string $fineTuneId): StreamResponse
     {
-        return $this->record(__FUNCTION__, $fineTuneId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

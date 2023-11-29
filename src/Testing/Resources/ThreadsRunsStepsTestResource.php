@@ -19,11 +19,11 @@ class ThreadsRunsStepsTestResource implements ThreadsRunsStepsContract
 
     public function retrieve(string $threadId, string $runId, string $stepId): ThreadRunStepResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $runId, $stepId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function list(string $threadId, string $runId, array $parameters = []): ThreadRunStepListResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $runId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

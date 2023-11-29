@@ -3,6 +3,7 @@
 namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
+use OpenAI\Resources\ThreadsRuns;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
@@ -18,36 +19,36 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
 
     public function create(string $threadId, array $parameters): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function retrieve(string $threadId, string $runId): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $runId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function modify(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $runId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function submitToolOutputs(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $runId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function cancel(string $threadId, string $runId): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $runId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function list(string $threadId, array $parameters = []): ThreadRunListResponse
     {
-        return $this->record(__FUNCTION__, $threadId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function steps(): ThreadsRunsStepsTestResource
     {
-        return $this->record(__FUNCTION__);
+        return new ThreadsRunsStepsTestResource($this->fake);
     }
 }

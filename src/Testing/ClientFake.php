@@ -79,7 +79,7 @@ class ClientFake implements ClientContract
 
         $callback = $callback ?: fn (): bool => true;
 
-        return array_filter($this->resourcesOf($resource), fn (TestRequest $resource) => $callback($resource->method(), $resource->parameters()));
+        return array_filter($this->resourcesOf($resource), fn (TestRequest $resource) => $callback($resource->method(), ...$resource->args()));
     }
 
     private function hasSent(string $resource): bool

@@ -3,8 +3,6 @@
 namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsContract;
-use OpenAI\Contracts\Resources\ThreadsMessagesContract;
-use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Resources\Threads;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
@@ -22,35 +20,35 @@ final class ThreadsTestResource implements ThreadsContract
 
     public function create(array $parameters): ThreadResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function createAndRun(array $parameters): ThreadRunResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function retrieve(string $id): ThreadResponse
     {
-        return $this->record(__FUNCTION__, $id);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function modify(string $id, array $parameters): ThreadResponse
     {
-        return $this->record(__FUNCTION__, $id, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function delete(string $id): ThreadDeleteResponse
     {
-        return $this->record(__FUNCTION__, $id);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function messages(): ThreadsMessagesContract
+    public function messages(): ThreadsMessagesTestResource
     {
         return new ThreadsMessagesTestResource($this->fake);
     }
 
-    public function runs(): ThreadsRunsContract
+    public function runs(): ThreadsRunsTestResource
     {
         return new ThreadsRunsTestResource($this->fake);
     }

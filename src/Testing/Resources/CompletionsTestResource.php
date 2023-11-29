@@ -19,11 +19,11 @@ final class CompletionsTestResource implements CompletionsContract
 
     public function create(array $parameters): CreateResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function createStreamed(array $parameters): StreamResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

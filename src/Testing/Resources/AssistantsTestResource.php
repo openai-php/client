@@ -3,7 +3,6 @@
 namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
-use OpenAI\Contracts\Resources\AssistantsFilesContract;
 use OpenAI\Resources\Assistants;
 use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
@@ -21,30 +20,30 @@ final class AssistantsTestResource implements AssistantsContract
 
     public function create(array $parameters): AssistantResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function retrieve(string $id): AssistantResponse
     {
-        return $this->record(__FUNCTION__, $id);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function modify(string $id, array $parameters): AssistantResponse
     {
-        return $this->record(__FUNCTION__, $id, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function delete(string $id): AssistantDeleteResponse
     {
-        return $this->record(__FUNCTION__, $id);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function list(array $parameters = []): AssistantListResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function files(): AssistantsFilesContract
+    public function files(): AssistantsFilesTestResource
     {
         return new AssistantsFilesTestResource($this->fake);
     }

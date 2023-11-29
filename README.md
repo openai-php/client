@@ -1124,7 +1124,7 @@ $response->metadata; // []
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
 
-#### `create`
+#### `createAndRun`
 
 Create a thread and run it in one request.
 
@@ -1275,7 +1275,7 @@ Modifies a message.
 $response = $client->threads()->messages()->modify(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
-    parameteres:  [
+    parameters:  [
         'metadata' => [
             'name' => 'My new message name',
         ],
@@ -1458,7 +1458,7 @@ Modifies a run.
 $response = $client->threads()->runs()->modify(
     threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
     runId: 'run_4RCYyYzX9m41WQicoJtUQAb8',
-    parameteres:  [
+    parameters:  [
         'metadata' => [
             'name' => 'My new run name',
         ],

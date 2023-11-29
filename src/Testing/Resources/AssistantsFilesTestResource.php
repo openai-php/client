@@ -20,21 +20,21 @@ final class AssistantsFilesTestResource implements AssistantsFilesContract
 
     public function create(string $assistantId, array $parameters): AssistantFileResponse
     {
-        return $this->record(__FUNCTION__, $assistantId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function retrieve(string $assistantId, string $fileId): AssistantFileResponse
     {
-        return $this->record(__FUNCTION__, $assistantId, $fileId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function delete(string $assistantId, string $fileId): AssistantFileDeleteResponse
     {
-        return $this->record(__FUNCTION__, $assistantId, $fileId);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function list(string $assistantId, array $parameters = []): AssistantFileListResponse
     {
-        return $this->record(__FUNCTION__, $assistantId, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

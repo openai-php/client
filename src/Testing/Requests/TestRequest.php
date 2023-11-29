@@ -5,9 +5,9 @@ namespace OpenAI\Testing\Requests;
 final class TestRequest
 {
     /**
-     * @param  array<string, mixed>|string|null  $parameters
+     * @param  array<string, mixed>  $args
      */
-    public function __construct(protected string $resource, protected string $method, protected array|string|null $parameters)
+    public function __construct(protected string $resource, protected string $method, protected array $args)
     {
     }
 
@@ -22,10 +22,10 @@ final class TestRequest
     }
 
     /**
-     * @return array<string, mixed>|string|null
+     * @return array<string, mixed>
      */
-    public function parameters(): array|string|null
+    public function args(): array
     {
-        return $this->parameters;
+        return $this->args;
     }
 }

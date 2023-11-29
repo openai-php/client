@@ -16,11 +16,11 @@ trait Testable
     abstract protected function resource(): string;
 
     /**
-     * @param  array<string, mixed>|string  $parameters
+     * @param  array<string, mixed>  $args
      */
-    protected function record(string $method, array|string $parameters = null): ResponseContract|StreamResponse|string
+    protected function record(string $method, array $args = []): ResponseContract|StreamResponse|string
     {
-        return $this->fake->record(new TestRequest($this->resource(), $method, $parameters));
+        return $this->fake->record(new TestRequest($this->resource(), $method, $args));
     }
 
     public function assertSent(callable|int $callback = null): void

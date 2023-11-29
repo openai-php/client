@@ -18,6 +18,6 @@ final class ModerationsTestResource implements ModerationsContract
 
     public function create(array $parameters): CreateResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

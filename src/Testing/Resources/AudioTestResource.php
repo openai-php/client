@@ -19,16 +19,16 @@ final class AudioTestResource implements AudioContract
 
     public function speech(array $parameters): string
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function transcribe(array $parameters): TranscriptionResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function translate(array $parameters): TranslationResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

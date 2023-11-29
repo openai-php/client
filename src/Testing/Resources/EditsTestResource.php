@@ -18,6 +18,6 @@ final class EditsTestResource implements EditsContract
 
     public function create(array $parameters): CreateResponse
     {
-        return $this->record(__FUNCTION__, $parameters);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }

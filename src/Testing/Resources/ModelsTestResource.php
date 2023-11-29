@@ -25,11 +25,11 @@ final class ModelsTestResource implements ModelsContract
 
     public function retrieve(string $model): RetrieveResponse
     {
-        return $this->record(__FUNCTION__, $model);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function delete(string $model): DeleteResponse
     {
-        return $this->record(__FUNCTION__, $model);
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }
