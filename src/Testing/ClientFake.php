@@ -3,12 +3,10 @@
 namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
-use OpenAI\Contracts\Resources\AssistantsContract;
-use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Resources\Assistants;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
+use OpenAI\Testing\Resources\AssistantsTestResource;
 use OpenAI\Testing\Resources\AudioTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
 use OpenAI\Testing\Resources\CompletionsTestResource;
@@ -20,6 +18,7 @@ use OpenAI\Testing\Resources\FineTuningTestResource;
 use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
+use OpenAI\Testing\Resources\ThreadsTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Throwable;
 
@@ -186,13 +185,13 @@ class ClientFake implements ClientContract
         return new ImagesTestResource($this);
     }
 
-    public function assistants(): AssistantsContract
+    public function assistants(): AssistantsTestResource
     {
-        return new Assistants($this);
+        return new AssistantsTestResource($this);
     }
 
-    public function threads(): ThreadsContract
+    public function threads(): ThreadsTestResource
     {
-        return new Assistants($this);
+        return new ThreadsTestResource($this);
     }
 }
