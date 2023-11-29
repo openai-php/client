@@ -1038,7 +1038,7 @@ $response->toArray(); // ['object' => 'list', ...]]
 Create an assistant file by attaching a file to an assistant.
 
 ```php
-$response = $client->assistants())->files()->create('asst_gxzBkD1wkKEloYqZ410pT5pd', [
+$response = $client->assistants()->files()->create('asst_gxzBkD1wkKEloYqZ410pT5pd', [
     'file_id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH',
 ]);
 
@@ -1070,7 +1070,7 @@ $response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
 
 #### `delete`
 
-Delete an assistant.
+Delete an assistant file.
 
 ```php
 $response = $client->assistants()->files()->delete(
