@@ -365,6 +365,22 @@ $client->audio()->speech([
 ]); // audio file content as string
 ```
 
+#### `speechStreamed`
+
+Generates streamed audio from the input text.
+
+```php
+$stream = $client->audio()->speechStreamed([
+    'model' => 'tts-1',
+    'input' => 'The quick brown fox jumped over the lazy dog.',
+    'voice' => 'alloy',
+]);
+
+foreach($stream as $chunk){
+    $chunk; // chunk of audio file content as string
+}
+```
+
 #### `transcribe`
 
 Transcribes audio into the input language.
