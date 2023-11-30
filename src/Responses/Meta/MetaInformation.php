@@ -16,7 +16,7 @@ final class MetaInformation implements MetaInformationContract
     use ArrayAccessible;
 
     private function __construct(
-        public string $requestId,
+        public ?string $requestId,
         public readonly MetaInformationOpenAI $openai,
         public readonly ?MetaInformationRateLimit $requestLimit,
         public readonly ?MetaInformationRateLimit $tokenLimit,
@@ -28,7 +28,7 @@ final class MetaInformation implements MetaInformationContract
      */
     public static function from(array $headers): self
     {
-        $requestId = $headers['x-request-id'][0];
+        $requestId = $headers['x-request-id'][0] ?? null;
 
         $openai = MetaInformationOpenAI::from([
             'model' => $headers['openai-model'][0] ?? null,

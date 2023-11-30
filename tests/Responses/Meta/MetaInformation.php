@@ -95,3 +95,11 @@ test('to array from azure', function () {
             'x-request-id' => '3813fa4fa3f17bdf0d7654f0f49ebab4',
         ]);
 });
+
+test('from response headers without "x-request-id"', function () {
+    $meta = MetaInformation::from(metaHeadersWithoutXRequestId());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBeNull();
+});
