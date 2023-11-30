@@ -1,5 +1,8 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
+use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
 use OpenAI\Responses\Audio\TranslationResponse;
@@ -208,4 +211,30 @@ test('text to speech', function () {
     expect($result)
         ->toBeString()
         ->toBe(audioFileContent());
+});
+
+test('text to speech streamed', function () {
+    $response = new Response(
+        body: new Stream(speechStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'audio/speech', [
+        'model' => 'tts-1',
+        'input' => 'Hello, how are you?',
+        'voice' => 'alloy',
+    ], $response, 'requestContent');
+
+    $result = $client->audio()->speechStreamed([
+        'model' => 'tts-1',
+        'input' => 'Hello, how are you?',
+        'voice' => 'alloy',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(SpeechStreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class);
+
+    expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
 });

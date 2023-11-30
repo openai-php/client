@@ -158,3 +158,11 @@ function audioFileContent(): string
 {
     return file_get_contents(__DIR__.'/audio.mp3');
 }
+
+/**
+ * @return resource
+ */
+function speechStream()
+{
+    return fopen(__DIR__.'/Streams/Speech.mp3', 'r');
+}

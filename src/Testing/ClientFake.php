@@ -4,6 +4,7 @@ namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseStreamContract;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AssistantsTestResource;
@@ -113,7 +114,7 @@ class ClientFake implements ClientContract
         return array_filter($this->requests, fn (TestRequest $request): bool => $request->resource() === $type);
     }
 
-    public function record(TestRequest $request): ResponseContract|StreamResponse|string
+    public function record(TestRequest $request): ResponseContract|ResponseStreamContract|string
     {
         $this->requests[] = $request;
 
