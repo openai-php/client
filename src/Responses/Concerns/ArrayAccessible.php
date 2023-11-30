@@ -26,7 +26,7 @@ trait ArrayAccessible
      */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->toArray()[$offset];
+        return $this->toArray()[$offset]; // @phpstan-ignore-line
     }
 
     /**

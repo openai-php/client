@@ -25,6 +25,17 @@ test('from response headers', function () {
         ->tokenLimit->reset->toBe('2ms');
 });
 
+test('from response headers without "x-request-id"', function () {
+    $headers = metaHeaders();
+    unset($headers['x-request-id']);
+
+    $meta = MetaInformation::from($headers);
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBeNull();
+});
+
 test('from azure response headers', function () {
     $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersFromAzure()))->getHeaders());
 
@@ -94,12 +105,4 @@ test('to array from azure', function () {
             'openai-processing-ms' => 3482,
             'x-request-id' => '3813fa4fa3f17bdf0d7654f0f49ebab4',
         ]);
-});
-
-test('from response headers without "x-request-id"', function () {
-    $meta = MetaInformation::from(metaHeadersWithoutXRequestId());
-
-    expect($meta)
-        ->toBeInstanceOf(MetaInformation::class)
-        ->requestId->toBeNull();
 });

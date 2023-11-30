@@ -28,13 +28,6 @@ function metaHeadersFromAzure(): array
     ];
 }
 
-function metaHeadersWithoutXRequestId(): array
-{
-    $meta = metaHeaders();
-    unset($meta['x-request-id']);
-    return $meta;
-}
-
 function meta(): MetaInformation
 {
     return MetaInformation::from(metaHeaders());
