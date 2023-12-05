@@ -6,6 +6,7 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
@@ -30,7 +31,11 @@ final class Assistants implements AssistantsContract
         /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
-        return AssistantResponse::from($response->data(), $response->meta());
+        $response = AssistantResponse::from($response->data(), $response->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\DispatcherContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\TransporterContract;
+use OpenAI\Events\Dispatcher;
 use OpenAI\Resources\Assistants;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Chat;
@@ -26,7 +28,10 @@ final class Client implements ClientContract
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly TransporterContract $transporter)
+    public function __construct(
+        private readonly TransporterContract $transporter,
+        private readonly DispatcherContract $events,
+    )
     {
         // ..
     }
@@ -151,7 +156,7 @@ final class Client implements ClientContract
      */
     public function assistants(): Assistants
     {
-        return new Assistants($this->transporter);
+        return new Assistants($this->transporter, $this->events);
     }
 
     /**
