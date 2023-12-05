@@ -62,7 +62,6 @@ test('openai')->expect('OpenAI')->toOnlyUse([
     'Http\Discovery\Psr17Factory',
     'Http\Discovery\Psr18ClientDiscovery',
     'Http\Message\MultipartStream\MultipartStreamBuilder',
-    'Illuminate\Contracts\Events\Dispatcher',
     'OpenAI\Contracts',
     'OpenAI\Resources',
     'Psr\EventDispatcher\EventDispatcherInterface',

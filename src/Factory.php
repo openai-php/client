@@ -6,7 +6,6 @@ use Closure;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr18ClientDiscovery;
-use Illuminate\Contracts\Events\Dispatcher as LaravelDispatcher;
 use OpenAI\Events\Dispatcher;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
@@ -57,7 +56,7 @@ final class Factory
 
     private ?Closure $streamHandler = null;
 
-    private LaravelDispatcher|EventDispatcherInterface|null $events = null;
+    private ?EventDispatcherInterface $events = null;
 
     /**
      * Sets the API key for the requests.
@@ -134,7 +133,7 @@ final class Factory
     /**
      * Set the event dispatcher instance.
      */
-    public function withEventDispatcher(LaravelDispatcher|EventDispatcherInterface $events): self
+    public function withEventDispatcher(EventDispatcherInterface $events): self
     {
         $this->events = $events;
 
