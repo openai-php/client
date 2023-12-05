@@ -57,7 +57,7 @@ final class Factory
 
     private ?Closure $streamHandler = null;
 
-    private Dispatcher|EventDispatcherInterface|null $events = null;
+    private LaravelDispatcher|EventDispatcherInterface|null $events = null;
 
     /**
      * Sets the API key for the requests.
