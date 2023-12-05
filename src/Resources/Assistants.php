@@ -28,10 +28,10 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::create('assistants', $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        $response = AssistantResponse::from($response->data(), $response->meta());
+        $response = AssistantResponse::from($responseRaw->data(), $responseRaw->meta());
 
         $this->event(new RequestHandled($payload, $response));
 
@@ -47,10 +47,14 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::retrieve('assistants', $id);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return AssistantResponse::from($response->data(), $response->meta());
+        $response = AssistantResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -64,10 +68,14 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::modify('assistants', $id, $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return AssistantResponse::from($response->data(), $response->meta());
+        $response = AssistantResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -79,10 +87,14 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::delete('assistants', $id);
 
-        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, deleted: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return AssistantDeleteResponse::from($response->data(), $response->meta());
+        $response = AssistantDeleteResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -96,10 +108,14 @@ final class Assistants implements AssistantsContract
     {
         $payload = Payload::list('assistants', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return AssistantListResponse::from($response->data(), $response->meta());
+        $response = AssistantListResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -109,6 +125,6 @@ final class Assistants implements AssistantsContract
      */
     public function files(): AssistantsFilesContract
     {
-        return new AssistantsFiles($this->transporter);
+        return new AssistantsFiles($this->transporter, $this->events);
     }
 }

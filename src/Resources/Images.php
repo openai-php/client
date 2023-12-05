@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ImagesContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
@@ -26,10 +27,14 @@ final class Images implements ImagesContract
     {
         $payload = Payload::create('images/generations', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($response->data(), $response->meta());
+        $response = CreateResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -43,10 +48,14 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/edits', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return EditResponse::from($response->data(), $response->meta());
+        $response = EditResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -60,9 +69,13 @@ final class Images implements ImagesContract
     {
         $payload = Payload::upload('images/variations', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return VariationResponse::from($response->data(), $response->meta());
+        $response = VariationResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

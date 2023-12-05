@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\CompletionsContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
@@ -29,10 +30,14 @@ final class Completions implements CompletionsContract
 
         $payload = Payload::create('completions', $parameters);
 
-        /** @var Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($response->data(), $response->meta());
+        $response = CreateResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -49,8 +54,12 @@ final class Completions implements CompletionsContract
 
         $payload = Payload::create('completions', $parameters);
 
-        $response = $this->transporter->requestStream($payload);
+        $responseRaw = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(CreateStreamedResponse::class, $response);
+        $response = new StreamResponse(CreateStreamedResponse::class, $responseRaw);
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

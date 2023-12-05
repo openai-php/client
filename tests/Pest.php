@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Client;
+use OpenAI\Contracts\DispatcherContract;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -40,7 +41,13 @@ function mockClient(string $method, string $resource, array $params, Response|Re
                 && $request->getUri()->getPath() === "/v1/$resource";
         })->andReturn($response);
 
-    return new Client($transporter);
+    $dispatcher = Mockery::mock(DispatcherContract::class);
+
+    $dispatcher
+        ->shouldReceive('dispatch')
+        ->once();
+
+    return new Client($transporter, $dispatcher);
 }
 
 function mockContentClient(string $method, string $resource, array $params, string $response, bool $validateParams = true)

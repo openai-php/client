@@ -10,8 +10,7 @@ class Dispatcher implements DispatcherContract
 {
     public function __construct(
         private readonly LaravelDispatcher|EventDispatcherInterface|null $events
-    )
-    {
+    ) {
     }
 
     public function dispatch(object $event): void

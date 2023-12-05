@@ -8,10 +8,10 @@ use OpenAI\ValueObjects\Transporter\Payload;
 
 class RequestHandled
 {
+    // @phpstan-ignore-next-line
     public function __construct(
         public readonly Payload $payload,
         public readonly ResponseContract|ResponseStreamContract|string $response,
-    )
-    {
+    ) {
     }
 }

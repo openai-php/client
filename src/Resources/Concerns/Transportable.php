@@ -15,8 +15,7 @@ trait Transportable
     public function __construct(
         private readonly TransporterContract $transporter,
         private readonly DispatcherContract $events,
-    )
-    {
+    ) {
         // ..
     }
 

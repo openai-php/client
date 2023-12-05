@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
@@ -28,10 +29,14 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::create('threads', $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadResponse::from($response->data(), $response->meta());
+        $response = ThreadResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -45,10 +50,14 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::create('threads/runs', $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadRunResponse::from($response->data(), $response->meta());
+        $response = ThreadRunResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -60,10 +69,14 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::retrieve('threads', $id);
 
-        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadResponse::from($response->data(), $response->meta());
+        $response = ThreadResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -77,10 +90,14 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::modify('threads', $id, $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, metadata: array<string, string>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadResponse::from($response->data(), $response->meta());
+        $response = ThreadResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -92,10 +109,14 @@ final class Threads implements ThreadsContract
     {
         $payload = Payload::delete('threads', $id);
 
-        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, deleted: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadDeleteResponse::from($response->data(), $response->meta());
+        $response = ThreadDeleteResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -105,7 +126,7 @@ final class Threads implements ThreadsContract
      */
     public function messages(): ThreadsMessagesContract
     {
-        return new ThreadsMessages($this->transporter);
+        return new ThreadsMessages($this->transporter, $this->events);
     }
 
     /**
@@ -115,6 +136,6 @@ final class Threads implements ThreadsContract
      */
     public function runs(): ThreadsRunsContract
     {
-        return new ThreadsRuns($this->transporter);
+        return new ThreadsRuns($this->transporter, $this->events);
     }
 }

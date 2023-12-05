@@ -133,8 +133,6 @@ final class Factory
 
     /**
      * Set the event dispatcher instance.
-     *
-     * @param LaravelDispatcher|EventDispatcherInterface $events
      */
     public function withEventDispatcher(LaravelDispatcher|EventDispatcherInterface $events): self
     {

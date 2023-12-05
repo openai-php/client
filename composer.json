@@ -25,6 +25,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8.0",
         "guzzlehttp/psr7": "^2.6.1",
+        "illuminate/contracts": "^9.0|^10.0",
         "laravel/pint": "^1.13.6",
         "mockery/mockery": "^1.6.6",
         "nunomaduro/collision": "^7.10.0",
