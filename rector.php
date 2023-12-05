@@ -7,6 +7,7 @@ use Rector\Config\RectorConfig;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
@@ -15,6 +16,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__.'/src/Testing/ClientFake.php' => FinalizeClassesWithoutChildrenRector::class,
+        __DIR__.'/src/Events/NullEventDispatcher.php' => AddVoidReturnTypeWhereNoReturnRector::class,
     ]);
 
     $rectorConfig->rules([

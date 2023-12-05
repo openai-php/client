@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr18ClientDiscovery;
 use OpenAI\Events\Dispatcher;
+use OpenAI\Events\NullEventDispatcher;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -172,7 +173,7 @@ final class Factory
 
         $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams, $sendAsync);
 
-        $dispatcher = new Dispatcher($this->events);
+        $dispatcher = new Dispatcher($this->events ?? new NullEventDispatcher);
 
         return new Client($transporter, $dispatcher);
     }
