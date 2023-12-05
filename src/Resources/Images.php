@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Images implements ImagesContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

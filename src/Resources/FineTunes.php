@@ -16,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class FineTunes implements FineTunesContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

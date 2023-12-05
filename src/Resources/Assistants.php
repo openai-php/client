@@ -15,6 +15,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Assistants implements AssistantsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**
@@ -125,6 +126,7 @@ final class Assistants implements AssistantsContract
      */
     public function files(): AssistantsFilesContract
     {
-        return new AssistantsFiles($this->transporter, $this->events);
+        return (new AssistantsFiles($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 }

@@ -12,6 +12,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Edits implements EditsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

@@ -42,7 +42,8 @@ final class Client implements ClientContract
      */
     public function completions(): Completions
     {
-        return new Completions($this->transporter, $this->events);
+        return (new Completions($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -52,7 +53,8 @@ final class Client implements ClientContract
      */
     public function chat(): Chat
     {
-        return new Chat($this->transporter, $this->events);
+        return (new Chat($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -62,7 +64,8 @@ final class Client implements ClientContract
      */
     public function embeddings(): Embeddings
     {
-        return new Embeddings($this->transporter, $this->events);
+        return (new Embeddings($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -72,7 +75,8 @@ final class Client implements ClientContract
      */
     public function audio(): Audio
     {
-        return new Audio($this->transporter, $this->events);
+        return (new Audio($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -82,7 +86,8 @@ final class Client implements ClientContract
      */
     public function edits(): Edits
     {
-        return new Edits($this->transporter, $this->events);
+        return (new Edits($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -92,7 +97,8 @@ final class Client implements ClientContract
      */
     public function files(): Files
     {
-        return new Files($this->transporter, $this->events);
+        return (new Files($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -102,7 +108,8 @@ final class Client implements ClientContract
      */
     public function models(): Models
     {
-        return new Models($this->transporter, $this->events);
+        return (new Models($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -112,7 +119,8 @@ final class Client implements ClientContract
      */
     public function fineTuning(): FineTuning
     {
-        return new FineTuning($this->transporter, $this->events);
+        return (new FineTuning($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -124,7 +132,8 @@ final class Client implements ClientContract
      */
     public function fineTunes(): FineTunes
     {
-        return new FineTunes($this->transporter, $this->events);
+        return (new FineTunes($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -134,7 +143,8 @@ final class Client implements ClientContract
      */
     public function moderations(): Moderations
     {
-        return new Moderations($this->transporter, $this->events);
+        return (new Moderations($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -144,7 +154,8 @@ final class Client implements ClientContract
      */
     public function images(): Images
     {
-        return new Images($this->transporter, $this->events);
+        return (new Images($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -154,7 +165,8 @@ final class Client implements ClientContract
      */
     public function assistants(): Assistants
     {
-        return new Assistants($this->transporter, $this->events);
+        return (new Assistants($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -164,6 +176,7 @@ final class Client implements ClientContract
      */
     public function threads(): ThreadsContract
     {
-        return new Threads($this->transporter, $this->events);
+        return (new Threads($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 }

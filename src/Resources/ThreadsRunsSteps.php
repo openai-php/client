@@ -13,6 +13,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class ThreadsRunsSteps implements ThreadsRunsStepsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

@@ -13,6 +13,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

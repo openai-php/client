@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Audio implements AudioContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Chat implements ChatContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Streamable;
     use Concerns\Transportable;
 

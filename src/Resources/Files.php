@@ -15,6 +15,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Files implements FilesContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

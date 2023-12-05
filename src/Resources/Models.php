@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Models implements ModelsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

@@ -16,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Threads implements ThreadsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**
@@ -126,7 +127,8 @@ final class Threads implements ThreadsContract
      */
     public function messages(): ThreadsMessagesContract
     {
-        return new ThreadsMessages($this->transporter, $this->events);
+        return (new ThreadsMessages($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 
     /**
@@ -136,6 +138,7 @@ final class Threads implements ThreadsContract
      */
     public function runs(): ThreadsRunsContract
     {
-        return new ThreadsRuns($this->transporter, $this->events);
+        return (new ThreadsRuns($this->transporter))
+            ->setEventDispatcher($this->events);
     }
 }

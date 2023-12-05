@@ -12,6 +12,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Moderations implements ModerationsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**

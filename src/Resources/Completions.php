@@ -14,6 +14,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Completions implements CompletionsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Streamable;
     use Concerns\Transportable;
 

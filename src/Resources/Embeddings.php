@@ -12,6 +12,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 final class Embeddings implements EmbeddingsContract
 {
+    use Concerns\Dispatchable;
     use Concerns\Transportable;
 
     /**
