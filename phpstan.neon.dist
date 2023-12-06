@@ -5,5 +5,14 @@ parameters:
     excludePaths:
             analyse:
                 - src/Testing
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: true
+            tooWideThrowType: true
+        implicitThrows: false
+        uncheckedExceptionClasses:
+            - Http\Discovery\Exception\NotFoundException
+            - LogicException
+            - JsonException
 
     reportUnmatchedIgnoredErrors: true

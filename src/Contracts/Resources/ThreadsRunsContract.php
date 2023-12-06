@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
@@ -15,6 +16,8 @@ interface ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createRun
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(string $threadId, array $parameters): ThreadRunResponse;
 

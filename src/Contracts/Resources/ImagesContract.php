@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
@@ -14,6 +15,8 @@ interface ImagesContract
      * @see https://platform.openai.com/docs/api-reference/images/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse;
 
@@ -23,6 +26,8 @@ interface ImagesContract
      * @see https://platform.openai.com/docs/api-reference/images/create-edit
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function edit(array $parameters): EditResponse;
 
@@ -32,6 +37,8 @@ interface ImagesContract
      * @see https://platform.openai.com/docs/api-reference/images/create-variation
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function variation(array $parameters): VariationResponse;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AudioContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
@@ -21,6 +22,8 @@ final class Audio implements AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function speech(array $parameters): string
     {
@@ -35,6 +38,8 @@ final class Audio implements AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function speechStreamed(array $parameters): SpeechStreamResponse
     {
@@ -51,6 +56,8 @@ final class Audio implements AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranscription
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function transcribe(array $parameters): TranscriptionResponse
     {
@@ -68,6 +75,8 @@ final class Audio implements AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranslation
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function translate(array $parameters): TranslationResponse
     {

@@ -8,6 +8,7 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Contracts\ResponseStreamContract;
 use OpenAI\Responses\Meta\MetaInformation;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 /**
  * @implements ResponseStreamContract<string>
@@ -22,6 +23,8 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
 
     /**
      * {@inheritDoc}
+     *
+     * @throws RuntimeException
      */
     public function getIterator(): Generator
     {

@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Edits\CreateResponse;
 
 interface EditsContract
@@ -12,6 +13,8 @@ interface EditsContract
      * @see https://platform.openai.com/docs/api-reference/edits/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      *
      * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
      * https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api

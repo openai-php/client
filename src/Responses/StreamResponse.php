@@ -9,6 +9,7 @@ use OpenAI\Exceptions\ErrorException;
 use OpenAI\Responses\Meta\MetaInformation;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 
 /**
  * @template TResponse
@@ -31,6 +32,8 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
     /**
      * {@inheritDoc}
+     *
+     * @throws ErrorException|RuntimeException
      */
     public function getIterator(): Generator
     {
@@ -71,6 +74,8 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
     /**
      * Read a line from the stream.
+     *
+     * @throws RuntimeException
      */
     private function readLine(StreamInterface $stream): string
     {

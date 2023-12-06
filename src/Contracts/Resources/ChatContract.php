@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
@@ -14,6 +15,8 @@ interface ChatContract
      * @see https://platform.openai.com/docs/api-reference/chat/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse;
 
@@ -24,6 +27,8 @@ interface ChatContract
      *
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>
+     *
+     * @throws OpenAIThrowable
      */
     public function createStreamed(array $parameters): StreamResponse;
 }

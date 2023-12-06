@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ChatContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
@@ -22,6 +23,8 @@ final class Chat implements ChatContract
      * @see https://platform.openai.com/docs/api-reference/chat/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse
     {
@@ -42,6 +45,8 @@ final class Chat implements ChatContract
      *
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>
+     *
+     * @throws OpenAIThrowable
      */
     public function createStreamed(array $parameters): StreamResponse
     {

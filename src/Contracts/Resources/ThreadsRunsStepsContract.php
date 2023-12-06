@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepListResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 
@@ -11,6 +12,8 @@ interface ThreadsRunsStepsContract
      * Retrieves a run step.
      *
      * @see https://platform.openai.com/docs/api-reference/runs/getRunStep
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $threadId, string $runId, string $stepId): ThreadRunStepResponse;
 
@@ -20,6 +23,8 @@ interface ThreadsRunsStepsContract
      * @see https://platform.openai.com/docs/api-reference/runs/listRunSteps
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(string $threadId, string $runId, array $parameters = []): ThreadRunStepListResponse;
 }

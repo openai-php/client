@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
@@ -14,6 +15,8 @@ interface AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function speech(array $parameters): string;
 
@@ -23,6 +26,8 @@ interface AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createSpeech
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function speechStreamed(array $parameters): SpeechStreamResponse;
 
@@ -32,6 +37,8 @@ interface AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranscription
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function transcribe(array $parameters): TranscriptionResponse;
 
@@ -41,6 +48,8 @@ interface AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranslation
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function translate(array $parameters): TranslationResponse;
 }

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts;
 
-use OpenAI\Exceptions\ErrorException;
-use OpenAI\Exceptions\TransporterException;
-use OpenAI\Exceptions\UnserializableResponse;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -21,21 +19,21 @@ interface TransporterContract
      *
      * @return Response<array<array-key, mixed>|string>
      *
-     * @throws ErrorException|UnserializableResponse|TransporterException
+     * @throws OpenAIThrowable
      */
     public function requestObject(Payload $payload): Response;
 
     /**
      * Sends a content request to a server.
      *
-     * @throws ErrorException|TransporterException
+     * @throws OpenAIThrowable
      */
     public function requestContent(Payload $payload): string;
 
     /**
      * Sends a stream request to a server.
      **
-     * @throws ErrorException
+     * @throws OpenAIThrowable
      */
     public function requestStream(Payload $payload): ResponseInterface;
 }

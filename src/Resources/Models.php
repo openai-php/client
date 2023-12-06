@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ModelsContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
@@ -19,6 +20,8 @@ final class Models implements ModelsContract
      * Lists the currently available models, and provides basic information about each one such as the owner and availability.
      *
      * @see https://platform.openai.com/docs/api-reference/models/list
+     *
+     * @throws OpenAIThrowable
      */
     public function list(): ListResponse
     {
@@ -34,6 +37,8 @@ final class Models implements ModelsContract
      * Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
      *
      * @see https://platform.openai.com/docs/api-reference/models/retrieve
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $model): RetrieveResponse
     {
@@ -49,6 +54,8 @@ final class Models implements ModelsContract
      * Delete a fine-tuned model. You must have the Owner role in your organization.
      *
      * @see https://platform.openai.com/docs/api-reference/fine-tunes/delete-model
+     *
+     * @throws OpenAIThrowable
      */
     public function delete(string $model): DeleteResponse
     {

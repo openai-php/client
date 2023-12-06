@@ -6,6 +6,7 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
@@ -24,6 +25,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createRun
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(string $threadId, array $parameters): ThreadRunResponse
     {
@@ -58,6 +61,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * Retrieves a run.
      *
      * @see https://platform.openai.com/docs/api-reference/runs/getRun
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $threadId, string $runId): ThreadRunResponse
     {
@@ -75,6 +80,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/modifyRun
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function modify(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
@@ -92,6 +99,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function submitToolOutputs(string $threadId, string $runId, array $parameters): ThreadRunResponse
     {
@@ -127,6 +136,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * Cancels a run that is `in_progress`.
      *
      * @see https://platform.openai.com/docs/api-reference/runs/cancelRun
+     *
+     * @throws OpenAIThrowable
      */
     public function cancel(string $threadId, string $runId): ThreadRunResponse
     {
@@ -144,6 +155,8 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/listRuns
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(string $threadId, array $parameters = []): ThreadRunListResponse
     {
