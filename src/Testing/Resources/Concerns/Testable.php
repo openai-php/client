@@ -23,12 +23,12 @@ trait Testable
         return $this->fake->record(new TestRequest($this->resource(), $method, $args));
     }
 
-    public function assertSent(callable|int $callback = null): void
+    public function assertSent(callable|int|null $callback = null): void
     {
         $this->fake->assertSent($this->resource(), $callback);
     }
 
-    public function assertNotSent(callable|int $callback = null): void
+    public function assertNotSent(callable|int|null $callback = null): void
     {
         $this->fake->assertNotSent($this->resource(), $callback);
     }
