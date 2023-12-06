@@ -6,6 +6,7 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
@@ -21,6 +22,8 @@ final class ThreadsMessages implements ThreadsMessagesContract
      * @see https://platform.openai.com/docs/api-reference/messages/createMessage
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(string $threadId, array $parameters): ThreadMessageResponse
     {
@@ -36,6 +39,8 @@ final class ThreadsMessages implements ThreadsMessagesContract
      * Retrieve a message.
      *
      * @see https://platform.openai.com/docs/api-reference/messages/getMessage
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $threadId, string $messageId): ThreadMessageResponse
     {
@@ -53,6 +58,8 @@ final class ThreadsMessages implements ThreadsMessagesContract
      * @see https://platform.openai.com/docs/api-reference/messages/modifyMessage
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function modify(string $threadId, string $messageId, array $parameters): ThreadMessageResponse
     {
@@ -70,6 +77,8 @@ final class ThreadsMessages implements ThreadsMessagesContract
      * @see https://platform.openai.com/docs/api-reference/messages/listMessages
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(string $threadId, array $parameters = []): ThreadMessageListResponse
     {

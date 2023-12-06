@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Assistants\Files\AssistantFileDeleteResponse;
 use OpenAI\Responses\Assistants\Files\AssistantFileListResponse;
 use OpenAI\Responses\Assistants\Files\AssistantFileResponse;
@@ -21,6 +22,8 @@ final class AssistantsFiles implements AssistantsFilesContract
      * @see https://platform.openai.com/docs/api-reference/assistants/createAssistantFile
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(string $assistantId, array $parameters): AssistantFileResponse
     {
@@ -36,6 +39,8 @@ final class AssistantsFiles implements AssistantsFilesContract
      * Retrieves an AssistantFile.
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/getAssistantFile
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $assistantId, string $fileId): AssistantFileResponse
     {
@@ -51,6 +56,8 @@ final class AssistantsFiles implements AssistantsFilesContract
      * Delete an assistant file.
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/deleteAssistantFile
+     *
+     * @throws OpenAIThrowable
      */
     public function delete(string $assistantId, string $fileId): AssistantFileDeleteResponse
     {
@@ -68,6 +75,8 @@ final class AssistantsFiles implements AssistantsFilesContract
      * @see https://platform.openai.com/docs/api-reference/assistants/listAssistantFiles
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(string $assistantId, array $parameters = []): AssistantFileListResponse
     {

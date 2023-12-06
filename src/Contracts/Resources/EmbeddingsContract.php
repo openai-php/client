@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Embeddings\CreateResponse;
 
 interface EmbeddingsContract
@@ -12,6 +13,8 @@ interface EmbeddingsContract
      * @see https://platform.openai.com/docs/api-reference/embeddings/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse;
 }

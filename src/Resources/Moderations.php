@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ModerationsContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
@@ -19,6 +20,8 @@ final class Moderations implements ModerationsContract
      * @see https://platform.openai.com/docs/api-reference/moderations/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse
     {

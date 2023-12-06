@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
@@ -14,6 +15,8 @@ interface ThreadsContract
      * @see https://platform.openai.com/docs/api-reference/threads/createThread
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): ThreadResponse;
 
@@ -23,6 +26,8 @@ interface ThreadsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createThreadAndRun
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function createAndRun(array $parameters): ThreadRunResponse;
 
@@ -30,6 +35,8 @@ interface ThreadsContract
      * Retrieves a thread.
      *
      * @see https://platform.openai.com/docs/api-reference/threads/getThread
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $id): ThreadResponse;
 
@@ -39,6 +46,8 @@ interface ThreadsContract
      * @see https://platform.openai.com/docs/api-reference/threads/modifyThread
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function modify(string $id, array $parameters): ThreadResponse;
 
@@ -46,6 +55,8 @@ interface ThreadsContract
      * Delete an thread.
      *
      * @see https://platform.openai.com/docs/api-reference/threads/deleteThread
+     *
+     * @throws OpenAIThrowable
      */
     public function delete(string $id): ThreadDeleteResponse;
 

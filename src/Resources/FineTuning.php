@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\FineTuningContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\FineTuning\ListJobEventsResponse;
 use OpenAI\Responses\FineTuning\ListJobsResponse;
 use OpenAI\Responses\FineTuning\RetrieveJobResponse;
@@ -23,6 +24,8 @@ final class FineTuning implements FineTuningContract
      * @see https://platform.openai.com/docs/api-reference/fine-tuning/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function createJob(array $parameters): RetrieveJobResponse
     {
@@ -40,6 +43,8 @@ final class FineTuning implements FineTuningContract
      * @see https://platform.openai.com/docs/api-reference/fine-tuning/undefined
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function listJobs(array $parameters = []): ListJobsResponse
     {
@@ -55,6 +60,8 @@ final class FineTuning implements FineTuningContract
      * Gets info about the fine-tune job.
      *
      * @see https://platform.openai.com/docs/api-reference/fine-tuning/retrieve
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieveJob(string $jobId): RetrieveJobResponse
     {
@@ -70,6 +77,8 @@ final class FineTuning implements FineTuningContract
      * Immediately cancel a fine-tune job.
      *
      * @see https://platform.openai.com/docs/api-reference/fine-tuning/cancel
+     *
+     * @throws OpenAIThrowable
      */
     public function cancelJob(string $jobId): RetrieveJobResponse
     {
@@ -87,6 +96,8 @@ final class FineTuning implements FineTuningContract
      * @see https://platform.openai.com/docs/api-reference/fine-tuning/list-events
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function listJobEvents(string $jobId, array $parameters = []): ListJobEventsResponse
     {

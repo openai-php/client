@@ -6,9 +6,11 @@ namespace OpenAI\ValueObjects\Transporter;
 
 use Http\Discovery\Psr17Factory;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
+use JsonException;
 use OpenAI\Contracts\Request;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Enums\Transporter\Method;
+use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\ResourceUri;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;

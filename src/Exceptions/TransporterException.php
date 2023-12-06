@@ -7,7 +7,7 @@ namespace OpenAI\Exceptions;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 
-final class TransporterException extends Exception
+final class TransporterException extends Exception implements OpenAIThrowable
 {
     /**
      * Creates a new Exception instance.

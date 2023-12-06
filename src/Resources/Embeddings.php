@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\EmbeddingsContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
@@ -19,6 +20,8 @@ final class Embeddings implements EmbeddingsContract
      * @see https://platform.openai.com/docs/api-reference/embeddings/create
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse
     {
