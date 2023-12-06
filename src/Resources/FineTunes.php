@@ -14,11 +14,8 @@ use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class FineTunes implements FineTunesContract
+final class FineTunes extends Resource implements FineTunesContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Creates a job that fine-tunes a specified model from a given dataset.
      *

@@ -12,11 +12,9 @@ use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Chat implements ChatContract
+final class Chat extends Resource implements ChatContract
 {
-    use Concerns\Dispatchable;
     use Concerns\Streamable;
-    use Concerns\Transportable;
 
     /**
      * Creates a completion for the chat message

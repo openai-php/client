@@ -12,11 +12,8 @@ use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Audio implements AudioContract
+final class Audio extends Resource implements AudioContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Generates audio from the input text.
      *

@@ -13,11 +13,8 @@ use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Files implements FilesContract
+final class Files extends Resource implements FilesContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Returns a list of files that belong to the user's organization.
      *

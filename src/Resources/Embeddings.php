@@ -10,11 +10,8 @@ use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Embeddings implements EmbeddingsContract
+final class Embeddings extends Resource implements EmbeddingsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Creates an embedding vector representing the input text.
      *

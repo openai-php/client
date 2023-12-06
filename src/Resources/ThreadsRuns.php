@@ -12,11 +12,8 @@ use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class ThreadsRuns implements ThreadsRunsContract
+final class ThreadsRuns extends Resource implements ThreadsRunsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Create a run.
      *
@@ -146,7 +143,6 @@ final class ThreadsRuns implements ThreadsRunsContract
      */
     public function steps(): ThreadsRunsStepsContract
     {
-        return (new ThreadsRunsSteps($this->transporter))
-            ->setEventDispatcher($this->events);
+        return new ThreadsRunsSteps($this->transporter, $this->events);
     }
 }

@@ -12,11 +12,9 @@ use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Completions implements CompletionsContract
+final class Completions extends Resource implements CompletionsContract
 {
-    use Concerns\Dispatchable;
     use Concerns\Streamable;
-    use Concerns\Transportable;
 
     /**
      * Creates a completion for the provided prompt and parameters

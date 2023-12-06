@@ -12,11 +12,8 @@ use OpenAI\Responses\Assistants\Files\AssistantFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class AssistantsFiles implements AssistantsFilesContract
+final class AssistantsFiles extends Resource implements AssistantsFilesContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Create an assistant file by attaching a File to an assistant.
      *

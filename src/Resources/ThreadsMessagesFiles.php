@@ -11,11 +11,8 @@ use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
+final class ThreadsMessagesFiles extends Resource implements ThreadsMessagesFilesContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Retrieves a message file.
      *

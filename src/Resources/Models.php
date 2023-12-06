@@ -12,11 +12,8 @@ use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Models implements ModelsContract
+final class Models extends Resource implements ModelsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Lists the currently available models, and provides basic information about each one such as the owner and availability.
      *

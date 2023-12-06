@@ -12,11 +12,8 @@ use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Images implements ImagesContract
+final class Images extends Resource implements ImagesContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Creates an image given a prompt.
      *

@@ -13,11 +13,8 @@ use OpenAI\Responses\Assistants\AssistantResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Assistants implements AssistantsContract
+final class Assistants extends Resource implements AssistantsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Create an assistant with a model and instructions.
      *
@@ -126,7 +123,6 @@ final class Assistants implements AssistantsContract
      */
     public function files(): AssistantsFilesContract
     {
-        return (new AssistantsFiles($this->transporter))
-            ->setEventDispatcher($this->events);
+        return new AssistantsFiles($this->transporter, $this->events);
     }
 }

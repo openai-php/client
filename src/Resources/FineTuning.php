@@ -12,11 +12,8 @@ use OpenAI\Responses\FineTuning\RetrieveJobResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class FineTuning implements FineTuningContract
+final class FineTuning extends Resource implements FineTuningContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Creates a job that fine-tunes a specified model from a given dataset.
      *

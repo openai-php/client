@@ -11,11 +11,8 @@ use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class ThreadsRunsSteps implements ThreadsRunsStepsContract
+final class ThreadsRunsSteps extends Resource implements ThreadsRunsStepsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Retrieves a run step.
      *

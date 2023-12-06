@@ -10,11 +10,8 @@ use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Edits implements EditsContract
+final class Edits extends Resource implements EditsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Creates a new edit for the provided input, instruction, and parameters.
      *

@@ -10,11 +10,8 @@ use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Moderations implements ModerationsContract
+final class Moderations extends Resource implements ModerationsContract
 {
-    use Concerns\Dispatchable;
-    use Concerns\Transportable;
-
     /**
      * Classifies if text violates OpenAI's Content Policy.
      *
