@@ -870,7 +870,7 @@ $response = $client->images()->create([
     'model' => 'dall-e-3',
     'prompt' => 'A cute baby sea otter',
     'n' => 1,
-    'size' => '256x256',
+    'size' => '1024x1024',
     'response_format' => 'url',
 ]);
 
