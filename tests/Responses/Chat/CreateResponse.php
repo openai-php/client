@@ -104,10 +104,12 @@ test('fake with override', function () {
                 ],
             ],
         ],
+        'system_fingerprint' => 'fp_44709d6fcb',
     ]);
 
     expect($response)
         ->id->toBe('chatcmpl-111')
+        ->systemFingerprint->toBe('fp_44709d6fcb')
         ->and($response->choices[0])
         ->message->content->toBe('Hi, there!')
         ->message->role->toBe('assistant');
