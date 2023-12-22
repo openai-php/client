@@ -1,7 +1,6 @@
 <?php
 
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFileObject;
@@ -122,21 +121,6 @@ test('retrieve', function () {
         ->runId->toBeNull()
         ->metadata->toBeArray()
         ->metadata->toBeEmpty();
-
-    expect($result->meta())
-        ->toBeInstanceOf(MetaInformation::class);
-});
-
-test('delete', function () {
-    $client = mockClient('DELETE', 'threads/thread_agvtHUGezjTCt4SKgQg0NJ2Y/messages/msg_KNsDDwE41BUAHhcPNpDkdHWZ', [], Response::from(threadMessageDeleteResource(), metaHeaders()));
-
-    $result = $client->threads()->messages()->delete('thread_agvtHUGezjTCt4SKgQg0NJ2Y', 'msg_KNsDDwE41BUAHhcPNpDkdHWZ');
-
-    expect($result)
-        ->toBeInstanceOf(ThreadMessageDeleteResponse::class)
-        ->id->toBe('msg_KNsDDwE41BUAHhcPNpDkdHWZ')
-        ->object->toBe('thread.message.deleted')
-        ->deleted->toBe(true);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
