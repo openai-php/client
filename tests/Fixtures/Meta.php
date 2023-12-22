@@ -30,6 +30,17 @@ function metaHeadersFromAzure(): array
     ];
 }
 
+function metaHeadersWithDifferentCases(): array
+{
+    return [
+        'Openai-Model' => ['gpt-3.5-turbo-instruct'],
+        'OPENAI-ORGANIZATION' => ['org-1234'],
+        'openai-processing-ms' => [410],
+        'openai-version' => ['2020-10-01'],
+        'x-request-id' => ['3813fa4fa3f17bdf0d7654f0f49ebab4'],
+    ];
+}
+
 function meta(): MetaInformation
 {
     return MetaInformation::from(metaHeaders());
