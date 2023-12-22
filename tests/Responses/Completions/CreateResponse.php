@@ -49,10 +49,12 @@ test('fake with override', function () {
                 'text' => 'awesome!',
             ],
         ],
+        'system_fingerprint' => 'fp_44709d6fcb',
     ]);
 
     expect($response)
         ->id->toBe('cmpl-1234')
+        ->systemFingerprint->toBe('fp_44709d6fcb')
         ->and($response->choices[0])
         ->text->toBe('awesome!')
         ->index->toBe(0);

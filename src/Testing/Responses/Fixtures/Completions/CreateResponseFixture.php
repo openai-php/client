@@ -9,6 +9,7 @@ final class CreateResponseFixture
         'object' => 'text_completion',
         'created' => 1_589_478_378,
         'model' => 'gpt-3.5-turbo-instruct',
+        'system_fingerprint' => null,
         'choices' => [
             [
                 'text' => "\n\nThis is a fake completion response.",
