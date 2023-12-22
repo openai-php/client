@@ -28,6 +28,7 @@ final class MetaInformation implements MetaInformationContract
      */
     public static function from(array $headers): self
     {
+        $headers = array_change_key_case($headers, CASE_LOWER);
         $requestId = $headers['x-request-id'][0] ?? null;
 
         $openai = MetaInformationOpenAI::from([
