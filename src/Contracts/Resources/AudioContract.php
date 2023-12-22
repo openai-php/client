@@ -29,7 +29,7 @@ interface AudioContract
     /**
      * Transcribes audio into the input language.
      *
-     * @see https://platform.openai.com/docs/api-reference/audio/create
+     * @see https://platform.openai.com/docs/api-reference/audio/createTranscription
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -38,7 +38,7 @@ interface AudioContract
     /**
      * Translates audio into English.
      *
-     * @see https://platform.openai.com/docs/api-reference/audio/create
+     * @see https://platform.openai.com/docs/api-reference/audio/createTranslation
      *
      * @param  array<string, mixed>  $parameters
      */
