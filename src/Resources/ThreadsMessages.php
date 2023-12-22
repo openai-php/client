@@ -6,7 +6,6 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
-use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
@@ -63,21 +62,6 @@ final class ThreadsMessages implements ThreadsMessagesContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadMessageResponse::from($response->data(), $response->meta());
-    }
-
-    /**
-     * Delete a message.
-     *
-     * @see TBD - there is no documentation yet
-     */
-    public function delete(string $threadId, string $messageId): ThreadMessageDeleteResponse
-    {
-        $payload = Payload::delete("threads/$threadId/messages", $messageId);
-
-        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
-
-        return ThreadMessageDeleteResponse::from($response->data(), $response->meta());
     }
 
     /**
