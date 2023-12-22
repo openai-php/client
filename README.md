@@ -36,6 +36,7 @@
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
+- [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 - [Services](#services)
   - [Azure](#azure)
@@ -1746,6 +1747,23 @@ $stream->meta();
 ```
 
 For further details about the rates limits and what to do if you hit them visit the [OpenAI documentation](https://platform.openai.com/docs/guides/rate-limits/rate-limits).
+
+## Troubleshooting
+
+### Timeout
+
+You may run into a timeout when sending requests to the API. The default timeout depends on the HTTP client used.
+
+You can increase the timeout by configuring the HTTP client and passing in to the factory.
+
+This example illustrates how to increase the timeout using Guzzle.
+```php
+OpenAI::factory()
+    ->withApiKey($apiKey)
+    ->withOrganization($organization)
+    ->withHttpClient(new \GuzzleHttp\Client(['timeout' => $timeout]))
+    ->make();
+```
 
 ## Testing
 
