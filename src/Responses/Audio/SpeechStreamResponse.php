@@ -36,7 +36,7 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
         return MetaInformation::from($this->response->getHeaders());
     }
 
-    public static function fake(string $content = null, MetaInformation $meta = null): static
+    public static function fake(?string $content = null, ?MetaInformation $meta = null): static
     {
         $psr17Factory = new Psr17Factory();
         $response = $psr17Factory->createResponse()
