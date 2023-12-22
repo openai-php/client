@@ -69,6 +69,21 @@ test('from azure response headers without processing time', function () {
         ->tokenLimit->toBeNull();
 });
 
+test('from response headers in different cases', function () {
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersWithDifferentCases()))->getHeaders());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
+        ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
+        ->openai->model->toBe('gpt-3.5-turbo-instruct')
+        ->openai->organization->toBe('org-1234')
+        ->openai->version->toBe('2020-10-01')
+        ->openai->processingMs->toBe(410)
+        ->requestLimit->toBeNull()
+        ->tokenLimit->toBeNull();
+});
+
 test('as array accessible', function () {
     $meta = MetaInformation::from(metaHeaders());
 
