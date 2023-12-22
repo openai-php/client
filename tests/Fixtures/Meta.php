@@ -25,6 +25,8 @@ function metaHeadersFromAzure(): array
         'openai-model' => ['gpt-3.5-turbo-instruct'],
         'openai-processing-ms' => [3482.8264],
         'x-request-id' => ['3813fa4fa3f17bdf0d7654f0f49ebab4'],
+        'x-ratelimit-remaining-requests' => ['119'],
+        'x-ratelimit-remaining-tokens' => ['119968'],
     ];
 }
 

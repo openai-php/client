@@ -47,6 +47,25 @@ test('from azure response headers', function () {
         ->openai->organization->toBeNull()
         ->openai->version->toBeNull()
         ->openai->processingMs->toBe(3482)
+        ->requestLimit->toBeInstanceOf(MetaInformationRateLimit::class)
+        ->requestLimit->limit->toBeNull()
+        ->requestLimit->remaining->toBe(119)
+        ->requestLimit->reset->toBeNull()
+        ->tokenLimit->toBeInstanceOf(MetaInformationRateLimit::class)
+        ->tokenLimit->limit->toBeNull()
+        ->tokenLimit->remaining->toBe(119968)
+        ->tokenLimit->reset->toBeNull();
+});
+
+test('from azure response headers without rate limit headers ', function () {
+    $headers = metaHeadersFromAzure();
+    unset($headers['x-ratelimit-remaining-requests']);
+    unset($headers['x-ratelimit-remaining-tokens']);
+
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
         ->requestLimit->toBeNull()
         ->tokenLimit->toBeNull();
 });
@@ -59,14 +78,8 @@ test('from azure response headers without processing time', function () {
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
-        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
         ->openai->toBeInstanceOf(MetaInformationOpenAI::class)
-        ->openai->model->toBe('gpt-3.5-turbo-instruct')
-        ->openai->organization->toBeNull()
-        ->openai->version->toBeNull()
-        ->openai->processingMs->toBeNull()
-        ->requestLimit->toBeNull()
-        ->tokenLimit->toBeNull();
+        ->openai->processingMs->toBeNull();
 });
 
 test('as array accessible', function () {
@@ -103,6 +116,8 @@ test('to array from azure', function () {
         ->toBe([
             'openai-model' => 'gpt-3.5-turbo-instruct',
             'openai-processing-ms' => 3482,
+            'x-ratelimit-remaining-requests' => 119,
+            'x-ratelimit-remaining-tokens' => 119968,
             'x-request-id' => '3813fa4fa3f17bdf0d7654f0f49ebab4',
         ]);
 });

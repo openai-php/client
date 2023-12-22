@@ -37,21 +37,21 @@ final class MetaInformation implements MetaInformationContract
             'processingMs' => isset($headers['openai-processing-ms'][0]) ? (int) $headers['openai-processing-ms'][0] : null,
         ]);
 
-        if (isset($headers['x-ratelimit-limit-requests'][0])) {
+        if (isset($headers['x-ratelimit-remaining-requests'][0])) {
             $requestLimit = MetaInformationRateLimit::from([
-                'limit' => (int) $headers['x-ratelimit-limit-requests'][0],
+                'limit' => isset($headers['x-ratelimit-limit-requests'][0]) ? (int) $headers['x-ratelimit-limit-requests'][0] : null,
                 'remaining' => (int) $headers['x-ratelimit-remaining-requests'][0],
-                'reset' => $headers['x-ratelimit-reset-requests'][0],
+                'reset' => $headers['x-ratelimit-reset-requests'][0] ?? null,
             ]);
         } else {
             $requestLimit = null;
         }
 
-        if (isset($headers['x-ratelimit-limit-tokens'][0])) {
+        if (isset($headers['x-ratelimit-remaining-tokens'][0])) {
             $tokenLimit = MetaInformationRateLimit::from([
-                'limit' => (int) $headers['x-ratelimit-limit-tokens'][0],
+                'limit' => isset($headers['x-ratelimit-limit-tokens'][0]) ? (int) $headers['x-ratelimit-limit-tokens'][0] : null,
                 'remaining' => (int) $headers['x-ratelimit-remaining-tokens'][0],
-                'reset' => $headers['x-ratelimit-reset-tokens'][0],
+                'reset' => $headers['x-ratelimit-reset-tokens'][0] ?? null,
             ]);
         } else {
             $tokenLimit = null;
