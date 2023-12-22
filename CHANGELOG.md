@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.1 (2023-12-22)
+### Added
+-  Add support for Assistants and Threads endpoint ([#271](https://github.com/openai-php/client/pull/271))
+- Add stream support for Text To Speech ([#235](https://github.com/openai-php/client/pull/235))
+- Add test resources for Assistants and Threads  ([#279](https://github.com/openai-php/client/pull/279))
+
+### Changed
+- Remove thread messages delete endpoint ([#309](https://github.com/openai-php/client/pull/309))
+
+### Fixed
+- Handle x-request-id in meta information ([#283](https://github.com/openai-php/client/pull/283))
+- Handle meta information from azure headers ([#307](https://github.com/openai-php/client/pull/307))
+- Add missing default system_fingerprint to chat create response fixture ([#308](https://github.com/openai-php/client/pull/308))
+- Convert headers to lower case before creation meta information ([#306](https://github.com/openai-php/client/pull/306))
+
+### Docs
+- Remove threads list endpoint from README.md ([#275](https://github.com/openai-php/client/pull/275))
+- Clarify assistants files docs ([#278](https://github.com/openai-php/client/pull/278))
+- Fix image creation example ([#297](https://github.com/openai-php/client/pull/297))
+- Fix outdated links ([#299](https://github.com/openai-php/client/pull/299))
+- Add troubleshooting section and explain how to configure HTTP client timeouts
+
 ## v0.8.0 (2023-11-23)
 ### Added
 -  Add support for Assistants and Threads endpoint ([#271](https://github.com/openai-php/client/pull/271))
