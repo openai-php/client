@@ -331,7 +331,7 @@ $response->usage->completionTokens; // 18,
 $response->usage->totalTokens; // 100
 ```
 
-#### `created streamed`
+#### `create streamed`
 
 Creates a streamed completion for the chat message.
 
