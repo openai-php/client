@@ -36,6 +36,7 @@
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
+- [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 - [Services](#services)
   - [Azure](#azure)
@@ -330,7 +331,7 @@ $response->usage->completionTokens; // 18,
 $response->usage->totalTokens; // 100
 ```
 
-#### `created streamed`
+#### `create streamed`
 
 Creates a streamed completion for the chat message.
 
@@ -870,7 +871,7 @@ $response = $client->images()->create([
     'model' => 'dall-e-3',
     'prompt' => 'A cute baby sea otter',
     'n' => 1,
-    'size' => '256x256',
+    'size' => '1024x1024',
     'response_format' => 'url',
 ]);
 
@@ -1314,23 +1315,6 @@ $response->metadata; // ['name' => 'My new message name']
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 ```
 
-#### `delete`
-
-Delete a message.
-
-```php
-$response = $client->threads()->messages()->delete(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
-    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
-);
-
-$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
-$response->object; // 'thread.message.deleted'
-$response->deleted; // true
-
-$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
-```
-
 #### `list`
 
 Returns a list of messages for a given thread.
@@ -1746,6 +1730,23 @@ $stream->meta();
 ```
 
 For further details about the rates limits and what to do if you hit them visit the [OpenAI documentation](https://platform.openai.com/docs/guides/rate-limits/rate-limits).
+
+## Troubleshooting
+
+### Timeout
+
+You may run into a timeout when sending requests to the API. The default timeout depends on the HTTP client used.
+
+You can increase the timeout by configuring the HTTP client and passing in to the factory.
+
+This example illustrates how to increase the timeout using Guzzle.
+```php
+OpenAI::factory()
+    ->withApiKey($apiKey)
+    ->withOrganization($organization)
+    ->withHttpClient(new \GuzzleHttp\Client(['timeout' => $timeout]))
+    ->make();
+```
 
 ## Testing
 

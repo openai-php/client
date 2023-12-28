@@ -55,7 +55,7 @@ final class Audio extends Resource implements AudioContract
     /**
      * Transcribes audio into the input language.
      *
-     * @see https://platform.openai.com/docs/api-reference/audio/create
+     * @see https://platform.openai.com/docs/api-reference/audio/createTranscription
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -76,7 +76,7 @@ final class Audio extends Resource implements AudioContract
     /**
      * Translates audio into English.
      *
-     * @see https://platform.openai.com/docs/api-reference/audio/create
+     * @see https://platform.openai.com/docs/api-reference/audio/createTranslation
      *
      * @param  array<string, mixed>  $parameters
      */

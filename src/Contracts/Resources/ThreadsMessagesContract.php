@@ -2,7 +2,6 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 
@@ -32,13 +31,6 @@ interface ThreadsMessagesContract
      * @param  array<string, mixed>  $parameters
      */
     public function modify(string $threadId, string $messageId, array $parameters): ThreadMessageResponse;
-
-    /**
-     * Delete a message.
-     *
-     * @see TBD - there is no documentation yet
-     */
-    public function delete(string $threadId, string $messageId): ThreadMessageDeleteResponse;
 
     /**
      * Returns a list of messages for a given thread.
