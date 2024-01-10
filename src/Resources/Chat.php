@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ChatContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Chat implements ChatContract
+final class Chat extends Resource implements ChatContract
 {
     use Concerns\Streamable;
-    use Concerns\Transportable;
 
     /**
      * Creates a completion for the chat message
@@ -29,10 +29,14 @@ final class Chat implements ChatContract
 
         $payload = Payload::create('chat/completions', $parameters);
 
-        /** @var Response<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($response->data(), $response->meta());
+        $response = CreateResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -49,8 +53,12 @@ final class Chat implements ChatContract
 
         $payload = Payload::create('chat/completions', $parameters);
 
-        $response = $this->transporter->requestStream($payload);
+        $responseRaw = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(CreateStreamedResponse::class, $response);
+        $response = new StreamResponse(CreateStreamedResponse::class, $responseRaw);
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

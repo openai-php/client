@@ -19,7 +19,8 @@
         "psr/http-client": "^1.0.3",
         "psr/http-client-implementation": "^1.0.1",
         "psr/http-factory-implementation": "*",
-        "psr/http-message": "^1.1.0|^2.0.0"
+        "psr/http-message": "^1.1.0|^2.0.0",
+        "psr/event-dispatcher": "^1.0.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8.1",

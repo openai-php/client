@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ModerationsContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Moderations implements ModerationsContract
+final class Moderations extends Resource implements ModerationsContract
 {
-    use Concerns\Transportable;
-
     /**
      * Classifies if text violates OpenAI's Content Policy.
      *
@@ -24,9 +23,13 @@ final class Moderations implements ModerationsContract
     {
         $payload = Payload::create('moderations', $parameters);
 
-        /** @var Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($response->data(), $response->meta());
+        $response = CreateResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

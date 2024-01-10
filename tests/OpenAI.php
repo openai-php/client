@@ -65,6 +65,29 @@ it('sets a custom query parameter via factory', function () {
     expect($openAI)->toBeInstanceOf(Client::class);
 });
 
+it('sets a custom event dispatcher via factory', function () {
+    $dispatcher = new class() implements \Psr\EventDispatcher\EventDispatcherInterface
+    {
+        public $event;
+
+        public function dispatch(object $event)
+        {
+            $this->event = $event;
+        }
+    };
+
+    $openAI = OpenAI::factory()
+        ->withEventDispatcher($dispatcher)
+        ->make();
+
+    expect($openAI)->toBeInstanceOf(Client::class);
+
+    $openAI->chat()->event((object) ['foo' => 'bar']);
+
+    expect($dispatcher->event)
+        ->foo->toBe('bar');
+});
+
 it('sets a custom stream handler via factory', function () {
     $openAI = OpenAI::factory()
         ->withHttpClient($client = new GuzzleClient())

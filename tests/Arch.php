@@ -23,6 +23,7 @@ test('exceptions')
 
 test('resources')->expect('OpenAI\Resources')->toOnlyUse([
     'OpenAI\Contracts',
+    'OpenAI\Events',
     'OpenAI\ValueObjects',
     'OpenAI\Exceptions',
     'OpenAI\Responses',
@@ -31,6 +32,7 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'Http\Discovery\Psr17Factory',
     'OpenAI\Enums',
+    'OpenAI\Events',
     'OpenAI\Exceptions\ErrorException',
     'OpenAI\Contracts',
     'OpenAI\Testing\Responses\Concerns',
@@ -49,6 +51,7 @@ test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
 ]);
 
 test('client')->expect('OpenAI\Client')->toOnlyUse([
+    'OpenAI\Events',
     'OpenAI\Resources',
     'OpenAI\Contracts',
 ]);
@@ -61,6 +64,7 @@ test('openai')->expect('OpenAI')->toOnlyUse([
     'Http\Message\MultipartStream\MultipartStreamBuilder',
     'OpenAI\Contracts',
     'OpenAI\Resources',
+    'Psr\EventDispatcher\EventDispatcherInterface',
     'Psr\Http\Client',
     'Psr\Http\Message\RequestInterface',
     'Psr\Http\Message\ResponseInterface',

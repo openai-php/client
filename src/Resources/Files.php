@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\FilesContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
@@ -12,10 +13,8 @@ use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Files implements FilesContract
+final class Files extends Resource implements FilesContract
 {
-    use Concerns\Transportable;
-
     /**
      * Returns a list of files that belong to the user's organization.
      *
@@ -25,10 +24,14 @@ final class Files implements FilesContract
     {
         $payload = Payload::list('files');
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ListResponse::from($response->data(), $response->meta());
+        $response = ListResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -40,10 +43,14 @@ final class Files implements FilesContract
     {
         $payload = Payload::retrieve('files', $file);
 
-        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return RetrieveResponse::from($response->data(), $response->meta());
+        $response = RetrieveResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -55,7 +62,11 @@ final class Files implements FilesContract
     {
         $payload = Payload::retrieveContent('files', $file);
 
-        return $this->transporter->requestContent($payload);
+        $response = $this->transporter->requestContent($payload);
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -69,10 +80,14 @@ final class Files implements FilesContract
     {
         $payload = Payload::upload('files', $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($response->data(), $response->meta());
+        $response = CreateResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -84,9 +99,13 @@ final class Files implements FilesContract
     {
         $payload = Payload::delete('files', $file);
 
-        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, deleted: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return DeleteResponse::from($response->data(), $response->meta());
+        $response = DeleteResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ModelsContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class Models implements ModelsContract
+final class Models extends Resource implements ModelsContract
 {
-    use Concerns\Transportable;
-
     /**
      * Lists the currently available models, and provides basic information about each one such as the owner and availability.
      *
@@ -24,10 +23,14 @@ final class Models implements ModelsContract
     {
         $payload = Payload::list('models');
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string}>}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string}>}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ListResponse::from($response->data(), $response->meta());
+        $response = ListResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -39,10 +42,14 @@ final class Models implements ModelsContract
     {
         $payload = Payload::retrieve('models', $model);
 
-        /** @var Response<array{id: string, object: string, created: int, owned_by: string}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created: int, owned_by: string}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return RetrieveResponse::from($response->data(), $response->meta());
+        $response = RetrieveResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -54,9 +61,13 @@ final class Models implements ModelsContract
     {
         $payload = Payload::delete('models', $model);
 
-        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, deleted: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return DeleteResponse::from($response->data(), $response->meta());
+        $response = DeleteResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

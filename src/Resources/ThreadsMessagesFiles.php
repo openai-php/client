@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsMessagesFilesContract;
+use OpenAI\Events\RequestHandled;
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileListResponse;
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
-final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
+final class ThreadsMessagesFiles extends Resource implements ThreadsMessagesFilesContract
 {
-    use Concerns\Transportable;
-
     /**
      * Retrieves a message file.
      *
@@ -23,10 +22,14 @@ final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
     {
         $payload = Payload::retrieve("threads/$threadId/messages/$messageId/files", $fileId);
 
-        /** @var Response<array{id: string, object: string, created_at: int, message_id: string}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, message_id: string}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadMessageFileResponse::from($response->data(), $response->meta());
+        $response = ThreadMessageFileResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 
     /**
@@ -40,9 +43,13 @@ final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
     {
         $payload = Payload::list("threads/$threadId/messages/$messageId/files", $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, message_id: string}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
-        $response = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, message_id: string}>, first_id: ?string, last_id: ?string, has_more: bool}> $responseRaw */
+        $responseRaw = $this->transporter->requestObject($payload);
 
-        return ThreadMessageFileListResponse::from($response->data(), $response->meta());
+        $response = ThreadMessageFileListResponse::from($responseRaw->data(), $responseRaw->meta());
+
+        $this->event(new RequestHandled($payload, $response));
+
+        return $response;
     }
 }

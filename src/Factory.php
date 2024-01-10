@@ -6,11 +6,14 @@ use Closure;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr18ClientDiscovery;
+use OpenAI\Events\Dispatcher;
+use OpenAI\Events\NullEventDispatcher;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\QueryParams;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -53,6 +56,8 @@ final class Factory
     private array $queryParams = [];
 
     private ?Closure $streamHandler = null;
+
+    private ?EventDispatcherInterface $events = null;
 
     /**
      * Sets the API key for the requests.
@@ -127,6 +132,16 @@ final class Factory
     }
 
     /**
+     * Set the event dispatcher instance.
+     */
+    public function withEventDispatcher(EventDispatcherInterface $events): self
+    {
+        $this->events = $events;
+
+        return $this;
+    }
+
+    /**
      * Creates a new Open AI Client.
      */
     public function make(): Client
@@ -158,7 +173,9 @@ final class Factory
 
         $transporter = new HttpTransporter($client, $baseUri, $headers, $queryParams, $sendAsync);
 
-        return new Client($transporter);
+        $dispatcher = new Dispatcher($this->events ?? new NullEventDispatcher);
+
+        return new Client($transporter, $dispatcher);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\DispatcherContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Resources\Assistants;
@@ -26,8 +27,10 @@ final class Client implements ClientContract
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly TransporterContract $transporter)
-    {
+    public function __construct(
+        private readonly TransporterContract $transporter,
+        private readonly DispatcherContract $events,
+    ) {
         // ..
     }
 
@@ -39,7 +42,7 @@ final class Client implements ClientContract
      */
     public function completions(): Completions
     {
-        return new Completions($this->transporter);
+        return new Completions($this->transporter, $this->events);
     }
 
     /**
@@ -49,7 +52,7 @@ final class Client implements ClientContract
      */
     public function chat(): Chat
     {
-        return new Chat($this->transporter);
+        return new Chat($this->transporter, $this->events);
     }
 
     /**
@@ -59,7 +62,7 @@ final class Client implements ClientContract
      */
     public function embeddings(): Embeddings
     {
-        return new Embeddings($this->transporter);
+        return new Embeddings($this->transporter, $this->events);
     }
 
     /**
@@ -69,7 +72,7 @@ final class Client implements ClientContract
      */
     public function audio(): Audio
     {
-        return new Audio($this->transporter);
+        return new Audio($this->transporter, $this->events);
     }
 
     /**
@@ -79,7 +82,7 @@ final class Client implements ClientContract
      */
     public function edits(): Edits
     {
-        return new Edits($this->transporter);
+        return new Edits($this->transporter, $this->events);
     }
 
     /**
@@ -89,7 +92,7 @@ final class Client implements ClientContract
      */
     public function files(): Files
     {
-        return new Files($this->transporter);
+        return new Files($this->transporter, $this->events);
     }
 
     /**
@@ -99,7 +102,7 @@ final class Client implements ClientContract
      */
     public function models(): Models
     {
-        return new Models($this->transporter);
+        return new Models($this->transporter, $this->events);
     }
 
     /**
@@ -109,7 +112,7 @@ final class Client implements ClientContract
      */
     public function fineTuning(): FineTuning
     {
-        return new FineTuning($this->transporter);
+        return new FineTuning($this->transporter, $this->events);
     }
 
     /**
@@ -121,7 +124,7 @@ final class Client implements ClientContract
      */
     public function fineTunes(): FineTunes
     {
-        return new FineTunes($this->transporter);
+        return new FineTunes($this->transporter, $this->events);
     }
 
     /**
@@ -131,7 +134,7 @@ final class Client implements ClientContract
      */
     public function moderations(): Moderations
     {
-        return new Moderations($this->transporter);
+        return new Moderations($this->transporter, $this->events);
     }
 
     /**
@@ -141,7 +144,7 @@ final class Client implements ClientContract
      */
     public function images(): Images
     {
-        return new Images($this->transporter);
+        return new Images($this->transporter, $this->events);
     }
 
     /**
@@ -151,7 +154,7 @@ final class Client implements ClientContract
      */
     public function assistants(): Assistants
     {
-        return new Assistants($this->transporter);
+        return new Assistants($this->transporter, $this->events);
     }
 
     /**
@@ -161,6 +164,6 @@ final class Client implements ClientContract
      */
     public function threads(): ThreadsContract
     {
-        return new Threads($this->transporter);
+        return new Threads($this->transporter, $this->events);
     }
 }
