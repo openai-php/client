@@ -37,7 +37,7 @@ final class ThreadRunStepResponseFunction implements ResponseContract
         return new self(
             $attributes['name'],
             $attributes['arguments'],
-            $attributes['output'],
+            $attributes['output'] ?? null,
         );
     }
 

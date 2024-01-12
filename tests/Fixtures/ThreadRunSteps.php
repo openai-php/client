@@ -92,6 +92,42 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
 /**
  * @return array<string, mixed>
  */
+function threadRunStepWithFunctionCallPendingOutputResource(): array
+{
+    return [
+        'id' => 'step_1spQXgbAabXFm1YXrwiGIMUz',
+        'object' => 'thread.run.step',
+        'created_at' => 1699564106,
+        'run_id' => 'run_fYijubpOJsKDnvtACWBS8C8r',
+        'assistant_id' => 'asst_EopvUEMh90bxkNRYEYM81Orc',
+        'thread_id' => 'thread_3WdOgtVuhD8aUIEx774Whkvo',
+        'type' => 'tool_calls',
+        'status' => 'in_progress',
+        'cancelled_at' => null,
+        'completed_at' => 1699564119,
+        'expires_at' => null,
+        'failed_at' => null,
+        'last_error' => null,
+        'step_details' => [
+            'type' => 'tool_calls',
+            'tool_calls' => [
+                [
+                    'id' => 'call_Fbg14X7kZF2WDzlPhpQ167De',
+                    'type' => 'function',
+                    'function' => [
+                        'name' => 'add',
+                        'arguments' => '{ "a": 5, "b": 7 }',
+                    ],
+                ],
+            ],
+        ],
+        'metadata' => ['name' => 'the step name'],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function threadRunStepListResource(): array
 {
     return [
