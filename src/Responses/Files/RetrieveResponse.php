@@ -30,7 +30,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
     private function __construct(
         public readonly string $id,
         public readonly string $object,
-        public readonly int $bytes,
+        public readonly int|null $bytes,
         public readonly int $createdAt,
         public readonly string $filename,
         public readonly string $purpose,
