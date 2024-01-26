@@ -33,6 +33,23 @@ test('from with status error', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from with byte is null', function () {
+    $data = fileResource();
+    $data['bytes'] = null;
+
+    $result = RetrieveResponse::from($data, meta());
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->object->toBe('file')
+        ->bytes->toBeNull()
+        ->createdAt->toBe(1613779121)
+        ->filename->toBe('mydata.jsonl')
+        ->purpose->toBe('fine-tune')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('as array accessible', function () {
     $result = RetrieveResponse::from(fileResource(), meta());
 
