@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.2 (2024-01-26)
+### Fixed
+- ThreadRunStep: "content" missing in response if result has not been submitted ([#319](https://github.com/openai-php/client/pull/319))
+- Files: "bytes" in retrieve response is may null ([#325](https://github.com/openai-php/client/pull/325))
+
 ## v0.8.1 (2023-12-22)
 ### Added
--  Add support for Assistants and Threads endpoint ([#271](https://github.com/openai-php/client/pull/271))
+- Add support for Assistants and Threads endpoint ([#271](https://github.com/openai-php/client/pull/271))
 - Add stream support for Text To Speech ([#235](https://github.com/openai-php/client/pull/235))
 - Add test resources for Assistants and Threads  ([#279](https://github.com/openai-php/client/pull/279))
 
