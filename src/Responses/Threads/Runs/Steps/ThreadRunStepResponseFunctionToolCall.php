@@ -30,7 +30,7 @@ final class ThreadRunStepResponseFunctionToolCall implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, type: 'function', function: array{name: string, arguments: string, output: ?string}}  $attributes
+     * @param  array{id: string, type: 'function', function: array{name: string, arguments: string, output?: ?string}}  $attributes
      */
     public static function from(array $attributes): self
     {
