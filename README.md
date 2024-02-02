@@ -1447,6 +1447,10 @@ $response->tools[0]->type; // 'code_interpreter'
 $response->fileIds; // []
 $response->metadata; // []
 
+$response->usage->promptTokens; // 25,
+$response->usage->completionTokens; // 32,
+$response->usage->totalTokens; // 57
+
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
 

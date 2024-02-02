@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.3 (2024-02-02)
+### Added
+- ThreadRun: Add "usage" property to the response ([#330](https://github.com/openai-php/client/pull/330))
+
 ## v0.8.2 (2024-01-26)
 ### Fixed
 - ThreadRunStep: "content" missing in response if result has not been submitted ([#319](https://github.com/openai-php/client/pull/319))
