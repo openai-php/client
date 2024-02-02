@@ -28,5 +28,10 @@ final class ThreadRunResponseFixture
             'file-6EsV79Y261TEmi0PY5iHbZdS',
         ],
         'metadata' => [],
+        'usage' => [
+            'prompt_tokens' => 5,
+            'completion_tokens' => 7,
+            'total_tokens' => 12,
+        ],
     ];
 }

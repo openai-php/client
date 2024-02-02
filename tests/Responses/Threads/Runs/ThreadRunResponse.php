@@ -5,6 +5,7 @@ use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolRetrieval;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponseUsage;
 
 test('from', function () {
     $result = ThreadRunResponse::from(threadRunResource(), meta());
@@ -29,6 +30,7 @@ test('from', function () {
         ->tools->{0}->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
         ->fileIds->toBe(['file-6EsV79Y261TEmi0PY5iHbZdS'])
         ->metadata->toBe([])
+        ->usage->toBeNull()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
@@ -59,6 +61,16 @@ test('from with submit tool outputs', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from with usage', function () {
+    $result = ThreadRunResponse::from(threadRunWithUsageResource(), meta());
+
+    expect($result)
+        ->usage->toBeInstanceOf(ThreadRunResponseUsage::class)
+        ->usage->promptTokens->toBe(1)
+        ->usage->completionTokens->toBe(16)
+        ->usage->totalTokens->toBe(17);
+});
+
 test('as array accessible', function () {
     $result = ThreadRunResponse::from(threadRunResource(), meta());
 
@@ -78,6 +90,13 @@ test('to array with submit tool outputs', function () {
 
     expect($result->toArray())
         ->toBe(threadRunWithSubmitToolOutputsResource());
+});
+
+test('to array with usage', function () {
+    $result = ThreadRunResponse::from(threadRunWithUsageResource(), meta());
+
+    expect($result->toArray())
+        ->toBe(threadRunWithUsageResource());
 });
 
 test('fake', function () {
