@@ -24,6 +24,30 @@ it('returns a fake response', function () {
     expect($completion['choices'][0]['text'])->toBe('awesome!');
 });
 
+it('returns fake meta data', function () {
+    $fake = new ClientFake([
+        CreateResponse::fake(),
+    ]);
+
+    $completion = $fake->completions()->create([
+        'model' => 'gpt-3.5-turbo-instruct',
+        'prompt' => 'PHP is ',
+    ]);
+
+    expect($completion->meta())
+        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
+        ->openai->model->toBe('gpt-3.5-turbo-instruct')
+        ->openai->organization->toBe('org-1234')
+        ->openai->processingMs->toBe(410)
+        ->openai->version->toBe('2020-10-01')
+        ->requestLimit->limit->toBe(3000)
+        ->requestLimit->remaining->toBe(2999)
+        ->requestLimit->reset->toBe('20ms')
+        ->tokenLimit->limit->toBe(250000)
+        ->tokenLimit->remaining->toBe(249989)
+        ->tokenLimit->reset->toBe('2ms');
+});
+
 it('throws fake exceptions', function () {
     $fake = new ClientFake([
         new \OpenAI\Exceptions\ErrorException([
