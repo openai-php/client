@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.8.4 (2024-02-07)
+### Fixed
+- Fix default fake data for meta information ([#332](https://github.com/openai-php/client/pull/332))
+
 ## v0.8.3 (2024-02-02)
 ### Added
 - ThreadRun: Add "usage" property to the response ([#330](https://github.com/openai-php/client/pull/330))
