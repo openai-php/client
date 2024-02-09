@@ -164,7 +164,7 @@ final class Payload
             if ($this->contentType === ContentType::MULTIPART) {
                 $streamBuilder = new MultipartStreamBuilder($psr17Factory);
 
-                /** @var array<string, StreamInterface|string|int|float|bool> $parameters */
+                /** @var array<string, StreamInterface|string|int|float|bool|array<int, string>> $parameters */
                 $parameters = $this->parameters;
 
                 foreach ($parameters as $key => $value) {
@@ -172,7 +172,15 @@ final class Payload
                         $value = (string) $value;
                     }
 
-                    $streamBuilder->addResource($key, $value);
+                    // Support only one level of nested arrays
+                    if (is_array($value)) {
+                        foreach ($value as $nestedKey => $nestedValue) {
+                            $streamBuilder->addResource($key.'['.$nestedKey.']', $nestedValue);
+                        }
+                    } else {
+                        $streamBuilder->addResource($key, $value);
+                    }
+
                 }
 
                 $body = $streamBuilder->build();

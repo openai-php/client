@@ -56,7 +56,7 @@ final class Audio implements AudioContract
     {
         $payload = Payload::upload('audio/transcriptions', $parameters);
 
-        /** @var Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, text: string}> $response */
+        /** @var Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, words: array<int, array{word: string, start: float, end: float}>, text: string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return TranscriptionResponse::from($response->data(), $response->meta());

@@ -33,6 +33,81 @@ function audioTranscriptionVerboseJson(): array
                 'transient' => false,
             ],
         ],
+        'words' => [],
+        'text' => 'Hello, how are you?',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function audioTranscriptionGranularitySegment(): array
+{
+    return [
+        'task' => 'transcribe',
+        'language' => 'english',
+        'duration' => 2.95,
+        'segments' => [
+            [
+                'id' => 0,
+                'seek' => 0,
+                'start' => 0.0,
+                'end' => 4.0,
+                'text' => ' Hello, how are you?',
+                'tokens' => [
+                    50364,
+                    2425,
+                    11,
+                    577,
+                    366,
+                    291,
+                    30,
+                    50564,
+                ],
+                'temperature' => 0.0,
+                'avg_logprob' => -0.45045216878255206,
+                'compression_ratio' => 0.7037037037037037,
+                'no_speech_prob' => 0.1076972484588623,
+                'transient' => false,
+            ],
+        ],
+        'words' => [],
+        'text' => 'Hello, how are you?',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function audioTranscriptionGranularityWord(): array
+{
+    return [
+        'task' => 'transcribe',
+        'language' => 'english',
+        'duration' => 2.95,
+        'segments' => [],
+        'words' => [
+            [
+                'word' => 'Hello',
+                'start' => 0.31,
+                'end' => 0.92,
+            ],
+            [
+                'word' => 'how',
+                'start' => 1.0,
+                'end' => 1.55,
+            ],
+            [
+                'word' => 'are',
+                'start' => 1.56,
+                'end' => 1.88,
+            ],
+            [
+                'word' => 'you',
+                'start' => 1.88,
+                'end' => 2.16,
+            ],
+        ],
         'text' => 'Hello, how are you?',
     ];
 }

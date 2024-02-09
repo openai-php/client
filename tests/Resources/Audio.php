@@ -5,6 +5,7 @@ use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
+use OpenAI\Responses\Audio\TranscriptionResponseWord;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
 use OpenAI\Responses\Meta\MetaInformation;
@@ -97,6 +98,85 @@ test('transcribe to verbose json', function () {
         ->compressionRatio->toBe(0.7037037037037037)
         ->noSpeechProb->toBe(0.1076972484588623)
         ->transient->toBeFalse();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('transcribe with segment granularity', function () {
+    $client = mockClient('POST', 'audio/transcriptions', [
+        'file' => audioFileResource(),
+        'model' => 'whisper-1',
+        'response_format' => 'verbose_json',
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranscriptionGranularitySegment(), metaHeaders()), validateParams: false);
+
+    $result = $client->audio()->transcribe([
+        'file' => audioFileResource(),
+        'model' => 'whisper-1',
+        'response_format' => 'verbose_json',
+        'timestamp_granularities' => ['segment'],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(TranscriptionResponse::class)
+        ->task->toBe('transcribe')
+        ->language->toBe('english')
+        ->duration->toBe(2.95)
+        ->segments->toBeArray()
+        ->segments->toHaveCount(1)
+        ->segments->each->toBeInstanceOf(TranscriptionResponseSegment::class)
+        ->text->toBe('Hello, how are you?');
+
+    expect($result->segments[0])
+        ->toBeInstanceOf(TranscriptionResponseSegment::class)
+        ->id->toBe(0)
+        ->seek->toBe(0)
+        ->start->toBe(0.0)
+        ->end->toBe(4.0)
+        ->text->toBe(' Hello, how are you?')
+        ->tokens->toBeArray()
+        ->tokens->toHaveCount(8)
+        ->tokens->toBe([50364, 2425, 11, 577, 366, 291, 30, 50564])
+        ->temperature->toBe(0.0)
+        ->avgLogprob->toBe(-0.45045216878255206)
+        ->compressionRatio->toBe(0.7037037037037037)
+        ->noSpeechProb->toBe(0.1076972484588623)
+        ->transient->toBeFalse();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('transcribe with word granularity', function () {
+    $client = mockClient('POST', 'audio/transcriptions', [
+        'file' => audioFileResource(),
+        'model' => 'whisper-1',
+        'response_format' => 'verbose_json',
+    ], \OpenAI\ValueObjects\Transporter\Response::from(audioTranscriptionGranularityWord(), metaHeaders()), validateParams: false);
+
+    $result = $client->audio()->transcribe([
+        'file' => audioFileResource(),
+        'model' => 'whisper-1',
+        'response_format' => 'verbose_json',
+        'timestamp_granularities' => ['word'],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(TranscriptionResponse::class)
+        ->task->toBe('transcribe')
+        ->language->toBe('english')
+        ->duration->toBe(2.95)
+        ->segments->toBeArray()
+        ->segments->toHaveCount(0)
+        ->words->toBeArray()
+        ->words->toHaveCount(4)
+        ->text->toBe('Hello, how are you?');
+
+    expect($result->words[0])
+        ->toBeInstanceOf(TranscriptionResponseWord::class)
+        ->word->toBe('Hello')
+        ->start->toBe(0.31)
+        ->end->toBe(0.92);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
