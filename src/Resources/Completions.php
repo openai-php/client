@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\CompletionsContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Responses\Completions\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
@@ -22,6 +23,8 @@ final class Completions implements CompletionsContract
      * @see https://platform.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): CreateResponse
     {
@@ -42,6 +45,8 @@ final class Completions implements CompletionsContract
      *
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>
+     *
+     * @throws OpenAIThrowable
      */
     public function createStreamed(array $parameters): StreamResponse
     {

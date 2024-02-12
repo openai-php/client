@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileListResponse;
 use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 
@@ -11,6 +12,8 @@ interface ThreadsMessagesFilesContract
      * Retrieves a message file.
      *
      * @see https://platform.openai.com/docs/api-reference/messages/getMessageFile
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $threadId, string $messageId, string $fileId): ThreadMessageFileResponse;
 
@@ -20,6 +23,8 @@ interface ThreadsMessagesFilesContract
      * @see https://platform.openai.com/docs/api-reference/messages/listMessageFiles
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(string $threadId, string $messageId, array $parameters = []): ThreadMessageFileListResponse;
 }

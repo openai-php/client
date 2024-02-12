@@ -6,6 +6,7 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AssistantsFilesContract;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
@@ -22,6 +23,8 @@ final class Assistants implements AssistantsContract
      * @see https://platform.openai.com/docs/api-reference/assistants/object
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function create(array $parameters): AssistantResponse
     {
@@ -37,6 +40,8 @@ final class Assistants implements AssistantsContract
      * Retrieves an assistant.
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/getAssistant
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $id): AssistantResponse
     {
@@ -54,6 +59,8 @@ final class Assistants implements AssistantsContract
      * @see https://platform.openai.com/docs/api-reference/assistants/modifyAssistant
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function modify(string $id, array $parameters): AssistantResponse
     {
@@ -69,6 +76,8 @@ final class Assistants implements AssistantsContract
      * Delete an assistant.
      *
      * @see https://platform.openai.com/docs/api-reference/assistants/deleteAssistant
+     *
+     * @throws OpenAIThrowable
      */
     public function delete(string $id): AssistantDeleteResponse
     {
@@ -86,6 +95,8 @@ final class Assistants implements AssistantsContract
      * @see https://platform.openai.com/docs/api-reference/assistants/listAssistants
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function list(array $parameters = []): AssistantListResponse
     {

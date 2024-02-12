@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
@@ -13,6 +14,8 @@ interface FilesContract
      * Returns a list of files that belong to the user's organization.
      *
      * @see https://platform.openai.com/docs/api-reference/files/list
+     *
+     * @throws OpenAIThrowable
      */
     public function list(): ListResponse;
 
@@ -20,6 +23,8 @@ interface FilesContract
      * Returns information about a specific file.
      *
      * @see https://platform.openai.com/docs/api-reference/files/retrieve
+     *
+     * @throws OpenAIThrowable
      */
     public function retrieve(string $file): RetrieveResponse;
 
@@ -27,6 +32,8 @@ interface FilesContract
      * Returns the contents of the specified file.
      *
      * @see https://platform.openai.com/docs/api-reference/files/retrieve-content
+     *
+     * @throws OpenAIThrowable
      */
     public function download(string $file): string;
 
@@ -36,6 +43,8 @@ interface FilesContract
      * @see https://platform.openai.com/docs/api-reference/files/upload
      *
      * @param  array<string, mixed>  $parameters
+     *
+     * @throws OpenAIThrowable
      */
     public function upload(array $parameters): CreateResponse;
 
@@ -43,6 +52,8 @@ interface FilesContract
      * Delete a file.
      *
      * @see https://platform.openai.com/docs/api-reference/files/delete
+     *
+     * @throws OpenAIThrowable
      */
     public function delete(string $file): DeleteResponse;
 }

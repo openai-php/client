@@ -10,7 +10,9 @@ use JsonException;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\OpenAIThrowable;
 use OpenAI\Exceptions\TransporterException;
+use OpenAI\Exceptions\UnreadableResponse;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
@@ -20,6 +22,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 /**
  * @internal
@@ -48,7 +51,11 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $contents = $response->getBody()->getContents();
+        try {
+            $contents = $response->getBody()->getContents();
+        } catch (RuntimeException $exception) {
+            throw new UnreadableResponse($exception);
+        }
 
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
             return Response::from($contents, $response->getHeaders());
@@ -75,7 +82,11 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $contents = $response->getBody()->getContents();
+        try {
+            $contents = $response->getBody()->getContents();
+        } catch (RuntimeException $exception) {
+            throw new UnreadableResponse($exception);
+        }
 
         $this->throwIfJsonError($response, $contents);
 
@@ -96,19 +107,25 @@ final class HttpTransporter implements TransporterContract
         return $response;
     }
 
+    /**
+     * @throws OpenAIThrowable
+     */
     private function sendRequest(Closure $callable): ResponseInterface
     {
         try {
             return $callable();
         } catch (ClientExceptionInterface $clientException) {
             if ($clientException instanceof ClientException) {
-                $this->throwIfJsonError($clientException->getResponse(), $clientException->getResponse()->getBody()->getContents());
+                $this->throwIfJsonError($clientException->getResponse(), $clientException->getResponse());
             }
 
             throw new TransporterException($clientException);
         }
     }
 
+    /**
+     * @throws OpenAIThrowable
+     */
     private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
     {
         if ($response->getStatusCode() < 400) {
@@ -120,7 +137,11 @@ final class HttpTransporter implements TransporterContract
         }
 
         if ($contents instanceof ResponseInterface) {
-            $contents = $contents->getBody()->getContents();
+            try {
+                $contents = $response->getBody()->getContents();
+            } catch (RuntimeException $exception) {
+                throw new UnreadableResponse($exception);
+            }
         }
 
         try {
