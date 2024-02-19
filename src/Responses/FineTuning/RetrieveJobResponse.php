@@ -53,6 +53,21 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
+        // UGLY fix for OpenAI API Quirks. It is unclear, if "$attributes['error']['error']" can represent something meaningful
+        $retrieveJobResponseError = null;
+        if (array_key_exists('error', $attributes)
+            && is_array($attributes['error'])
+            && array_key_exists('code', $attributes['error'])
+        ) {
+            $retrieveJobResponseError = RetrieveJobResponseError::from($attributes['error']);
+        } else if (array_key_exists('error', $attributes)
+            && array_key_exists('error', $attributes['error'])
+            && is_array($attributes['error']['error'])
+            && array_key_exists('code', $attributes['error']['error'])
+        ) {
+            $retrieveJobResponseError = RetrieveJobResponseError::from($attributes['error']['error']);
+        }
+
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -67,7 +82,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['validation_file'],
             $attributes['training_file'],
             $attributes['trained_tokens'],
-            isset($attributes['error']['error']) ? RetrieveJobResponseError::from($attributes['error']['error']) : 'null',
+            $retrieveJobResponseError,
             $meta,
         );
     }
