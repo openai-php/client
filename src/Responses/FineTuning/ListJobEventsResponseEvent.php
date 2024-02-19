@@ -42,7 +42,7 @@ final class ListJobEventsResponseEvent implements ResponseContract
             $attributes['created_at'],
             FineTuningEventLevel::from($attributes['level']),
             $attributes['message'],
-            $attributes['data'] ? ListJobEventsResponseEventData::from($attributes['data']) : null,
+            $attributes['data'] && array_key_exists('step', $attributes['data']) ? ListJobEventsResponseEventData::from($attributes['data']) : null,
             $attributes['type'],
         );
     }

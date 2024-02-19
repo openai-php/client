@@ -67,7 +67,7 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['validation_file'],
             $attributes['training_file'],
             $attributes['trained_tokens'],
-            isset($attributes['error']) ? RetrieveJobResponseError::from($attributes['error']) : null,
+            isset($attributes['error']['error']) ? RetrieveJobResponseError::from($attributes['error']['error']) : 'null',
             $meta,
         );
     }
