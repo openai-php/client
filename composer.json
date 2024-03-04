@@ -1,5 +1,5 @@
 {
-    "name": "openai-php/client",
+    "name": "shellrent/openai-php-client",
     "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API",
     "keywords": ["php", "openai", "sdk", "codex", "GPT-3", "DALL-E", "api", "client", "natural", "language", "processing"],
     "license": "MIT",
