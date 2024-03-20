@@ -10,6 +10,7 @@ use JsonException;
 final class UnserializableResponse extends Exception
 {
     protected string $content;
+
     /**
      * Creates a new Exception instance.
      */
