@@ -19,7 +19,7 @@ final class CreateStreamedResponseChoice
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['index'],
+            $attributes['index'] ?? 0,
             CreateStreamedResponseDelta::from($attributes['delta']),
             $attributes['finish_reason'] ?? null,
         );
