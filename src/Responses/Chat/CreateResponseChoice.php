@@ -19,7 +19,7 @@ final class CreateResponseChoice
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['index'],
+            $attributes['index'] ?? 0,
             CreateResponseMessage::from($attributes['message']),
             $attributes['finish_reason'] ?? null,
         );
