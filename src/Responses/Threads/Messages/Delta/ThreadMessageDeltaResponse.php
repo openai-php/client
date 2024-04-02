@@ -22,8 +22,8 @@ final class ThreadMessageDeltaResponse implements ResponseContract
 
     private function __construct(
         public string $id,
-        public array $object,
-        public array $delta,
+        public string $object,
+        public ThreadMessageDeltaObject $delta,
     ) {
     }
 

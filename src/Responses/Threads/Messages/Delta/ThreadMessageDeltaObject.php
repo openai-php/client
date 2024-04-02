@@ -6,9 +6,6 @@ namespace OpenAI\Responses\Threads\Messages\Delta;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseToolCallsStepDetails;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreationStepDetails;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -28,9 +25,9 @@ final class ThreadMessageDeltaObject implements ResponseContract
      * @param  array<int, string>  $file_ids
      */
     private function __construct(
-        public string $role,
+        public ?string $role,
         public array $content,
-        public array $fileIds,
+        public ?array $fileIds,
     ) {
     }
 
@@ -50,9 +47,9 @@ final class ThreadMessageDeltaObject implements ResponseContract
         );
 
         return new self(
-            $attributes['role'],
+            isset($attributes['role']) ? $attributes['role'] : null,
             $content,
-            $attributes['file_ids'],
+            isset($attributes['file_ids']) ? $attributes['file_ids'] : null,
         );
     }
 
