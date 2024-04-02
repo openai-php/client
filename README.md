@@ -8,40 +8,38 @@
     </p>
 </p>
 
----
-
+------
 **OpenAI PHP** is a community-maintained PHP API client that allows you to interact with the [Open AI API](https://platform.openai.com/docs/api-reference/introduction). If you or your business relies on this package, it's important to support the developers who have contributed their time and effort to create and maintain this valuable tool:
 
--   Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
--   Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
+- Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
+- Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
 
 ## Table of Contents
-
--   [Get Started](#get-started)
--   [Usage](#usage)
-    -   [Models Resource](#models-resource)
-    -   [Completions Resource](#completions-resource)
-    -   [Chat Resource](#chat-resource)
-    -   [Audio Resource](#audio-resource)
-    -   [Embeddings Resource](#embeddings-resource)
-    -   [Files Resource](#files-resource)
-    -   [FineTuning Resource](#finetuning-resource)
-    -   [Moderations Resource](#moderations-resource)
-    -   [Images Resource](#images-resource)
-    -   [Assistants Resource](#assistants-resource)
-    -   [Assistants Files Resource](#assistants-files-resource)
-    -   [Threads Resource](#threads-resource)
-    -   [Threads Messages Resource](#threads-messages-resource)
-    -   [Threads Messages Files Resource](#threads-messages-files-resource)
-    -   [Threads Runs Resource](#threads-runs-resource)
-    -   [Threads Runs Steps Resource](#threads-runs-steps-resource)
-    -   [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
-    -   [Edits Resource (deprecated)](#edits-resource-deprecated)
--   [Meta Information](#meta-information)
--   [Troubleshooting](#troubleshooting)
--   [Testing](#testing)
--   [Services](#services)
-    -   [Azure](#azure)
+- [Get Started](#get-started)
+- [Usage](#usage)
+  - [Models Resource](#models-resource)
+  - [Completions Resource](#completions-resource)
+  - [Chat Resource](#chat-resource)
+  - [Audio Resource](#audio-resource)
+  - [Embeddings Resource](#embeddings-resource)
+  - [Files Resource](#files-resource)
+  - [FineTuning Resource](#finetuning-resource)
+  - [Moderations Resource](#moderations-resource)
+  - [Images Resource](#images-resource)
+  - [Assistants Resource](#assistants-resource)
+  - [Assistants Files Resource](#assistants-files-resource)
+  - [Threads Resource](#threads-resource)
+  - [Threads Messages Resource](#threads-messages-resource)
+  - [Threads Messages Files Resource](#threads-messages-files-resource)
+  - [Threads Runs Resource](#threads-runs-resource)
+  - [Threads Runs Steps Resource](#threads-runs-steps-resource)
+  - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
+  - [Edits Resource (deprecated)](#edits-resource-deprecated)
+- [Meta Information](#meta-information)
+- [Troubleshooting](#troubleshooting)
+- [Testing](#testing)
+- [Services](#services)
+  - [Azure](#azure)
 
 ## Get Started
 
@@ -54,7 +52,6 @@ composer require openai-php/client
 ```
 
 Ensure that the `php-http/discovery` composer plugin is allowed to run or install a client manually if your project does not already have a PSR-18 client integrated.
-
 ```bash
 composer require guzzlehttp/guzzle
 ```
@@ -664,7 +661,7 @@ $response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F
 $response->object; // 'list'
 
 foreach ($response->data as $result) {
-    $result->object; // 'fine_tuning.job.event'
+    $result->object; // 'fine_tuning.job.event' 
     $result->createdAt; // 1614807352
     // ...
 }
@@ -748,15 +745,15 @@ $response->trainingFiles; // [
 $response->updatedAt; // 1614807865
 
 foreach ($response->events as $result) {
-    $result->object; // 'fine-tune-event'
+    $result->object; // 'fine-tune-event' 
     $result->createdAt; // 1614807352
     $result->level; // 'info'
     $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
 }
 
-$response->hyperparams->batchSize; // 4
-$response->hyperparams->learningRateMultiplier; // 0.1
-$response->hyperparams->nEpochs; // 4
+$response->hyperparams->batchSize; // 4 
+$response->hyperparams->learningRateMultiplier; // 0.1 
+$response->hyperparams->nEpochs; // 4 
 $response->hyperparams->promptLossWeight; // 0.1
 
 foreach ($response->resultFiles as $result) {
@@ -809,7 +806,7 @@ $response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 $response->object; // 'list'
 
 foreach ($response->data as $result) {
-    $result->object; // 'fine-tune-event'
+    $result->object; // 'fine-tune-event' 
     $result->createdAt; // 1614807352
     // ...
 }
@@ -937,7 +934,6 @@ $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oa
 ### `Assistants` Resource
 
 > **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
->
 > ```php
 > $factory->withHttpHeader('OpenAI-Beta', 'assistants=v1')
 > ```
@@ -1077,7 +1073,7 @@ Retrieves an AssistantFile.
 
 ```php
 $response = $client->assistants()->files()->retrieve(
-    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
     fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
 );
 
@@ -1095,7 +1091,7 @@ Delete an assistant file.
 
 ```php
 $response = $client->assistants()->files()->delete(
-    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
     fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
 );
 
@@ -1396,7 +1392,7 @@ Create a run.
 
 ```php
 $response = $client->threads()->runs()->create(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868', 
     parameters: [
         'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
     ],
@@ -1421,28 +1417,6 @@ $response->fileIds; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
-```
-
-#### `create streamed`
-
-Creates a streamed run.
-
-[OpenAI Assistant Events](https://platform.openai.com/docs/api-reference/assistants-streaming/events)
-
-```php
-$stream = $client->threads()->runs()->createStreamed(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
-    parameters: [
-        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
-    ],
-);
-
-foreach($stream as $response){
-    $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
-    $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
-}
-
-// ...
 ```
 
 #### `retrieve`
@@ -1733,7 +1707,7 @@ The `toArray()` method returns the meta information in the form originally retur
 ```php
 $meta->toArray();
 
-// [
+// [ 
 //   'x-request-id' => '574a03e2faaf4e9fd703958e4ddc66f5',
 //   'openai-model' => 'gpt-3.5-turbo-instruct',
 //   'openai-organization' => 'org-jwe45798ASN82s',
@@ -1755,8 +1729,8 @@ $stream = $client->completions()->createStreamed([
     'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'Say this is a test',
 ]);
-
-$stream->meta();
+    
+$stream->meta(); 
 ```
 
 For further details about the rates limits and what to do if you hit them visit the [OpenAI documentation](https://platform.openai.com/docs/guides/rate-limits/rate-limits).
@@ -1770,7 +1744,6 @@ You may run into a timeout when sending requests to the API. The default timeout
 You can increase the timeout by configuring the HTTP client and passing in to the factory.
 
 This example illustrates how to increase the timeout using Guzzle.
-
 ```php
 OpenAI::factory()
     ->withApiKey($apiKey)
@@ -1898,7 +1871,7 @@ Therefore, a basic sample completion call would be:
 $result = $client->completions()->create([
     'prompt' => 'PHP is'
 ]);
-```
+``` 
 
 ---
 
