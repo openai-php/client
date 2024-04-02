@@ -1448,6 +1448,50 @@ foreach($stream as $response){
 // ...
 ```
 
+#### `create streamed with function calls`
+
+Creates a streamed run with function calls
+
+[OpenAI Assistant Events](https://platform.openai.com/docs/api-reference/assistants-streaming/events)
+
+```php
+$stream = $client->threads()->runs()->createStreamed(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    parameters: [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    ],
+);
+
+foreach($stream as $response){
+    $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
+    $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
+
+    switch($response->event){
+        case 'thread.run.created':
+        case 'thread.run.completed':
+            $run = $response->data;
+            break;
+        case 'thread.run.requires_action':
+            // Overwrite the stream with the new stream started by submitting the tool outputs
+            $stream = $client->threads()->runs()->submitToolOutputsStreamed(
+                threadId: $run->threadId,
+                runId: $run->id,
+                parameters: [
+                    'tool_outputs' => [
+                        [
+                            'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
+                            'output' => '12',
+                        ]
+                    ],
+                ]
+            );
+            break;
+    }
+}
+
+// ...
+```
+
 #### `retrieve`
 
 Retrieves a run.
