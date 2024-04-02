@@ -7,12 +7,16 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
+use OpenAI\Responses\EventStreamResponse;
+use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
+
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
 final class ThreadsRuns implements ThreadsRunsContract
 {
+    use Concerns\Streamable;
     use Concerns\Transportable;
 
     /**
@@ -30,6 +34,25 @@ final class ThreadsRuns implements ThreadsRunsContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadRunResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Creates a streamed run
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/createRun
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return EventStreamResponse<mixed>
+     */
+    public function createStreamed(string $threadId, array $parameters): EventStreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::create('threads/'.$threadId.'/runs', $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);
     }
 
     /**
