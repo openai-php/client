@@ -1419,6 +1419,28 @@ $response->metadata; // []
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
 
+#### `create streamed`
+
+Creates a streamed run.
+
+[OpenAI Assistant Events](https://platform.openai.com/docs/api-reference/assistants-streaming/events)
+
+```php
+$stream = $client->threads()->runs()->createStreamed(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    parameters: [
+        'assistant_id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd',
+    ],
+);
+
+foreach($stream as $response){
+    $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
+    $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
+}
+
+// ...
+```
+
 #### `retrieve`
 
 Retrieves a run.
