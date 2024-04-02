@@ -6,8 +6,6 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
-use OpenAI\Exceptions\ErrorException;
-use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
@@ -42,6 +40,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      * See https://platform.openai.com/docs/api-reference/runs/createRun#runs-createrun-stream
      *
      * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<ThreadRunResponseStream>
      */
     public function createStreamed(string $threadId, array $parameters): StreamResponse
     {

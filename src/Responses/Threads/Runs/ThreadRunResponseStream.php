@@ -5,28 +5,27 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs;
 
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int|null, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
-final class ThreadRunResponseStream implements ResponseContract, ResponseHasMetaInformationContract
+final class ThreadRunResponseStream implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, delta: array, step_details: array, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
+     * @use ArrayAccessible<array{id: string, object: string, delta: array<string, mixed>|null, step_details: array<string, mixed>|null, created_at: int|null, thread_id: string|null, assistant_id: string|null, status: string|null, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}|null, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string|null, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>|null, metadata: array<string, string>|null, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}|null}>
      */
     use ArrayAccessible;
 
     use Fakeable;
-    use HasMetaInformation;
 
     /**
-     * @param array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction> $tools
-     * @param array<int, string> $fileIds
-     * @param array<string, string> $metadata
+     * @param  array<int, ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction>  $tools
+     * @param  array<string, mixed>|null  $delta
+     * @param  array<string, mixed>|null  $stepDetails
+     * @param  array<int, string>  $fileIds
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public string $id,
@@ -58,12 +57,12 @@ final class ThreadRunResponseStream implements ResponseContract, ResponseHasMeta
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{id: string, object: string, delta: array, step_details: array, created_at: int, thread_id: string, assistant_id: string, run_id:string, type:string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}} $attributes
+     * @param  array{id: string, object: string, delta: array<string,mixed>|null, step_details: array<string,mixed>|null, created_at: int|null, thread_id: string|null, assistant_id: string|null, run_id:string|null, type:string|null, status: string|null, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}|null, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string|null, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>|null, file_ids: array<int, string>|null, metadata: array<string, string>|null, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}|null}  $attributes
      */
     public static function from(array $attributes): self
     {
         $tools = isset($attributes['tools']) ? array_map(
-            fn(array $tool
+            fn (array $tool
             ): ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => ThreadRunResponseToolCodeInterpreter::from($tool),
                 'retrieval' => ThreadRunResponseToolRetrieval::from($tool),
@@ -127,7 +126,7 @@ final class ThreadRunResponseStream implements ResponseContract, ResponseHasMeta
             'model' => $this->model,
             'instructions' => $this->instructions,
             'tools' => array_map(
-                fn(
+                fn (
                     ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction $tool
                 ): array => $tool->toArray(),
                 $this->tools,
