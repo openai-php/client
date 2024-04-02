@@ -45,8 +45,6 @@ class StreamedThreadRunResponseFactory
                 return ThreadMessageResponse::from($data, $meta);
             case 'thread.message.delta':
                 return ThreadMessageDeltaResponse::from($data);
-            case 'error':
-                throw new ErrorException('OpenAI API Error: '.$data);
             default:
                 throw new ErrorException('Unhandled event type: '.$event);
         }
