@@ -105,6 +105,26 @@ final class ThreadsRuns implements ThreadsRunsContract
     }
 
     /**
+     * This endpoint can be used to submit the outputs from the tool calls once they're all completed.
+     * And stream back the response
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return EventStreamResponse<mixed>
+     */
+    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): EventStreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::create('threads/'.$threadId.'/runs/'.$runId.'/submit_tool_outputs', $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);
+    }
+
+    /**
      * Cancels a run that is `in_progress`.
      *
      * @see https://platform.openai.com/docs/api-reference/runs/cancelRun
