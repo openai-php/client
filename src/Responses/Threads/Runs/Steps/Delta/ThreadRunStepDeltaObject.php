@@ -24,7 +24,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public ThreadRunStepResponseMessageCreationStepDetails|ThreadRunStepResponseToolCallsStepDetails $stepDetails,
+        public ThreadRunStepResponseMessageCreationStepDetails | array $stepDetails,
     ) {
     }
 
@@ -37,7 +37,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
     {
         $stepDetails = match ($attributes['step_details']['type']) {
             'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
-            'tool_calls' => ThreadRunStepResponseToolCallsStepDetails::from($attributes['step_details']),
+            'tool_calls' => $attributes['step_details'],
         };
         return new self(
             $attributes['step_details'],
@@ -50,7 +50,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
     public function toArray(): array
     {
         return [
-            'step_details' => $this->stepDetails,
+            'step_details' => $this->stepDetails['type'] === "message_creation" ? $this->stepDetails->toArray() : $this->stepDetails,
         ];
     }
 }
