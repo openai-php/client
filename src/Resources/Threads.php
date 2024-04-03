@@ -68,7 +68,7 @@ final class Threads implements ThreadsContract
 
         $payload = Payload::create('threads/runs', $parameters);
 
-        $response = $this->transporter->requestObject($payload);
+        $response = $this->transporter->requestStream($payload);
 
         return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);;
     }
