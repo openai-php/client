@@ -33,6 +33,28 @@ function audioTranscriptionVerboseJson(): array
                 'transient' => false,
             ],
         ],
+        'words' => [
+            [
+                'word' => 'Hello',
+                'start' => 0.31999999284744,
+                'end' => 0.9200000166893,
+            ],
+            [
+                'word' => 'how',
+                'start' => 1.0,
+                'end' => 1.5599999427795,
+            ],
+            [
+                'word' => 'are',
+                'start' => 1.5599999427795,
+                'end' => 1.8799999952316,
+            ],
+            [
+                'word' => 'you',
+                'start' => 1.8799999952316,
+                'end' => 2.1600000858307,
+            ],
+        ],
         'text' => 'Hello, how are you?',
     ];
 }
