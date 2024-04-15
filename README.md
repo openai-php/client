@@ -391,6 +391,7 @@ $response = $client->audio()->transcribe([
     'model' => 'whisper-1',
     'file' => fopen('audio.mp3', 'r'),
     'response_format' => 'verbose_json',
+    'timestamp_granularities' => ['segment', 'word']
 ]);
 
 $response->task; // 'transcribe'
@@ -410,6 +411,12 @@ foreach ($response->segments as $segment) {
     $segment->compressionRatio; // 0.7037037037037037
     $segment->noSpeechProb; // 0.1076972484588623
     $segment->transient; // false
+}
+
+foreach ($response->words as $word) {
+    $word->word; // 'Hello'
+    $word->start; // 0.31
+    $word->end; // 0.92
 }
 
 $response->toArray(); // ['task' => 'transcribe', ...]
