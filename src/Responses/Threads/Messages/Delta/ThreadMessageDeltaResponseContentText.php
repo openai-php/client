@@ -24,7 +24,7 @@ final class ThreadMessageDeltaResponseContentText implements ResponseContract
      * @param  array<int, ThreadMessageResponseContentTextAnnotationFilePathObject|ThreadMessageResponseContentTextAnnotationFileCitationObject>  $annotations
      */
     private function __construct(
-        public string $value,
+        public ?string $value,
         public ?array $annotations,
     ) {
     }
@@ -47,7 +47,7 @@ final class ThreadMessageDeltaResponseContentText implements ResponseContract
         }
 
         return new self(
-            $attributes['value'],
+            isset($attributes['value']) ? $attributes['value'] : null,
             isset($annotations) ? $annotations : null,
         );
     }
