@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Completions;
 
+
 final class CreateResponseChoice
 {
     private function __construct(
@@ -22,7 +23,7 @@ final class CreateResponseChoice
         return new self(
             $attributes['text'],
             $attributes['index'],
-            $attributes['logprobs'] ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
+            key_exists('logprobs', $attributes) && $attributes['logprobs'] ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
             $attributes['finish_reason'],
         );
     }
