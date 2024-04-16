@@ -49,12 +49,7 @@ final class ThreadMessageDeltaResponse implements ResponseContract
         return [
             'id' => $this->id,
             'object' => $this->object,
-            'role' => $this->role,
-            'content' => array_map(
-                fn (ThreadMessageResponseContentImageFileObject|ThreadMessageDeltaResponseContentTextObject $content): array => $content->toArray(),
-                $this->content,
-            ),
-            'file_ids' => $this->fileIds,
+            'delta' => $this->delta->toArray()
         ];
     }
 }
