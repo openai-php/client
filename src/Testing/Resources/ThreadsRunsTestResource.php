@@ -17,6 +17,11 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
         return ThreadsRuns::class;
     }
 
+    public function createStreamed(string $threadId, array $parameters)
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
     public function create(string $threadId, array $parameters): ThreadRunResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
