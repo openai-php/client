@@ -1462,32 +1462,42 @@ $stream = $client->threads()->runs()->createStreamed(
     ],
 );
 
-foreach($stream as $response){
-    $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
-    $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
 
-    switch($response->event){
-        case 'thread.run.created':
-        case 'thread.run.completed':
-            $run = $response->data;
-            break;
-        case 'thread.run.requires_action':
-            // Overwrite the stream with the new stream started by submitting the tool outputs
-            $stream = $client->threads()->runs()->submitToolOutputsStreamed(
-                threadId: $run->threadId,
-                runId: $run->id,
-                parameters: [
-                    'tool_outputs' => [
-                        [
-                            'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
-                            'output' => '12',
-                        ]
-                    ],
-                ]
-            );
-            break;
+do{
+    foreach($stream as $response){
+        $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
+        $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
+
+        switch($response->event){
+            case 'thread.run.created':
+            case 'thread.run.queued':
+            case 'thread.run.completed':
+            case 'thread.run.cancelling':
+                $run = $response->data;
+                break;
+            case 'thread.run.expired':
+            case 'thread.run.cancelled':
+            case 'thread.run.failed':
+                $run = $response->data;
+                break 3;
+            case 'thread.run.requires_action':
+                // Overwrite the stream with the new stream started by submitting the tool outputs
+                $stream = $client->threads()->runs()->submitToolOutputsStreamed(
+                    threadId: $run->threadId,
+                    runId: $run->id,
+                    parameters: [
+                        'tool_outputs' => [
+                            [
+                                'tool_call_id' => 'call_KSg14X7kZF2WDzlPhpQ168Mj',
+                                'output' => '12',
+                            ]
+                        ],
+                    ]
+                );
+                break;
+        }
     }
-}
+} while ($run->status != "completed")
 
 // ...
 ```
