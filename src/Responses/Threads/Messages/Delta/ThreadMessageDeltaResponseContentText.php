@@ -6,6 +6,8 @@ namespace OpenAI\Responses\Threads\Messages\Delta;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFileCitationObject;
+use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFilePathObject;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
