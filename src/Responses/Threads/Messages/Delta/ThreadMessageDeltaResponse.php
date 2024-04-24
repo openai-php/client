@@ -49,7 +49,7 @@ final class ThreadMessageDeltaResponse implements ResponseContract
         return [
             'id' => $this->id,
             'object' => $this->object,
-            'delta' => $this->delta->toArray()
+            'delta' => $this->delta->toArray(),
         ];
     }
 }

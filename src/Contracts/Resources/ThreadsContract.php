@@ -2,10 +2,10 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\EventStreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
-use OpenAI\Responses\EventStreamResponse;
 
 interface ThreadsContract
 {

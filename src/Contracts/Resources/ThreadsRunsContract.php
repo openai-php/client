@@ -2,9 +2,9 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\EventStreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
-use OpenAI\Responses\EventStreamResponse;
 
 interface ThreadsRunsContract
 {
@@ -55,7 +55,7 @@ interface ThreadsRunsContract
     /**
      * This endpoint can be used to submit the outputs from the tool calls once they're all completed.
      * And stream back the response
-     * 
+     *
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
      * @param  array<string, mixed>  $parameters

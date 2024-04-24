@@ -6,8 +6,8 @@ namespace OpenAI\Responses\Threads\Messages\Delta;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Testing\Responses\Concerns\Fakeable;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFile;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @implements ResponseContract<array{index: int, type: string, image_file: array{file_id: string}}>

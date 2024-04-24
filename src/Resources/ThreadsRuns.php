@@ -6,10 +6,9 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
-use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\EventStreamResponse;
 use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
-
+use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
