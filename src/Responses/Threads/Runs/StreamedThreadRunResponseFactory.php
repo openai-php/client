@@ -4,8 +4,8 @@ namespace OpenAI\Responses\Threads\Runs;
 
 use OpenAI\Responses\Threads\Messages\Delta\ThreadMessageDeltaResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 use OpenAI\Responses\Threads\Runs\Steps\Delta\ThreadRunStepDeltaResponse;
+use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
 
 class StreamedThreadRunResponseFactory

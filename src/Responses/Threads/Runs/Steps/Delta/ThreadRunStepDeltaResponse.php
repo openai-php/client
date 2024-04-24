@@ -6,7 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps\Delta;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**

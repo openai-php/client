@@ -7,13 +7,13 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
+use OpenAI\Responses\EventStreamResponse;
+use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
-use OpenAI\Responses\EventStreamResponse;
-use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 
 final class Threads implements ThreadsContract
 {
@@ -70,7 +70,7 @@ final class Threads implements ThreadsContract
 
         $response = $this->transporter->requestStream($payload);
 
-        return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);;
+        return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);
     }
 
     /**

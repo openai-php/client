@@ -6,8 +6,6 @@ namespace OpenAI\Responses\Threads\Runs\Steps\Delta;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseToolCallsStepDetails;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreationStepDetails;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -24,7 +22,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public ThreadRunStepResponseMessageCreationStepDetails | array $stepDetails,
+        public ThreadRunStepResponseMessageCreationStepDetails|array $stepDetails,
     ) {
     }
 
@@ -39,6 +37,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
             'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
             'tool_calls' => $attributes['step_details'],
         };
+
         return new self(
             $attributes['step_details'],
         );
@@ -50,7 +49,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
     public function toArray(): array
     {
         return [
-            'step_details' => $this->stepDetails['type'] === "message_creation" ? $this->stepDetails->toArray() : $this->stepDetails,
+            'step_details' => $this->stepDetails['type'] === 'message_creation' ? $this->stepDetails->toArray() : $this->stepDetails,
         ];
     }
 }
