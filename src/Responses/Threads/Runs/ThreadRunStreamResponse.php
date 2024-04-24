@@ -14,7 +14,7 @@ use OpenAI\Responses\Threads\ThreadResponse;
 /**
  * @implements ResponseContract<array{event: string, data: array<string, mixed>}>
  */
-class StreamedThreadRunResponseFactory implements ResponseContract
+class ThreadRunStreamResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{event: string, data: array<string, mixed>}>

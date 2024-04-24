@@ -3,9 +3,9 @@
 namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\StreamResponse;
-use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunStreamResponse;
 
 interface ThreadsRunsContract
 {
@@ -24,7 +24,7 @@ interface ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createRun
      *
      * @param  array<string, mixed>  $parameters
-     * @return StreamResponse<StreamedThreadRunResponseFactory>
+     * @return StreamResponse<ThreadRunStreamResponse>
      */
     public function createStreamed(string $threadId, array $parameters): StreamResponse;
 
@@ -60,7 +60,7 @@ interface ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
      * @param  array<string, mixed>  $parameters
-     * @return StreamResponse<StreamedThreadRunResponseFactory>
+     * @return StreamResponse<ThreadRunStreamResponse>
      */
     public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): StreamResponse;
 

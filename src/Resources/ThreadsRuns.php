@@ -7,9 +7,9 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
 use OpenAI\Responses\StreamResponse;
-use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunStreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -41,7 +41,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createRun
      *
      * @param  array<string, mixed>  $parameters
-     * @return StreamResponse<StreamedThreadRunResponseFactory>
+     * @return StreamResponse<ThreadRunStreamResponse>
      */
     public function createStreamed(string $threadId, array $parameters): StreamResponse
     {
@@ -51,7 +51,7 @@ final class ThreadsRuns implements ThreadsRunsContract
 
         $response = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(StreamedThreadRunResponseFactory::class, $response);
+        return new StreamResponse(ThreadRunStreamResponse::class, $response);
     }
 
     /**
@@ -110,7 +110,7 @@ final class ThreadsRuns implements ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
      * @param  array<string, mixed>  $parameters
-     * @return StreamResponse<StreamedThreadRunResponseFactory>
+     * @return StreamResponse<ThreadRunStreamResponse>
      */
     public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): StreamResponse
     {
@@ -120,7 +120,7 @@ final class ThreadsRuns implements ThreadsRunsContract
 
         $response = $this->transporter->requestStream($payload);
 
-        return new StreamResponse(StreamedThreadRunResponseFactory::class, $response);
+        return new StreamResponse(ThreadRunStreamResponse::class, $response);
     }
 
     /**
