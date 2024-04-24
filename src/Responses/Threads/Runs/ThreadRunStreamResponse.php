@@ -3,6 +3,7 @@
 namespace OpenAI\Responses\Threads\Runs;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Messages\Delta\ThreadMessageDeltaResponse;
@@ -70,7 +71,7 @@ class ThreadRunStreamResponse implements ResponseContract
             'thread.message.completed',
             'thread.message.incomplete' => ThreadMessageResponse::from($data, $meta),
             'thread.message.delta' => ThreadMessageDeltaResponse::from($data),
-            default => throw new ErrorException('Unhandled event type: '.$event),
+            default => throw new UnknownEventException('Unknown event: '.$event),
         };
 
         return new self(
