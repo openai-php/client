@@ -47,9 +47,9 @@ final class ThreadMessageDeltaObject implements ResponseContract
         );
 
         return new self(
-            isset($attributes['role']) ? $attributes['role'] : null,
+            $attributes['role'] ?? null,
             $content,
-            isset($attributes['file_ids']) ? $attributes['file_ids'] : null,
+            $attributes['file_ids'] ?? null,
         );
     }
 

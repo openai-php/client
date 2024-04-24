@@ -49,12 +49,10 @@ final class ThreadRunStepDeltaResponse implements ResponseContract
      */
     public function toArray(): array
     {
-        $data = [
+        return [
             'id' => $this->id,
             'object' => $this->object,
             'delta' => $this->delta->toArray(),
         ];
-
-        return $data;
     }
 }

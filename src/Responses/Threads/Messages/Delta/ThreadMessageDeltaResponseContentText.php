@@ -49,8 +49,8 @@ final class ThreadMessageDeltaResponseContentText implements ResponseContract
         }
 
         return new self(
-            isset($attributes['value']) ? $attributes['value'] : null,
-            isset($annotations) ? $annotations : null,
+            $attributes['value'] ?? null,
+            $annotations ?? null,
         );
     }
 

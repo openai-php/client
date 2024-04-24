@@ -14,39 +14,16 @@ class StreamedThreadRunResponseFactory
      * Maps the appropriate classes onto each event from the assistants streaming api
      * https://platform.openai.com/docs/api-reference/assistants-streaming/events
      */
-    public static function from($event, $data, $meta)
+    public static function from(string $event, array $data, \OpenAI\Responses\Meta\MetaInformation $meta): \OpenAI\Responses\Threads\ThreadResponse|\OpenAI\Responses\Threads\Runs\ThreadRunResponse|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse|\OpenAI\Responses\Threads\Runs\Steps\Delta\ThreadRunStepDeltaResponse|\OpenAI\Responses\Threads\Messages\ThreadMessageResponse|\OpenAI\Responses\Threads\Messages\Delta\ThreadMessageDeltaResponse
     {
-        switch ($event) {
-            case 'thread.created':
-                return ThreadResponse::from($data, $meta);
-            case 'thread.run.created':
-            case 'thread.run.queued':
-            case 'thread.run.in_progress':
-            case 'thread.run.requires_action':
-            case 'thread.run.completed':
-            case 'thread.run.failed':
-            case 'thread.run.cancelling':
-            case 'thread.run.cancelled':
-            case 'thread.run.expired':
-                return ThreadRunResponse::from($data, $meta);
-            case 'thread.run.step.created':
-            case 'thread.run.step.in_progress':
-            case 'thread.run.step.completed':
-            case 'thread.run.step.failed':
-            case 'thread.run.step.cancelled':
-            case 'thread.run.step.expired':
-                return ThreadRunStepResponse::from($data, $meta);
-            case 'thread.run.step.delta':
-                return ThreadRunStepDeltaResponse::from($data);
-            case 'thread.message.created':
-            case 'thread.message.in_progress':
-            case 'thread.message.completed':
-            case 'thread.message.incomplete':
-                return ThreadMessageResponse::from($data, $meta);
-            case 'thread.message.delta':
-                return ThreadMessageDeltaResponse::from($data);
-            default:
-                throw new ErrorException('Unhandled event type: '.$event);
-        }
+        return match ($event) {
+            'thread.created' => ThreadResponse::from($data, $meta),
+            'thread.run.created', 'thread.run.queued', 'thread.run.in_progress', 'thread.run.requires_action', 'thread.run.completed', 'thread.run.failed', 'thread.run.cancelling', 'thread.run.cancelled', 'thread.run.expired' => ThreadRunResponse::from($data, $meta),
+            'thread.run.step.created', 'thread.run.step.in_progress', 'thread.run.step.completed', 'thread.run.step.failed', 'thread.run.step.cancelled', 'thread.run.step.expired' => ThreadRunStepResponse::from($data, $meta),
+            'thread.run.step.delta' => ThreadRunStepDeltaResponse::from($data),
+            'thread.message.created', 'thread.message.in_progress', 'thread.message.completed', 'thread.message.incomplete' => ThreadMessageResponse::from($data, $meta),
+            'thread.message.delta' => ThreadMessageDeltaResponse::from($data),
+            default => throw new ErrorException('Unhandled event type: '.$event),
+        };
     }
 }

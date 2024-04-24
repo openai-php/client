@@ -36,7 +36,7 @@ final class ThreadMessageDeltaResponseContentImageFileObject implements Response
     public static function from(array $attributes): self
     {
         return new self(
-            isset($attributes['index']) ? $attributes['index'] : null,
+            $attributes['index'] ?? null,
             $attributes['type'],
             ThreadMessageResponseContentImageFile::from($attributes['image_file']),
         );

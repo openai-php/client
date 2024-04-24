@@ -4,13 +4,7 @@ namespace OpenAI\Responses;
 
 class EventStreamResponseItem
 {
-    public readonly string $event;
-
-    public readonly object $data;
-
-    public function __construct(string $event, $data)
+    public function __construct(public readonly string $event, public readonly object $data)
     {
-        $this->event = $event;
-        $this->data = $data;
     }
 }

@@ -35,7 +35,7 @@ final class ThreadMessageDeltaResponseContentTextObject implements ResponseContr
     public static function from(array $attributes): self
     {
         return new self(
-            isset($attributes['index']) ? $attributes['index'] : null,
+            $attributes['index'] ?? null,
             $attributes['type'],
             ThreadMessageDeltaResponseContentText::from($attributes['text']),
         );
