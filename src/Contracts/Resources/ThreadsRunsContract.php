@@ -2,7 +2,8 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\EventStreamResponse;
+use OpenAI\Responses\StreamResponse;
+use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 
@@ -23,9 +24,9 @@ interface ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createRun
      *
      * @param  array<string, mixed>  $parameters
-     * @return EventStreamResponse<mixed>
+     * @return StreamResponse<StreamedThreadRunResponseFactory>
      */
-    public function createStreamed(string $threadId, array $parameters): EventStreamResponse;
+    public function createStreamed(string $threadId, array $parameters): StreamResponse;
 
     /**
      * Retrieves a run.
@@ -59,9 +60,9 @@ interface ThreadsRunsContract
      * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
      *
      * @param  array<string, mixed>  $parameters
-     * @return EventStreamResponse<mixed>
+     * @return StreamResponse<StreamedThreadRunResponseFactory>
      */
-    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): EventStreamResponse;
+    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): StreamResponse;
 
     /**
      * Cancels a run that is `in_progress`.

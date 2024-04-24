@@ -7,7 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\ThreadsMessagesContract;
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
-use OpenAI\Responses\EventStreamResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\StreamedThreadRunResponseFactory;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
@@ -60,9 +60,9 @@ final class Threads implements ThreadsContract
      * @see https://platform.openai.com/docs/api-reference/runs/createThreadAndRun
      *
      * @param  array<string, mixed>  $parameters
-     * @return EventStreamResponse<mixed>
+     * @return StreamResponse<StreamedThreadRunResponseFactory>
      */
-    public function createAndRunStreamed(array $parameters): EventStreamResponse
+    public function createAndRunStreamed(array $parameters): StreamResponse
     {
         $parameters = $this->setStreamParameter($parameters);
 
@@ -70,7 +70,7 @@ final class Threads implements ThreadsContract
 
         $response = $this->transporter->requestStream($payload);
 
-        return new EventStreamResponse(StreamedThreadRunResponseFactory::class, $response);
+        return new StreamResponse(StreamedThreadRunResponseFactory::class, $response);
     }
 
     /**
