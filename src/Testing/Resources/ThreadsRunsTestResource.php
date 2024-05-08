@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Resources\ThreadsRuns;
+use OpenAI\Responses\EventStreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
@@ -50,5 +51,15 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
     public function steps(): ThreadsRunsStepsTestResource
     {
         return new ThreadsRunsStepsTestResource($this->fake);
+    }
+
+    public function createStreamed(string $threadId, array $parameters): EventStreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): EventStreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
     }
 }
