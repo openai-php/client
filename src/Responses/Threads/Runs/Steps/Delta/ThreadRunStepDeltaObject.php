@@ -34,7 +34,7 @@ final class ThreadRunStepDeltaObject implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $stepDetails = match ($attributes['step_details']['type']) {
+        match ($attributes['step_details']['type']) {
             'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
             'tool_calls' => ThreadRunStepResponseToolCallsStepDetails::from($attributes['step_details']),
         };

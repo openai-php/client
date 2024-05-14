@@ -23,7 +23,7 @@ final class ThreadMessageDeltaResponseContentText implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  array<int, ThreadMessageResponseContentTextAnnotationFilePathObject|ThreadMessageResponseContentTextAnnotationFileCitationObject>  $annotations
+     * @param \OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFilePathObject[]|\OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextAnnotationFileCitationObject[]|null $annotations
      */
     private function __construct(
         public string $value,
@@ -47,7 +47,7 @@ final class ThreadMessageDeltaResponseContentText implements ResponseContract
         );
 
         return new self(
-            $attributes['value'],
+            $attributes['value'] ?? null,
             $annotations,
         );
     }

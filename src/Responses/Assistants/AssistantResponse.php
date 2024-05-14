@@ -25,7 +25,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     use HasMetaInformation;
 
     /**
-     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction>  $tools
+     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
      * @param  array<int, AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch>  $toolResources
      * @param  array<int, string>  $fileIds
      * @param  array<string, string>  $metadata
@@ -56,9 +56,9 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
-            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction => match ($tool['type']) {
+            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
-                'file_search' => AssistantResponseToolRetrieval::from($tool),
+                'file_search' => AssistantResponseToolFileSearch::from($tool),
                 'function' => AssistantResponseToolFunction::from($tool),
             },
             $attributes['tools'],
@@ -103,8 +103,8 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'description' => $this->description,
             'model' => $this->model,
             'instructions' => $this->instructions,
-            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
-            'tool_resources' =>array_map(fn (AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch $toolResources): array => $toolResources->toArray(), $this->toolResources),
+            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
+            'tool_resources' => array_map(fn (AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch $toolResources): array => $toolResources->toArray(), $this->toolResources),
             'metadata' => $this->metadata,
             'temperature' => $this->temperature,
             'top_p' => $this->topP,

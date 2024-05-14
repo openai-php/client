@@ -151,6 +151,68 @@ function assistantWithAllToolsResource(): array
 /**
  * @return array<string, mixed>
  */
+function assistantWithFileSearchResource(): array
+{
+    return [
+        'id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'object' => 'assistant',
+        'created_at' => 1699619403,
+        'name' => 'Math Tutor',
+        'description' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor.',
+        'tools' => [
+            [
+                'type' => 'file_search',
+            ],
+        ],
+        'tool_resources' => [
+            [
+                'type' => 'file_search',
+                'vector_store_ids' => ['file-test0001']
+            ]
+        ],
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function assistantWithCodeInterpreterResource(): array
+{
+    return [
+        'id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'object' => 'assistant',
+        'created_at' => 1699619403,
+        'name' => 'Math Tutor',
+        'description' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor.',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+            ],
+        ],
+        'tool_resources' => [
+            [
+                'type' => 'code_interpreter',
+                'file_ids' => ['file-test0001']
+            ]
+        ],
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function assistantListResource(): array
 {
     return [

@@ -2,6 +2,9 @@
 
 use OpenAI\Responses\Assistants\AssistantResponse;
 use OpenAI\Responses\Assistants\AssistantResponseToolCodeInterpreter;
+use OpenAI\Responses\Assistants\AssistantResponseToolResourceCodeInterpreter;
+use OpenAI\Responses\Assistants\AssistantResponseToolResourceFileSearch;
+use OpenAI\Responses\Assistants\AssistantResponseToolFileSearch;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
@@ -18,6 +21,50 @@ test('from', function () {
         ->tools->toBeArray()
         ->tools->{0}->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
         ->toolResources->toBeArray()
+        ->metadata->toBeArray()
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
+});
+
+test('with file search', function () {
+    $result = AssistantResponse::from(assistantWithFileSearchResource(), meta());
+
+    expect($result)
+        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
+        ->object->toBe('assistant')
+        ->createdAt->toBe(1699619403)
+        ->name->toBe('Math Tutor')
+        ->description->toBeNull()
+        ->model->toBe('gpt-4')
+        ->instructions->toBe('You are a personal math tutor.')
+        ->tools->toBeArray()
+        ->tools->{0}->toBeInstanceOf(AssistantResponseToolFileSearch::class)
+        ->toolResources->toBeArray()->toHaveLength(1)
+        ->toolResources->{0}->toBeInstanceOf(AssistantResponseToolResourceFileSearch::class)
+        ->metadata->toBeArray()
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
+});
+
+test('with code interpreter', function () {
+    $result = AssistantResponse::from(assistantWithCodeInterpreterResource(), meta());
+
+    expect($result)
+        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
+        ->object->toBe('assistant')
+        ->createdAt->toBe(1699619403)
+        ->name->toBe('Math Tutor')
+        ->description->toBeNull()
+        ->model->toBe('gpt-4')
+        ->instructions->toBe('You are a personal math tutor.')
+        ->tools->toBeArray()
+        ->tools->{0}->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
+        ->toolResources->toBeArray()->toHaveLength(1)
+        ->toolResources->{0}->toBeInstanceOf(AssistantResponseToolResourceCodeInterpreter::class)
         ->metadata->toBeArray()
         ->meta()->toBeInstanceOf(MetaInformation::class)
         ->temperature->toBe(0.7)
