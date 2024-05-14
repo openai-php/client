@@ -51,7 +51,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array<int, array{type: 'text'}|array{type: 'json_object'}>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array{type: 'text'}|array{type: 'json_object'}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -72,6 +72,11 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['tool_resources'],
         );
 
+        $responseFormat = is_array($attributes['response_format']) ? match($attributes['response_format']['type']) {
+            'text' => AssistantResponseResponseFormatText::from($attributes['response_format']),
+            'json_object' => AssistantResponseResponseFormatJsonObject::from($attributes['response_format']),
+        } : $attributes['response_format'];
+
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -86,7 +91,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $meta,
             $attributes['temperature'],
             $attributes['top_p'],
-            $attributes['response_format']
+            $responseFormat
         );
     }
 

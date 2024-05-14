@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Assistants\AssistantResponse;
+use OpenAI\Responses\Assistants\AssistantResponseResponseFormatJsonObject;
 use OpenAI\Responses\Assistants\AssistantResponseToolCodeInterpreter;
 use OpenAI\Responses\Assistants\AssistantResponseToolResourceCodeInterpreter;
 use OpenAI\Responses\Assistants\AssistantResponseToolResourceFileSearch;
@@ -70,6 +71,13 @@ test('with code interpreter', function () {
         ->temperature->toBe(0.7)
         ->topP->toBe(1.0)
         ->responseFormat->toBe('text');
+});
+
+test('with json object response format', function () {
+    $result = AssistantResponse::from(assistantWithJsonObjectResponseFormat(), meta());
+
+    expect($result)
+        ->responseFormat->toBeInstanceOf(AssistantResponseResponseFormatJsonObject::class);
 });
 
 test('as array accessible', function () {

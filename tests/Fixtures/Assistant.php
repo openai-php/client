@@ -29,7 +29,7 @@ function assistantResource(): array
 /**
  * @return array<string, mixed>
  */
-function assistantWithFunctionToolResource(): array
+function assistantWithJsonObjectResponseFormat(): array
 {
     return [
         'id' => 'asst_reHHtAM0jKLDIxanM6gP6DaR',
@@ -67,26 +67,90 @@ function assistantWithFunctionToolResource(): array
         'metadata' => [],
         'temperature' => 0.7,
         'top_p' => 1.0,
-        'response_format' => 'text',
+        'response_format' => ['type' => 'json_object'],
     ];
 }
 
 /**
  * @return array<string, mixed>
  */
-function assistantWithRetrievalToolResource(): array
+function assistantWithTextResponseFormat(): array
 {
     return [
-        'id' => 'asst_3jHvDyRbElRz2yig9RrPT9cX',
+        'id' => 'asst_reHHtAM0jKLDIxanM6gP6DaR',
         'object' => 'assistant',
-        'created_at' => 1699642972,
+        'created_at' => 1699642651,
         'name' => 'Math Tutor',
         'description' => null,
-        'model' => 'gpt-4-1106-preview',
+        'model' => 'gpt-4',
         'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
         'tools' => [
             [
-                'type' => 'file_search',
+                'type' => 'function',
+                'function' => [
+                    'name' => 'add',
+                    'description' => 'Returns the sum of two numbers',
+                    'parameters' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'a' => [
+                                'type' => 'number',
+                            ],
+                            'b' => [
+                                'type' => 'number',
+                            ],
+                        ],
+                        'required' => [
+                            'a',
+                            'b',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'tool_resources' => [],
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => ['type' => 'text'],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function assistantWithFunctionToolResource(): array
+{
+    return [
+        'id' => 'asst_reHHtAM0jKLDIxanM6gP6DaR',
+        'object' => 'assistant',
+        'created_at' => 1699642651,
+        'name' => 'Math Tutor',
+        'description' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+        'tools' => [
+            [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'add',
+                    'description' => 'Returns the sum of two numbers',
+                    'parameters' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'a' => [
+                                'type' => 'number',
+                            ],
+                            'b' => [
+                                'type' => 'number',
+                            ],
+                        ],
+                        'required' => [
+                            'a',
+                            'b',
+                        ],
+                    ],
+                ],
             ],
         ],
         'tool_resources' => [],
