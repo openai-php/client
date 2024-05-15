@@ -42,11 +42,6 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
         public array $metadata,
         private readonly MetaInformation $meta,
     ) {
-        /**
-         * TODO V2 upgrade:
-         * - Update content (At minimum include image_url)
-         * - Update file_ids to use new attachments array
-         */
     }
 
     /**
