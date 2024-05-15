@@ -10,6 +10,9 @@ use OpenAI\Responses\Threads\Messages\Files\ThreadMessageFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
+/**
+ * @deprecated Replaced with vector stores in v2 of the assistants API https://platform.openai.com/docs/api-reference/vector-stores
+ */
 final class ThreadsMessagesFiles implements ThreadsMessagesFilesContract
 {
     use Concerns\Transportable;

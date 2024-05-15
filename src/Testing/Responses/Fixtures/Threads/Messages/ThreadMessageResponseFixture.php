@@ -20,8 +20,11 @@ final class ThreadMessageResponseFixture
                 ],
             ],
         ],
-        'file_ids' => [
-            'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+        'attachments' => [
+            [
+                'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+                'tools' => [['type' => 'file_search']],
+            ]
         ],
         'assistant_id' => null,
         'run_id' => null,

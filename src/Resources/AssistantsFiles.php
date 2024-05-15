@@ -11,6 +11,9 @@ use OpenAI\Responses\Assistants\Files\AssistantFileResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
+/**
+ * @deprecated assistant files has been deprecated and is replaced by vector stores https://platform.openai.com/docs/api-reference/vector-stores
+ */
 final class AssistantsFiles implements AssistantsFilesContract
 {
     use Concerns\Transportable;
