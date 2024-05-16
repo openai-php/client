@@ -58,4 +58,9 @@ final class ThreadsTestResource implements ThreadsContract
     {
         return new ThreadsRunsTestResource($this->fake);
     }
+
+    public function createAndRunStreamed(array $parameters): EventStreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
 }
