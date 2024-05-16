@@ -5,7 +5,6 @@ namespace OpenAI\Responses\Threads\Runs;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Messages\Delta\ThreadMessageDeltaResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Responses\Threads\Runs\Steps\Delta\ThreadRunStepDeltaResponse;
@@ -22,13 +21,9 @@ class ThreadRunStreamResponse implements ResponseContract
      */
     use ArrayAccessible;
 
-    /**
-     * @param  array<int, ThreadRunResponse>  $data
-     */
     private function __construct(
         public readonly string $event,
         public readonly ThreadResponse|ThreadRunResponse|ThreadRunStepResponse|ThreadRunStepDeltaResponse|ThreadMessageResponse|ThreadMessageDeltaResponse $response,
-        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -40,16 +35,16 @@ class ThreadRunStreamResponse implements ResponseContract
      *
      * @param  array<string, mixed>  $attributes
      */
-    public static function from(array $data): self
+    public static function from(array $attributes): self
     {
-        $event = $data['__event'];
-        unset($data['__event']);
+        $event = $attributes['__event'];
+        unset($attributes['__event']);
 
-        $meta = $data['__meta'];
-        unset($data['__meta']);
+        $meta = $attributes['__meta'];
+        unset($attributes['__meta']);
 
         $response = match ($event) {
-            'thread.created' => ThreadResponse::from($data, $meta),
+            'thread.created' => ThreadResponse::from($attributes, $meta), // @phpstan-ignore-line
             'thread.run.created',
             'thread.run.queued',
             'thread.run.in_progress',
@@ -58,26 +53,25 @@ class ThreadRunStreamResponse implements ResponseContract
             'thread.run.failed',
             'thread.run.cancelling',
             'thread.run.cancelled',
-            'thread.run.expired' => ThreadRunResponse::from($data, $meta),
+            'thread.run.expired' => ThreadRunResponse::from($attributes, $meta), // @phpstan-ignore-line
             'thread.run.step.created',
             'thread.run.step.in_progress',
             'thread.run.step.completed',
             'thread.run.step.failed',
             'thread.run.step.cancelled',
-            'thread.run.step.expired' => ThreadRunStepResponse::from($data, $meta),
-            'thread.run.step.delta' => ThreadRunStepDeltaResponse::from($data),
+            'thread.run.step.expired' => ThreadRunStepResponse::from($attributes, $meta), // @phpstan-ignore-line
+            'thread.run.step.delta' => ThreadRunStepDeltaResponse::from($attributes), // @phpstan-ignore-line
             'thread.message.created',
             'thread.message.in_progress',
             'thread.message.completed',
-            'thread.message.incomplete' => ThreadMessageResponse::from($data, $meta),
-            'thread.message.delta' => ThreadMessageDeltaResponse::from($data),
+            'thread.message.incomplete' => ThreadMessageResponse::from($attributes, $meta), // @phpstan-ignore-line
+            'thread.message.delta' => ThreadMessageDeltaResponse::from($attributes), // @phpstan-ignore-line
             default => throw new UnknownEventException('Unknown event: '.$event),
         };
 
         return new self(
-            $event,
+            $event, // @phpstan-ignore-line
             $response,
-            $meta,
         );
     }
 

@@ -10,19 +10,22 @@ use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFile;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{index: int, type: string, image_file: array{file_id: string}}>
+ * @implements ResponseContract<array{index: int, type: 'image_file', image_file: array{file_id: string}}>
  */
 final class ThreadMessageDeltaResponseContentImageFileObject implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{index: int, type: string, image_file: array{file_id: string}}>
+     * @use ArrayAccessible<array{index: int, type: 'image_file', image_file: array{file_id: string}}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
+    /**
+     * @param  'image_file'  $type
+     */
     private function __construct(
-        public ?int $index,
+        public int $index,
         public string $type,
         public ThreadMessageResponseContentImageFile $imageFile,
     ) {
@@ -31,12 +34,12 @@ final class ThreadMessageDeltaResponseContentImageFileObject implements Response
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{index: int, type: string, image_file: array{file_id: string}}  $attributes
+     * @param  array{index: int, type: 'image_file', image_file: array{file_id: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['index'] ?? null,
+            $attributes['index'],
             $attributes['type'],
             ThreadMessageResponseContentImageFile::from($attributes['image_file']),
         );
