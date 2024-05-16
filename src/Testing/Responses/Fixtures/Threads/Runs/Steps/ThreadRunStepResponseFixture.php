@@ -15,7 +15,7 @@ final class ThreadRunStepResponseFixture
         'status' => 'completed',
         'cancelled_at' => null,
         'completed_at' => 1_699_564_119,
-        'expires_at' => null,
+        'expired_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -23,6 +23,11 @@ final class ThreadRunStepResponseFixture
             'message_creation' => [
                 'message_id' => 'msg_i404PxKbB92d0JAmdOIcX7vA',
             ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
         ],
     ];
 }

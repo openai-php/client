@@ -16,7 +16,7 @@ function threadRunStepResource(): array
         'status' => 'completed',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expires_at' => null,
+        'expired_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -24,6 +24,11 @@ function threadRunStepResource(): array
             'message_creation' => [
                 'message_id' => 'msg_i404PxKbB92d0JAmdOIcX7vA',
             ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
         ],
     ];
 }
@@ -44,7 +49,7 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
         'status' => 'completed',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expires_at' => null,
+        'expired_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -85,7 +90,12 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
                 ],
             ],
         ],
-        'metadata' => ['name' => 'the step name']
+        'metadata' => ['name' => 'the step name'],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
+        ],
     ];
 }
 
@@ -105,7 +115,7 @@ function threadRunStepWithFunctionCallPendingOutputResource(): array
         'status' => 'in_progress',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expires_at' => null,
+        'expired_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -122,6 +132,11 @@ function threadRunStepWithFunctionCallPendingOutputResource(): array
             ],
         ],
         'metadata' => ['name' => 'the step name'],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
+        ],
     ];
 }
 

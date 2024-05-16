@@ -7,7 +7,7 @@ test('from', function () {
     expect($result)
         ->id->toBe('call_mNs14X7kZF2WDzlPhpQ163Co')
         ->type->toBe('file_search')
-        ->retrieval->toBe([]);
+        ->file_search->toBe([]);
 });
 
 test('as array accessible', function () {

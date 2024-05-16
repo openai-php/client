@@ -9,32 +9,32 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, type: 'retrieval', retrieval: array<string, string>}>
+ * @implements ResponseContract<array{id: string, type: string, file_search: array<string, string>}>
  */
 final class ThreadRunStepResponseFileSearchToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, type: 'retrieval', retrieval: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, type: string, file_search: array<string, string>}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'retrieval'  $type
-     * @param  array<string, string>  $retrieval
+     * @param  'file_search'  $type
+     * @param  array<string, string>  $file_search
      */
     private function __construct(
         public string $id,
         public string $type,
-        public array $retrieval,
+        public array $file_search,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, type: 'file_search', retrieval: array<string, string>}  $attributes
+     * @param  array{id: string, type: 'file_search', file_search: array<string, string>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -53,7 +53,7 @@ final class ThreadRunStepResponseFileSearchToolCall implements ResponseContract
         return [
             'id' => $this->id,
             'type' => $this->type,
-            'file_search' => $this->retrieval,
+            'file_search' => $this->file_search,
         ];
     }
 }
