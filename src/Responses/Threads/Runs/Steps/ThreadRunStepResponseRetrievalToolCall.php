@@ -9,18 +9,19 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, type: string, retrieval: array<string, string>}>
+ * @implements ResponseContract<array{id: string, type: 'retrieval', retrieval: array<string, string>}>
  */
 final class ThreadRunStepResponseRetrievalToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, type: string, retrieval: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, type: 'retrieval', retrieval: array<string, string>}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
+     * @param  'retrieval'  $type
      * @param  array<string, string>  $retrieval
      */
     private function __construct(

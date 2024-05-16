@@ -6,13 +6,16 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Contracts\Resources\ThreadsRunsStepsContract;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunStreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
 final class ThreadsRuns implements ThreadsRunsContract
 {
+    use Concerns\Streamable;
     use Concerns\Transportable;
 
     /**
@@ -30,6 +33,25 @@ final class ThreadsRuns implements ThreadsRunsContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadRunResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Creates a streamed run
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/createRun
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<ThreadRunStreamResponse>
+     */
+    public function createStreamed(string $threadId, array $parameters): StreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::create('threads/'.$threadId.'/runs', $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new StreamResponse(ThreadRunStreamResponse::class, $response);
     }
 
     /**
@@ -79,6 +101,26 @@ final class ThreadsRuns implements ThreadsRunsContract
         $response = $this->transporter->requestObject($payload);
 
         return ThreadRunResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * This endpoint can be used to submit the outputs from the tool calls once they're all completed.
+     * And stream back the response
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/submitToolOutputs
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<ThreadRunStreamResponse>
+     */
+    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): StreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::create('threads/'.$threadId.'/runs/'.$runId.'/submit_tool_outputs', $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new StreamResponse(ThreadRunStreamResponse::class, $response);
     }
 
     /**
