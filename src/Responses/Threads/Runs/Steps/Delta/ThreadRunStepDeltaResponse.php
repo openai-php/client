@@ -21,7 +21,7 @@ final class ThreadRunStepDeltaResponse implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public string $id,
+        public ?string $id,
         public string $object,
         public ThreadRunStepDeltaObject $delta,
     ) {
@@ -35,7 +35,7 @@ final class ThreadRunStepDeltaResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['id'],
+            $attributes['id'] ?? null,
             $attributes['object'],
             ThreadRunStepDeltaObject::from($attributes['delta']),
         );

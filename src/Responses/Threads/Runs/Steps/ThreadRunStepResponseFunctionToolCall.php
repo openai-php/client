@@ -24,7 +24,7 @@ final class ThreadRunStepResponseFunctionToolCall implements ResponseContract
      * @param  'function'  $type
      */
     private function __construct(
-        public string $id,
+        public ?string $id,
         public string $type,
         public ThreadRunStepResponseFunction $function,
     ) {
@@ -38,7 +38,7 @@ final class ThreadRunStepResponseFunctionToolCall implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['id'],
+            $attributes['id'] ?? null,
             $attributes['type'],
             ThreadRunStepResponseFunction::from($attributes['function']),
         );
