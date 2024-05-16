@@ -62,14 +62,4 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
     {
         return new ThreadsRunsStepsTestResource($this->fake);
     }
-
-    public function createStreamed(string $threadId, array $parameters): EventStreamResponse
-    {
-        return $this->record(__FUNCTION__, func_get_args());
-    }
-
-    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): EventStreamResponse
-    {
-        return $this->record(__FUNCTION__, func_get_args());
-    }
 }
