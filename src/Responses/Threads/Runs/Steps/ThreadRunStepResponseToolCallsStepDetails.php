@@ -22,7 +22,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
 
     /**
      * @param  'tool_calls'  $type
-     * @param  array<int, ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseRetrievalToolCall|ThreadRunStepResponseFunctionToolCall>  $toolCalls
+     * @param  array<int, ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseFileSearchToolCall|ThreadRunStepResponseFunctionToolCall>  $toolCalls
      */
     private function __construct(
         public string $type,
@@ -38,9 +38,9 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
     public static function from(array $attributes): self
     {
         $toolCalls = array_map(
-            fn (array $toolCall): ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseRetrievalToolCall|ThreadRunStepResponseFunctionToolCall => match ($toolCall['type']) {
+            fn (array $toolCall): ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseFileSearchToolCall|ThreadRunStepResponseFunctionToolCall => match ($toolCall['type']) {
                 'code_interpreter' => ThreadRunStepResponseCodeToolCall::from($toolCall),
-                'file_search' => ThreadRunStepResponseRetrievalToolCall::from($toolCall),
+                'file_search' => ThreadRunStepResponseFileSearchToolCall::from($toolCall),
                 'function' => ThreadRunStepResponseFunctionToolCall::from($toolCall),
             },
             $attributes['tool_calls'],
@@ -60,7 +60,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
         return [
             'type' => $this->type,
             'tool_calls' => array_map(
-                fn (ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseRetrievalToolCall|ThreadRunStepResponseFunctionToolCall $toolCall): array => $toolCall->toArray(),
+                fn (ThreadRunStepResponseCodeToolCall|ThreadRunStepResponseFileSearchToolCall|ThreadRunStepResponseFunctionToolCall $toolCall): array => $toolCall->toArray(),
                 $this->toolCalls,
             ),
         ];

@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, function: array{file_ids: array<string>}}|array{type: string, function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array<int, array{type: string}>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, function: array{file_ids: array<string>}}|array{type: string, function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
  */
 final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
@@ -44,14 +44,14 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         private readonly MetaInformation $meta,
         public ?float $temperature,
         public ?float $topP,
-        public string|object $responseFormat,
+        public string|AssistantResponseResponseFormatJsonObject|AssistantResponseResponseFormatText $responseFormat,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array{type: 'text'}|array{type: 'json_object'}}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', file_ids: array<string>}|array{type: 'file_search', vector_store_ids: array<int, string>}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: 'text'}|array{type: 'json_object'}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -113,7 +113,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'metadata' => $this->metadata,
             'temperature' => $this->temperature,
             'top_p' => $this->topP,
-            'response_format' => $this->responseFormat,
+            'response_format' => is_string($this->responseFormat) ? $this->responseFormat : $this->responseFormat->toArray(),
         ];
     }
 }

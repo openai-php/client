@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{id: string, type: 'retrieval', retrieval: array<string, string>}>
  */
-final class ThreadRunStepResponseRetrievalToolCall implements ResponseContract
+final class ThreadRunStepResponseFileSearchToolCall implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{id: string, type: 'retrieval', retrieval: array<string, string>}>

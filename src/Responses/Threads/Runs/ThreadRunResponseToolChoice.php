@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: string}>
+ * @implements ResponseContract<array{type: string, function?: array{name: string}}>
  */
-final class ThreadRunResponseToolRetrieval implements ResponseContract
+final class ThreadRunResponseToolChoice implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: string}>
+     * @use ArrayAccessible<array{type: string, function?: array{name: string}}>
      */
     use ArrayAccessible;
 
@@ -22,18 +22,20 @@ final class ThreadRunResponseToolRetrieval implements ResponseContract
 
     private function __construct(
         public string $type,
+        public ?ThreadRunResponseToolChoiceFunction $function
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{type: 'file_search'}  $attributes
+     * @param  array{type: string, function?: array{name: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['type'],
+            !empty($attributes['function']) ? ThreadRunResponseToolChoiceFunction::from($attributes['function']) : null,
         );
     }
 
@@ -42,8 +44,14 @@ final class ThreadRunResponseToolRetrieval implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $response = [
             'type' => $this->type,
         ];
+
+        if ($this->function) {
+            $response['function'] = $this->function->toArray();
+        }
+
+        return $response;
     }
 }
