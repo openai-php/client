@@ -31,7 +31,7 @@
         "pestphp/pest-plugin-arch": "^2.7",
         "pestphp/pest-plugin-type-coverage": "^2.8.1",
         "phpstan/phpstan": "^1.10.66",
-        "rector/rector": "^0.16.0",
+        "rector/rector": "^1.0.4",
         "symfony/var-dumper": "^6.4.4"
     },
     "autoload": {
