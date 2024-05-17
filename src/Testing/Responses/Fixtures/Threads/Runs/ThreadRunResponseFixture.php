@@ -12,7 +12,7 @@ final class ThreadRunResponseFixture
         'thread_id' => 'thread_EKt7MjGOC6bwKWmenQv5VD6r',
         'status' => 'queued',
         'started_at' => null,
-        'expires_at' => 1_699_622_335,
+        'expired_at' => 1_699_622_335,
         'cancelled_at' => null,
         'failed_at' => null,
         'completed_at' => null,
