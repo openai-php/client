@@ -16,7 +16,7 @@ function threadRunStepResource(): array
         'status' => 'completed',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expired_at' => null,
+        'expires_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -49,7 +49,7 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
         'status' => 'completed',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expired_at' => null,
+        'expires_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [
@@ -115,7 +115,7 @@ function threadRunStepWithFunctionCallPendingOutputResource(): array
         'status' => 'in_progress',
         'cancelled_at' => null,
         'completed_at' => 1699564119,
-        'expired_at' => null,
+        'expires_at' => null,
         'failed_at' => null,
         'last_error' => null,
         'step_details' => [

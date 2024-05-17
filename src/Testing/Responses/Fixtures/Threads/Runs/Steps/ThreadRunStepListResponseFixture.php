@@ -18,7 +18,7 @@ final class ThreadRunStepListResponseFixture
                 'status' => 'completed',
                 'cancelled_at' => null,
                 'completed_at' => 1_699_564_119,
-                'expired_at' => null,
+                'expires_at' => null,
                 'failed_at' => null,
                 'last_error' => null,
                 'step_details' => [

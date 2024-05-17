@@ -12,12 +12,12 @@ use OpenAI\Responses\Threads\Runs\ThreadRunResponseLastError;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: string, tool_calls: array<int, array{id: string|null, type: 'code_interpreter', code_interpreter: array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', retrieval: array<string, string>}|array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expired_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: string, tool_calls: array<int, array{id: string|null, type: 'code_interpreter', code_interpreter: array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', retrieval: array<string, string>}|array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expires_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
  */
 final class ThreadRunStepResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: string, tool_calls: array<int, array{id: string, type: string, code_interpreter: array{input: string, outputs: array<int, array{type: string, image: array{file_id: string}}|array{type: string, logs: string}>}}|array{id: string, type: string, retrieval: array<string, string>}|array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>}|array{type: string, message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expired_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: string, tool_calls: array<int, array{id: string, type: string, code_interpreter: array{input: string, outputs: array<int, array{type: string, image: array{file_id: string}}|array{type: string, logs: string}>}}|array{id: string, type: string, retrieval: array<string, string>}|array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>}|array{type: string, message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expires_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
      */
     use ArrayAccessible;
 
@@ -38,7 +38,7 @@ final class ThreadRunStepResponse implements ResponseContract
         public string $status,
         public ThreadRunStepResponseMessageCreationStepDetails|ThreadRunStepResponseToolCallsStepDetails $stepDetails,
         public ?ThreadRunResponseLastError $lastError,
-        public ?int $expiredAt,
+        public ?int $expiresAt,
         public ?int $cancelledAt,
         public ?int $failedAt,
         public ?int $completedAt,
@@ -51,7 +51,7 @@ final class ThreadRunStepResponse implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: 'tool_calls', tool_calls: array<int, array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', retrieval: array<string, string>}|array{id: string, type: 'function', function: array{name: string, arguments: string, output?: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expired_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}  $attributes
+     * @param  array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: 'tool_calls', tool_calls: array<int, array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', retrieval: array<string, string>}|array{id: string, type: 'function', function: array{name: string, arguments: string, output?: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}, last_error: ?array{code: string, message: string}, expires_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, metadata?: array<string, string>, usage: ?array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -71,7 +71,7 @@ final class ThreadRunStepResponse implements ResponseContract
             $attributes['status'],
             $stepDetails,
             isset($attributes['last_error']) ? ThreadRunResponseLastError::from($attributes['last_error']) : null,
-            $attributes['expired_at'],
+            $attributes['expires_at'],
             $attributes['cancelled_at'],
             $attributes['failed_at'],
             $attributes['completed_at'],
@@ -97,7 +97,7 @@ final class ThreadRunStepResponse implements ResponseContract
             'status' => $this->status,
             'cancelled_at' => $this->cancelledAt,
             'completed_at' => $this->completedAt,
-            'expired_at' => $this->expiredAt,
+            'expires_at' => $this->expiresAt,
             'failed_at' => $this->failedAt,
             'last_error' => $this->lastError?->toArray(),
             'step_details' => $this->stepDetails->toArray(),
