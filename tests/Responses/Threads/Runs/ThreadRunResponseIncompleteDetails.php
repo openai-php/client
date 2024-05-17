@@ -1,7 +1,5 @@
 <?php
 
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreter;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeToolCall;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseIncompleteDetails;
 
 test('from', function () {

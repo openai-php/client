@@ -1,6 +1,5 @@
 <?php
 
-use OpenAI\Responses\Threads\ThreadResponse;
 use OpenAI\Responses\VectorStores\VectorStoreFileCountsResponse;
 
 test('from', function () {

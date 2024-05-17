@@ -21,25 +21,24 @@ final class ThreadMessageResponseAttachment implements ResponseContract
     use Fakeable;
 
     /**
-     * @param array<int,ThreadMessageResponseAttachmentFileSearchTool|ThreadMessageResponseAttachmentCodeInterpreterTool> $tools
+     * @param  array<int,ThreadMessageResponseAttachmentFileSearchTool|ThreadMessageResponseAttachmentCodeInterpreterTool>  $tools
      */
     private function __construct(
         public string $fileId,
-        public array  $tools,
-    )
-    {
+        public array $tools,
+    ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{file_id: string, tools: array<int, array{type: string}>} $attributes
+     * @param  array{file_id: string, tools: array<int, array{type: string}>}  $attributes
      */
     public static function from(array $attributes): self
     {
-        $tools = array_map(fn($tool) => match ($tool['type']) {
-            "file_search" => ThreadMessageResponseAttachmentFileSearchTool::from($tool),
-            "code_interpreter" => ThreadMessageResponseAttachmentCodeInterpreterTool::from($tool),
+        $tools = array_map(fn ($tool) => match ($tool['type']) {
+            'file_search' => ThreadMessageResponseAttachmentFileSearchTool::from($tool),
+            'code_interpreter' => ThreadMessageResponseAttachmentCodeInterpreterTool::from($tool),
         }, $attributes['tools']);
 
         return new self(
@@ -56,7 +55,7 @@ final class ThreadMessageResponseAttachment implements ResponseContract
         return [
             'file_id' => $this->fileId,
             'tools' => array_map(
-                fn(ThreadMessageResponseAttachmentCodeInterpreterTool|ThreadMessageResponseAttachmentFileSearchTool $tool): array => $tool->toArray(),
+                fn (ThreadMessageResponseAttachmentCodeInterpreterTool|ThreadMessageResponseAttachmentFileSearchTool $tool): array => $tool->toArray(),
                 $this->tools,
             ),
         ];

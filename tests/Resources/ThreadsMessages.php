@@ -34,7 +34,7 @@ test('create', function () {
             [
                 'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                 'tools' => [['type' => 'file_search']],
-            ]
+            ],
         ],
     ], Response::from(threadMessageResource(), metaHeaders()));
 
@@ -45,7 +45,7 @@ test('create', function () {
             [
                 'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                 'tools' => [['type' => 'file_search']],
-            ]
+            ],
         ],
     ]);
 

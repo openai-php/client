@@ -35,7 +35,7 @@ final class ThreadRunResponseToolChoice implements ResponseContract
     {
         return new self(
             $attributes['type'],
-            !empty($attributes['function']) ? ThreadRunResponseToolChoiceFunction::from($attributes['function']) : null,
+            ! empty($attributes['function']) ? ThreadRunResponseToolChoiceFunction::from($attributes['function']) : null,
         );
     }
 

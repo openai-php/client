@@ -1,7 +1,5 @@
 <?php
 
-use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Threads\ThreadResponse;
 use OpenAI\Responses\VectorStores\VectorStoreFileCountsResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;
 

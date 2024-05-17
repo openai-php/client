@@ -3,9 +3,9 @@
 use OpenAI\Responses\Assistants\AssistantResponse;
 use OpenAI\Responses\Assistants\AssistantResponseResponseFormatJsonObject;
 use OpenAI\Responses\Assistants\AssistantResponseToolCodeInterpreter;
+use OpenAI\Responses\Assistants\AssistantResponseToolFileSearch;
 use OpenAI\Responses\Assistants\AssistantResponseToolResourceCodeInterpreter;
 use OpenAI\Responses\Assistants\AssistantResponseToolResourceFileSearch;
-use OpenAI\Responses\Assistants\AssistantResponseToolFileSearch;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {

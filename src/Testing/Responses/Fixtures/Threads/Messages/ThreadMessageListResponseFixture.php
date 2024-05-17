@@ -27,7 +27,7 @@ final class ThreadMessageListResponseFixture
                     [
                         'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                         'tools' => [['type' => 'file_search']],
-                    ]
+                    ],
                 ],
                 'assistant_id' => null,
                 'run_id' => null,

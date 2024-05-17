@@ -61,7 +61,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
         );
 
         $attachments = array_map(
-            fn (array $attachment):ThreadMessageResponseAttachment => ThreadMessageResponseAttachment::from($attachment),
+            fn (array $attachment): ThreadMessageResponseAttachment => ThreadMessageResponseAttachment::from($attachment),
             $attributes['attachments']
         );
 

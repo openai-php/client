@@ -50,14 +50,14 @@ function threadMessageResource(): array
                 'image_file' => [
                     'file_id' => 'file-VKxjnFCaSHc4ZELRGKwTMFtI',
                     'detail' => 'high',
-                ]
-            ]
+                ],
+            ],
         ],
         'attachments' => [
             [
                 'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
-                'tools' => [['type' => 'file_search'],['type' => 'code_interpreter']],
-            ]
+                'tools' => [['type' => 'file_search'], ['type' => 'code_interpreter']],
+            ],
         ],
         'assistant_id' => null,
         'run_id' => null,

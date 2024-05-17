@@ -118,13 +118,12 @@ function threadRunWithToolChoiceFunction(): array
         'tool_choice' => [
             'type' => 'function',
             'function' => [
-                'name' => 'calculate_sum'
-            ]
+                'name' => 'calculate_sum',
+            ],
         ],
         'response_format' => 'auto',
     ];
 }
-
 
 /**
  * @return array<string, mixed>
@@ -325,7 +324,7 @@ function threadRunWithIncompleteDetails(): array
             'total_tokens' => 17,
         ],
         'incomplete_details' => [
-            'reason' => 'Input tokens exceeded'
+            'reason' => 'Input tokens exceeded',
         ],
         'temperature' => 1,
         'top_p' => 1,
@@ -339,8 +338,6 @@ function threadRunWithIncompleteDetails(): array
         'response_format' => 'auto',
     ];
 }
-
-
 
 /**
  * @return array<string, mixed>

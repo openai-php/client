@@ -13,8 +13,7 @@ interface VectorStoresContract
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores/modify
      *
-     * @param string $vectorStore
-     * @param array<string, mixed> $parameters
+     * @param  array<string, mixed>  $parameters
      */
     public function modify(string $vectorStore, array $parameters): VectorStoreResponse;
 
@@ -36,7 +35,8 @@ interface VectorStoresContract
      * Create a vector store
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores/create
-     * @param array<string, mixed>  $parameters
+     *
+     * @param  array<string, mixed>  $parameters
      */
     public function create(array $parameters): VectorStoreResponse;
 

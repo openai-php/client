@@ -1,6 +1,5 @@
 <?php
 
-use OpenAI\Responses\Threads\Messages\ThreadMessageResponseAttachment;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseAttachmentFileSearchTool;
 
 test('from', function () {

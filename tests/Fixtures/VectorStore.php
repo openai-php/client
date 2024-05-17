@@ -17,12 +17,12 @@ function vectorStoreResource(): array
             'completed' => 1,
             'failed' => 0,
             'cancelled' => 0,
-            'total' => 1
+            'total' => 1,
         ],
         'metadata' => [],
         'expires_after' => null,
         'expires_at' => null,
-        'last_active_at' => 1715953317
+        'last_active_at' => 1715953317,
     ];
 }
 
@@ -43,15 +43,15 @@ function vectorStoreWithExpiresAfterResource(): array
             'completed' => 1,
             'failed' => 0,
             'cancelled' => 0,
-            'total' => 1
+            'total' => 1,
         ],
         'metadata' => [],
         'expires_after' => [
             'anchor' => 'last_active_at',
-            'days' => 7
+            'days' => 7,
         ],
         'expires_at' => null,
-        'last_active_at' => 1715953317
+        'last_active_at' => 1715953317,
     ];
 }
 

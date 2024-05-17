@@ -72,7 +72,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['tool_resources'],
         );
 
-        $responseFormat = is_array($attributes['response_format']) ? match($attributes['response_format']['type']) {
+        $responseFormat = is_array($attributes['response_format']) ? match ($attributes['response_format']['type']) {
             'text' => AssistantResponseResponseFormatText::from($attributes['response_format']),
             'json_object' => AssistantResponseResponseFormatJsonObject::from($attributes['response_format']),
         } : $attributes['response_format'];

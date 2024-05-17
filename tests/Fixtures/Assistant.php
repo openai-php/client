@@ -233,8 +233,8 @@ function assistantWithFileSearchResource(): array
         'tool_resources' => [
             [
                 'type' => 'file_search',
-                'vector_store_ids' => ['file-test0001']
-            ]
+                'vector_store_ids' => ['file-test0001'],
+            ],
         ],
         'metadata' => [],
         'temperature' => 0.7,
@@ -264,8 +264,8 @@ function assistantWithCodeInterpreterResource(): array
         'tool_resources' => [
             [
                 'type' => 'code_interpreter',
-                'file_ids' => ['file-test0001']
-            ]
+                'file_ids' => ['file-test0001'],
+            ],
         ],
         'metadata' => [],
         'temperature' => 0.7,

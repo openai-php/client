@@ -25,20 +25,19 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     use HasMetaInformation;
 
     private function __construct(
-        public readonly string                           $id,
-        public readonly string                           $object,
-        public readonly int                              $createdAt,
-        public readonly ?string                          $name,
-        public readonly int                              $usageBytes,
-        public readonly VectorStoreFileCountsResponse    $fileCounts,
-        public readonly string                           $status,
+        public readonly string $id,
+        public readonly string $object,
+        public readonly int $createdAt,
+        public readonly ?string $name,
+        public readonly int $usageBytes,
+        public readonly VectorStoreFileCountsResponse $fileCounts,
+        public readonly string $status,
         public readonly ?VectorStoreExpiresAfterResponse $expiresAfter,
-        public readonly ?int                             $expiresAt,
-        public readonly ?int                             $lastActiveAt,
-        public readonly array                            $metadata,
-        private readonly MetaInformation                 $meta,
-    )
-    {
+        public readonly ?int $expiresAt,
+        public readonly ?int $lastActiveAt,
+        public readonly array $metadata,
+        private readonly MetaInformation $meta,
+    ) {
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreation;
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreationStepDetails;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseUsage;
 
 test('from', function () {

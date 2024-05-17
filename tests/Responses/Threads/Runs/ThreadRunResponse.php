@@ -2,11 +2,11 @@
 
 use OpenAI\Responses\Assistants\AssistantResponseResponseFormatJsonObject;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseIncompleteDetails;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponseFileSearch;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponseIncompleteDetails;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolCodeInterpreter;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseToolFunction;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponseFileSearch;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponseUsage;
 
 test('from', function () {

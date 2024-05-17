@@ -19,6 +19,7 @@ final class ThreadMessageResponseAttachmentFileSearchTool implements ResponseCon
     use ArrayAccessible;
 
     use Fakeable;
+
     private function __construct(
         public string $type,
     ) {
