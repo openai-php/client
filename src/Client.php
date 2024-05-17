@@ -6,6 +6,7 @@ namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
+use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Resources\Assistants;
 use OpenAI\Resources\Audio;
@@ -20,6 +21,7 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 use OpenAI\Resources\Threads;
+use OpenAI\Resources\VectorStores;
 
 final class Client implements ClientContract
 {
@@ -162,5 +164,15 @@ final class Client implements ClientContract
     public function threads(): ThreadsContract
     {
         return new Threads($this->transporter);
+    }
+
+    /**
+     * Create and update vector stores that assistants can interact with
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores
+     */
+    public function vectorStores(): VectorStoresContract
+    {
+        return new VectorStores($this->transporter);
     }
 }

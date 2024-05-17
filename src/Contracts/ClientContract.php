@@ -15,6 +15,7 @@ use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
+use OpenAI\Contracts\Resources\VectorStoresContract;
 
 interface ClientContract
 {
@@ -113,4 +114,11 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/threads
      */
     public function threads(): ThreadsContract;
+
+    /**
+     * Create and update vector stores that assistants can interact with
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores
+     */
+    public function vectorStores(): VectorStoresContract;
 }
