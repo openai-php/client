@@ -61,6 +61,7 @@ final class ThreadRunStepListResponse implements ResponseContract, ResponseHasMe
 
     /**
      * {@inheritDoc}
+     *
      * @return array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, run_id: string, type: string, status: string, step_details: array{type: string, message_creation: array{message_id: string}}|array{type: string, tool_calls: array{id: string, type: string, retrieval: array<string, string>}[]|array{id: string, type: string, function: array{name: string, arguments: string, output: string|null}}[]|array{id: string|null, type: string, code_interpreter: array{input: string, outputs: array{type: string, image: array{file_id: string}}[]|array{type: string, logs: string}[]}}[]}, last_error: array{code: string, message: string}|null, expires_at: int|null, cancelled_at: int|null, failed_at: int|null, completed_at: int|null, metadata?: array<string, string>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}|null}>, first_id: string|null, last_id: string|null, has_more: bool}
      */
     public function toArray(): array

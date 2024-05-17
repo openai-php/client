@@ -21,7 +21,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     use Fakeable;
 
     /**
-     * @param \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs[]|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage[]|null $outputs
+     * @param  \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs[]|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage[]|null  $outputs
      */
     private function __construct(
         public ?string $input,

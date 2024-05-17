@@ -61,6 +61,7 @@ final class VectorStoreListResponse implements ResponseContract, ResponseHasMeta
 
     /**
      * {@inheritDoc}
+     *
      * @return array{object: string, data: array<int, mixed[]>, first_id: string|null, last_id: string|null, has_more: bool}
      */
     public function toArray(): array
