@@ -77,7 +77,7 @@ final class ThreadRunStepResponse implements ResponseContract
             $attributes['completed_at'],
             $attributes['metadata'] ?? [],
             $meta,
-            ! empty($attributes['usage']) ? ThreadRunStepResponseUsage::from($attributes['usage']) : null,
+            empty($attributes['usage']) ? null : ThreadRunStepResponseUsage::from($attributes['usage']),
         );
     }
 

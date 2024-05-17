@@ -102,7 +102,7 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['metadata'],
             isset($attributes['usage']) ? ThreadRunResponseUsage::from($attributes['usage']) : null,
             $meta,
-            ! empty($attributes['incomplete_details']) ? ThreadRunResponseIncompleteDetails::from($attributes['incomplete_details']) : null,
+            empty($attributes['incomplete_details']) ? null : ThreadRunResponseIncompleteDetails::from($attributes['incomplete_details']),
             $attributes['temperature'] ?? null,
             $attributes['top_p'] ?? null,
             $attributes['max_prompt_tokens'] ?? null,

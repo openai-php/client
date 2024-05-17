@@ -35,7 +35,7 @@ final class ThreadRunResponseToolChoice implements ResponseContract
     {
         return new self(
             $attributes['type'],
-            ! empty($attributes['function']) ? ThreadRunResponseToolChoiceFunction::from($attributes['function']) : null,
+            empty($attributes['function']) ? null : ThreadRunResponseToolChoiceFunction::from($attributes['function']),
         );
     }
 
@@ -48,7 +48,7 @@ final class ThreadRunResponseToolChoice implements ResponseContract
             'type' => $this->type,
         ];
 
-        if ($this->function) {
+        if ($this->function instanceof \OpenAI\Responses\Threads\Runs\ThreadRunResponseToolChoiceFunction) {
             $response['function'] = $this->function->toArray();
         }
 

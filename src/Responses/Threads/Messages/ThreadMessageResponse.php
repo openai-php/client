@@ -96,7 +96,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
                 $this->content,
             ),
             'attachments' => array_map(
-                fn (ThreadMessageResponseAttachment $attachment) => $attachment->toArray(),
+                fn (ThreadMessageResponseAttachment $attachment): array => $attachment->toArray(),
                 $this->attachments
             ),
             'assistant_id' => $this->assistantId,

@@ -65,6 +65,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
 
     /**
      * {@inheritDoc}
+     * @return array{id: string, object: string, name: string|null, status: string, usage_bytes: int, created_at: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, metadata: mixed[], expires_after: array{anchor: string, days: int}|null, expires_at: int|null, last_active_at: int|null}
      */
     public function toArray(): array
     {
@@ -77,7 +78,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
             'created_at' => $this->createdAt,
             'file_counts' => $this->fileCounts->toArray(),
             'metadata' => $this->metadata,
-            'expires_after' => $this->expiresAfter ? $this->expiresAfter->toArray() : null,
+            'expires_after' => $this->expiresAfter instanceof \OpenAI\Responses\VectorStores\VectorStoreExpiresAfterResponse ? $this->expiresAfter->toArray() : null,
             'expires_at' => $this->expiresAt,
             'last_active_at' => $this->lastActiveAt,
         ];

@@ -10,7 +10,7 @@ final class VectorStoreResponseFixture
         'name' => 'Product Knowledge Base',
         'status' => 'in_progress',
         'usage_bytes' => 0,
-        'created_at' => 1715953317,
+        'created_at' => 1_715_953_317,
         'file_counts' => [
             'in_progress' => 1,
             'completed' => 0,
@@ -21,6 +21,6 @@ final class VectorStoreResponseFixture
         'metadata' => [],
         'expires_after' => null,
         'expires_at' => null,
-        'last_active_at' => 1715953317,
+        'last_active_at' => 1_715_953_317,
     ];
 }
