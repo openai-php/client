@@ -54,7 +54,7 @@ function threadRunWithRetrievalToolResource(): array
         'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
         'tools' => [
             [
-                'type' => 'retrieval',
+                'type' => 'file_search',
             ],
         ],
         'file_ids' => [
@@ -158,7 +158,7 @@ function threadRunWithSubmitToolOutputsResource(): array
                 ],
             ],
             [
-                'type' => 'retrieval',
+                'type' => 'file_search',
             ],
         ],
         'file_ids' => [],

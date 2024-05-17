@@ -34,14 +34,14 @@ final class ThreadRunStepResponseRetrievalToolCall implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, type: 'retrieval', retrieval: array<string, string>}  $attributes
+     * @param  array{id: string, type: 'file_search', retrieval: array<string, string>}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['id'],
             $attributes['type'],
-            $attributes['retrieval'],
+            $attributes['file_search'],
         );
     }
 
@@ -53,7 +53,7 @@ final class ThreadRunStepResponseRetrievalToolCall implements ResponseContract
         return [
             'id' => $this->id,
             'type' => $this->type,
-            'retrieval' => $this->retrieval,
+            'file_search' => $this->retrieval,
         ];
     }
 }

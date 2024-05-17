@@ -80,8 +80,8 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
                 ],
                 [
                     'id' => 'call_mNs14X7kZF2WDzlPhpQ163Co',
-                    'type' => 'retrieval',
-                    'retrieval' => [],
+                    'type' => 'file_search',
+                    'file_search' => [],
                 ],
             ],
         ],

@@ -6,7 +6,7 @@ test('from', function () {
     $result = ThreadRunStepResponseRetrievalToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
     expect($result)
         ->id->toBe('call_mNs14X7kZF2WDzlPhpQ163Co')
-        ->type->toBe('retrieval')
+        ->type->toBe('file_search')
         ->retrieval->toBe([]);
 });
 

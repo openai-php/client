@@ -56,14 +56,14 @@ final class ThreadRunResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
+     * @param  array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
             fn (array $tool): ThreadRunResponseToolCodeInterpreter|ThreadRunResponseToolRetrieval|ThreadRunResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => ThreadRunResponseToolCodeInterpreter::from($tool),
-                'retrieval' => ThreadRunResponseToolRetrieval::from($tool),
+                'file_search' => ThreadRunResponseToolRetrieval::from($tool),
                 'function' => ThreadRunResponseToolFunction::from($tool),
             },
             $attributes['tools'],

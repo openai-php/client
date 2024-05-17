@@ -18,8 +18,11 @@ function assistantResource(): array
                 'type' => 'code_interpreter',
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 
@@ -60,8 +63,11 @@ function assistantWithFunctionToolResource(): array
                 ],
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 
@@ -80,11 +86,14 @@ function assistantWithRetrievalToolResource(): array
         'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
         'tools' => [
             [
-                'type' => 'retrieval',
+                'type' => 'file_search',
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 
@@ -106,7 +115,7 @@ function assistantWithAllToolsResource(): array
                 'type' => 'code_interpreter',
             ],
             [
-                'type' => 'retrieval',
+                'type' => 'file_search',
             ],
             [
                 'type' => 'function',
@@ -131,8 +140,11 @@ function assistantWithAllToolsResource(): array
                 ],
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 

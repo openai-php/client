@@ -17,9 +17,12 @@ test('from', function () {
         ->instructions->toBe('You are a personal math tutor.')
         ->tools->toBeArray()
         ->tools->{0}->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()
+        ->toolResources->toBeArray()
         ->metadata->toBeArray()
-        ->meta()->toBeInstanceOf(MetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
 });
 
 test('as array accessible', function () {

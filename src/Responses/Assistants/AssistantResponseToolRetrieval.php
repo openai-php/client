@@ -28,7 +28,7 @@ final class AssistantResponseToolRetrieval implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{type: 'retrieval'}  $attributes
+     * @param  array{type: 'file_search'}  $attributes
      */
     public static function from(array $attributes): self
     {

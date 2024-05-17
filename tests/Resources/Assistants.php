@@ -51,8 +51,11 @@ test('create', function () {
         ->instructions->toBe('You are a personal math tutor.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toBeEmpty()
-        ->metadata->toBeArray()->toBeEmpty();
+        ->toolResources->toBeArray()->toBeEmpty()
+        ->metadata->toBeArray()->toBeEmpty()
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
@@ -78,8 +81,11 @@ test('modify', function () {
         ->instructions->toBe('You are a personal math tutor.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toBeEmpty()
-        ->metadata->toBeArray()->toBeEmpty();
+        ->toolResources->toBeArray()->toBeEmpty()
+        ->metadata->toBeArray()->toBeEmpty()
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
@@ -101,8 +107,11 @@ test('retrieve', function () {
         ->instructions->toBe('You are a personal math tutor.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(AssistantResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toBeEmpty()
-        ->metadata->toBeArray()->toBeEmpty();
+        ->toolResources->toBeArray()->toBeEmpty()
+        ->metadata->toBeArray()->toBeEmpty()
+        ->temperature->toBe(0.7)
+        ->topP->toBe(1.0)
+        ->responseFormat->toBe('text');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

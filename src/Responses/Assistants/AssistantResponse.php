@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, function: array{file_ids: array<string>}}|array{type: string, function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array<int, array{type: string}>}>
  */
 final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>
+     * @use ArrayAccessible<array{ids: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array<int, array{type: 'text'}|array{type: 'json_object'}>}>
      */
     use ArrayAccessible;
 
@@ -26,6 +26,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
 
     /**
      * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction>  $tools
+     * @param  array<int, AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch>  $toolResources
      * @param  array<int, string>  $fileIds
      * @param  array<string, string>  $metadata
      */
@@ -38,26 +39,37 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public string $model,
         public ?string $instructions,
         public array $tools,
-        public array $fileIds,
+        public array $toolResources,
         public array $metadata,
         private readonly MetaInformation $meta,
+        public ?float $temperature,
+        public ?float $topP,
+        public string|object $responseFormat,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array<int, array{type: 'text'}|array{type: 'json_object'}>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
             fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
-                'retrieval' => AssistantResponseToolRetrieval::from($tool),
+                'file_search' => AssistantResponseToolRetrieval::from($tool),
                 'function' => AssistantResponseToolFunction::from($tool),
             },
             $attributes['tools'],
+        );
+
+        $toolResources = array_map(
+            fn (array $tool): AssistantResponseToolResourceFileSearch|AssistantResponseToolResourceCodeInterpreter => match ($tool['type']) {
+                'code_interpreter' => AssistantResponseToolResourceCodeInterpreter::from($tool),
+                'file_search' => AssistantResponseToolResourceFileSearch::from($tool),
+            },
+            $attributes['tool_resources'],
         );
 
         return new self(
@@ -69,9 +81,12 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['model'],
             $attributes['instructions'],
             $tools,
-            $attributes['file_ids'],
+            $toolResources,
             $attributes['metadata'],
             $meta,
+            $attributes['temperature'],
+            $attributes['top_p'],
+            $attributes['response_format']
         );
     }
 
@@ -89,8 +104,11 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'model' => $this->model,
             'instructions' => $this->instructions,
             'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
-            'file_ids' => $this->fileIds,
+            'tool_resources' =>array_map(fn (AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch $toolResources): array => $toolResources->toArray(), $this->toolResources),
             'metadata' => $this->metadata,
+            'temperature' => $this->temperature,
+            'top_p' => $this->topP,
+            'response_format' => $this->responseFormat,
         ];
     }
 }

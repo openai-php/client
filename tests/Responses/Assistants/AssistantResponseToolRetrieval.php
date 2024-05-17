@@ -6,14 +6,14 @@ test('from', function () {
     $result = AssistantResponseToolRetrieval::from(assistantWithRetrievalToolResource()['tools'][0]);
 
     expect($result)
-        ->type->toBe('retrieval');
+        ->type->toBe('file_search');
 });
 
 test('as array accessible', function () {
     $result = AssistantResponseToolRetrieval::from(assistantWithRetrievalToolResource()['tools'][0]);
 
     expect($result['type'])
-        ->toBe('retrieval');
+        ->toBe('file_search');
 });
 
 test('to array', function () {

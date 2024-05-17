@@ -13,7 +13,10 @@ final class AssistantResponseFixture
         'model' => 'gpt-4',
         'instructions' => 'You are a personal math tutor.',
         'tools' => [],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
