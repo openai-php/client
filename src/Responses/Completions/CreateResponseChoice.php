@@ -15,15 +15,15 @@ final class CreateResponseChoice
     }
 
     /**
-     * @param  array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}  $attributes
+    @param  array{text?: string, delta?: array{content: string}, index: int, logprobs?: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason?: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['text'],
-            $attributes['index'],
-            $attributes['logprobs'] ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
-            $attributes['finish_reason'],
+            text: $attributes['text'] ?? $attributes['delta']['content'] ?? '',
+            index: $attributes['index'],
+            logprobs: $attributes['logprobs'] ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
+            finishReason: $attributes['finish_reason'],
         );
     }
 

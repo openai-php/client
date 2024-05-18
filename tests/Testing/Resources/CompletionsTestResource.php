@@ -38,3 +38,24 @@ it('records a streamed completions create request', function () {
             $parameters['prompt'] === 'PHP is ';
     });
 });
+
+it('records a streamed completions create request using GPT 4', function () {
+    $fake = new ClientFake([
+        CreateStreamedResponse::fake(),
+    ]);
+
+    $fake->completions()->createStreamed([
+        'model' => 'gpt-4o',
+        'messages' => [
+            ['role' => 'system', 'content' => "PHP is "]
+        ]
+    ]);
+
+    $fake->assertSent(Completions::class, function ($method, $parameters) {
+        return $method === 'createStreamed' &&
+            $parameters['model'] === 'gpt-4o' &&
+            is_array($parameters['messages']) &&
+            $parameters['messages'][0]['role'] === 'system' &&
+            $parameters['messages'][0]['content'] === 'PHP is ';
+    });
+});
