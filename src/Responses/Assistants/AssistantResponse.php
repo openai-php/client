@@ -12,22 +12,21 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
  */
-final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
+final class AssistantResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
      */
     use ArrayAccessible;
 
     use Fakeable;
-    use HasMetaInformation;
 
     /**
-     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction>  $tools
+     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
      * @param  array<int, string>  $fileIds
-     * @param  array<string, string>  $metadata
+     * @param  array<int, string>  $vector_store_ids
      */
     private function __construct(
         public string $id,
@@ -39,26 +38,28 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public ?string $instructions,
         public array $tools,
         public array $fileIds,
-        public array $metadata,
-        private readonly MetaInformation $meta,
+        public array $vector_store_ids
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>}  $attributes
      */
-    public static function from(array $attributes, MetaInformation $meta): self
+    public static function from(array $attributes): self
     {
         $tools = array_map(
-            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction => match ($tool['type']) {
+            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
                 'retrieval' => AssistantResponseToolRetrieval::from($tool),
+                'file_search' => AssistantResponseToolFileSearch::from($tool),
                 'function' => AssistantResponseToolFunction::from($tool),
             },
             $attributes['tools'],
         );
+        $fileIds = $toolResources['code_interpreter']['file_ids'] ?? [];
+        $vectorStoreIds = $toolResources['file_search']['vector_store_ids'] ?? [];
 
         return new self(
             $attributes['id'],
@@ -69,9 +70,8 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['model'],
             $attributes['instructions'],
             $tools,
-            $attributes['file_ids'],
-            $attributes['metadata'],
-            $meta,
+            $fileIds,
+            $vectorStoreIds,
         );
     }
 
@@ -88,9 +88,9 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'description' => $this->description,
             'model' => $this->model,
             'instructions' => $this->instructions,
-            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
+            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
             'file_ids' => $this->fileIds,
-            'metadata' => $this->metadata,
+            'vector_store_ids' => $this->vector_store_ids,
         ];
     }
 }

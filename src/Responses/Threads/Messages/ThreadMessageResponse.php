@@ -26,7 +26,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
 
     /**
      * @param  array<int, ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject>  $content
-     * @param  array<int, string>  $fileIds
+     * @param  array<int, mixed>  $attachments
      * @param  array<string, string>  $metadata
      */
     private function __construct(
@@ -38,7 +38,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
         public array $content,
         public ?string $assistantId,
         public ?string $runId,
-        public array $fileIds,
+        public array $attachments,
         public array $metadata,
         private readonly MetaInformation $meta,
     ) {
@@ -47,7 +47,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, file_ids: array<int, string>, metadata: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_file', image_file: array{file_id: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, mixed>, metadata: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -68,7 +68,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
             $content,
             $attributes['assistant_id'],
             $attributes['run_id'],
-            $attributes['file_ids'],
+            $attributes['attachments'],
             $attributes['metadata'],
             $meta,
         );
@@ -89,7 +89,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
                 fn (ThreadMessageResponseContentImageFileObject|ThreadMessageResponseContentTextObject $content): array => $content->toArray(),
                 $this->content,
             ),
-            'file_ids' => $this->fileIds,
+            'attachments' => $this->attachments,
             'assistant_id' => $this->assistantId,
             'run_id' => $this->runId,
             'metadata' => $this->metadata,
