@@ -84,7 +84,7 @@ final class Factory
      */
     public function withProject(?string $project): self
     {
-        $this->project = project;
+        $this->project = $project;
 
         return $this;
     }
