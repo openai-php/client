@@ -12,19 +12,19 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
  */
 final class AssistantResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
+     * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
      * @param  array<int, string>  $fileIds
      * @param  array<int, string>  $vector_store_ids
      */
@@ -45,14 +45,13 @@ final class AssistantResponse implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'retrieval'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>}  $attributes
      */
     public static function from(array $attributes): self
     {
         $tools = array_map(
-            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction => match ($tool['type']) {
+            fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction => match ($tool['type']) {
                 'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
-                'retrieval' => AssistantResponseToolRetrieval::from($tool),
                 'file_search' => AssistantResponseToolFileSearch::from($tool),
                 'function' => AssistantResponseToolFunction::from($tool),
             },
@@ -88,7 +87,7 @@ final class AssistantResponse implements ResponseContract
             'description' => $this->description,
             'model' => $this->model,
             'instructions' => $this->instructions,
-            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolRetrieval|AssistantResponseToolFileSearch|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
+            'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
             'file_ids' => $this->fileIds,
             'vector_store_ids' => $this->vector_store_ids,
         ];
