@@ -2,16 +2,12 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Resources\VectorStoresFiles;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileDeleteResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileListResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileResponse;
-use OpenAI\ValueObjects\Transporter\Payload;
-use OpenAI\ValueObjects\Transporter\Response;
 
 interface VectorStoresFilesContract
 {
-
     /**
      * Retrieves a file within a vector store.
      *

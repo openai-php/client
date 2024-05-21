@@ -43,7 +43,6 @@ test('list', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-
 test('retrieve', function () {
     $client = mockClient('GET', 'vector_stores/vs_8VE2cQq1jTFlH7FizhYCzUz0/files/file-HuwUghQzWasTZeX3uRRawY5R', [], Response::from(vectorStoreFileResource(), metaHeaders()));
 

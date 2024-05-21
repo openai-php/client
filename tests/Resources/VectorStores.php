@@ -1,6 +1,5 @@
 <?php
 
-use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreFileCountsResponse;
