@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, metadata: <string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}}>, first_id: ?string, last_id: ?string, has_more: bool}>
  */
 final class VectorStoreFileListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, metadata: <string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}}>, first_id: ?string, last_id: ?string, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -40,7 +40,7 @@ final class VectorStoreFileListResponse implements ResponseContract, ResponseHas
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, metadata: <string, string>}}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}}>, first_id: ?string, last_id: ?string, has_more: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

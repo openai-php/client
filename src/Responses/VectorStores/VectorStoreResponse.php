@@ -12,18 +12,21 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
  */
 final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
      */
     use ArrayAccessible;
 
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param array<string, string> $metadata
+     */
     private function __construct(
         public readonly string $id,
         public readonly string $object,
@@ -43,7 +46,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>} $attributes
+     * @param array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>} $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

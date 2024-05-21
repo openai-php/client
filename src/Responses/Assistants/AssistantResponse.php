@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, function: array{file_ids: array<string>}}|array{type: string, function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, file_ids: array<int,string>}|array{type: string, vector_store_ids: array<int,string>}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
  */
 final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{ids: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: 'code_interpreter', function: array{file_ids: array<string>}}|array{type: 'file_search', function: array{vector_store_ids: array<string>}}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: ?string|array<int, array{type: 'text'}|array{type: 'json_object'}>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: array<int, array{type: string, file_ids: array<int,string>}|array{type: string, vector_store_ids: array<int,string>}>, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
      */
     use ArrayAccessible;
 
@@ -27,7 +27,6 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
      * @param  array<int, AssistantResponseToolResourceCodeInterpreter|AssistantResponseToolResourceFileSearch>  $toolResources
-     * @param  array<int, string>  $fileIds
      * @param  array<string, string>  $metadata
      */
     private function __construct(

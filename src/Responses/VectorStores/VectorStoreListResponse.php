@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
  */
 final class VectorStoreListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -40,7 +40,7 @@ final class VectorStoreListResponse implements ResponseContract, ResponseHasMeta
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: <string, string>}}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
