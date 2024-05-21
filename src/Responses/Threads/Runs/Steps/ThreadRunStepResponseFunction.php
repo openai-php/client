@@ -21,7 +21,7 @@ final class ThreadRunStepResponseFunction implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public string $name,
+        public ?string $name,
         public string $arguments,
         public ?string $output,
     ) {
@@ -35,7 +35,7 @@ final class ThreadRunStepResponseFunction implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['name'],
+            $attributes['name'] ?? null,
             $attributes['arguments'],
             $attributes['output'] ?? null,
         );
