@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\VectorStoresContract;
+use OpenAI\Contracts\Resources\VectorStoresFileBatchesContract;
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
@@ -104,4 +105,16 @@ final class VectorStores implements VectorStoresContract
     {
         return new VectorStoresFiles($this->transporter);
     }
+
+    /**
+     * Manage the file batches related to the vector store
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-file-batches
+     */
+    public function batches(): VectorStoresFileBatchesContract
+    {
+        return new VectorStoresFileBatches($this->transporter);
+    }
+
+
 }

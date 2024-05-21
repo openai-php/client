@@ -2,6 +2,8 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Resources\VectorStores;
+use OpenAI\Resources\VectorStoresFileBatches;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;
@@ -53,4 +55,11 @@ interface VectorStoresContract
      * @see https://platform.openai.com/docs/api-reference/vector-stores-files
      */
     public function files(): VectorStoresFilesContract;
+
+    /**
+     * Manage the file batches related to the vector store
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-file-batches
+     */
+    public function batches(): VectorStoresFileBatchesContract;
 }

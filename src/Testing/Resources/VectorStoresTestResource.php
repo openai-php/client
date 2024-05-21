@@ -3,8 +3,10 @@
 namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\VectorStoresContract;
+use OpenAI\Contracts\Resources\VectorStoresFileBatchesContract;
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Resources\VectorStores;
+use OpenAI\Resources\VectorStoresFileBatches;
 use OpenAI\Resources\VectorStoresFiles;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
@@ -47,6 +49,11 @@ final class VectorStoresTestResource implements VectorStoresContract
 
     public function files(): VectorStoresFilesContract
     {
-        return new VectorStoresFiles($this);
+        return new VectorStoresFilesTestResource($this);
+    }
+
+    public function batches(): VectorStoresFileBatchesContract
+    {
+        return new VectorStoresFileBatchesTestResource($this);
     }
 }
