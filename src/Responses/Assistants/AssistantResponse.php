@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
  */
-final class AssistantResponse implements ResponseContract
+final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
      * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>>
@@ -22,6 +22,7 @@ final class AssistantResponse implements ResponseContract
     use ArrayAccessible;
 
     use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
@@ -38,7 +39,8 @@ final class AssistantResponse implements ResponseContract
         public ?string $instructions,
         public array $tools,
         public array $fileIds,
-        public array $vector_store_ids
+        public array $vector_store_ids,
+        private readonly MetaInformation $meta,
     ) {
     }
 
@@ -47,7 +49,7 @@ final class AssistantResponse implements ResponseContract
      *
      * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}>, file_ids: array<int, string>, vector_store_ids: array<int, string>}  $attributes
      */
-    public static function from(array $attributes): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         $tools = array_map(
             fn (array $tool): AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction => match ($tool['type']) {
@@ -71,6 +73,7 @@ final class AssistantResponse implements ResponseContract
             $tools,
             $fileIds,
             $vectorStoreIds,
+            $meta
         );
     }
 
