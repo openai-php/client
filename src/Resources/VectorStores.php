@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\VectorStoresContract;
+use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;
@@ -92,5 +93,15 @@ final class VectorStores implements VectorStoresContract
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreDeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the files related to the vector store
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-files
+     */
+    public function files(): VectorStoresFilesContract
+    {
+        return new VectorStoresFiles($this->transporter);
     }
 }

@@ -46,4 +46,11 @@ interface VectorStoresContract
      * @see https://platform.openai.com/docs/api-reference/vector-stores/list
      */
     public function list(): VectorStoreListResponse;
+
+    /**
+     * Manage the files related to the vector store
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-files
+     */
+    public function files(): VectorStoresFilesContract;
 }
