@@ -942,7 +942,7 @@ $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oa
 
 > **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
 > ```php
-> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v1')
+> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v2')
 > ```
 
 #### `create`
@@ -969,8 +969,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -990,8 +993,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -1013,8 +1019,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -1055,7 +1064,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Assistants Files` Resource
+### `Assistants Files` Resource [Deprecated]
 
 #### `create`
 
@@ -1183,8 +1192,16 @@ $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
 $response->tools; // []
-$response->fileIds; // []
 $response->metadata; // []
+$response->incompleteDetails; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1259,7 +1276,7 @@ $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1285,7 +1302,7 @@ $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1316,7 +1333,7 @@ $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // ['name' => 'My new message name']
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1344,7 +1361,7 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Messages Files` Resource
+### `Threads Messages Files` Resource [Deprecated]
 
 #### `retrieve`
 
@@ -1419,9 +1436,17 @@ $response->completedAt; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
 $response->metadata; // []
+$response->incompleteDetails; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1526,13 +1551,19 @@ $response->completedAt; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
 $response->metadata; // []
-
+$response->incompleteDetails; // []
 $response->usage->promptTokens; // 25,
 $response->usage->completionTokens; // 32,
 $response->usage->totalTokens; // 57
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1566,8 +1597,16 @@ $response->completedAt; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
+$response->incompleteDetails; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 $response->metadata; // ['name' => 'My new run name']
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1597,8 +1636,16 @@ $response->completedAt; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
+$response->incompleteDetails; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1636,8 +1683,16 @@ $response->completedAt; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
+$response->incompleteDetails; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 $response->tools[0]->type; // 'function'
-$response->fileIds; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
