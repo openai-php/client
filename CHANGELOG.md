@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.9.0 (2024-05-21)
+### Added
+- Assistants: add streaming support ([#367](https://github.com/openai-php/client/pull/367))
+
 ## v0.8.5 (2024-04-15)
 ### Added
 - Audio: add support for timestamp_granularities ([#374](https://github.com/openai-php/client/pull/374))

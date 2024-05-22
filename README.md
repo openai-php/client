@@ -1442,7 +1442,7 @@ $stream = $client->threads()->runs()->createStreamed(
 
 foreach($stream as $response){
     $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
-    $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
+    $response->response // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
 }
 
 // ...
@@ -1466,19 +1466,19 @@ $stream = $client->threads()->runs()->createStreamed(
 do{
     foreach($stream as $response){
         $response->event // 'thread.run.created' | 'thread.run.in_progress' | .....
-        $response->data // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
+        $response->response // ThreadResponse | ThreadRunResponse | ThreadRunStepResponse | ThreadRunStepDeltaResponse | ThreadMessageResponse | ThreadMessageDeltaResponse
 
         switch($response->event){
             case 'thread.run.created':
             case 'thread.run.queued':
             case 'thread.run.completed':
             case 'thread.run.cancelling':
-                $run = $response->data;
+                $run = $response->response;
                 break;
             case 'thread.run.expired':
             case 'thread.run.cancelled':
             case 'thread.run.failed':
-                $run = $response->data;
+                $run = $response->response;
                 break 3;
             case 'thread.run.requires_action':
                 // Overwrite the stream with the new stream started by submitting the tool outputs
