@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, type: string, file_search: array<string, string>}>
+ * @implements ResponseContract<array{id: string, type: 'file_search', file_search: array<string, string>}>
  */
 final class ThreadRunStepResponseFileSearchToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, type: string, file_search: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, type: 'file_search', file_search: array<string, string>}>
      */
     use ArrayAccessible;
 

@@ -32,11 +32,11 @@ final class ThreadMessageResponseAttachment implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{file_id: string, tools: array<int, array{type: string}>}  $attributes
+     * @param  array{file_id: string, tools: array<int, array{type: 'file_search'}|array{type: 'code_interpreter'}>}  $attributes
      */
     public static function from(array $attributes): self
     {
-        $tools = array_map(fn ($tool): \OpenAI\Responses\Threads\Messages\ThreadMessageResponseAttachmentFileSearchTool|\OpenAI\Responses\Threads\Messages\ThreadMessageResponseAttachmentCodeInterpreterTool => match ($tool['type']) {
+        $tools = array_map(fn ($tool): ThreadMessageResponseAttachmentFileSearchTool|ThreadMessageResponseAttachmentCodeInterpreterTool => match ($tool['type']) {
             'file_search' => ThreadMessageResponseAttachmentFileSearchTool::from($tool),
             'code_interpreter' => ThreadMessageResponseAttachmentCodeInterpreterTool::from($tool),
         }, $attributes['tools']);

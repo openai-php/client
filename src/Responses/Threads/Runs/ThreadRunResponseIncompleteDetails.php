@@ -20,9 +20,6 @@ final class ThreadRunResponseIncompleteDetails implements ResponseContract
 
     use Fakeable;
 
-    /**
-     * @param  array<string, string>  $retrieval
-     */
     private function __construct(
         public string $reason,
     ) {

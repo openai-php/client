@@ -47,7 +47,7 @@ function threadMessageResource(): array
             ],
             [
                 'type' => 'image_url',
-                'image_file' => [
+                'image_url' => [
                     'file_id' => 'file-VKxjnFCaSHc4ZELRGKwTMFtI',
                     'detail' => 'high',
                 ],

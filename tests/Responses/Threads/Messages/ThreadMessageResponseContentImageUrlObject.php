@@ -16,7 +16,7 @@ test('as array accessible', function () {
 
     expect($result['type'])
         ->toBe('image_url')
-        ->and($result['image_file'])
+        ->and($result['image_url'])
         ->toBeArray();
 });
 
