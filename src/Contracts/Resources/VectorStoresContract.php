@@ -2,8 +2,6 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Resources\VectorStores;
-use OpenAI\Resources\VectorStoresFileBatches;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;

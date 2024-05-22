@@ -17,6 +17,6 @@ function vectorStoreFileBatchResource(): array
             'failed' => 0,
             'cancelled' => 0,
             'total' => 15,
-        ]
+        ],
     ];
 }

@@ -115,6 +115,4 @@ final class VectorStores implements VectorStoresContract
     {
         return new VectorStoresFileBatches($this->transporter);
     }
-
-
 }

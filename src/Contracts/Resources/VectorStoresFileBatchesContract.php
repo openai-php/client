@@ -2,17 +2,11 @@
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Resources\VectorStoresFileBatches;
 use OpenAI\Responses\VectorStores\FileBatches\VectorStoreFileBatchResponse;
-use OpenAI\Responses\VectorStores\Files\VectorStoreFileDeleteResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileListResponse;
-use OpenAI\Responses\VectorStores\Files\VectorStoreFileResponse;
-use OpenAI\ValueObjects\Transporter\Payload;
-use OpenAI\ValueObjects\Transporter\Response;
 
 interface VectorStoresFileBatchesContract
 {
-
     /**
      * Retrieves a file batch within a vector store.
      *

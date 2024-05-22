@@ -1,6 +1,5 @@
 <?php
 
-
 use OpenAI\Responses\VectorStores\FileBatches\VectorStoreFileBatchFileCountsResponse;
 
 test('from', function () {

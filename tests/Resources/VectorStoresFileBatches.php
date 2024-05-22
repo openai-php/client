@@ -25,7 +25,6 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-
 test('retrieve', function () {
     $client = mockClient('GET', 'vector_stores/vs_abc123/file_batches/vsfb_abc123', [], Response::from(vectorStoreFileBatchResource(), metaHeaders()));
 

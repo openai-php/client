@@ -6,8 +6,6 @@ use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\Resources\VectorStoresFileBatchesContract;
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Resources\VectorStores;
-use OpenAI\Resources\VectorStoresFileBatches;
-use OpenAI\Resources\VectorStoresFiles;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;

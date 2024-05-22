@@ -9,17 +9,20 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: string}>
+ * @implements ResponseContract<array{type: 'file_search'}>
  */
 final class ThreadMessageResponseAttachmentFileSearchTool implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: string}>
+     * @use ArrayAccessible<array{type: 'file_search'}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
+    /**
+     * @param  'file_search'  $type
+     */
     private function __construct(
         public string $type,
     ) {
@@ -28,7 +31,7 @@ final class ThreadMessageResponseAttachmentFileSearchTool implements ResponseCon
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{type: string}  $attributes
+     * @param  array{type: 'file_search'}  $attributes
      */
     public static function from(array $attributes): self
     {

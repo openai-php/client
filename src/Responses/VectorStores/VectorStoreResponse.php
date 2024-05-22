@@ -25,7 +25,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     use HasMetaInformation;
 
     /**
-     * @param array<string, string> $metadata
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public readonly string $id,
@@ -46,7 +46,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>} $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

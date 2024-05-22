@@ -9,7 +9,6 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\VectorStores\Files\VectorStoreFileLastErrorResponse;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**

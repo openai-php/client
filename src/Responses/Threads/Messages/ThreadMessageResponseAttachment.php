@@ -36,7 +36,7 @@ final class ThreadMessageResponseAttachment implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $tools = array_map(fn ($tool): ThreadMessageResponseAttachmentFileSearchTool|ThreadMessageResponseAttachmentCodeInterpreterTool => match ($tool['type']) {
+        $tools = array_map(fn (array $tool): ThreadMessageResponseAttachmentFileSearchTool|ThreadMessageResponseAttachmentCodeInterpreterTool => match ($tool['type']) {
             'file_search' => ThreadMessageResponseAttachmentFileSearchTool::from($tool),
             'code_interpreter' => ThreadMessageResponseAttachmentCodeInterpreterTool::from($tool),
         }, $attributes['tools']);

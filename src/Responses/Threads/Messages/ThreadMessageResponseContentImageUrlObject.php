@@ -21,7 +21,7 @@ final class ThreadMessageResponseContentImageUrlObject implements ResponseContra
     use Fakeable;
 
     /**
-     * @param 'image_url' $type
+     * @param  'image_url'  $type
      */
     private function __construct(
         public string $type,

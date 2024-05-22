@@ -21,7 +21,7 @@ final class ThreadMessageResponseContentTextObject implements ResponseContract
     use Fakeable;
 
     /**
-     * @param 'text' $type
+     * @param  'text'  $type
      */
     private function __construct(
         public string $type,

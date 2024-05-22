@@ -9,7 +9,9 @@ test('from', function () {
     expect($result)
         ->fileId->toEqual('file-DhxjnFCaSHc4ZELRGKwTMFtI')
         ->tools->toBeArray()
-        ->tools->{0}->toBeInstanceOf(ThreadMessageResponseAttachmentFileSearchTool::class);
+        ->tools->{0}->toBeInstanceOf(ThreadMessageResponseAttachmentFileSearchTool::class)
+        ->tools->{0}->type->toBe('file_search');
+
 });
 
 test('as array accessible', function () {
