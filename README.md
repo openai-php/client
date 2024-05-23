@@ -943,7 +943,7 @@ $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oa
 
 > **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
 > ```php
-> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v1')
+> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v2')
 > ```
 
 #### `create`
@@ -970,7 +970,6 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
@@ -991,7 +990,6 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
@@ -1013,8 +1011,8 @@ $response->name; // 'New Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
 $response->model; // 'gpt-4'
 $response->description; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools[0]->type; // 'file_search'
+$response->tool_resources->file_search->vector_store_ids[0]; // 'code_interpreter file'
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
