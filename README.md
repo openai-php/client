@@ -969,7 +969,8 @@ $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
 $response->model; // 'gpt-4'
 $response->description; // null
-$response->tools[0]->type; // 'code_interpreter'
+$response->tools[0]->type; // 'file_search'
+$response->tool_resources->file_search->vector_store_ids; // ["vs_123"]
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
@@ -989,7 +990,8 @@ $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
 $response->model; // 'gpt-4'
 $response->description; // null
-$response->tools[0]->type; // 'code_interpreter'
+$response->tools[0]->type; // 'file_search'
+$response->tool_resources->file_search->vector_store_ids; // ["vs_123"]
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
@@ -1012,7 +1014,7 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'file_search'
-$response->tool_resources->file_search->vector_store_ids[0]; // 'code_interpreter file'
+$response->tool_resources->file_search->vector_store_ids; // ["vs_123"]
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]

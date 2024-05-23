@@ -26,9 +26,8 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
 
     /**
      * @param  array<int, AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction>  $tools
-     * @param  array<int, string>  $fileIds
-     * @param  array<int, string>  $vector_store_ids
-     */
+     * @param array<string, AssistantResponseToolResourceFileSearch|AssistantResponseToolResourceCodeInterpreter> $toolResources
+ */
     private function __construct(
         public string $id,
         public string $object,
@@ -37,9 +36,8 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public ?string $description,
         public string $model,
         public ?string $instructions,
-        public array $tools,
-        public ?array $fileIds,
-        public array $vector_store_ids,
+        public ?array $tools,
+        public ?array $toolResources,
         private readonly MetaInformation $meta,
     ) {
     }
@@ -59,8 +57,15 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             },
             $attributes['tools'],
         );
-        $fileIds = $toolResources['code_interpreter']['file_ids'] ?? [];
-        $vectorStoreIds = $toolResources['file_search']['vector_store_ids'] ?? [];
+
+        $toolResources = array_map(
+            fn (array $resource, string $type) => match ($type) {
+                'file_search' => AssistantResponseToolResourceFileSearch::from($resource),
+                'code_interpreter' => AssistantResponseToolResourceCodeInterpreter::from($resource),
+            },
+            $attributes['tool_resources'],
+            array_keys($attributes['tool_resources'])
+        );
 
         return new self(
             $attributes['id'],
@@ -71,8 +76,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['model'],
             $attributes['instructions'],
             $tools,
-            $fileIds,
-            $vectorStoreIds,
+            $toolResources,
             $meta
         );
     }
@@ -91,8 +95,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'model' => $this->model,
             'instructions' => $this->instructions,
             'tools' => array_map(fn (AssistantResponseToolCodeInterpreter|AssistantResponseToolFileSearch|AssistantResponseToolFunction $tool): array => $tool->toArray(), $this->tools),
-            'file_ids' => $this->fileIds,
-            'vector_store_ids' => $this->vector_store_ids,
+            'tool_resources' => array_map(fn ($resource) => $resource->toArray(), $this->toolResources),
         ];
     }
 }
