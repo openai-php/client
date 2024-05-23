@@ -29,6 +29,7 @@ final class ThreadMessageListResponseFixture
                 'assistant_id' => null,
                 'run_id' => null,
                 'metadata' => [],
+                'attachments' => [],
             ],
         ],
         'first_id' => 'msg_KNsDDwE41BUAHhcPNpDkdHWZ',

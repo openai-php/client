@@ -26,5 +26,6 @@ final class ThreadMessageResponseFixture
         'assistant_id' => null,
         'run_id' => null,
         'metadata' => [],
+        'attachments' => [],
     ];
 }

@@ -9,5 +9,6 @@ final class ThreadResponseFixture
         'object' => 'thread',
         'created_at' => 1_699_621_778,
         'metadata' => [],
+        'tool_resources' => [],
     ];
 }

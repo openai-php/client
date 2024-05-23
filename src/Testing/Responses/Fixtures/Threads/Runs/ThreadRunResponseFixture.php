@@ -24,14 +24,22 @@ final class ThreadRunResponseFixture
                 'type' => 'code_interpreter',
             ],
         ],
-        'file_ids' => [
-            'file-6EsV79Y261TEmi0PY5iHbZdS',
-        ],
         'metadata' => [],
+        'incomplete_details' => null,
         'usage' => [
             'prompt_tokens' => 5,
             'completion_tokens' => 7,
             'total_tokens' => 12,
         ],
+        'temperature' => 1.0,
+        'top_p' => 1.0,
+        'max_prompt_tokens' => 1000,
+        'max_completion_tokens' => 1000,
+        'truncation_strategy' => [
+            'type' => 'auto',
+            'last_messages' => null
+        ],
+        'response_format' => 'auto',
+        'tool_choice' => 'auto'
     ];
 }
