@@ -25,7 +25,7 @@ final class Batches implements BatchesContract
     {
         $payload = Payload::create('batches', $parameters);
 
-        /** @var Response<array{id: string, object: string, endpoint: string, errors: array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: int, expires_at: int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, endpoint: string, errors: ?array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: ?int, expires_at: ?int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: ?array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return BatchResponse::from($response->data(), $response->meta());
@@ -40,7 +40,7 @@ final class Batches implements BatchesContract
     {
         $payload = Payload::retrieve('batches', $id);
 
-        /** @var Response<array{id: string, object: string, endpoint: string, errors: array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: int, expires_at: int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, endpoint: string, errors: ?array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: ?int, expires_at: ?int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: ?array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return BatchResponse::from($response->data(), $response->meta());
@@ -55,7 +55,7 @@ final class Batches implements BatchesContract
     {
         $payload = Payload::cancel('batches', $id);
 
-        /** @var Response<array{id: string, object: string, endpoint: string, errors: array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: int, expires_at: int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, endpoint: string, errors: ?array<int, string>, input_file_id: string, completion_window: string, status: string, output_file_id: ?string, error_file_id: ?string, created_at: int, in_progress_at: ?int, expires_at: ?int, finalizing_at: ?int, completed_at: ?int, failed_at: ?int, expired_at: ?int, cancelling_at: ?int, cancelled_at: ?int, request_counts: array<string, string>, metadata: ?array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return BatchResponse::from($response->data(), $response->meta());

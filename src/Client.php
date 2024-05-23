@@ -20,6 +20,7 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 use OpenAI\Resources\Threads;
+use OpenAI\Resources\Batches;
 
 final class Client implements ClientContract
 {
@@ -162,5 +163,15 @@ final class Client implements ClientContract
     public function threads(): ThreadsContract
     {
         return new Threads($this->transporter);
+    }
+
+    /**
+     * List and describe the various bacthes available in the API.
+     *
+     * @see https://platform.openai.com/docs/api-reference/batches
+     */
+    public function batches(): Batches
+    {
+        return new Batches($this->transporter);
     }
 }
