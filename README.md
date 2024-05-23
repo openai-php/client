@@ -1143,6 +1143,7 @@ $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
 $response->metadata; // []
+$response->tool_resources; // []
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
@@ -1182,7 +1183,7 @@ $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
 $response->tools; // []
-$response->fileIds; // []
+$response->tool_resources; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1199,6 +1200,7 @@ $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
 $response->metadata; // []
+$response->tool_resources->code_interpreter->file_ids[0]; // []
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
@@ -1218,6 +1220,7 @@ $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
 $response->metadata; // ['name' => 'My new thread name']
+$response->tool_resources->code_interpreter->file_ids[0]; // []
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
@@ -1258,7 +1261,7 @@ $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1284,7 +1287,7 @@ $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
