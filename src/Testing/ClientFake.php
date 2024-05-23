@@ -9,6 +9,7 @@ use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AssistantsTestResource;
 use OpenAI\Testing\Resources\AudioTestResource;
+use OpenAI\Testing\Resources\BatchesTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
 use OpenAI\Testing\Resources\CompletionsTestResource;
 use OpenAI\Testing\Resources\EditsTestResource;
@@ -194,5 +195,10 @@ class ClientFake implements ClientContract
     public function threads(): ThreadsTestResource
     {
         return new ThreadsTestResource($this);
+    }
+
+    public function batches(): BatchesTestResource
+    {
+        return new BatchesTestResource($this);
     }
 }
