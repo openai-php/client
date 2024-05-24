@@ -4,6 +4,7 @@ namespace OpenAI\Contracts;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AudioContract;
+use OpenAI\Contracts\Resources\BatchesContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
 use OpenAI\Contracts\Resources\EditsContract;
@@ -113,4 +114,11 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/threads
      */
     public function threads(): ThreadsContract;
+
+    /**
+     * Create large batches of API requests for asynchronous processing. The Batch API returns completions within 24 hours.
+     *
+     * @see https://platform.openai.com/docs/api-reference/batch
+     */
+    public function batches(): BatchesContract;
 }
