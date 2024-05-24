@@ -33,6 +33,7 @@
   - [Threads Messages Files Resource](#threads-messages-files-resource)
   - [Threads Runs Resource](#threads-runs-resource)
   - [Threads Runs Steps Resource](#threads-runs-steps-resource)
+  - [Batches Resource](#batches-resource)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -1720,6 +1721,133 @@ $response->hasMore; // false
 
 foreach ($response->data as $result) {
     $result->id; // 'step_1spQXgbAabXFm1YXrwiGIMUz'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Batches` Resource
+
+#### `create`
+
+Creates a batch.
+
+```php
+
+$fileResponse = $client->files()->upload(
+     parameters: [
+          'purpose' => 'batch',
+          'file' => fopen('commands.jsonl', 'r'),
+    ]
+);
+
+$fileId = $fileResponse->id;
+
+$response = $client->batches()->create(
+    parameters: [
+        'input_file_id' => $fileId,
+        'endpoint' => '/v1/chat/completions',
+        'completion_window' => '24h'
+    ]
+ );
+
+$response->id; // 'batch_abc123'
+$response->object; // 'batch'
+$response->endpoint; // /v1/chat/completions
+$response->errors; // null
+$response->completionWindow; // '24h'
+$response->status; // 'validating'
+$response->outputFileId; // null
+$response->errorFileId; // null
+$response->createdAt; // 1714508499
+$response->inProgressAt; // null
+$response->expiresAt; // 1714536634
+$response->completedAt; // null
+$response->failedAt; // null
+$response->expiredAt; // null
+$response->requestCounts; // null
+$response->metadata; // ['name' => 'My batch name']
+
+$response->toArray(); // ['id' => 'batch_abc123', ...]
+```
+
+#### `retrieve`
+
+Retrieves a batch.
+
+```php
+$response = $client->batches()->retrieve(id: 'batch_abc123');
+
+$response->id; // 'batch_abc123'
+$response->object; // 'batch'
+$response->endpoint; // /v1/chat/completions
+$response->errors; // null
+$response->completionWindow; // '24h'
+$response->status; // 'validating'
+$response->outputFileId; // null
+$response->errorFileId; // null
+$response->createdAt; // 1714508499
+$response->inProgressAt; // null
+$response->expiresAt; // 1714536634
+$response->completedAt; // null
+$response->failedAt; // null
+$response->expiredAt; // null
+$response->requestCounts->total; // 100
+$response->requestCounts->completed; // 95
+$response->requestCounts->failed; // 5
+$response->metadata; // ['name' => 'My batch name']
+
+$response->toArray(); // ['id' => 'batch_abc123', ...]
+```
+
+#### `cancel`
+
+Cancels a batch.
+
+```php
+$response = $client->batches()->cancel(id: 'batch_abc123');
+
+$response->id; // 'batch_abc123'
+$response->object; // 'batch'
+$response->endpoint; // /v1/chat/completions
+$response->errors; // null
+$response->completionWindow; // '24h'
+$response->status; // 'cancelling'
+$response->outputFileId; // null
+$response->errorFileId; // null
+$response->createdAt; // 1711471533
+$response->inProgressAt; // 1711471538
+$response->expiresAt; // 1711557933
+$response->cancellingAt; // 1711475133
+$response->cancelledAt; // null
+$response->requestCounts->total; // 100
+$response->requestCounts->completed; // 23
+$response->requestCounts->failed; // 1
+$response->metadata; // ['name' => 'My batch name']
+
+$response->toArray(); // ['id' => 'batch_abc123', ...]
+```
+
+#### `list`
+
+Returns a list of batches.
+
+```php
+$response = $client->batches()->list(
+    parameters: [
+        'limit' => 10, 
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'batch_abc123'
+$response->lastId; // 'batch_abc456'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'batch_abc123'
     // ...
 }
 

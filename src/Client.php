@@ -9,6 +9,7 @@ use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Resources\Assistants;
 use OpenAI\Resources\Audio;
+use OpenAI\Resources\Batches;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
 use OpenAI\Resources\Edits;
@@ -162,5 +163,15 @@ final class Client implements ClientContract
     public function threads(): ThreadsContract
     {
         return new Threads($this->transporter);
+    }
+
+    /**
+     * Create large batches of API requests for asynchronous processing. The Batch API returns completions within 24 hours.
+     *
+     * @see https://platform.openai.com/docs/api-reference/batch
+     */
+    public function batches(): Batches
+    {
+        return new Batches($this->transporter);
     }
 }
