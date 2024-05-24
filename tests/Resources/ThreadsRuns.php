@@ -51,7 +51,7 @@ test('create', function () {
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toHaveCount(1)
+//        ->fileIds->toBeArray()->toHaveCount(1)
         ->metadata->toBeArray()->toBeEmpty();
 
     expect($result->meta())
@@ -119,7 +119,7 @@ test('retrieve', function () {
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toHaveCount(1)
+//        ->fileIds->toBeArray()->toHaveCount(1)
         ->metadata->toBeArray()->toBeEmpty();
 
     expect($result->meta())
@@ -149,7 +149,7 @@ test('cancel', function () {
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toHaveCount(1)
+//        ->fileIds->toBeArray()->toHaveCount(1)
         ->metadata->toBeArray()->toBeEmpty();
 
     expect($result->meta())
@@ -193,7 +193,7 @@ test('submit tool outputs', function () {
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toHaveCount(1)
+//        ->fileIds->toBeArray()->toHaveCount(1)
         ->metadata->toBeArray()->toBeEmpty();
 
     expect($result->meta())

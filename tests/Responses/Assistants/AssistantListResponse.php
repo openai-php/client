@@ -33,7 +33,7 @@ test('fake', function () {
     $response = AssistantListResponse::fake();
 
     expect($response['data'][0])
-        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc');
+        ->id->toBe('asst_abc123');
 });
 
 test('fake with override', function () {

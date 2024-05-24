@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Responses\Fixtures\Batches;
 
-final class CreateResponseFixture
+final class BatchResponseFixture
 {
     public const ATTRIBUTES = [
         'id' => 'batch_abc123',

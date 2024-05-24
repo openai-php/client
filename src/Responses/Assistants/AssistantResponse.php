@@ -58,14 +58,14 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['tools'],
         );
 
-        $toolResources = array_map(
+        $toolResources = isset($attributes['tool_resources']) ? array_map(
             fn (array $resource, string $type) => match ($type) {
                 'file_search' => AssistantResponseToolResourceFileSearch::from($resource),
                 'code_interpreter' => AssistantResponseToolResourceCodeInterpreter::from($resource),
             },
             $attributes['tool_resources'],
             array_keys($attributes['tool_resources'])
-        );
+        ) : null;
 
         return new self(
             $attributes['id'],

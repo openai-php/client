@@ -2,7 +2,7 @@
 
 namespace OpenAI\Testing\Responses\Fixtures\Batches;
 
-final class ListResponseFixture
+final class BatchListResponseFixture
 {
     public const ATTRIBUTES = [
         'object' => 'list',

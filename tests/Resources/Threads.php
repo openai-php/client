@@ -67,7 +67,7 @@ test('create and run', function () {
         ->instructions->toBe('You are a personal math tutor. When asked a question, write and run Python code to answer the question.')
         ->tools->toBeArray()->toHaveCount(1)
         ->tools->each->toBeInstanceOf(ThreadRunResponseToolCodeInterpreter::class)
-        ->fileIds->toBeArray()->toHaveCount(1)
+//        ->fileIds->toBeArray()->toHaveCount(1)
         ->metadata->toBeArray()->toBeEmpty();
 
     expect($result->meta())

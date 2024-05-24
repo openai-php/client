@@ -1,10 +1,11 @@
 <?php
 
-namespace OpenAI\Testing\Responses\Fixtures\Batches;
-
-final class RetrieveResponseFixture
+/**
+ * @return array<string, mixed>
+ */
+function batchResource(): array
 {
-    public const ATTRIBUTES = [
+    return [
         'id' => 'batch_abc123',
         'object' => 'batch',
         'endpoint' => '/v1/completions',
@@ -32,5 +33,24 @@ final class RetrieveResponseFixture
             'customer_id' => 'user_123456789',
             'batch_description' => 'Nightly eval job',
         ]
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function batchListResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            batchResource(),
+            batchResource(),
+            batchResource(),
+            batchResource(),
+        ],
+        'first_id' => 'batch_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'last_id' => 'batch_y49lAdZDiaQUxEBR6zrG846Q',
+        'has_more' => true,
     ];
 }
