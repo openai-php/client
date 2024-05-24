@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.9.1 (2024-05-24)
+### Added
+- Add support for Batches endpoint ([#403](https://github.com/openai-php/client/pull/403))
+
 ## v0.9.0 (2024-05-21)
 ### Added
 - Assistants: add streaming support ([#367](https://github.com/openai-php/client/pull/367))
