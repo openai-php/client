@@ -32,7 +32,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
+     * @param  array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -41,7 +41,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
                 'image' => ThreadRunStepResponseCodeInterpreterOutputImage::from($output),
                 'logs' => ThreadRunStepResponseCodeInterpreterOutputLogs::from($output),
             },
-            $attributes['outputs'],
+            $attributes['outputs'] ?? [],
         );
 
         return new self(
