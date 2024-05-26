@@ -42,9 +42,4 @@ final class AssistantsTestResource implements AssistantsContract
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
-
-    public function files(): AssistantsFilesTestResource
-    {
-        return new AssistantsFilesTestResource($this->fake);
-    }
 }

@@ -36,9 +36,4 @@ final class ThreadsMessagesTestResource implements ThreadsMessagesContract
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
-
-    public function files(): ThreadsMessagesFilesTestResource
-    {
-        return new ThreadsMessagesFilesTestResource($this->fake);
-    }
 }
