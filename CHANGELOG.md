@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.9.2 (2024-05-27)
+### Added
+- Support for usage stream option on chat endpoint ([#398](https://github.com/openai-php/client/pull/398))
+
+- ### Fixed
+- Missing output paramenter on streamed code interpreter outpu ([#406](https://github.com/openai-php/client/pull/406))
+
 ## v0.9.1 (2024-05-24)
 ### Added
 - Add support for Batches endpoint ([#403](https://github.com/openai-php/client/pull/403))
