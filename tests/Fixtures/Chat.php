@@ -206,6 +206,22 @@ function chatCompletionStreamContentChunk(): array
     ];
 }
 
+function chatCompletionStreamUsageChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [],
+        'usage' => [
+            'prompt_tokens' => 9,
+            'completion_tokens' => 12,
+            'total_tokens' => 21,
+        ],
+    ];
+}
+
 function chatCompletionStreamFunctionCallChunk(): array
 {
     return [
