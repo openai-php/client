@@ -14,6 +14,10 @@
 - Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
 - Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
 
+> **Looking for Assistants v2 support?**
+>
+> Check out the [0.10.x release](https://github.com/openai-php/client/releases/tag/v0.10.0-beta.1) (beta)
+
 ## Table of Contents
 - [Get Started](#get-started)
 - [Usage](#usage)
