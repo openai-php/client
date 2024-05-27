@@ -3,6 +3,7 @@
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
+use OpenAI\Responses\Threads\Messages\ThreadMessageResponseAttachment;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageFileObject;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentTextObject;
 use OpenAI\ValueObjects\Transporter\Response;
@@ -29,16 +30,22 @@ test('create', function () {
     $client = mockClient('POST', 'threads/thread_agvtHUGezjTCt4SKgQg0NJ2Y/messages', [
         'role' => 'user',
         'content' => 'How does AI work? Explain it in simple terms.',
-        'file_ids' => [
-            'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+        'attachments' => [
+            [
+                'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+                'tools' => [['type' => 'file_search']],
+            ],
         ],
     ], Response::from(threadMessageResource(), metaHeaders()));
 
     $result = $client->threads()->messages()->create('thread_agvtHUGezjTCt4SKgQg0NJ2Y', [
         'role' => 'user',
         'content' => 'How does AI work? Explain it in simple terms.',
-        'file_ids' => [
-            'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+        'attachments' => [
+            [
+                'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+                'tools' => [['type' => 'file_search']],
+            ],
         ],
     ]);
 
@@ -50,11 +57,11 @@ test('create', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(2)
+        ->content->toHaveCount(3)
         ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
         ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
-        ->fileIds->toBeArray()
-        ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
+        ->attachments->toBeArray()
+        ->attachments->{0}->toBeInstanceOf(ThreadMessageResponseAttachment::class)
         ->assistantId->toBeNull()
         ->runId->toBeNull()
         ->metadata->toBeArray()
@@ -85,11 +92,11 @@ test('modify', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(2)
+        ->content->toHaveCount(3)
         ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
         ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
-        ->fileIds->toBeArray()
-        ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
+        ->attachments->toBeArray()
+        ->attachments->{0}->toBeInstanceOf(ThreadMessageResponseAttachment::class)
         ->assistantId->toBeNull()
         ->runId->toBeNull()
         ->metadata->toBeArray()
@@ -112,11 +119,11 @@ test('retrieve', function () {
         ->threadId->toBe('thread_agvtHUGezjTCt4SKgQg0NJ2Y')
         ->role->toBe('user')
         ->content->toBeArray()
-        ->content->toHaveCount(2)
+        ->content->toHaveCount(3)
         ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
         ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
-        ->fileIds->toBeArray()
-        ->fileIds->toBe(['file-DhxjnFCaSHc4ZELRGKwTMFtI'])
+        ->attachments->toBeArray()
+        ->attachments->{0}->toBeInstanceOf(ThreadMessageResponseAttachment::class)
         ->assistantId->toBeNull()
         ->runId->toBeNull()
         ->metadata->toBeArray()

@@ -45,9 +45,19 @@ function threadMessageResource(): array
                     'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                 ],
             ],
+            [
+                'type' => 'image_url',
+                'image_url' => [
+                    'file_id' => 'file-VKxjnFCaSHc4ZELRGKwTMFtI',
+                    'detail' => 'high',
+                ],
+            ],
         ],
-        'file_ids' => [
-            'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+        'attachments' => [
+            [
+                'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+                'tools' => [['type' => 'file_search'], ['type' => 'code_interpreter']],
+            ],
         ],
         'assistant_id' => null,
         'run_id' => null,
