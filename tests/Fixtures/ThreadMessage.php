@@ -10,10 +10,6 @@ function threadMessageResource(): array
         'object' => 'thread.message',
         'created_at' => 1699623839,
         'thread_id' => 'thread_agvtHUGezjTCt4SKgQg0NJ2Y',
-        'status' => 'in_progress',
-        'incomplete_details' => null,
-        'completed_at' => null,
-        'incomplete_at' => null,
         'role' => 'user',
         'content' => [
             [
