@@ -46,8 +46,13 @@ test('fake', function () {
 test('fake with override', function () {
     $response = AssistantResponse::fake([
         'id' => 'asst_1234',
+        'metadata' => [
+            'key' => 'value',
+        ],
     ]);
 
     expect($response)
-        ->id->toBe('asst_1234');
+        ->id->toBe('asst_1234')
+        ->metadata->toBeArray()
+        ->metadata->key->toBe('value');
 });
