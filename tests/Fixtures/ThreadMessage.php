@@ -81,3 +81,15 @@ function threadMessageListResource(): array
         'has_more' => false,
     ];
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function threadMessageDeleteResource(): array
+{
+    return [
+        'id' => 'msg_KNsDDwE41BUAHhcPNpDkdHWZ',
+        'object' => 'thread.message.deleted',
+        'deleted' => true,
+    ];
+}

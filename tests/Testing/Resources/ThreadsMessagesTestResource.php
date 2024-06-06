@@ -65,6 +65,20 @@ it('records a thread message modify request', function () {
     });
 });
 
+it('records a thread message delete request', function () {
+    $fake = new ClientFake([
+        \OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse::fake(),
+    ]);
+
+    $fake->threads()->messages()->delete('thread_tKFLqzRN9n7MnyKKvc1Q7868', 'msg_KNsDDwE41BUAHhcPNpDkdHWZ');
+
+    $fake->assertSent(ThreadsMessages::class, function ($method, $threadId, $messageId) {
+        return $method === 'delete' &&
+            $threadId === 'thread_tKFLqzRN9n7MnyKKvc1Q7868' &&
+            $messageId === 'msg_KNsDDwE41BUAHhcPNpDkdHWZ';
+    });
+});
+
 it('records a thread message list request', function () {
     $fake = new ClientFake([
         ThreadMessageListResponse::fake(),
