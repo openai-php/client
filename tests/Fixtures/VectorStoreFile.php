@@ -13,6 +13,13 @@ function vectorStoreFileResource(): array
         'vector_store_id' => 'vs_xds05V7ep0QMGI5JmYnWsJwb',
         'status' => 'completed',
         'last_error' => null,
+        'chunking_strategy' => [
+            'type' => 'static',
+            'static' => [
+                'max_chunk_size_tokens' => 800,
+                'chunk_overlap_tokens' => 400,
+            ],
+        ],
     ];
 }
 
