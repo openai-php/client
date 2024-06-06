@@ -1280,6 +1280,23 @@ $response->metadata; // ['name' => 'My new message name']
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 ```
 
+#### `delete`
+
+Deletes a message.
+
+```php
+$response = $client->threads()->messages()->delete(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
 #### `list`
 
 Returns a list of messages for a given thread.
