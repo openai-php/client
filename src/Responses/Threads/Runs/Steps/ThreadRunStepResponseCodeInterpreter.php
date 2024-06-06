@@ -9,30 +9,30 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}>
+ * @implements ResponseContract<array{input?: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}>
  */
 final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{input: string, outputs: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}>
+     * @use ArrayAccessible<array{input?: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  array<int, ThreadRunStepResponseCodeInterpreterOutputLogs|ThreadRunStepResponseCodeInterpreterOutputImage>  $outputs
+     * @param  \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs[]|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage[]|null  $outputs
      */
     private function __construct(
-        public string $input,
-        public array $outputs,
+        public ?string $input,
+        public ?array $outputs,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
+     * @param  array{input?: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -45,7 +45,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
         );
 
         return new self(
-            $attributes['input'],
+            $attributes['input'] ?? null,
             $outputs,
         );
     }
@@ -55,12 +55,19 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
-            'input' => $this->input,
-            'outputs' => array_map(
+        $response = [];
+
+        if (! is_null($this->input)) {
+            $response['input'] = $this->input;
+        }
+
+        if ($this->outputs) {
+            $response['outputs'] = array_map(
                 fn (ThreadRunStepResponseCodeInterpreterOutputImage|ThreadRunStepResponseCodeInterpreterOutputLogs $output): array => $output->toArray(),
                 $this->outputs,
-            ),
-        ];
+            );
+        }
+
+        return $response;
     }
 }

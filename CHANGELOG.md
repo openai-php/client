@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.10.0-beta.1 (2024-05-27)
+### Added
+-  Add support for Assistants API v2 and Vector Stores endpoint ([#405](https://github.com/openai-php/client/pull/405))
+
 ## v0.9.2 (2024-05-27)
 ### Added
 - Support for usage stream option on chat endpoint ([#398](https://github.com/openai-php/client/pull/398))

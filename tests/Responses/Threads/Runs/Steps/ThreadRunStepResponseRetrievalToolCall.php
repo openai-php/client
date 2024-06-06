@@ -1,24 +1,24 @@
 <?php
 
-use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseRetrievalToolCall;
+use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseFileSearchToolCall;
 
 test('from', function () {
-    $result = ThreadRunStepResponseRetrievalToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
+    $result = ThreadRunStepResponseFileSearchToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
     expect($result)
         ->id->toBe('call_mNs14X7kZF2WDzlPhpQ163Co')
-        ->type->toBe('retrieval')
-        ->retrieval->toBe([]);
+        ->type->toBe('file_search')
+        ->file_search->toBe([]);
 });
 
 test('as array accessible', function () {
-    $result = ThreadRunStepResponseRetrievalToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
+    $result = ThreadRunStepResponseFileSearchToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
 
     expect($result['id'])
         ->toBe('call_mNs14X7kZF2WDzlPhpQ163Co');
 });
 
 test('to array', function () {
-    $result = ThreadRunStepResponseRetrievalToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
+    $result = ThreadRunStepResponseFileSearchToolCall::from(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);
 
     expect($result->toArray())
         ->toBe(threadRunStepWithCodeInterpreterOutputResource()['step_details']['tool_calls'][2]);

@@ -31,12 +31,13 @@
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
   - [Assistants Resource](#assistants-resource)
-  - [Assistants Files Resource](#assistants-files-resource)
   - [Threads Resource](#threads-resource)
   - [Threads Messages Resource](#threads-messages-resource)
-  - [Threads Messages Files Resource](#threads-messages-files-resource)
   - [Threads Runs Resource](#threads-runs-resource)
   - [Threads Runs Steps Resource](#threads-runs-steps-resource)
+  - [Vector Stores Resource](#vector-stores-resource)
+  - [Vector Stores Files Resource](#vector-store-files-resource)
+  - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
@@ -947,7 +948,7 @@ $response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oa
 
 > **Note:** If you are creating the client manually from the factory. Make sure you provide the necessary header:
 > ```php
-> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v1')
+> $factory->withHttpHeader('OpenAI-Beta', 'assistants=v2')
 > ```
 
 #### `create`
@@ -974,8 +975,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -995,8 +999,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -1018,8 +1025,11 @@ $response->instructions; // 'You are a personal math tutor. When asked a questio
 $response->model; // 'gpt-4'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->toolResources; // []
 $response->metadata; // []
+$response->temperature: // null
+$response->topP: // null
+$response->format: // 'auto'
 
 $response->toArray(); // ['id' => 'asst_gxzBkD1wkKEloYqZ410pT5pd', ...]
 ```
@@ -1060,81 +1070,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Assistants Files` Resource
-
-#### `create`
-
-Create an assistant file by attaching a file to an assistant.
-
-```php
-$response = $client->assistants()->files()->create('asst_gxzBkD1wkKEloYqZ410pT5pd', [
-    'file_id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH',
-]);
-
-$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-$response->object; // 'assistant.file'
-$response->createdAt; // 1623936000
-$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
-
-$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
-```
-
-#### `retrieve`
-
-Retrieves an AssistantFile.
-
-```php
-$response = $client->assistants()->files()->retrieve(
-    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
-    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-);
-
-$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-$response->object; // 'assistant.file'
-$response->createdAt; // 1623936000
-$response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
-
-$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
-```
-
-#### `delete`
-
-Delete an assistant file.
-
-```php
-$response = $client->assistants()->files()->delete(
-    assistantId: 'asst_gxzBkD1wkKEloYqZ410pT5pd', 
-    fileId: 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-);
-
-$response->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-$response->object; // 'assistant.file.deleted'
-$response->deleted; // true
-
-$response->toArray(); // ['id' => 'file-wB6RM6wHdA49HfS2DJ9fEyrH', ...]
-```
-
-#### `list`
-
-Returns a list of assistant files.
-
-```php
-$response = $client->assistants()->files()->list('asst_gxzBkD1wkKEloYqZ410pT5pd', [
-    'limit' => 2,
-]);
-
-$response->object; // 'list'
-$response->firstId; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-$response->lastId; // 'file-6EsV79Y261TEmi0PY5iHbZdS'
-$response->hasMore; // true
-
-foreach ($response->data as $result) {
-    $result->id; // 'file-wB6RM6wHdA49HfS2DJ9fEyrH'
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', ...]
-```
 
 ### `Threads` Resource
 
@@ -1148,6 +1083,7 @@ $response = $client->threads()->create([]);
 $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
+$response->toolResources; // null
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
@@ -1179,17 +1115,27 @@ $response->createdAt; // 1623936000
 $response->assistantId; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
 $response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->status; // 'queued'
+$response->requiredAction; // null
+$response->lastError; // null
 $response->startedAt; // null
 $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
 $response->tools; // []
-$response->fileIds; // []
 $response->metadata; // []
+$response->usage->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
+$response->toolChoice; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1204,6 +1150,7 @@ $response = $client->threads()->retrieve('thread_tKFLqzRN9n7MnyKKvc1Q7868');
 $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
+$response->toolResources; // null
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
@@ -1223,6 +1170,7 @@ $response = $client->threads()->modify('thread_tKFLqzRN9n7MnyKKvc1Q7868', [
 $response->id; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
 $response->object; // 'thread'
 $response->createdAt; // 1623936000
+$response->toolResources; // null
 $response->metadata; // ['name' => 'My new thread name']
 
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
@@ -1258,13 +1206,17 @@ $response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
 $response->object; // 'thread.message'
 $response->createdAt; // 1623936000
 $response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'in_progress
+$response->incompleteDetails; // null
+$response->completedAt; // null
+$response->incompleteAt; // null
 $response->role; // 'user'
 $response->content[0]->type; // 'text'
 $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1284,13 +1236,17 @@ $response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
 $response->object; // 'thread.message'
 $response->createdAt; // 1623936000
 $response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'in_progress
+$response->incompleteDetails; // null
+$response->completedAt; // null
+$response->incompleteAt; // null
 $response->role; // 'user'
 $response->content[0]->type; // 'text'
 $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
@@ -1315,14 +1271,35 @@ $response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
 $response->object; // 'thread.message'
 $response->createdAt; // 1623936000
 $response->threadId; // 'thread_tKFLqzRN9n7MnyKKvc1Q7868'
+$response->status; // 'in_progress
+$response->incompleteDetails; // null
+$response->completedAt; // null
+$response->incompleteAt; // null
 $response->role; // 'user'
 $response->content[0]->type; // 'text'
 $response->content[0]->text->value; // 'What is the sum of 5 and 7?'
 $response->content[0]->text->annotations; // []
 $response->assistantId; // null
 $response->runId; // null
-$response->fileIds; // []
+$response->attachments; // []
 $response->metadata; // ['name' => 'My new message name']
+
+$response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
+```
+
+#### `delete`
+
+Deletes a message.
+
+```php
+$response = $client->threads()->messages()->delete(
+    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
+    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+);
+
+$response->id; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
+$response->object; // 'thread.message.deleted'
+$response->deleted; // true
 
 $response->toArray(); // ['id' => 'msg_SKYwvF3zcigxthfn6F4hnpdU', ...]
 ```
@@ -1349,52 +1326,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-### `Threads Messages Files` Resource
-
-#### `retrieve`
-
-Retrieves a message file.
-
-```php
-$response = $client->threads()->messages()->files()->retrieve(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
-    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
-    fileId: 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
-);
-
-$response->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
-$response->object; // 'thread.message.file'
-$response->createdAt; // 1623936000
-$response->threadId; // 'msg_SKYwvF3zcigxthfn6F4hnpdU'
-
-$response->toArray(); // ['id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI', ...]
-```
-
-#### `list`
-
-Returns a list of message files.
-
-```php
-$response = $client->threads()->messages()->files()->list(
-    threadId: 'thread_tKFLqzRN9n7MnyKKvc1Q7868',
-    messageId: 'msg_SKYwvF3zcigxthfn6F4hnpdU',
-    parameters: [
-        'limit' => 10,
-    ],
-);
-
-$response->object; // 'list'
-$response->firstId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
-$response->lastId; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
-$response->hasMore; // false
-
-foreach ($response->data as $result) {
-    $result->id; // 'file-DhxjnFCaSHc4ZELRGKwTMFtI'
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', ...]]
-```
 
 ### `Threads Runs` Resource
 
@@ -1421,12 +1352,20 @@ $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
 $response->metadata; // []
+$response->usage->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->toolChoice; // 'auto'
+$response->responseFormat; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1528,16 +1467,22 @@ $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
 $response->metadata; // []
-
 $response->usage->promptTokens; // 25,
 $response->usage->completionTokens; // 32,
 $response->usage->totalTokens; // 57
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->toolChoice; // 'auto'
+$response->responseFormat; // 'auto'
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
 ```
@@ -1568,11 +1513,19 @@ $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
+$response->usage->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->toolChoice; // 'auto'
+$response->responseFormat; // 'auto'
 $response->metadata; // ['name' => 'My new run name']
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1599,11 +1552,19 @@ $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
-$response->tools[0]->type; // 'code_interpreter'
-$response->fileIds; // []
+$response->tools; // []
+$response->usage?->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->toolChoice; // 'auto'
+$response->responseFormat; // 'auto'
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1638,11 +1599,19 @@ $response->expiresAt; // 1699622335
 $response->cancelledAt; // null
 $response->failedAt; // null
 $response->completedAt; // null
+$response->incompleteDetails; // null
 $response->lastError; // null
 $response->model; // 'gpt-4'
 $response->instructions; // null
+$response->usage->total_tokens; // 579
+$response->temperature; // null
+$response->topP; // null
+$response->maxPromptTokens; // 1000
+$response->maxCompletionTokens; // 1000
+$response->truncationStrategy->type; // 'auto'
+$response->responseFormat; // 'auto'
 $response->tools[0]->type; // 'function'
-$response->fileIds; // []
+$response->toolChoice; // 'auto'
 $response->metadata; // []
 
 $response->toArray(); // ['id' => 'run_4RCYyYzX9m41WQicoJtUQAb8', ...]
@@ -1852,6 +1821,336 @@ $response->hasMore; // true
 
 foreach ($response->data as $result) {
     $result->id; // 'batch_abc123'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Stores` Resource
+
+#### `create`
+
+Create a vector store.
+
+```php
+$response = $client->vectorStores()->create([
+    'file_ids' => [
+        'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+    ],
+    'name' => 'My first Vector Store',
+]);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'My first Vector Store'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store.
+
+```php
+$response = $client->vectorStores()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'My first Vector Store'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `modify`
+
+Modifies a vector store.
+
+```php
+$response = $client->vectorStores()->modify(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters:  [
+        'name' => 'New name',
+    ],
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'New name'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `delete`
+
+Delete a vector store.
+
+```php
+$response = $client->vectorStores()->delete(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `list`
+
+Returns a list of vector stores.
+
+```php
+$response = $client->vectorStores()->list(
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->lastId; // 'vs_D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Store Files` Resource
+
+#### `create`
+
+Create a vector store file by attaching a File to a vector store.
+
+```php
+$response = $client->vectorStores()->files()->create(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'file_id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+    ]
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file'
+$response->usageBytes; // 4553
+$response->createdAt; // 1717703267
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->lastError; // null
+$response->chunkingStrategy->type; // 'static'
+$response->chunkingStrategy->maxChunkSizeTokens; // 800
+$response->chunkingStrategy->chunkOverlapTokens; // 400
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store file.
+
+```php
+$response = $client->vectorStores()->files()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileId: 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file'
+$response->usageBytes; // 4553
+$response->createdAt; // 1717703267
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->lastError; // null
+$response->chunkingStrategy->type; // 'static'
+$response->chunkingStrategy->maxChunkSizeTokens; // 800
+$response->chunkingStrategy->chunkOverlapTokens; // 400
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `delete`
+
+Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the delete file endpoint.
+
+```php
+$response = $client->vectorStores()->files()->delete(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileId: 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `list`
+
+Returns a list of vector store files.
+
+```php
+$response = $client->vectorStores()->files()->list(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->lastId; // 'file-D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Store File Batches` Resource
+
+#### `create`
+
+Create a vector store file batch.
+
+```php
+$response = $client->vectorStores()->batches()->create(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'file_ids' => [
+            'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+        ],
+    ]
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store file batch.
+
+```php
+$response = $client->vectorStores()->batches()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `cancel`
+
+Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+
+```php
+$response = $client->vectorStores()->batches()->cancel(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'cancelling'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `list`
+
+Returns a list of vector store files.
+
+```php
+$response = $client->vectorStores()->batches()->listFiles(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->lastId; // 'file-D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
     // ...
 }
 
