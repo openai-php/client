@@ -32,7 +32,7 @@ final class VectorStoresFileBatchesTestResource implements VectorStoresFileBatch
         return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function listFiles(string $vectorStoreId, string $fileBatchId): VectorStoreFileListResponse
+    public function listFiles(string $vectorStoreId, string $fileBatchId, array $parameters = []): VectorStoreFileListResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }

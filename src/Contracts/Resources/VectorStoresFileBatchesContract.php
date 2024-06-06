@@ -34,6 +34,8 @@ interface VectorStoresFileBatchesContract
      * Lists the files within a file batch within a vector store
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores-file-batches/listBatchFiles
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function listFiles(string $vectorStoreId, string $fileBatchId): VectorStoreFileListResponse;
+    public function listFiles(string $vectorStoreId, string $fileBatchId, array $parameters = []): VectorStoreFileListResponse;
 }

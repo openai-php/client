@@ -50,10 +50,12 @@ final class VectorStoresFileBatches implements VectorStoresFileBatchesContract
      * Lists the files within a file batch within a vector store
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores-file-batches/listBatchFiles
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function listFiles(string $vectorStoreId, string $fileBatchId): VectorStoreFileListResponse
+    public function listFiles(string $vectorStoreId, string $fileBatchId, array $parameters = []): VectorStoreFileListResponse
     {
-        $payload = Payload::list("vector_stores/$vectorStoreId/file_batches/$fileBatchId/files");
+        $payload = Payload::list("vector_stores/$vectorStoreId/file_batches/$fileBatchId/files", $parameters);
 
         /** @var Response<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);

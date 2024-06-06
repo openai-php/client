@@ -36,10 +36,12 @@ final class VectorStoresFiles implements VectorStoresFilesContract
      * Returns a list of files within a vector store.
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores-files/listFiles
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function list(string $vectorStoreId): VectorStoreFileListResponse
+    public function list(string $vectorStoreId, array $parameters = []): VectorStoreFileListResponse
     {
-        $payload = Payload::list("vector_stores/$vectorStoreId/files");
+        $payload = Payload::list("vector_stores/$vectorStoreId/files", $parameters);
 
         /** @var Response<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);

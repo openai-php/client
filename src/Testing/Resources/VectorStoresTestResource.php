@@ -20,17 +20,17 @@ final class VectorStoresTestResource implements VectorStoresContract
         return VectorStores::class;
     }
 
-    public function modify(string $vectorStore, array $parameters): VectorStoreResponse
+    public function modify(string $vectorStoreId, array $parameters): VectorStoreResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function retrieve(string $vectorStore): VectorStoreResponse
+    public function retrieve(string $vectorStoreId): VectorStoreResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function delete(string $vectorStore): VectorStoreDeleteResponse
+    public function delete(string $vectorStoreId): VectorStoreDeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
@@ -40,7 +40,7 @@ final class VectorStoresTestResource implements VectorStoresContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function list(): VectorStoreListResponse
+    public function list(array $parameters = []): VectorStoreListResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }

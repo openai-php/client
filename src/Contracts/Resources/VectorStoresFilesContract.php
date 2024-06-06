@@ -21,8 +21,10 @@ interface VectorStoresFilesContract
      * Returns a list of files within a vector store.
      *
      * @see https://platform.openai.com/docs/api-reference/vector-stores-files/listFiles
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function list(string $vectorStoreId): VectorStoreFileListResponse;
+    public function list(string $vectorStoreId, array $parameters = []): VectorStoreFileListResponse;
 
     /**
      * Retrieves a file within a vector store.
