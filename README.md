@@ -31,6 +31,9 @@
   - [Threads Messages Resource](#threads-messages-resource)
   - [Threads Runs Resource](#threads-runs-resource)
   - [Threads Runs Steps Resource](#threads-runs-steps-resource)
+  - [Vector Stores Resource](#vector-stores-resource)
+  - [Vector Stores Files Resource](#vector-store-files-resource)
+  - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
@@ -1814,6 +1817,336 @@ $response->hasMore; // true
 
 foreach ($response->data as $result) {
     $result->id; // 'batch_abc123'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Stores` Resource
+
+#### `create`
+
+Create a vector store.
+
+```php
+$response = $client->vectorStores()->create([
+    'file_ids' => [
+        'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+    ],
+    'name' => 'My first Vector Store',
+]);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'My first Vector Store'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store.
+
+```php
+$response = $client->vectorStores()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'My first Vector Store'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `modify`
+
+Modifies a vector store.
+
+```php
+$response = $client->vectorStores()->modify(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters:  [
+        'name' => 'New name',
+    ],
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store'
+$response->createdAt; // 1717703267
+$response->name; // 'New name'
+$response->usageBytes; // 0
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+$response->status; // 'in_progress'
+$response->expiresAfter; // null
+$response->expiresAt; // null
+$response->lastActiveAt; // 1717703267
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `delete`
+
+Delete a vector store.
+
+```php
+$response = $client->vectorStores()->delete(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+);
+
+$response->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->object; // 'vector_store.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'vs_vzfQhlTWVUl38QGqQAoQjeDF', ...]
+```
+
+#### `list`
+
+Returns a list of vector stores.
+
+```php
+$response = $client->vectorStores()->list(
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->lastId; // 'vs_D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Store Files` Resource
+
+#### `create`
+
+Create a vector store file by attaching a File to a vector store.
+
+```php
+$response = $client->vectorStores()->files()->create(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'file_id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+    ]
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file'
+$response->usageBytes; // 4553
+$response->createdAt; // 1717703267
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->lastError; // null
+$response->chunkingStrategy->type; // 'static'
+$response->chunkingStrategy->maxChunkSizeTokens; // 800
+$response->chunkingStrategy->chunkOverlapTokens; // 400
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store file.
+
+```php
+$response = $client->vectorStores()->files()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileId: 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file'
+$response->usageBytes; // 4553
+$response->createdAt; // 1717703267
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->lastError; // null
+$response->chunkingStrategy->type; // 'static'
+$response->chunkingStrategy->maxChunkSizeTokens; // 800
+$response->chunkingStrategy->chunkOverlapTokens; // 400
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `delete`
+
+Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the delete file endpoint.
+
+```php
+$response = $client->vectorStores()->files()->delete(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileId: 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+);
+
+$response->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->object; // 'vector_store.file.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
+```
+
+#### `list`
+
+Returns a list of vector store files.
+
+```php
+$response = $client->vectorStores()->files()->list(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->lastId; // 'file-D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', ...]]
+```
+
+
+### `Vector Store File Batches` Resource
+
+#### `create`
+
+Create a vector store file batch.
+
+```php
+$response = $client->vectorStores()->batches()->create(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'file_ids' => [
+            'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+        ],
+    ]
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `retrieve`
+
+Retrieves a vector store file batch.
+
+```php
+$response = $client->vectorStores()->batches()->retrieve(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'completed'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `cancel`
+
+Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+
+```php
+$response = $client->vectorStores()->batches()->cancel(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+);
+
+$response->id; // 'vsfb_123'
+$response->object; // 'vector_store.files_batch'
+$response->createdAt; // 1698107661
+$response->vectorStoreId; // 'vs_vzfQhlTWVUl38QGqQAoQjeDF'
+$response->status; // 'cancelling'
+$response->fileCounts->inProgress; // 1
+$response->fileCounts->completed; // 0
+$response->fileCounts->failed; // 0
+$response->fileCounts->cancelled; // 0
+$response->fileCounts->total; // 1
+
+$response->toArray(); // ['id' => 'vsfb_123', ...]
+```
+
+#### `list`
+
+Returns a list of vector store files.
+
+```php
+$response = $client->vectorStores()->batches()->listFiles(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileBatchId: 'vsfb_123',
+    parameters: [
+        'limit' => 10,
+    ],
+);
+
+$response->object; // 'list'
+$response->firstId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+$response->lastId; // 'file-D5DPOgBxSoEBTmYBgUESdPpa'
+$response->hasMore; // true
+
+foreach ($response->data as $result) {
+    $result->id; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
     // ...
 }
 
