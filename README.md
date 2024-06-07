@@ -82,6 +82,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::factory()
     ->withApiKey($yourApiKey)
     ->withOrganization('your-organization') // default: null
+    ->withProject('Your Project') // default: null
     ->withBaseUri('openai.example.com/v1') // default: api.openai.com/v1
     ->withHttpClient($client = new \GuzzleHttp\Client([])) // default: HTTP client found using PSR-18 HTTP Client Discovery
     ->withHttpHeader('X-My-Header', 'foo')
