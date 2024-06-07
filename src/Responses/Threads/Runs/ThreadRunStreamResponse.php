@@ -50,6 +50,7 @@ class ThreadRunStreamResponse implements ResponseContract
             'thread.run.in_progress',
             'thread.run.requires_action',
             'thread.run.completed',
+            'thread.run.incomplete',
             'thread.run.failed',
             'thread.run.cancelling',
             'thread.run.cancelled',
