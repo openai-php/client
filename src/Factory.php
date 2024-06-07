@@ -28,11 +28,11 @@ final class Factory
      */
     private ?string $organization = null;
 
-     /**
+    /**
      * The project for the requests.
      */
     private ?string $project = null;
-    
+
     /**
      * The HTTP client for the requests.
      */
