@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{file_id: string, detail?: string}>
+ * @implements ResponseContract<array{url: string, detail?: string}>
  */
 final class ThreadMessageResponseContentImageUrl implements ResponseContract
 {
@@ -21,7 +21,7 @@ final class ThreadMessageResponseContentImageUrl implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public string $fileId,
+        public string $url,
         public ?string $detail,
     ) {
     }
@@ -29,12 +29,12 @@ final class ThreadMessageResponseContentImageUrl implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{file_id: string, detail?: string}  $attributes
+     * @param  array{url: string, detail?: string}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['file_id'],
+            $attributes['url'],
             $attributes['detail'] ?? null,
         );
     }
@@ -45,7 +45,7 @@ final class ThreadMessageResponseContentImageUrl implements ResponseContract
     public function toArray(): array
     {
         return array_filter([
-            'file_id' => $this->fileId,
+            'url' => $this->url,
             'detail' => $this->detail,
         ], fn (?string $value): bool => $value !== null);
     }
