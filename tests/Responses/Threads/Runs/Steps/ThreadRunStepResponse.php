@@ -4,6 +4,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponse;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreationStepDetails;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseToolCallsStepDetails;
+use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseUsage;
 
 test('from', function () {
     $result = ThreadRunStepResponse::from(threadRunStepResource(), meta());
@@ -24,7 +25,8 @@ test('from', function () {
         ->last_error->toBeNull()
         ->stepDetails->toBeInstanceOf(ThreadRunStepResponseMessageCreationStepDetails::class)
         ->metadata->toBe([])
-        ->meta()->toBeInstanceOf(MetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeInstanceOf(ThreadRunStepResponseUsage::class);
 });
 
 test('from resource with submit tool outputs', function () {

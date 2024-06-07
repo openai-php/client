@@ -3,12 +3,14 @@
 namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseStreamContract;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
 use OpenAI\Testing\Resources\AssistantsTestResource;
 use OpenAI\Testing\Resources\AudioTestResource;
+use OpenAI\Testing\Resources\BatchesTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
 use OpenAI\Testing\Resources\CompletionsTestResource;
 use OpenAI\Testing\Resources\EditsTestResource;
@@ -20,6 +22,7 @@ use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
 use OpenAI\Testing\Resources\ThreadsTestResource;
+use OpenAI\Testing\Resources\VectorStoresTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Throwable;
 
@@ -194,5 +197,15 @@ class ClientFake implements ClientContract
     public function threads(): ThreadsTestResource
     {
         return new ThreadsTestResource($this);
+    }
+
+    public function batches(): BatchesTestResource
+    {
+        return new BatchesTestResource($this);
+    }
+
+    public function vectorStores(): VectorStoresContract
+    {
+        return new VectorStoresTestResource($this);
     }
 }

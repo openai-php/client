@@ -32,6 +32,7 @@ test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'Http\Discovery\Psr17Factory',
     'OpenAI\Enums',
     'OpenAI\Exceptions\ErrorException',
+    'OpenAI\Exceptions\UnknownEventException',
     'OpenAI\Contracts',
     'OpenAI\Testing\Responses\Concerns',
     'Psr\Http\Message\ResponseInterface',

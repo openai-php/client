@@ -45,9 +45,19 @@ function threadMessageResource(): array
                     'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
                 ],
             ],
+            [
+                'type' => 'image_url',
+                'image_url' => [
+                    'file_id' => 'file-VKxjnFCaSHc4ZELRGKwTMFtI',
+                    'detail' => 'high',
+                ],
+            ],
         ],
-        'file_ids' => [
-            'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+        'attachments' => [
+            [
+                'file_id' => 'file-DhxjnFCaSHc4ZELRGKwTMFtI',
+                'tools' => [['type' => 'file_search'], ['type' => 'code_interpreter']],
+            ],
         ],
         'assistant_id' => null,
         'run_id' => null,
@@ -69,5 +79,17 @@ function threadMessageListResource(): array
         'first_id' => 'msg_KNsDDwE41BUAHhcPNpDkdHWZ',
         'last_id' => 'msg_KNsDDwE41BUAHhcPNpDkdHWZ',
         'has_more' => false,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function threadMessageDeleteResource(): array
+{
+    return [
+        'id' => 'msg_KNsDDwE41BUAHhcPNpDkdHWZ',
+        'object' => 'thread.message.deleted',
+        'deleted' => true,
     ];
 }

@@ -14,13 +14,13 @@ final class CreateStreamedResponseChoice
     }
 
     /**
-     * @param  array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}  $attributes
+     * @param  array{index: int, delta?: array{role?: string, content?: string}, finish_reason: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['index'],
-            CreateStreamedResponseDelta::from($attributes['delta']),
+            CreateStreamedResponseDelta::from($attributes['delta'] ?? []),
             $attributes['finish_reason'] ?? null,
         );
     }

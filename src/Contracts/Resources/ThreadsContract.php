@@ -2,7 +2,9 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
+use OpenAI\Responses\Threads\Runs\ThreadRunStreamResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
 
@@ -25,6 +27,16 @@ interface ThreadsContract
      * @param  array<string, mixed>  $parameters
      */
     public function createAndRun(array $parameters): ThreadRunResponse;
+
+    /**
+     * Create a thread and run it in one request, returning a stream.
+     *
+     * @see https://platform.openai.com/docs/api-reference/runs/createThreadAndRun
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<ThreadRunStreamResponse>
+     */
+    public function createAndRunStreamed(array $parameters): StreamResponse;
 
     /**
      * Retrieves a thread.

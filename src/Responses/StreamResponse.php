@@ -37,6 +37,12 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
         while (! $this->response->getBody()->eof()) {
             $line = $this->readLine($this->response->getBody());
 
+            $event = null;
+            if (str_starts_with($line, 'event:')) {
+                $event = trim(substr($line, strlen('event:')));
+                $line = $this->readLine($this->response->getBody());
+            }
+
             if (! str_starts_with($line, 'data:')) {
                 continue;
             }
@@ -52,6 +58,11 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
             if (isset($response['error'])) {
                 throw new ErrorException($response['error']);
+            }
+
+            if ($event !== null) {
+                $response['__event'] = $event;
+                $response['__meta'] = $this->meta();
             }
 
             yield $this->responseClass::from($response);

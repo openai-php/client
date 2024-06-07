@@ -9,19 +9,22 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>
+ * @implements ResponseContract<array{id: ?string, type: 'function', function: array{name: ?string, arguments: string, output: ?string}}>
  */
 final class ThreadRunStepResponseFunctionToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, type: string, function: array{name: string, arguments: string, output: ?string}}>
+     * @use ArrayAccessible<array{id: ?string, type: 'function', function: array{name: ?string, arguments: string, output: ?string}}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
+    /**
+     * @param  'function'  $type
+     */
     private function __construct(
-        public string $id,
+        public ?string $id,
         public string $type,
         public ThreadRunStepResponseFunction $function,
     ) {
@@ -30,12 +33,12 @@ final class ThreadRunStepResponseFunctionToolCall implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, type: 'function', function: array{name: string, arguments: string, output?: ?string}}  $attributes
+     * @param  array{id?: string, type: 'function', function: array{name?: string, arguments: string, output?: ?string}}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['id'],
+            $attributes['id'] ?? null,
             $attributes['type'],
             ThreadRunStepResponseFunction::from($attributes['function']),
         );
