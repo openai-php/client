@@ -355,6 +355,37 @@ foreach($stream as $response){
 // ...
 ```
 
+To get usage report when using stream you can use `include_usage` in `stream_options` .
+
+```php
+$stream = $client->chat()->createStreamed([
+    'model' => 'gpt-4',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
+    'stream_options'=>[
+        'include_usage'=>true
+    ]
+]);
+
+foreach($stream as $response){
+    if($response->usage){
+        $response->usage->promptTokens; // 9,
+        $response->usage->completionTokens; // 12,
+        $response->usage->totalTokens; // 21
+    }else{
+        $response->choices[0]->toArray();
+    }
+    
+}
+// 1. iteration => ['index' => 0, 'delta' => ['role' => 'assistant'], 'finish_reason' => null]
+// 2. iteration => ['index' => 0, 'delta' => ['content' => 'Hello'], 'finish_reason' => null]
+// 3. iteration => ['index' => 0, 'delta' => ['content' => '!'], 'finish_reason' => null]
+// ...
+```
+
+When present, it contains a null value except for the last chunk which contains the token usage statistics for the entire request.
+
 ### `Audio` Resource
 
 #### `speech`
