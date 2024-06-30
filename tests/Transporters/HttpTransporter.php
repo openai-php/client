@@ -4,7 +4,10 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
+use OpenAI\Exceptions\AuthenticationError;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\NotFoundError;
+use OpenAI\Exceptions\RateLimitError;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Transporters\HttpTransporter;
@@ -101,11 +104,12 @@ test('request object server user errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (AuthenticationError $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(401);
         });
 });
 
@@ -153,11 +157,12 @@ test('error code may be null', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorCode())->toBeNull()
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -179,11 +184,12 @@ test('error code may be integer', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorCode())->toBe(123)
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -205,11 +211,12 @@ test('error type may be null', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (RateLimitError $e) {
             expect($e->getMessage())->toBe('You exceeded your current quota, please check')
                 ->and($e->getErrorMessage())->toBe('You exceeded your current quota, please check')
                 ->and($e->getErrorCode())->toBe('quota_exceeded')
-                ->and($e->getErrorType())->toBeNull();
+                ->and($e->getErrorType())->toBeNull()
+                ->and($e->getStatusCode())->toBe(429);
         });
 });
 
@@ -234,11 +241,12 @@ test('error message may be an array', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('Invalid schema for function \'get_current_weather\':'.PHP_EOL.'In context=(\'properties\', \'location\'), array schema missing items')
                 ->and($e->getErrorMessage())->toBe('Invalid schema for function \'get_current_weather\':'.PHP_EOL.'In context=(\'properties\', \'location\'), array schema missing items')
                 ->and($e->getErrorCode())->toBeNull()
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -260,11 +268,12 @@ test('error message may be empty', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('invalid_api_key')
                 ->and($e->getErrorMessage())->toBe('invalid_api_key')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -286,11 +295,12 @@ test('error message may be empty and code is an integer', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('123')
                 ->and($e->getErrorMessage())->toBe('123')
                 ->and($e->getErrorCode())->toBe(123)
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -312,11 +322,12 @@ test('error message and code may be empty', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (NotFoundError $e) {
             expect($e->getMessage())->toBe('Unknown error')
                 ->and($e->getErrorMessage())->toBe('Unknown error')
                 ->and($e->getErrorCode())->toBeNull()
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(404);
         });
 });
 
@@ -362,9 +373,11 @@ test('request object client error in response', function () {
             ]))
         ));
 
-    expect(fn () => $this->http->requestObject($payload))->toThrow(function (ErrorException $e) {
+    expect(fn () => $this->http->requestObject($payload))->toThrow(function (AuthenticationError $e) {
         expect($e->getMessage())
-            ->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.');
+            ->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
+        ;
+        expect($e->getStatusCode())->toBe(401);
     });
 });
 
@@ -471,11 +484,12 @@ test('request content server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestContent($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (AuthenticationError $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(401);
         });
 });
 
@@ -523,10 +537,11 @@ test('request stream server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestStream($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (AuthenticationError $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(401);
         });
 });

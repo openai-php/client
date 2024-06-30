@@ -9,8 +9,15 @@ use GuzzleHttp\Exception\ClientException;
 use JsonException;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Enums\Transporter\ContentType;
+use OpenAI\Exceptions\AuthenticationError;
+use OpenAI\Exceptions\BadRequestError;
+use OpenAI\Exceptions\ConflictError;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\NotFoundError;
+use OpenAI\Exceptions\PermissionDeniedError;
+use OpenAI\Exceptions\RateLimitError;
 use OpenAI\Exceptions\TransporterException;
+use OpenAI\Exceptions\UnprocessableEntityError;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
@@ -19,6 +26,7 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -46,7 +54,10 @@ final class HttpTransporter implements TransporterContract
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
-        $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
+        $response = $this->sendRequest(
+            fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request),
+            $request
+        );
 
         $contents = $response->getBody()->getContents();
 
@@ -54,7 +65,7 @@ final class HttpTransporter implements TransporterContract
             return Response::from($contents, $response->getHeaders());
         }
 
-        $this->throwIfJsonError($response, $contents);
+        $this->throwIfJsonError($request, $response, $contents);
 
         try {
             /** @var array{error?: array{message: string, type: string, code: string}} $data */
@@ -73,11 +84,14 @@ final class HttpTransporter implements TransporterContract
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
-        $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
+        $response = $this->sendRequest(
+            fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request),
+            $request
+        );
 
         $contents = $response->getBody()->getContents();
 
-        $this->throwIfJsonError($response, $contents);
+        $this->throwIfJsonError($request, $response, $contents);
 
         return $contents;
     }
@@ -89,27 +103,38 @@ final class HttpTransporter implements TransporterContract
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
-        $response = $this->sendRequest(fn () => ($this->streamHandler)($request));
+        $response = $this->sendRequest(fn () => ($this->streamHandler)($request), $request);
 
-        $this->throwIfJsonError($response, $response);
+        $this->throwIfJsonError($request, $response, $response);
 
         return $response;
     }
 
-    private function sendRequest(Closure $callable): ResponseInterface
+    private function sendRequest(Closure $callable, RequestInterface $request): ResponseInterface
     {
         try {
             return $callable();
         } catch (ClientExceptionInterface $clientException) {
             if ($clientException instanceof ClientException) {
-                $this->throwIfJsonError($clientException->getResponse(), $clientException->getResponse()->getBody()->getContents());
+                $this->throwIfJsonError($request, $clientException->getResponse(), $clientException->getResponse()->getBody()->getContents());
             }
 
             throw new TransporterException($clientException);
         }
     }
 
-    private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
+    /**
+     * @throws NotFoundError
+     * @throws RateLimitError
+     * @throws AuthenticationError
+     * @throws UnserializableResponse
+     * @throws ErrorException
+     * @throws BadRequestError
+     * @throws UnprocessableEntityError
+     * @throws ConflictError
+     * @throws PermissionDeniedError
+     */
+    private function throwIfJsonError(RequestInterface $request, ResponseInterface $response, string|ResponseInterface $contents): void
     {
         if ($response->getStatusCode() < 400) {
             return;
@@ -124,12 +149,21 @@ final class HttpTransporter implements TransporterContract
         }
 
         try {
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
-            $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+            /** @var array{error: array{message: string|array<int, string>, type: string, code: string}} $contentDecoded */
+            $contentDecoded = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
-            if (isset($response['error'])) {
-                throw new ErrorException($response['error']);
-            }
+            $error = $contentDecoded['error'];
+
+            throw match ($response->getStatusCode()) {
+                400 => new BadRequestError($request, $response, $error),
+                401 => new AuthenticationError($request, $response, $error),
+                403 => new PermissionDeniedError($request, $response, $error),
+                404 => new NotFoundError($request, $response, $error),
+                409 => new ConflictError($request, $response, $error),
+                422 => new UnprocessableEntityError($request, $response, $error),
+                429 => new RateLimitError($request, $response, $error),
+                default => new ErrorException($contentDecoded['error']),
+            };
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
         }

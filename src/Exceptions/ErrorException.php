@@ -6,14 +6,14 @@ namespace OpenAI\Exceptions;
 
 use Exception;
 
-final class ErrorException extends Exception
+class ErrorException extends Exception
 {
     /**
      * Creates a new Exception instance.
      *
      * @param  array{message: string|array<int, string>, type: ?string, code: string|int|null}  $contents
      */
-    public function __construct(private readonly array $contents)
+    public function __construct(protected readonly array $contents)
     {
         $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
 
