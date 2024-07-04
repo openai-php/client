@@ -21,6 +21,7 @@ class ThreadRunStreamResponse implements ResponseContract
      * @use ArrayAccessible<array{event: string, data: array<string, mixed>}>
      */
     use ArrayAccessible;
+
     use FakeableForStreamedResponse;
 
     private function __construct(

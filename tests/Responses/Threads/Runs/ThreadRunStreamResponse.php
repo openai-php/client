@@ -60,6 +60,6 @@ test('handles thread run delta', function () {
 test('handles invalid event', function () {
     $response = ThreadRunStreamResponse::fake(runCreatedThreadInvalidEventStream());
 
-    expect(fn() => $response->getIterator()->current()->response)
+    expect(fn () => $response->getIterator()->current()->response)
         ->toThrow(UnknownEventException::class);
 });

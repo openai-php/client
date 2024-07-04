@@ -25,7 +25,7 @@ final class BatchResponse implements ResponseContract, ResponseHasMetaInformatio
     use HasMetaInformation;
 
     /**
-     * @param  array<string, string>  $metadata
+     * @param  array<string, string>|null  $metadata
      */
     private function __construct(
         public string $id,
