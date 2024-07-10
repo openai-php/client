@@ -55,7 +55,7 @@ interface ThreadsContract
     public function modify(string $id, array $parameters): ThreadResponse;
 
     /**
-     * Delete an thread.
+     * Delete a thread.
      *
      * @see https://platform.openai.com/docs/api-reference/threads/deleteThread
      */

@@ -106,7 +106,7 @@ final class Threads implements ThreadsContract
     }
 
     /**
-     * Delete an thread.
+     * Delete a thread.
      *
      * @see https://platform.openai.com/docs/api-reference/threads/deleteThread
      */
