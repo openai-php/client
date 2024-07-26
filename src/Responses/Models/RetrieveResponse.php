@@ -43,8 +43,8 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         return new self(
             $attributes['id'],
             $attributes['object'],
-            $attributes['created'],
-            $attributes['owned_by'],
+            $attributes['created'] ?? $attributes['created_at'] ?? 0,
+            $attributes['owned_by'] ?? '',
             $meta,
         );
     }
