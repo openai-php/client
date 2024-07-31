@@ -38,7 +38,7 @@ final class ThreadMessageResponseContentImageUrlObject implements ResponseContra
     {
         return new self(
             $attributes['type'],
-            ThreadMessageResponseContentImageUrl::from($attributes['image_url']),
+            ThreadMessageResponseContentImageUrl::from($attributes),
         );
     }
 
