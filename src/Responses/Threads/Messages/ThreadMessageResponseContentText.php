@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -26,13 +27,12 @@ final class ThreadMessageResponseContentText implements ResponseContract
     private function __construct(
         public string $value,
         public array $annotations,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}  $attributes
+     * @param  array{value: string, annotations: array<int, array{type: 'unknown'}|array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -40,6 +40,7 @@ final class ThreadMessageResponseContentText implements ResponseContract
             fn (array $annotation): ThreadMessageResponseContentTextAnnotationFileCitationObject|ThreadMessageResponseContentTextAnnotationFilePathObject => match ($annotation['type']) {
                 'file_citation' => ThreadMessageResponseContentTextAnnotationFileCitationObject::from($annotation),
                 'file_path' => ThreadMessageResponseContentTextAnnotationFilePathObject::from($annotation),
+                default => throw new UnknownTypeException($annotation['type']),
             },
             $attributes['annotations'],
         );

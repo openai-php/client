@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Messages\Delta;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -28,13 +29,12 @@ final class ThreadMessageDeltaObject implements ResponseContract
         public ?string $role,
         public array $content,
         public ?array $fileIds,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{role?: string, content: array<int, array{index: int, type: 'image_file', image_file: array{file_id: string, detail?: string}}|array{index: int, type: 'text', text: array{value?: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, file_ids?: array<int, string>}  $attributes
+     * @param  array{role?: string, content: array<int, array{type: 'unknown'}|array{index: int, type: 'image_file', image_file: array{file_id: string, detail?: string}}|array{index: int, type: 'text', text: array{value?: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, file_ids?: array<int, string>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -42,6 +42,7 @@ final class ThreadMessageDeltaObject implements ResponseContract
             fn (array $content): ThreadMessageDeltaResponseContentTextObject|ThreadMessageDeltaResponseContentImageFileObject => match ($content['type']) {
                 'text' => ThreadMessageDeltaResponseContentTextObject::from($content),
                 'image_file' => ThreadMessageDeltaResponseContentImageFileObject::from($content),
+                default => throw new UnknownTypeException($content['type']),
             },
             $attributes['content'],
         );

@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Assistants;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
@@ -43,13 +44,12 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public ?float $topP,
         public string|AssistantResponseResponseFormat $responseFormat,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: 'text'|'json_object'}}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'unknown'}|array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: 'text'|'json_object'}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -58,6 +58,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
                 'code_interpreter' => AssistantResponseToolCodeInterpreter::from($tool),
                 'file_search' => AssistantResponseToolFileSearch::from($tool),
                 'function' => AssistantResponseToolFunction::from($tool),
+                default => throw new UnknownTypeException($tool['type']),
             },
             $attributes['tools'],
         );

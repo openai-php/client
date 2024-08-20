@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs\Steps\Delta;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseMessageCreationStepDetails;
 use OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseToolCallsStepDetails;
@@ -24,19 +25,19 @@ final class ThreadRunStepDeltaObject implements ResponseContract
 
     private function __construct(
         public ThreadRunStepResponseMessageCreationStepDetails|ThreadRunStepResponseToolCallsStepDetails $stepDetails,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{step_details: array{type: 'tool_calls', tool_calls: array<int, array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', file_search: array<string, string>}|array{id?: string, type: 'function', function: array{name?: string, arguments: string, output?: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}}  $attributes
+     * @param  array{step_details: array{type: 'unknown'}|array{type: 'tool_calls', tool_calls: array<int, array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', file_search: array<string, string>}|array{id?: string, type: 'function', function: array{name?: string, arguments: string, output?: ?string}}>}|array{type: 'message_creation', message_creation: array{message_id: string}}}  $attributes
      */
     public static function from(array $attributes): self
     {
         $stepDetails = match ($attributes['step_details']['type']) {
             'message_creation' => ThreadRunStepResponseMessageCreationStepDetails::from($attributes['step_details']),
             'tool_calls' => ThreadRunStepResponseToolCallsStepDetails::from($attributes['step_details']),
+            default => throw new UnknownTypeException($attributes['step_details']['type']),
         };
 
         return new self(

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -26,13 +27,12 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     private function __construct(
         public ?string $input,
         public ?array $outputs,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{input?: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
+     * @param  array{input?: string, outputs?: array<int, array{type: 'unknown'}|array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -40,6 +40,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
             fn (array $output): \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs => match ($output['type']) {
                 'image' => ThreadRunStepResponseCodeInterpreterOutputImage::from($output),
                 'logs' => ThreadRunStepResponseCodeInterpreterOutputLogs::from($output),
+                default => throw new UnknownTypeException($output['type']),
             },
             $attributes['outputs'] ?? [],
         );
