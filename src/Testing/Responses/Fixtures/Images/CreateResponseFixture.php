@@ -9,7 +9,6 @@ final class CreateResponseFixture
         'data' => [
             [
                 'url' => 'https://openai.com/fake-image.png',
-                'b64_json' => 'fake-b64_json',
             ],
         ],
     ];
