@@ -29,8 +29,7 @@ final class ThreadDeleteResponse implements ResponseContract, ResponseHasMetaInf
         public readonly string $object,
         public readonly bool $deleted,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

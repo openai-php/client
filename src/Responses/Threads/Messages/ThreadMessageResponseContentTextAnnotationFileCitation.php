@@ -23,8 +23,7 @@ final class ThreadMessageResponseContentTextAnnotationFileCitation implements Re
     private function __construct(
         public string $fileId,
         public ?string $quote,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

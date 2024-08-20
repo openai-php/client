@@ -36,8 +36,7 @@ final class TranscriptionResponse implements ResponseContract, ResponseHasMetaIn
         public readonly array $words,
         public readonly string $text,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

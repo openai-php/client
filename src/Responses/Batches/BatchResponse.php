@@ -49,8 +49,7 @@ final class BatchResponse implements ResponseContract, ResponseHasMetaInformatio
         public ?BatchResponseRequestCounts $requestCounts,
         public ?array $metadata,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

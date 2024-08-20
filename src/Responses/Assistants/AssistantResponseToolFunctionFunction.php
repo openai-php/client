@@ -27,8 +27,7 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
         public string $description,
         public string $name,
         public array $parameters,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

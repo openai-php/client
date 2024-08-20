@@ -41,8 +41,7 @@ final class ThreadMessageResponse implements ResponseContract, ResponseHasMetaIn
         public array $attachments,
         public array $metadata,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

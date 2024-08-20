@@ -32,8 +32,7 @@ final class TranslationResponseSegment implements ResponseContract
         public readonly float $compressionRatio,
         public readonly float $noSpeechProb,
         public readonly ?bool $transient,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

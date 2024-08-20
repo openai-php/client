@@ -31,8 +31,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
         public readonly string $object,
         public readonly array $data,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

@@ -50,7 +50,7 @@ it('sets an project via factory', function () {
 
 it('sets a custom client via factory', function () {
     $openAI = OpenAI::factory()
-        ->withHttpClient(new GuzzleClient())
+        ->withHttpClient(new GuzzleClient)
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);
@@ -82,7 +82,7 @@ it('sets a custom query parameter via factory', function () {
 
 it('sets a custom stream handler via factory', function () {
     $openAI = OpenAI::factory()
-        ->withHttpClient($client = new GuzzleClient())
+        ->withHttpClient($client = new GuzzleClient)
         ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]))
         ->make();
 

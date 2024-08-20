@@ -22,8 +22,7 @@ final class ThreadRunResponseToolChoiceFunction implements ResponseContract
 
     private function __construct(
         public string $name,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
