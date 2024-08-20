@@ -26,8 +26,7 @@ final class VectorStoreResponseFileCounts implements ResponseContract
         public readonly int $failed,
         public readonly int $cancelled,
         public readonly int $total,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

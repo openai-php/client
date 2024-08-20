@@ -35,8 +35,7 @@ final class ThreadResponse implements ResponseContract, ResponseHasMetaInformati
         public ?AssistantResponseToolResources $toolResources,
         public array $metadata,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

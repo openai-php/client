@@ -25,8 +25,7 @@ final class ThreadRunResponseRequiredActionSubmitToolOutputs implements Response
      */
     private function __construct(
         public array $toolCalls,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

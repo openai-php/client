@@ -45,8 +45,7 @@ final class ThreadRunStepResponse implements ResponseContract
         public array $metadata,
         private readonly MetaInformation $meta,
         public ?ThreadRunStepResponseUsage $usage
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

@@ -21,8 +21,7 @@ final class BatchResponseRequestCounts implements ResponseContract
         public int $total,
         public int $completed,
         public int $failed,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

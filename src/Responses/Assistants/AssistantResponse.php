@@ -43,8 +43,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public ?float $topP,
         public string|AssistantResponseResponseFormat $responseFormat,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

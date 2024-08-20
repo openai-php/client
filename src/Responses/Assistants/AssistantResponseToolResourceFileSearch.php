@@ -25,8 +25,7 @@ final class AssistantResponseToolResourceFileSearch implements ResponseContract
      */
     private function __construct(
         public array $vectorStoreIds,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

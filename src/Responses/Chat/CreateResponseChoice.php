@@ -10,8 +10,7 @@ final class CreateResponseChoice
         public readonly int $index,
         public readonly CreateResponseMessage $message,
         public readonly ?string $finishReason,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, finish_reason: string|null}  $attributes

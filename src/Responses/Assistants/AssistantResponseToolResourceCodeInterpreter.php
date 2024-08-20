@@ -25,8 +25,7 @@ final class AssistantResponseToolResourceCodeInterpreter implements ResponseCont
      */
     private function __construct(
         public array $fileIds,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

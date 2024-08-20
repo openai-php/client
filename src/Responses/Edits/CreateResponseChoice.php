@@ -9,8 +9,7 @@ final class CreateResponseChoice
     private function __construct(
         public readonly string $text,
         public readonly int $index,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{text: string, index: int}  $attributes

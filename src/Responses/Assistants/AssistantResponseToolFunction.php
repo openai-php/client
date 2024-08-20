@@ -23,8 +23,7 @@ final class AssistantResponseToolFunction implements ResponseContract
     private function __construct(
         public string $type,
         public AssistantResponseToolFunctionFunction $function,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

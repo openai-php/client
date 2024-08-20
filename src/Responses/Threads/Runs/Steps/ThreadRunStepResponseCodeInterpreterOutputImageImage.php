@@ -22,8 +22,7 @@ final class ThreadRunStepResponseCodeInterpreterOutputImageImage implements Resp
 
     private function __construct(
         public string $fileId,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

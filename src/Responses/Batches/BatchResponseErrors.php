@@ -23,8 +23,7 @@ final class BatchResponseErrors implements ResponseContract
     private function __construct(
         public string $object,
         public array $data,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

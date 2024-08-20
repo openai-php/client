@@ -40,8 +40,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
         public readonly ?int $lastActiveAt,
         public readonly array $metadata,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

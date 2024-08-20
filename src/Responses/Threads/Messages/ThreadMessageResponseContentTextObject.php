@@ -26,8 +26,7 @@ final class ThreadMessageResponseContentTextObject implements ResponseContract
     private function __construct(
         public string $type,
         public ThreadMessageResponseContentText $text,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

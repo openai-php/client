@@ -23,8 +23,7 @@ final class AssistantResponseToolResources implements ResponseContract
     private function __construct(
         public ?AssistantResponseToolResourceCodeInterpreter $codeInterpreter,
         public ?AssistantResponseToolResourceFileSearch $fileSearch,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
