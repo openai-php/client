@@ -89,7 +89,7 @@ interface ClientContract
     public function fineTunes(): FineTunesContract;
 
     /**
-     * Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+     * Given an input text, outputs if the model classifies it as violating OpenAI's content policy.
      *
      * @see https://platform.openai.com/docs/api-reference/moderations
      */
