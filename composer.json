@@ -27,7 +27,7 @@
         "laravel/pint": "^1.17.2",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^7.10.0",
-        "pestphp/pest": "^2.35.0",
+        "pestphp/pest": "^2.35.1",
         "pestphp/pest-plugin-arch": "^2.7",
         "pestphp/pest-plugin-type-coverage": "^2.8.5",
         "phpstan/phpstan": "^1.11.11",
