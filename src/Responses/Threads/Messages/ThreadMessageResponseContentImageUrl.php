@@ -14,14 +14,14 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 final class ThreadMessageResponseContentImageUrl implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{file_id: string, detail?: string}>
+     * @use ArrayAccessible<array{url: string, detail?: string}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     private function __construct(
-        public string $url,
+        public string $imageUrl,
         public ?string $detail,
     ) {}
 
@@ -44,7 +44,7 @@ final class ThreadMessageResponseContentImageUrl implements ResponseContract
     public function toArray(): array
     {
         return array_filter([
-            'url' => $this->url,
+            'url' => $this->imageUrl,
             'detail' => $this->detail,
         ], fn (?string $value): bool => $value !== null);
     }
