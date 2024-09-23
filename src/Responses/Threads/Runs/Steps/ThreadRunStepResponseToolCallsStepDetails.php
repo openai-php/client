@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Threads\Runs\Steps;
 
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownTypeException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -32,7 +33,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{type: 'tool_calls', tool_calls: array<int, array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', file_search: array<string, string>}|array{id?: string, type: 'function', function: array{name?: string, arguments: string, output?: ?string}}>}  $attributes
+     * @param  array{type: 'tool_calls', tool_calls: array<int, array{type: 'unknown'}|array{id?: string, type: 'code_interpreter', code_interpreter: array{input: string, outputs?: array<int, array{type: 'image', image: array{file_id: string}}|array{type: 'logs', logs: string}>}}|array{id: string, type: 'file_search', file_search: array<string, string>}|array{id?: string, type: 'function', function: array{name?: string, arguments: string, output?: ?string}}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -41,6 +42,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
                 'code_interpreter' => ThreadRunStepResponseCodeToolCall::from($toolCall),
                 'file_search' => ThreadRunStepResponseFileSearchToolCall::from($toolCall),
                 'function' => ThreadRunStepResponseFunctionToolCall::from($toolCall),
+                default => throw new UnknownTypeException($toolCall['type']),
             },
             $attributes['tool_calls'],
         );
