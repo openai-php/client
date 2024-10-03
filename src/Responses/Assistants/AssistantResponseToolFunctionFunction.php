@@ -24,7 +24,7 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
      * @param  array<string, mixed>  $parameters
      */
     private function __construct(
-        public string $description,
+        public string|null $description,
         public string $name,
         public array $parameters,
     ) {}
