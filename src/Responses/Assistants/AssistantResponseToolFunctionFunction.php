@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 final class AssistantResponseToolFunctionFunction implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{description: string, name: string, parameters: array<string, mixed>}>
+     * @use ArrayAccessible<array{description: string|null, name: string, parameters: array<string, mixed>}>
      */
     use ArrayAccessible;
 
@@ -24,7 +24,7 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
      * @param  array<string, mixed>  $parameters
      */
     private function __construct(
-        public string $description,
+        public string|null $description,
         public string $name,
         public array $parameters,
     ) {}
