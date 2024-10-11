@@ -119,6 +119,8 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
+        $statusCode = $response->getStatusCode();
+
         if ($contents instanceof ResponseInterface) {
             $contents = $contents->getBody()->getContents();
         }
@@ -128,7 +130,7 @@ final class HttpTransporter implements TransporterContract
             $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {
-                throw new ErrorException($response['error']);
+                throw new ErrorException($response['error'], $statusCode);
             }
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);

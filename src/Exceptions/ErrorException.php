@@ -12,8 +12,9 @@ final class ErrorException extends Exception
      * Creates a new Exception instance.
      *
      * @param  array{message: string|array<int, string>, type: ?string, code: string|int|null}  $contents
+     * @param int $statusCode
      */
-    public function __construct(private readonly array $contents)
+    public function __construct(private readonly array $contents, private readonly int $statusCode)
     {
         $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
 
@@ -22,6 +23,16 @@ final class ErrorException extends Exception
         }
 
         parent::__construct($message);
+    }
+
+    /**
+     * Returns the HTTP status code.
+     *
+     * **Note: For streamed requests it might be 200 even in case of an error.**
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 
     /**
