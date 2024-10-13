@@ -22,15 +22,15 @@ final class TranscriptionResponseSegment implements ResponseContract
      */
     private function __construct(
         public readonly int $id,
-        public readonly int $seek,
+        public readonly ?int $seek,
         public readonly float $start,
         public readonly float $end,
         public readonly string $text,
         public readonly array $tokens,
-        public readonly float $temperature,
-        public readonly float $avgLogprob,
-        public readonly float $compressionRatio,
-        public readonly float $noSpeechProb,
+        public readonly ?float $temperature,
+        public readonly ?float $avgLogprob,
+        public readonly ?float $compressionRatio,
+        public readonly ?float $noSpeechProb,
         public readonly ?bool $transient,
     ) {}
 
@@ -43,15 +43,15 @@ final class TranscriptionResponseSegment implements ResponseContract
     {
         return new self(
             $attributes['id'],
-            $attributes['seek'],
+            $attributes['seek'] ?? null,
             $attributes['start'],
             $attributes['end'],
             $attributes['text'],
             $attributes['tokens'],
-            $attributes['temperature'],
-            $attributes['avg_logprob'],
-            $attributes['compression_ratio'],
-            $attributes['no_speech_prob'],
+            $attributes['temperature'] ?? null,
+            $attributes['avg_logprob'] ?? null,
+            $attributes['compression_ratio'] ?? null,
+            $attributes['no_speech_prob'] ?? null,
             $attributes['transient'] ?? null,
         );
     }
