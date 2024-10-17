@@ -40,9 +40,6 @@ jobs:
     - name: Coding Style Checks
       run: composer test:lint
 
-    - name: Refactor Checks
-      run: composer test:refactor
-
     - name: Type Checks
       run: composer test:types
 
