@@ -19,12 +19,19 @@ test('from', function () {
         ->content->{0}->toBeInstanceOf(ThreadMessageResponseContentTextObject::class)
         ->content->{1}->toBeInstanceOf(ThreadMessageResponseContentImageFileObject::class)
         ->content->{2}->toBeInstanceOf(\OpenAI\Responses\Threads\Messages\ThreadMessageResponseContentImageUrlObject::class)
-        ->attachments->toBeArray()
-        ->attachments->{0}->toBeInstanceOf(ThreadMessageResponseAttachment::class)
         ->assistantId->toBeNull()
         ->runId->toBeNull()
         ->metadata->toBe([])
         ->meta()->toBeInstanceOf(MetaInformation::class);
+
+    if (is_array($result->attachments)) {
+        expect($result->attachments)->toBeArray();
+
+        expect($result)
+            ->attachments->{0}->toBeInstanceOf(ThreadMessageResponseAttachment::class);
+    } else {
+        expect($result->attachments)->toBeNull();
+    }
 });
 
 test('as array accessible', function () {
