@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.1.0",
-        "php-http/discovery": "^1.19.4",
+        "php-http/discovery": "^1.20.0",
         "php-http/multipart-stream-builder": "^1.4.2",
         "psr/http-client": "^1.0.3",
         "psr/http-client-implementation": "^1.0.1",
@@ -24,15 +24,15 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9.2",
         "guzzlehttp/psr7": "^2.7.0",
-        "laravel/pint": "^1.17.3",
+        "laravel/pint": "^1.18.1",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^7.10.0",
-        "pestphp/pest": "^2.35.1",
-        "pestphp/pest-plugin-arch": "^2.7",
-        "pestphp/pest-plugin-type-coverage": "^2.8.6",
-        "phpstan/phpstan": "^1.12.4",
-        "rector/rector": "^1.2.5",
-        "symfony/var-dumper": "^6.4.11"
+        "nunomaduro/collision": "^7.11.0|^8.5.0",
+        "pestphp/pest": "^2.36.0|^3.4.1",
+        "pestphp/pest-plugin-arch": "^2.7|^3.0",
+        "pestphp/pest-plugin-type-coverage": "^2.8.7|^3.1.0",
+        "phpstan/phpstan": "^1.12.6",
+        "rector/rector": "^1.2.7",
+        "symfony/var-dumper": "^6.4.11|^7.1.5"
     },
     "autoload": {
         "psr-4": {
