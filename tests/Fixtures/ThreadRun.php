@@ -355,3 +355,51 @@ function threadRunListResource(): array
         'has_more' => false,
     ];
 }
+
+/**
+ * @return resource
+ */
+function messageDeltaThreadRunStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamMessageDeltaResponse.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function runCreatedThreadRunStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamThreadCreatedResponse.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function runCreatedThreadStepCreatedStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamStepRunCreatedResponse.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function runCreatedThreadMessageCreatedStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamMessageResponse.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function runCreatedThreadRunStepDeltaStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamRunStepDeltaResponse.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function runCreatedThreadInvalidEventStream()
+{
+    return fopen(__DIR__.'/Streams/ThreadRunStreamInvalidEventResponse.txt', 'r');
+}
