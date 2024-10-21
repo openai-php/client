@@ -25,7 +25,7 @@ final class ThreadMessageResponseContentImageUrlObject implements ResponseContra
      */
     private function __construct(
         public string $type,
-        public ThreadMessageResponseContentImageUrl $imageFile,
+        public ThreadMessageResponseContentImageUrl $imageUrl,
     ) {}
 
     /**
@@ -48,7 +48,7 @@ final class ThreadMessageResponseContentImageUrlObject implements ResponseContra
     {
         return [
             'type' => $this->type,
-            'image_url' => $this->imageFile->toArray(),
+            'image_url' => $this->imageUrl->toArray(),
         ];
     }
 }
