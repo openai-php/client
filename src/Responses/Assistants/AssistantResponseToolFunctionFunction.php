@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{description: string, name: string, parameters: array<string, mixed>}>
+ * @implements ResponseContract<array{description: ?string, name: string, parameters: array<string, mixed>}>
  */
 final class AssistantResponseToolFunctionFunction implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{description: string|null, name: string, parameters: array<string, mixed>}>
+     * @use ArrayAccessible<array{description: ?string, name: string, parameters: array<string, mixed>}>
      */
     use ArrayAccessible;
 
@@ -24,7 +24,7 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
      * @param  array<string, mixed>  $parameters
      */
     private function __construct(
-        public string|null $description,
+        public ?string $description,
         public string $name,
         public array $parameters,
     ) {}
@@ -32,7 +32,7 @@ final class AssistantResponseToolFunctionFunction implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{description: string, name: string, parameters: array<string, mixed>}  $attributes
+     * @param  array{description: ?string, name: string, parameters: array<string, mixed>}  $attributes
      */
     public static function from(array $attributes): self
     {
