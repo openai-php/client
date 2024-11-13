@@ -14,7 +14,7 @@ final class BatchResponseFixture
         'status' => 'validating',
         'output_file_id' => null,
         'error_file_id' => null,
-        'created_at' => 1711471533,
+        'created_at' => 1_711_471_533,
         'in_progress_at' => null,
         'expires_at' => null,
         'finalizing_at' => null,

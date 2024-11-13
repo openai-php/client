@@ -1,0 +1,2 @@
+event: thread.run.step.created
+data: {"id":"step_3P1u5J5Rs95lypEfvQ3rMdPL","object":"thread.run.step","created_at":1720104399,"run_id":"run_s1X8yAjuUBlwhGrqiahzfnH7","assistant_id":"asst_JA9Pc6eQ744nbec10slSz5BU","thread_id":"thread_sSbvUX4J1FqlUZBv6BaBbOj4","type":"message_creation","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1720104998,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_zKgPBqNcqb7qYP2bBA3tVyTd"}},"usage":null}
