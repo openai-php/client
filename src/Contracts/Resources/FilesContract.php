@@ -14,7 +14,7 @@ interface FilesContract
      *
      * @see https://platform.openai.com/docs/api-reference/files/list
      */
-    public function list(): ListResponse;
+    public function list(array $parameters = []): ListResponse;
 
     /**
      * Returns information about a specific file.
