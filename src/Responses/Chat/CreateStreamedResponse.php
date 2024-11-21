@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}, finish_reason: string|null}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
+ * @implements ResponseContract<array{id?: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}, finish_reason: string|null}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
 final class CreateStreamedResponse implements ResponseContract
 {
@@ -35,7 +35,7 @@ final class CreateStreamedResponse implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
+     * @param  array{id?: string, object: string, created: int, model: string, choices: array<int, array{index: int, delta: array{role?: string, content?: string}, finish_reason: string|null}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -58,7 +58,7 @@ final class CreateStreamedResponse implements ResponseContract
      */
     public function toArray(): array
     {
-        $data = [
+        return array_filter([
             'id' => $this->id,
             'object' => $this->object,
             'created' => $this->created,
@@ -67,12 +67,7 @@ final class CreateStreamedResponse implements ResponseContract
                 static fn (CreateStreamedResponseChoice $result): array => $result->toArray(),
                 $this->choices,
             ),
-        ];
-
-        if ($this->usage instanceof \OpenAI\Responses\Chat\CreateResponseUsage) {
-            $data['usage'] = $this->usage->toArray();
-        }
-
-        return $data;
+            'usage' => $this->usage?->toArray(),
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }

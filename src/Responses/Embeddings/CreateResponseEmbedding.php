@@ -16,7 +16,7 @@ final class CreateResponseEmbedding
     ) {}
 
     /**
-     * @param  array{object: string, index: int, embedding: array<int, float>}  $attributes
+     * @param  array{object: string, index?: int, embedding: array<int, float>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -28,14 +28,14 @@ final class CreateResponseEmbedding
     }
 
     /**
-     * @return array{object: string, index: int, embedding: array<int, float>}
+     * @return array{object: string, index?: int, embedding: array<int, float>}
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'object' => $this->object,
             'index' => $this->index,
             'embedding' => $this->embedding,
-        ];
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }
