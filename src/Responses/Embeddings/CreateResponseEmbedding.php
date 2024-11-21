@@ -11,7 +11,7 @@ final class CreateResponseEmbedding
      */
     private function __construct(
         public readonly string $object,
-        public readonly int $index,
+        public readonly ?int $index,
         public readonly array $embedding,
     ) {}
 
@@ -22,7 +22,7 @@ final class CreateResponseEmbedding
     {
         return new self(
             $attributes['object'],
-            $attributes['index'],
+            $attributes['index'] ?? null,
             $attributes['embedding'],
         );
     }

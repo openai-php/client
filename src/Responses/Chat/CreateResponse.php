@@ -28,13 +28,13 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  array<int, CreateResponseChoice>  $choices
      */
     private function __construct(
-        public readonly string $id,
+        public readonly ?string $id,
         public readonly string $object,
         public readonly int $created,
         public readonly string $model,
         public readonly ?string $systemFingerprint,
         public readonly array $choices,
-        public readonly CreateResponseUsage $usage,
+        public readonly ?CreateResponseUsage $usage,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -50,13 +50,13 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         ), $attributes['choices']);
 
         return new self(
-            $attributes['id'],
+            $attributes['id'] ?? null,
             $attributes['object'],
             $attributes['created'],
             $attributes['model'],
             $attributes['system_fingerprint'] ?? null,
             $choices,
-            CreateResponseUsage::from($attributes['usage']),
+                isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
             $meta,
         );
     }

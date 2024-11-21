@@ -24,7 +24,7 @@ final class CreateStreamedResponse implements ResponseContract
      * @param  array<int, CreateStreamedResponseChoice>  $choices
      */
     private function __construct(
-        public readonly string $id,
+        public readonly ?string $id,
         public readonly string $object,
         public readonly int $created,
         public readonly string $model,
@@ -44,7 +44,7 @@ final class CreateStreamedResponse implements ResponseContract
         ), $attributes['choices']);
 
         return new self(
-            $attributes['id'],
+            $attributes['id'] ?? null,
             $attributes['object'],
             $attributes['created'],
             $attributes['model'],

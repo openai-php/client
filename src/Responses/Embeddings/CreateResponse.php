@@ -30,7 +30,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     private function __construct(
         public readonly string $object,
         public readonly array $embeddings,
-        public readonly CreateResponseUsage $usage,
+        public readonly ?CreateResponseUsage $usage,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -48,7 +48,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         return new self(
             $attributes['object'],
             $embeddings,
-            CreateResponseUsage::from($attributes['usage']),
+            isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
             $meta,
         );
     }
