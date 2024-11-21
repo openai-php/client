@@ -1,8 +1,8 @@
 <?php
 
 use OpenAI\Responses\Embeddings\CreateResponse;
-use OpenAI\Responses\Embeddings\CreateResponseUsage;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
+use OpenAI\Responses\Embeddings\CreateResponseUsage;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {

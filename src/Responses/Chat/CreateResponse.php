@@ -56,7 +56,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['model'],
             $attributes['system_fingerprint'] ?? null,
             $choices,
-                isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
+            isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
             $meta,
         );
     }
