@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
+use OpenAI\Responses\Embeddings\CreateResponseUsage;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
@@ -12,6 +13,19 @@ test('from', function () {
         ->object->toBe('list')
         ->embeddings->toBeArray()->toHaveCount(2)
         ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from without usage', function () {
+    $response = CreateResponse::from(embeddingListWithoutUsage(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->object->toBe('list')
+        ->embeddings->toBeArray()->toHaveCount(2)
+        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
+        ->usage->toBeNull()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
