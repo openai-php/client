@@ -163,11 +163,11 @@ $response->object; // 'text_completion'
 $response->created; // 1589478378
 $response->model; // 'gpt-3.5-turbo-instruct'
 
-foreach ($response->choices as $result) {
-    $result->text; // '\n\nThis is a test'
-    $result->index; // 0
-    $result->logprobs; // null
-    $result->finishReason; // 'length' or null
+foreach ($response->choices as $choice) {
+    $choice->text; // '\n\nThis is a test'
+    $choice->index; // 0
+    $choice->logprobs; // null
+    $choice->finishReason; // 'length' or null
 }
 
 $response->usage->promptTokens; // 5,
@@ -217,11 +217,11 @@ $response->object; // 'chat.completion'
 $response->created; // 1677701073
 $response->model; // 'gpt-3.5-turbo-0301'
 
-foreach ($response->choices as $result) {
-    $result->index; // 0
-    $result->message->role; // 'assistant'
-    $result->message->content; // '\n\nHello there! How can I assist you today?'
-    $result->finishReason; // 'stop'
+foreach ($response->choices as $choice) {
+    $choice->index; // 0
+    $choice->message->role; // 'assistant'
+    $choice->message->content; // '\n\nHello there! How can I assist you today?'
+    $choice->finishReason; // 'stop'
 }
 
 $response->usage->promptTokens; // 9,
@@ -269,15 +269,15 @@ $response->object; // 'chat.completion'
 $response->created; // 1677701073
 $response->model; // 'gpt-3.5-turbo-0613'
 
-foreach ($response->choices as $result) {
-    $result->index; // 0
-    $result->message->role; // 'assistant'
-    $result->message->content; // null
-    $result->message->toolCalls[0]->id; // 'call_123'
-    $result->message->toolCalls[0]->type; // 'function'
-    $result->message->toolCalls[0]->function->name; // 'get_current_weather'
-    $result->message->toolCalls[0]->function->arguments; // "{\n  \"location\": \"Boston, MA\"\n}"
-    $result->finishReason; // 'tool_calls'
+foreach ($response->choices as $choice) {
+    $choice->index; // 0
+    $choice->message->role; // 'assistant'
+    $choice->message->content; // null
+    $choice->message->toolCalls[0]->id; // 'call_123'
+    $choice->message->toolCalls[0]->type; // 'function'
+    $choice->message->toolCalls[0]->function->name; // 'get_current_weather'
+    $choice->message->toolCalls[0]->function->arguments; // "{\n  \"location\": \"Boston, MA\"\n}"
+    $choice->finishReason; // 'tool_calls'
 }
 
 $response->usage->promptTokens; // 82,
@@ -320,13 +320,13 @@ $response->object; // 'chat.completion'
 $response->created; // 1677701073
 $response->model; // 'gpt-3.5-turbo-0613'
 
-foreach ($response->choices as $result) {
-    $result->index; // 0
-    $result->message->role; // 'assistant'
-    $result->message->content; // null
-    $result->message->functionCall->name; // 'get_current_weather'
-    $result->message->functionCall->arguments; // "{\n  \"location\": \"Boston, MA\"\n}"
-    $result->finishReason; // 'function_call'
+foreach ($response->choices as $choice) {
+    $choice->index; // 0
+    $choice->message->role; // 'assistant'
+    $choice->message->content; // null
+    $choice->message->functionCall->name; // 'get_current_weather'
+    $choice->message->functionCall->arguments; // "{\n  \"location\": \"Boston, MA\"\n}"
+    $choice->finishReason; // 'function_call'
 }
 
 $response->usage->promptTokens; // 82,
@@ -2197,9 +2197,9 @@ $response = $client->edits()->create([
 $response->object; // 'edit'
 $response->created; // 1589478378
 
-foreach ($response->choices as $result) {
-    $result->text; // 'What day of the week is it?'
-    $result->index; // 0
+foreach ($response->choices as $choice) {
+    $choice->text; // 'What day of the week is it?'
+    $choice->index; // 0
 }
 
 $response->usage->promptTokens; // 25,
