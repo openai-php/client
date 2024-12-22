@@ -17,6 +17,19 @@ test('from', function () {
         ->choices->each->toBeInstanceOf(CreateStreamedResponseChoice::class);
 });
 
+test('from without id', function () {
+    $completion = CreateStreamedResponse::from(chatCompletionStreamFirstChunkWithoutId());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->id->toBeNull()
+        ->object->toBe('chat.completion.chunk')
+        ->created->toBe(1679432086)
+        ->model->toBe('gpt-4-0314')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateStreamedResponseChoice::class);
+});
+
 test('from usage chunk', function () {
     $completion = CreateStreamedResponse::from(chatCompletionStreamUsageChunk());
 
