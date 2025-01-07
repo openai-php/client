@@ -1462,7 +1462,7 @@ do{
                 break;
         }
     }
-} while ($run->status != "completed")
+} while ($run->status != "thread.run.completed")
 
 // ...
 ```
