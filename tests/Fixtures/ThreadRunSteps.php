@@ -25,6 +25,11 @@ function threadRunStepResource(): array
                 'message_id' => 'msg_i404PxKbB92d0JAmdOIcX7vA',
             ],
         ],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
+        ],
     ];
 }
 
@@ -80,12 +85,17 @@ function threadRunStepWithCodeInterpreterOutputResource(): array
                 ],
                 [
                     'id' => 'call_mNs14X7kZF2WDzlPhpQ163Co',
-                    'type' => 'retrieval',
-                    'retrieval' => [],
+                    'type' => 'file_search',
+                    'file_search' => [],
                 ],
             ],
         ],
         'metadata' => ['name' => 'the step name'],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
+        ],
     ];
 }
 
@@ -122,6 +132,11 @@ function threadRunStepWithFunctionCallPendingOutputResource(): array
             ],
         ],
         'metadata' => ['name' => 'the step name'],
+        'usage' => [
+            'prompt_tokens' => 123,
+            'completion_tokens' => 456,
+            'total_tokens' => 579,
+        ],
     ];
 }
 

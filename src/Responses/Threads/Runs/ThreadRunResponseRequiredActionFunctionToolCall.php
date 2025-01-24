@@ -24,8 +24,7 @@ final class ThreadRunResponseRequiredActionFunctionToolCall implements ResponseC
         public string $id,
         public string $type,
         public ThreadRunResponseRequiredActionFunctionToolCallFunction $function,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

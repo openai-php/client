@@ -63,6 +63,17 @@ final class Headers
     }
 
     /**
+     * Creates a new Headers value object, with the given project, and the existing headers.
+     */
+    public function withProject(string $project): self
+    {
+        return new self([
+            ...$this->headers,
+            'OpenAI-Project' => $project,
+        ]);
+    }
+
+    /**
      * Creates a new Headers value object, with the newly added header, and the existing headers.
      */
     public function withCustomHeader(string $name, string $value): self

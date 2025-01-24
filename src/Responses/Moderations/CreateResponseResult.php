@@ -27,6 +27,10 @@ final class CreateResponseResult
         $categories = [];
 
         foreach (Category::cases() as $category) {
+            if (! isset($attributes['category_scores'][$category->value])) {
+                continue;
+            }
+
             $categories[$category->value] = CreateResponseCategory::from([
                 'category' => $category->value,
                 'violated' => $attributes['categories'][$category->value],

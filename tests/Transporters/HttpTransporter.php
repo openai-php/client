@@ -105,7 +105,8 @@ test('request object server user errors', function () {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
-                ->and($e->getErrorType())->toBe('invalid_request_error');
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(401);
         });
 });
 

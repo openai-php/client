@@ -27,6 +27,11 @@ final class ThreadRunStepListResponseFixture
                         'message_id' => 'msg_i404PxKbB92d0JAmdOIcX7vA',
                     ],
                 ],
+                'usage' => [
+                    'prompt_tokens' => 123,
+                    'completion_tokens' => 456,
+                    'total_tokens' => 579,
+                ],
             ],
         ],
         'first_id' => 'step_1spQXgbAabXFm1YXrwiGIMUz',

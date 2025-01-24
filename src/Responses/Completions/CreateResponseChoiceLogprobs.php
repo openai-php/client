@@ -17,8 +17,7 @@ final class CreateResponseChoiceLogprobs
         public readonly array $tokenLogprobs,
         public readonly ?array $topLogprobs,
         public readonly array $textOffset,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}  $attributes

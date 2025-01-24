@@ -43,13 +43,12 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
         public readonly ?int $trainedTokens,
         public readonly ?RetrieveJobResponseError $error,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: ?array{code: string, param: ?string, message: string}}  $attributes
+     * @param  array{id: string, object: string, model: string, created_at: int, finished_at: ?int, fine_tuned_model: ?string, hyperparameters: array{n_epochs: int|string, batch_size: int|string|null, learning_rate_multiplier: float|string|null}, organization_id: string, result_files: array<int, string>, status: string, validation_file: ?string, training_file: string, trained_tokens: ?int, error: ?array{code?: string, param?: ?string, message?: string}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -67,7 +66,12 @@ final class RetrieveJobResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['validation_file'],
             $attributes['training_file'],
             $attributes['trained_tokens'],
-            isset($attributes['error']) ? RetrieveJobResponseError::from($attributes['error']) : null,
+            (
+                isset($attributes['error']) &&
+                isset($attributes['error']['code']) &&
+                isset($attributes['error']['param']) &&
+                isset($attributes['error']['message'])
+            ) ? RetrieveJobResponseError::from($attributes['error']) : null,
             $meta,
         );
     }

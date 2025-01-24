@@ -22,8 +22,7 @@ final class RetrieveResponseHyperparams implements ResponseContract
         public readonly ?float $learningRateMultiplier,
         public readonly int $nEpochs,
         public readonly float $promptLossWeight,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

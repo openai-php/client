@@ -21,8 +21,7 @@ final class TranscriptionResponseWord implements ResponseContract
         public readonly string $word,
         public readonly float $start,
         public readonly float $end,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

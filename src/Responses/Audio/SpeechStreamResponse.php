@@ -38,7 +38,7 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
 
     public static function fake(?string $content = null, ?MetaInformation $meta = null): static
     {
-        $psr17Factory = new Psr17Factory();
+        $psr17Factory = new Psr17Factory;
         $response = $psr17Factory->createResponse()
             ->withBody($psr17Factory->createStream($content ?? (string) file_get_contents(__DIR__.'/../../Testing/Responses/Fixtures/Audio/speech-streamed.mp3')));
 

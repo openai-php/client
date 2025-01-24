@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Resources\Threads;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Responses\Threads\ThreadDeleteResponse;
 use OpenAI\Responses\Threads\ThreadResponse;
@@ -24,6 +25,11 @@ final class ThreadsTestResource implements ThreadsContract
     }
 
     public function createAndRun(array $parameters): ThreadRunResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function createAndRunStreamed(array $parameters): StreamResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
