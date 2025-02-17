@@ -9,8 +9,8 @@ final class CreateResponseUsageCompletionTokensDetails
     private function __construct(
         public readonly ?int $audioTokens,
         public readonly int $reasoningTokens,
-        public readonly int $acceptedPredictionTokens,
-        public readonly int $rejectedPredictionTokens
+        public readonly ?int $acceptedPredictionTokens,
+        public readonly ?int $rejectedPredictionTokens
     ) {}
 
     /**
