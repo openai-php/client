@@ -33,6 +33,13 @@ final class Factory
      */
     private ?string $project = null;
 
+
+    /**
+     * The provider for the requests.
+     */
+    private ?string $provider = null;
+
+
     /**
      * The HTTP client for the requests.
      */
@@ -88,6 +95,19 @@ final class Factory
 
         return $this;
     }
+
+    /**
+     * Sets the provider for the requests.
+     */
+    public function withProvider(?string $project): self
+    {
+        $this->provider = $project;
+
+        return $this;
+    }
+
+
+
 
     /**
      * Sets the HTTP client for the requests.
@@ -164,7 +184,16 @@ final class Factory
             $headers = $headers->withCustomHeader($name, $value);
         }
 
-        $baseUri = BaseUri::from($this->baseUri ?: 'api.openai.com/v1');
+        if ($this->provider !== null) {
+            if($this->provider == 'Grok' || $this->provider == 'grok'|| $this->provider == 'GROK'){
+                $baseUri = BaseUri::from($this->baseUri ?: 'api.openai.com/v1');
+            }
+
+        } else {
+            $baseUri = BaseUri::from($this->baseUri ?: 'https://api.x.ai/v1');
+        }
+
+
 
         $queryParams = QueryParams::create();
         foreach ($this->queryParams as $name => $value) {

@@ -8,7 +8,7 @@ The three LLM models that we would be working on right now would include Grok,
 Gemini, and Perplexity. And here are the documentations below for the different APIs.
 
 
-## Grok:
+## Grok
 
 ### General View over the API
 
@@ -59,7 +59,30 @@ After we figure this out thew chat function with the GROK AI API, what we need t
 further is to make sure that we can utilize the same function other services that GROK AI
 provides, but when we follow the same structure, I believe that we can make the progression
 more efficient with the example that we already have.
-## Gemini:
+
+
+The progress that we have right now is actually something that we can consider useful in the library.
+When users call the Openai-php and create the client, we switched out the process of making them enter
+their base urls, and now they can just enter llm provider name to make sure switch baseURLs for 
+different providers. 
+
+For example, the code below could demonstrate when the user creates a client directly with a different
+provider.
+
+```php
+$client = OpenAI::factory()
+    ->withApiKey($_ENV["GROK_API_KEY"])
+    ->withOrganization('your-organization') // default: null
+    ->withProject('Your Project') // default: null
+    ->withProvider('grok') // Could be Grok, grok, GROK, but anything else would be set to openai
+    ->make();
+```
+Now this sets the default baseURL to Grok's baseURL, and instead of taking away the function that allows
+users to set upon their own url, this is just a quick fix that allows people to simply click in and change
+the provider easily.
+
+
+## Gemini
 
 ### General View over the API
 
