@@ -14,6 +14,7 @@ final class CreateResponseMessage
         public readonly ?string $content,
         public readonly array $toolCalls,
         public readonly ?CreateResponseFunctionCall $functionCall,
+        public readonly ?string $reasoningContent,
     ) {}
 
     /**
@@ -30,6 +31,7 @@ final class CreateResponseMessage
             $attributes['content'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
+            $attributes['reasoning_content'] ?? null,
         );
     }
 
@@ -49,6 +51,10 @@ final class CreateResponseMessage
 
         if ($this->toolCalls !== []) {
             $data['tool_calls'] = array_map(fn (CreateResponseToolCall $toolCall): array => $toolCall->toArray(), $this->toolCalls);
+        }
+
+        if ($this->reasoningContent) {
+            $data['reasoning_content'] = $this->reasoningContent;
         }
 
         return $data;
