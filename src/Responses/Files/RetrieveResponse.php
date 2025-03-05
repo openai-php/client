@@ -54,7 +54,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             $attributes['filename'],
             $attributes['purpose'],
             $attributes['status'],
-            $attributes['status_details'],
+            $attributes['status_details'] ?? null,
             $meta,
         );
     }
