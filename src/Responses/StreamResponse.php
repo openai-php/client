@@ -74,19 +74,24 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
      */
     private function readLine(StreamInterface $stream): string
     {
-        $buffer = '';
+        try {
+            $buffer = '';
 
-        while (! $stream->eof()) {
-            if ('' === ($byte = $stream->read(1))) {
-                return $buffer;
+            while (! $stream->eof()) {
+                if ('' === ($byte = $stream->read(1))) {
+                    return $buffer;
+                }
+                $buffer .= $byte;
+                if ($byte === "\n") {
+                    break;
+                }
             }
-            $buffer .= $byte;
-            if ($byte === "\n") {
-                break;
-            }
+
+            return $buffer;
+        } catch (\Exception $exception) {
+            return $buffer;
+            throw new \Exception('Error reading line from stream: ' . $exception->getMessage() . json_encode($stream));
         }
-
-        return $buffer;
     }
 
     public function meta(): MetaInformation
