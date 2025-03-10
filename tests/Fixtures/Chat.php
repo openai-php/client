@@ -39,6 +39,48 @@ function chatCompletion(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithLogprobs(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello!',
+                ],
+                'logprobs' => [
+                    'content' => [
+                        [
+                            'token' => 'Hello',
+                            'logprob' => 0.0,
+                            'bytes' => [72, 101, 108, 108, 111],
+                        ],
+                        [
+                            'token' => '!',
+                            'logprob' => -0.0005715019651688635,
+                            'bytes' => [33],
+                        ],
+                    ],
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 18,
+            'completion_tokens' => 3,
+            'total_tokens' => 21,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithSystemFingerprint(): array
 {
     return [
