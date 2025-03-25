@@ -35,6 +35,14 @@ final class ResourceUri implements StringableContract
         return new self($resource);
     }
 
+        /**
+     * Creates a new ResourceUri value object that list the input items for the given resource.
+     */
+    public static function listInputItems(string $resource, string $id): self
+    {
+        return new self("{$resource}/{$id}/input_items");
+    }
+
     /**
      * Creates a new ResourceUri value object that lists the given resource.
      */

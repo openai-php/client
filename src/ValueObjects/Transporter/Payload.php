@@ -32,6 +32,20 @@ final class Payload
         // ..
     }
 
+        /**
+     * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function listInputItems(string $resource, string $id, array $parameters = []): self
+    {
+        $contentType = ContentType::JSON;
+        $method = Method::GET;
+        $uri = ResourceUri::listInputItems($resource, $id);
+
+        return new self($contentType, $method, $uri, $parameters);
+    }
+
     /**
      * Creates a new Payload value object from the given parameters.
      *
