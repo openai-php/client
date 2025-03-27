@@ -7,10 +7,9 @@ namespace OpenAI\Contracts\Resources;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\RetrieveResponse;
-use OpenAI\Responses\Responses\ListResponse;
-use OpenAI\Responses\Responses\ListInputItemsResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
-use OpenAI\Contracts\StringableContract;
+use OpenAI\Responses\Responses\ListInputItems;
 
 /**
  * @internal
@@ -18,7 +17,7 @@ use OpenAI\Contracts\StringableContract;
 interface ResponsesContract
 {
     /**
-     * Create a response.
+     * Create a response. 
      *
      * @see https://platform.openai.com/docs/api-reference/responses/create
      */
@@ -28,34 +27,32 @@ interface ResponsesContract
      * Create a streamed response.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/create
+     * 
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<CreateStreamedResponse>
      */
-    public function createStreamed(array $parameters): CreateStreamedResponse;
+    public function createStreamed(array $parameters): StreamResponse;
 
     /**
      * Retrieve a response.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/retrieve
      */
-    public function retrieve(string $responseId): RetrieveResponse;
+    public function retrieve(string $id): RetrieveResponse;
 
     /**
      * Delete a response.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/delete
      */
-    public function delete(string $responseId): DeleteResponse;
+    public function delete(string $id): DeleteResponse;
 
     /**
-     * Lists the input items for a response.
+     * List input items for a response.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/input-items
-     */
-    public function listInputItems(string $responseId, array $parameters): ListInputItemsResponse;
-
-    /**
-     * Returns a list of responses.
      *
-     * @see https://platform.openai.com/docs/api-reference/responses/list
+     * @param  array<string, mixed>  $parameters
      */
-    public function list(array $parameters): ListResponse;
+    public function list(string $id, array $parameters = []): ListInputItems;
 }

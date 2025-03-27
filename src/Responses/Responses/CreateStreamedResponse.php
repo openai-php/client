@@ -4,39 +4,66 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
-use OpenAI\Contracts\ResponseStreamContract;
-use OpenAI\Responses\StreamResponse;
-use OpenAI\Testing\Resources\Responses;
-use Psr\Http\Message\ResponseInterface;
-use OpenAI\Responses\Responses\PartialResponses\CreatedPartialResponse;
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Exceptions\UnknownEventException;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
- * @implements ResponseStreamContract<CreatedPartialResponse>
+ * @implements ResponseContract<array{event: string, data: array<string, mixed>}>
  */
-final class CreateStreamedResponse extends StreamResponse implements ResponseStreamContract
+final class CreateStreamedResponse implements ResponseContract
 {
-    protected static function partialResponseClass(): string
+    /**
+     * @use ArrayAccessible<array{event: string, data: array<string, mixed>}>
+     */
+    use ArrayAccessible;
+
+    use FakeableForStreamedResponse;
+
+    private function __construct(
+        public readonly string $event,
+        public readonly ?CreateResponse $response,
+        public readonly array $data,
+    ) {}
+
+    /**
+     * Acts as static factory, and returns a new Response instance. 
+     *
+     * Maps the appropriate classes onto each event from the responses streaming api
+     * https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    public static function from(array $attributes): self
     {
-        return CreatedPartialResponse::class;
+        $event = $attributes['__event'] ?? null;
+        unset($attributes['__event']);
+
+        $meta = $attributes['__meta'] ?? null;
+        unset($attributes['__meta']);
+
+        // For events that return a full response object
+        $response = null;
+        if ($event === 'response.completed' && isset($meta)) {
+            $response = CreateResponse::from($attributes, $meta);
+        }
+
+        return new self(
+            $event ?? 'unknown',
+            $response,
+            $attributes,
+        );
     }
 
     /**
-     * @return \Generator<CreatedPartialResponse>
+     * {@inheritDoc}
      */
-    public static function fromResponse(ResponseInterface $response): \Generator
+    public function toArray(): array
     {
-        foreach (self::decodeStream($response) as $line) {
-            yield CreatedPartialResponse::from(json_decode($line, true, 512, JSON_THROW_ON_ERROR), []);
-        }
-    }
-
-    /**
-     * @param  callable(CreatedPartialResponse): void  $callback
-     */
-    public static function stream(ResponseInterface $response, callable $callback): void
-    {
-        foreach (self::decodeStream($response) as $line) {
-            $callback(CreatedPartialResponse::from(json_decode($line, true, 512, JSON_THROW_ON_ERROR), []));
-        }
+        return [
+            'event' => $this->event,
+            'data' => $this->response ? $this->response->toArray() : $this->data,
+        ];
     }
 }

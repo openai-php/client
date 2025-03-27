@@ -8,14 +8,19 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
-use OpenAI\Contracts\StringableContract;
-
+use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{id: string, object: string, deleted: bool}>
  */
-final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract, StringableContract
+final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
+    /**
+     * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
+     */
     use ArrayAccessible;
+
+    use Fakeable;
     use HasMetaInformation;
 
     private function __construct(
@@ -33,13 +38,18 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
          * Whether the response was successfully deleted.
          */
         public readonly bool $deleted,
+
+        private readonly MetaInformation $meta,
+
     ) {
     }
 
     /**
+     * Acts as static factory, and returns a new Response instance.
+     * 
      * @param array{id: string, object: string, deleted: bool} $attributes
      */
-    public static function from(array $attributes, array $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             $attributes['id'],
@@ -47,14 +57,6 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['deleted'],
             $meta,
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toString(): string
-    {
-        return $this->id;
     }
 
     /**

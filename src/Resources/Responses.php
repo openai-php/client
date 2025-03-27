@@ -10,23 +10,22 @@ use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\Responses\Responses\DeleteResponse;
-use OpenAI\Responses\Responses\ListInputItemsResponse;
-use OpenAI\Responses\Responses\ListResponse;
 use OpenAI\Responses\Responses\RetrieveResponse;
-use OpenAI\Resources\Concerns\Transportable;
-use OpenAI\Contracts\StringableContract;
-use OpenAI\Responses\Responses\PartialResponses\CreatedPartialResponse; // Import PartialResponse
+use OpenAI\Responses\Responses\ListInputItems;
 
-/**
- * @internal
- */
 final class Responses implements ResponsesContract
 {
     use Concerns\Streamable;
     use Concerns\Transportable;
 
-    /** 
-     * {@inheritDoc}
+    /**  
+     * Creates a model response. Provide text or image inputs to generate text or JSON outputs. 
+     * Have the model call your own custom code or use built-in tools like web search or file search
+     * to use your own data as input for the model's response.
+     * 
+     * @see https://platform.openai.com/docs/api-reference/responses/create
+     * 
+     * @param  array<string, mixed>  $parameters
      */
     public function create(array $parameters): CreateResponse
     {
@@ -34,97 +33,78 @@ final class Responses implements ResponsesContract
 
         $payload = Payload::create('responses', $parameters);
 
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
+        /** @var Response<array{id: string, object: string, created: int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string}}> $response */
         $response = $this->transporter->requestObject($payload);
 
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
-        
-        return CreateResponse::from($response->data(), $metaData);
+        return CreateResponse::from($response->data(), $response->meta());
 
     }
 
     /**
-     * {@inheritDoc}
+     * When you create a Response with stream set to true, 
+     * the server will emit server-sent events to the client as the Response is generated.
+     * 
+     * @see https://platform.openai.com/docs/api-reference/responses-streaming
      *
-     * @return \OpenAI\Responses\Responses\CreateStreamedResponse
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<CreateStreamedResponse>
      */
-    public function createStreamed(array $parameters): CreateStreamedResponse
+    public function createStreamed(array $parameters): StreamResponse
     {
 
-        $payload = Payload::createStreamed('responses', $parameters);
+        $parameters = $this->setStreamParameter($parameters);
 
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
+        $payload = Payload::create('responses', $parameters);
+
         $response = $this->transporter->requestObject($payload);
-
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
         
-        return CreateStreamedResponse::from($response->data(), $metaData);
+        return new StreamResponse(CreateStreamedResponse::class, $response->getResponse());
     }
 
     /**
-     * {@inheritDoc}
+     * Retrieves a model response with the given ID.
+     * 
+     * @see https://platform.openai.com/docs/api-reference/responses/get
      */
     public function retrieve(string $id): RetrieveResponse
     {
         $payload = Payload::retrieve('responses', $id);
 
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
+        /** @var Response<array{id: string, object: string, created: int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string}}> $response */
         $response = $this->transporter->requestObject($payload);
 
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
-        
-        return RetrieveResponse::from($response->data(), $metaData);
-
+        return RetrieveResponse::from($response->data(), $response->meta());
     }
 
     /**
-     * {@inheritDoc}
+     * Deletes a model response with the given ID.
+     * 
+     * @see https://platform.openai.com/docs/api-reference/responses/delete
      */
     public function delete(string $id): DeleteResponse
     {
         $payload = Payload::delete('responses', $id);
 
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
+        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
         $response = $this->transporter->requestObject($payload);
-
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
         
-        return DeleteResponse::from($response->data(), $metaData);
-
-    }
+        return DeleteResponse::from($response->data(), $response->meta());
+    }    
 
     /**
-     * {@inheritDoc}
-     * attribute input_items is only used for ListInputItemsResponse and not for create response
+     * Lists input items for a response with the given ID.
+     * 
+     * @see https://platform.openai.com/docs/api-reference/responses/input-items
+     * 
+     * @param  array<string, mixed>  $parameters
      */
-    public function listInputItems(string $id, array $parameters): ListInputItemsResponse
+    public function list(string $id, array $parameters = []): ListInputItems
     {
-        $payload = Payload::listInputItems('responses', $id , $parameters);
+        $payload = Payload::list('responses/'.$id.'/input_items', $parameters);
 
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
+        /** @var Response<array{object: string, data: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
-        
-        return ListInputItemsResponse::from($response->data(), $metaData);
-
+        return ListInputItems::from($response->data(), $response->meta());
     }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function list(array $parameters): ListResponse
-    {
-        $payload = Payload::list('responses', $parameters);
-
-        /** @var array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $result */
-        $response = $this->transporter->requestObject($payload);
-
-        $metaData = $response->meta()->toArray(); // Assuming MetaInformation has a toArray() method
-        
-        return ListResponse::from($response->data(), $metaData);
-
-    }
-    
 }

@@ -8,14 +8,17 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
-use OpenAI\Contracts\StringableContract;
+use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}},  tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, status: string, error: ??object, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: ?object, store: bool, temperature: ?float, text: array{format: array{type: string}},  tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>}>
  */
-final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract, StringableContract
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
+    /**
+     * @use ArrayAccessible<array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>
+     */ 
     use ArrayAccessible;
 
     use Fakeable;
@@ -58,7 +61,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
          * Set of 16 key-value pairs that can be attached to the object.
          * This can be useful for storing additional information about the object in a structured format.
          */
-        public readonly array $metadata,
+        private readonly MetaInformation $meta,
+
+        public readonly CreateResponseUsage $usage,
 
         /**
          * The input for the response.
@@ -67,21 +72,28 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
          */
         public readonly string|array $input = [],
 
-        public readonly ?array $error = null,
+        public readonly object|null $error = null,
         public readonly ?array $incompleteDetails = null,
         public readonly ?string $instructions = null,
         public readonly ?int $maxOutputTokens = null,
         public readonly bool $parallelToolCalls = false,
         public readonly ?string $previousResponseId = null,
+        public readonly bool $store = false,
+        public readonly ?float $temperature = null,
+        public readonly ?float $topP = null,
+        public readonly ?int $truncation = null,
+        public readonly array $tools = [],
+        public readonly ?string $user = null,
     ) {
     }
 
     /**
-     * @param array{id: string, object: string, created_at: int, status: string, error: ?array<string, mixed>, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<string, mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $attributes
+     * Acts as static factory, and returns a new Response instance.
+     * 
+     * @param array{id: string, object: string, created_at: int, status: string, error: ??object, incomplete_details: ?array<string, mixed>, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: ?object, store: bool, temperature: ?float, text: array{format: array{type: string}}, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata: array<string, string>} $attributes
      */
-    public static function from(array $attributes, array $meta): self
+    public static function from(array $attributes, MetaInformation $meta): self
     {
-
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -89,7 +101,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['status'],
             $attributes['model'],
             $attributes['output'],
-            $attributes['metadata'] ?? [],
+            $meta,
+            CreateResponseUsage::from($attributes['usage']),
             $attributes['input'] ?? [],
             $attributes['error'] ?? null,
             $attributes['incomplete_details'] ?? null,
@@ -97,24 +110,13 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['max_output_tokens'] ?? null,
             $attributes['parallel_tool_calls'] ?? false,
             $attributes['previous_response_id'] ?? null,
-            $attributes['reasoning'] ?? [],
             $attributes['store'] ?? false,
             $attributes['temperature'] ?? null,
-            $attributes['text'] ?? [],
-            $attributes['tools'] ?? [],
             $attributes['top_p'] ?? null,
-            $attributes['truncation'] ?? 'disabled',
-            $attributes['usage'] ?? null,
+            $attributes['truncation'] ?? null,
+            $attributes['tools'] ?? [],
             $attributes['user'] ?? null,
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toString(): string
-    {
-        return $this->id;
     }
 
     /**
@@ -129,7 +131,6 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'status' => $this->status,
             'model' => $this->model,
             'output' => $this->output,
-            'metadata' => $this->metadata,
             'input' => $this->input,
             'error' => $this->error,
             'incomplete_details' => $this->incompleteDetails,
@@ -144,7 +145,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'tools' => $this->tools,
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
-            'usage' => $this->usage,
+            'usage' => $this->usage->toArray(),
             'user' => $this->user,
         ];
     }
