@@ -21,8 +21,8 @@ final class CreateResponseUsageCompletionTokensDetails
         return new self(
             $attributes['audio_tokens'] ?? null,
             $attributes['reasoning_tokens'],
-            $attributes['accepted_prediction_tokens'],
-            $attributes['rejected_prediction_tokens'],
+            $attributes['accepted_prediction_tokens'] ?? 0,
+            $attributes['rejected_prediction_tokens'] ?? 0,
         );
     }
 
