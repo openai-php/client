@@ -22,9 +22,9 @@ use OpenAI\Testing\Resources\FineTuningTestResource;
 use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
+use OpenAI\Testing\Resources\ResponsesTestResource;
 use OpenAI\Testing\Resources\ThreadsTestResource;
 use OpenAI\Testing\Resources\VectorStoresTestResource;
-use OpenAI\Testing\Resources\ResponsesTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Throwable;
 

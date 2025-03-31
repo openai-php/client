@@ -4,10 +4,10 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Resources\Responses;
-use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\CreateResponse;
-use OpenAI\Responses\Responses\RetrieveResponse;
+use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
+use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
 

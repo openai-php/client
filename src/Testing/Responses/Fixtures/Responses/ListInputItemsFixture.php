@@ -16,13 +16,13 @@ final class ListInputItemsFixture
                     [
                         'type' => 'text',
                         'text' => 'Tell me a story about a unicorn',
-                        'annotations' => []
-                    ]
-                ]
-            ]
+                        'annotations' => [],
+                    ],
+                ],
+            ],
         ],
         'first_id' => 'resp_item_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b',
         'last_id' => 'resp_item_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b',
-        'has_more' => false
+        'has_more' => false,
     ];
 }

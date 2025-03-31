@@ -1,132 +1,84 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenAI\Contracts;
 
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AudioContract;
-use OpenAI\Contracts\Resources\BatchesContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
-use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Contracts\Resources\FineTunesContract;
-use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
-use OpenAI\Contracts\Resources\ThreadsContract;
-use OpenAI\Contracts\Resources\VectorStoresContract;
+use OpenAI\Contracts\Resources\EditsContract;
+use OpenAI\Contracts\Resources\ResponsesContract; // Add ResponsesContract
 
+/**
+ * @internal
+ */
 interface ClientContract
 {
     /**
-     * Given a prompt, the model will return one or more predicted completions, and can also return the probabilities
-     * of alternative tokens at each position.
-     *
-     * @see https://platform.openai.com/docs/api-reference/completions
-     */
-    public function completions(): CompletionsContract;
-
-    /**
-     * Given a chat conversation, the model will return a chat completion response.
-     *
-     * @see https://platform.openai.com/docs/api-reference/chat
-     */
-    public function chat(): ChatContract;
-
-    /**
-     * Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
-     *
-     * @see https://platform.openai.com/docs/api-reference/embeddings
-     */
-    public function embeddings(): EmbeddingsContract;
-
-    /**
-     * Learn how to turn audio into text.
-     *
-     * @see https://platform.openai.com/docs/api-reference/audio
+     * Returns an audio resource.
      */
     public function audio(): AudioContract;
 
     /**
-     * Given a prompt and an instruction, the model will return an edited version of the prompt.
-     *
-     * @see https://platform.openai.com/docs/api-reference/edits
-     * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
-     * https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
+     * Returns a chat resource.
+     */
+    public function chat(): ChatContract;
+
+    /**
+     * Returns a completions resource.
+     */
+    public function completions(): CompletionsContract;
+
+    /**
+     * Returns an edits resource.
      */
     public function edits(): EditsContract;
 
     /**
-     * Files are used to upload documents that can be used with features like Fine-tuning.
-     *
-     * @see https://platform.openai.com/docs/api-reference/files
+     * Returns an embeddings resource.
+     */
+    public function embeddings(): EmbeddingsContract;
+
+    /**
+     * Returns a files resource.
      */
     public function files(): FilesContract;
 
     /**
-     * List and describe the various models available in the API.
-     *
-     * @see https://platform.openai.com/docs/api-reference/models
-     */
-    public function models(): ModelsContract;
-
-    /**
-     * Manage fine-tuning jobs to tailor a model to your specific training data.
-     *
-     * @see https://platform.openai.com/docs/api-reference/fine-tuning
-     */
-    public function fineTuning(): FineTuningContract;
-
-    /**
-     * Manage fine-tuning jobs to tailor a model to your specific training data.
-     *
-     * @see https://platform.openai.com/docs/api-reference/fine-tunes
-     * @deprecated OpenAI has deprecated this endpoint and will stop working by January 4, 2024.
-     * https://openai.com/blog/gpt-3-5-turbo-fine-tuning-and-api-updates#updated-gpt-3-models
+     * Returns a fine tunes resource.
      */
     public function fineTunes(): FineTunesContract;
 
     /**
-     * Given an input text, outputs if the model classifies it as violating OpenAI's content policy.
-     *
-     * @see https://platform.openai.com/docs/api-reference/moderations
-     */
-    public function moderations(): ModerationsContract;
-
-    /**
-     * Given a prompt and/or an input image, the model will generate a new image.
-     *
-     * @see https://platform.openai.com/docs/api-reference/images
+     * Returns a images resource.
      */
     public function images(): ImagesContract;
 
     /**
-     * Build assistants that can call models and use tools to perform tasks.
-     *
-     * @see https://platform.openai.com/docs/api-reference/assistants
+     * Returns a models resource.
+     */
+    public function models(): ModelsContract;
+
+    /**
+     * Returns a moderations resource.
+     */
+    public function moderations(): ModerationsContract;
+
+    /**
+     * Returns a assistants resource.
      */
     public function assistants(): AssistantsContract;
 
     /**
-     * Create threads that assistants can interact with.
-     *
-     * @see https://platform.openai.com/docs/api-reference/threads
+     * Returns a responses resource.
      */
-    public function threads(): ThreadsContract;
-
-    /**
-     * Create large batches of API requests for asynchronous processing. The Batch API returns completions within 24 hours.
-     *
-     * @see https://platform.openai.com/docs/api-reference/batch
-     */
-    public function batches(): BatchesContract;
-
-    /**
-     * Create and update vector stores that assistants can interact with
-     *
-     * @see https://platform.openai.com/docs/api-reference/vector-stores
-     */
-    public function vectorStores(): VectorStoresContract;
+    public function responses(): ResponsesContract;
 }

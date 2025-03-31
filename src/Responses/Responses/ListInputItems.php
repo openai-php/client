@@ -24,9 +24,6 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     use Fakeable;
     use HasMetaInformation;
 
-    /**
-     * @param  array<int, ResponseObject>  $data
-     */
     private function __construct(
         public readonly string $object,
         public readonly array $data,
@@ -51,8 +48,8 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
         return new self(
             $attributes['object'],
             $data,
-            $attributes['first_id'] ?? null,
-            $attributes['last_id'] ?? null,
+            $attributes['first_id'],
+            $attributes['last_id'],
             $attributes['has_more'],
             $meta,
         );

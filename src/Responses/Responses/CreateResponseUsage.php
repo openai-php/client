@@ -13,13 +13,13 @@ final class CreateResponseUsage
     ) {}
 
     /**
-     * @param  array{input_tokens: int, output_tokens: int, total_tokens: int}  $attributes
+     * @param  array{input_tokens: int, output_tokens?: int, total_tokens: int}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['input_tokens'],
-            $attributes['output_tokens'] ?? null,
+            $attributes['output_tokens'] ?? 0,
             $attributes['total_tokens'],
         );
     }
@@ -31,7 +31,7 @@ final class CreateResponseUsage
     {
         return [
             'input_tokens' => $this->inputTokens,
-            'output_tokens' => $this->outputTokens,
+            'output_tokens' => $this->outputTokens ?? 0,
             'total_tokens' => $this->totalTokens,
         ];
     }

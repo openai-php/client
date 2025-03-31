@@ -35,7 +35,7 @@ final class Client implements ClientContract
         // ..
     }
 
-        /**
+    /**
      * Manage responses to assist models with tasks.
      *
      * @see https://platform.openai.com/docs/api-reference/responses

@@ -24,22 +24,22 @@ final class CreateResponseFixture
                     [
                         'type' => 'output_text',
                         'text' => 'In a peaceful grove beneath a silver moon, a unicorn named Lumina discovered a hidden pool that reflected the stars. As she dipped her horn into the water, the pool began to shimmer, revealing a pathway to a magical realm of endless night skies. Filled with wonder, Lumina whispered a wish for all who dream to find their own hidden magic, and as she glanced back, her hoofprints sparkled like stardust.',
-                        'annotations' => []
-                    ]
-                ]
-            ]
+                        'annotations' => [],
+                    ],
+                ],
+            ],
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
         'reasoning' => [
             'effort' => null,
-            'summary' => null
+            'summary' => null,
         ],
         'store' => true,
         'temperature' => 1.0,
         'text' => [
             'format' => [
-                'type' => 'text'
+                'type' => 'text',
             ]
         ],
         'tool_choice' => 'auto',
@@ -49,16 +49,16 @@ final class CreateResponseFixture
         'usage' => [
             'input_tokens' => 36,
             'input_tokens_details' => [
-                'cached_tokens' => 0
+                'cached_tokens' => 0,
             ],
             'output_tokens' => 87,
             'output_tokens_details' => [
-                'reasoning_tokens' => 0
+                'reasoning_tokens' => 0,
             ],
-            'total_tokens' => 123
+            'total_tokens' => 123,
         ],
         'user' => null,
-        'metadata' => []
+        'metadata' => [],
 
     ];
 }
