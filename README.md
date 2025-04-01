@@ -75,7 +75,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
 $result = $client->chat()->create([
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -350,7 +350,7 @@ Creates a streamed completion for the chat message.
 
 ```php
 $stream = $client->chat()->createStreamed([
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -995,7 +995,7 @@ $response = $client->assistants()->create([
             'type' => 'code_interpreter',
         ],
     ],
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
 ]);
 
 $response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
@@ -1003,7 +1003,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1027,7 +1027,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1053,7 +1053,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'New Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1155,7 +1155,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1385,7 +1385,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1500,7 +1500,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1546,7 +1546,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->usage->total_tokens; // 579
@@ -1585,7 +1585,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->usage?->total_tokens; // 579
@@ -1632,7 +1632,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->usage->total_tokens; // 579
 $response->temperature; // null
