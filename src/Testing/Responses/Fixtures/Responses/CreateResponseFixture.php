@@ -40,7 +40,7 @@ final class CreateResponseFixture
         'text' => [
             'format' => [
                 'type' => 'text',
-            ]
+            ],
         ],
         'tool_choice' => 'auto',
         'tools' => [],

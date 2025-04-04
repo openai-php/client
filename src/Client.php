@@ -197,5 +197,4 @@ final class Client implements ClientContract
     {
         return new VectorStores($this->transporter);
     }
-
 }

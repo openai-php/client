@@ -7,10 +7,10 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
-use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\RetrieveResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -57,7 +57,7 @@ final class Responses implements ResponsesContract
         $payload = Payload::create('responses', $parameters);
 
         $response = $this->transporter->requestStream($payload);
-        
+
         return new StreamResponse(CreateStreamedResponse::class, $response);
     }
 
@@ -87,9 +87,9 @@ final class Responses implements ResponsesContract
 
         /** @var Response<array{id: string, object: string, deleted: bool}> $response */
         $response = $this->transporter->requestObject($payload);
-        
+
         return DeleteResponse::from($response->data(), $response->meta());
-    }    
+    }
 
     /**
      * Lists input items for a response with the given ID.

@@ -133,7 +133,7 @@ class ClientFake implements ClientContract
 
         return $response;
     }
-    
+
     public function responses(): ResponsesContract
     {
 

@@ -7,7 +7,6 @@ namespace OpenAI\Responses\Responses;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
-use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
@@ -28,7 +27,7 @@ final class CreateStreamedResponse implements ResponseContract
     ) {}
 
     /**
-     * Acts as static factory, and returns a new Response instance. 
+     * Acts as static factory, and returns a new Response instance.
      *
      *  Maps the appropriate classes onto each event from the responses streaming api
      *  https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses
@@ -85,5 +84,4 @@ final class CreateStreamedResponse implements ResponseContract
             'data' => $this->response->toArray(),
         ];
     }
-
 }

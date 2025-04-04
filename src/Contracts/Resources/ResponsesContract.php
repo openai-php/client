@@ -39,9 +39,6 @@ interface ResponsesContract
      * Retrieves a model response with the given ID.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/retrieve
-     *
-     * @param  string  $id
-     * @return RetrieveResponse
      */
     public function retrieve(string $id): RetrieveResponse;
 
@@ -49,9 +46,6 @@ interface ResponsesContract
      * Deletes a model response with the given ID.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/delete
-     *
-     * @param  string  $id
-     * @return DeleteResponse
      */
     public function delete(string $id): DeleteResponse;
 
@@ -60,9 +54,7 @@ interface ResponsesContract
      *
      * @see https://platform.openai.com/docs/api-reference/responses/input-items
      *
-     * @param  string  $id
      * @param  array<string, mixed>  $parameters
-     * @return ListInputItems
      */
     public function list(string $id, array $parameters = []): ListInputItems;
 }

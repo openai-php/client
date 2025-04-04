@@ -33,8 +33,8 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
 
     /**
      * Acts as static factory, and returns a new Response instance.
-     * 
-     * @param array{id: string, object: string, deleted: bool} $attributes
+     *
+     * @param  array{id: string, object: string, deleted: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
