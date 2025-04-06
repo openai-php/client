@@ -24,6 +24,9 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param  array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>  $data
+     */
     private function __construct(
         public readonly string $object,
         public readonly array $data,
@@ -40,14 +43,9 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $data = array_map(fn (array $result): ResponseObject => ResponseObject::from(
-            $result,
-            $meta,
-        ), $attributes['data']);
-
         return new self(
             $attributes['object'],
-            $data,
+            $attributes['data'],
             $attributes['first_id'],
             $attributes['last_id'],
             $attributes['has_more'],
@@ -62,10 +60,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     {
         return [
             'object' => $this->object,
-            'data' => array_map(
-                static fn (ResponseObject $result): array => $result->toArray(),
-                $this->data,
-            ),
+            'data' => $this->data,
             'first_id' => $this->firstId,
             'last_id' => $this->lastId,
             'has_more' => $this->hasMore,

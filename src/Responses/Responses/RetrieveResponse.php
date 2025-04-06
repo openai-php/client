@@ -24,6 +24,14 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param  array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>  $output
+     * @param  array<mixed>  $reasoning
+     * @param  array{format: array{type: string}}  $text
+     * @param  array<mixed>  $tools
+     * @param  array<string, string>  $metadata
+     * @param  array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}  $usage
+     */
     private function __construct(
         public readonly string $id,
         public readonly string $object,
@@ -47,14 +55,12 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly string $truncation,
         public readonly ?string $user,
         public array $metadata,
-        public readonly CreateResponseUsage $usage,
+        public readonly array $usage,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * Acts as static factory, and returns a new Response instance.
-     *
-     * @param  array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<mixed>, store: bool, temperature: ?float, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata?: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -81,13 +87,13 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             $attributes['truncation'],
             $attributes['user'],
             $attributes['metadata'] ?? [],
-            CreateResponseUsage::from($attributes['usage']),
+            $attributes['usage'],
             $meta,
         );
     }
 
     /**
-     * {@inheritDoc}
+     * @return array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata: array<string, string>}
      */
     public function toArray(): array
     {
@@ -114,7 +120,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             'truncation' => $this->truncation,
             'user' => $this->user,
             'metadata' => $this->metadata,
-            'usage' => $this->usage->toArray(),
+            'usage' => $this->usage,
         ];
     }
 }
