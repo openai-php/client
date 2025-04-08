@@ -725,159 +725,6 @@ $response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F
 ]);
 ```
 
-### `FineTunes` Resource (deprecated)
-
-#### `create`
-
-Creates a job that fine-tunes a specified model from a given dataset.
-
-```php
-$response = $client->fineTunes()->create([
-    'training_file' => 'file-ajSREls59WBbvgSzJSVWxMCB',
-    'validation_file' => 'file-XjSREls59WBbvgSzJSVWxMCa',
-    'model' => 'curie',
-    'n_epochs' => 4,
-    'batch_size' => null,
-    'learning_rate_multiplier' => null,
-    'prompt_loss_weight' => 0.01,
-    'compute_classification_metrics' => false,
-    'classification_n_classes' => null,
-    'classification_positive_class' => null,
-    'classification_betas' => [],
-    'suffix' => null,
-]);
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-// ...
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `list`
-
-List your organization's fine-tuning jobs.
-
-```php
-$response = $client->fineTunes()->list();
-
-$response->object; // 'list'
-
-foreach ($response->data as $result) {
-    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-    $result->object; // 'fine-tune'
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', 'data' => [...]]
-```
-
-#### `retrieve`
-
-Gets info about the fine-tune job.
-
-```php
-$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-$response->model; // 'curie'
-$response->createdAt; // 1614807352
-$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
-$response->organizationId; // 'org-jwe45798ASN82s'
-$response->resultFiles; // [
-$response->status; // 'succeeded'
-$response->validationFiles; // [
-$response->trainingFiles; // [
-$response->updatedAt; // 1614807865
-
-foreach ($response->events as $result) {
-    $result->object; // 'fine-tune-event' 
-    $result->createdAt; // 1614807352
-    $result->level; // 'info'
-    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
-}
-
-$response->hyperparams->batchSize; // 4 
-$response->hyperparams->learningRateMultiplier; // 0.1 
-$response->hyperparams->nEpochs; // 4 
-$response->hyperparams->promptLossWeight; // 0.1
-
-foreach ($response->resultFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    $result->object; // 'file'
-    $result->bytes; // 140
-    $result->createdAt; // 1613779657
-    $result->filename; // 'mydata.jsonl'
-    $result->purpose; // 'fine-tune'
-    $result->status; // 'succeeded'
-    $result->status_details; // null
-}
-
-foreach ($response->validationFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    // ...
-}
-
-foreach ($response->trainingFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    // ...
-}
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `cancel`
-
-Immediately cancel a fine-tune job.
-
-```php
-$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-// ...
-$response->status; // 'cancelled'
-// ...
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `list events`
-
-Get fine-grained status updates for a fine-tune job.
-
-```php
-$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->object; // 'list'
-
-foreach ($response->data as $result) {
-    $result->object; // 'fine-tune-event' 
-    $result->createdAt; // 1614807352
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', 'data' => [...]]
-```
-
-#### `list events streamed`
-
-Get streamed fine-grained status updates for a fine-tune job.
-
-```php
-$stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
-
-foreach($stream as $response){
-    $response->message;
-}
-// 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
-// 2. iteration => 'Fine-tune costs $0.00'
-// ...
-// xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
-// xx. iteration => 'Fine-tune succeeded'
-```
-
 ### `Moderations` Resource
 
 #### `create`
@@ -1103,7 +950,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Threads` Resource
 
@@ -1359,7 +1205,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Threads Runs` Resource
 
@@ -1734,7 +1579,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-
 ### `Batches` Resource
 
 #### `create`
@@ -1860,7 +1704,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Vector Stores` Resource
 
@@ -1991,7 +1834,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-
 ### `Vector Store Files` Resource
 
 #### `create`
@@ -2085,7 +1927,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Vector Store File Batches` Resource
 
@@ -2193,8 +2034,8 @@ $response->toArray(); // ['object' => 'list', ...]]
 
 ### `Edits` Resource (deprecated)
 
-> OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
-> https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
+> [!WARNING]
+> OpenAI has deprecated the Edits API and will stop working by January 4, 2024. https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
 
 #### `create`
 
@@ -2220,6 +2061,162 @@ $response->usage->completionTokens; // 32,
 $response->usage->totalTokens; // 57
 
 $response->toArray(); // ['object' => 'edit', ...]
+```
+
+### `FineTunes` Resource (deprecated)
+
+> [!WARNING]
+> OpenAI has deprecated the FineTunes API and will stop working by January 4, 2024 https://platform.openai.com/docs/deprecations#2023-08-22-fine-tunes-endpoint
+
+#### `create`
+
+Creates a job that fine-tunes a specified model from a given dataset.
+
+```php
+$response = $client->fineTunes()->create([
+    'training_file' => 'file-ajSREls59WBbvgSzJSVWxMCB',
+    'validation_file' => 'file-XjSREls59WBbvgSzJSVWxMCa',
+    'model' => 'curie',
+    'n_epochs' => 4,
+    'batch_size' => null,
+    'learning_rate_multiplier' => null,
+    'prompt_loss_weight' => 0.01,
+    'compute_classification_metrics' => false,
+    'classification_n_classes' => null,
+    'classification_positive_class' => null,
+    'classification_betas' => [],
+    'suffix' => null,
+]);
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list`
+
+List your organization's fine-tuning jobs.
+
+```php
+$response = $client->fineTunes()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->object; // 'fine-tune'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `retrieve`
+
+Gets info about the fine-tune job.
+
+```php
+$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+$response->model; // 'curie'
+$response->createdAt; // 1614807352
+$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
+$response->organizationId; // 'org-jwe45798ASN82s'
+$response->resultFiles; // [
+$response->status; // 'succeeded'
+$response->validationFiles; // [
+$response->trainingFiles; // [
+$response->updatedAt; // 1614807865
+
+foreach ($response->events as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    $result->level; // 'info'
+    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
+}
+
+$response->hyperparams->batchSize; // 4 
+$response->hyperparams->learningRateMultiplier; // 0.1 
+$response->hyperparams->nEpochs; // 4 
+$response->hyperparams->promptLossWeight; // 0.1
+
+foreach ($response->resultFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    $result->bytes; // 140
+    $result->createdAt; // 1613779657
+    $result->filename; // 'mydata.jsonl'
+    $result->purpose; // 'fine-tune'
+    $result->status; // 'succeeded'
+    $result->status_details; // null
+}
+
+foreach ($response->validationFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+foreach ($response->trainingFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `cancel`
+
+Immediately cancel a fine-tune job.
+
+```php
+$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+$response->status; // 'cancelled'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list events`
+
+Get fine-grained status updates for a fine-tune job.
+
+```php
+$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `list events streamed`
+
+Get streamed fine-grained status updates for a fine-tune job.
+
+```php
+$stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
+
+foreach($stream as $response){
+    $response->message;
+}
+// 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
+// 2. iteration => 'Fine-tune costs $0.00'
+// ...
+// xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
+// xx. iteration => 'Fine-tune succeeded'
 ```
 
 ## Meta Information
