@@ -48,7 +48,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $contents = $response->getBody()->getContents();
+        $contents = (string) $response->getBody();
 
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
             return Response::from($contents, $response->getHeaders());
@@ -75,7 +75,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $contents = $response->getBody()->getContents();
+        $contents = (string) $response->getBody();
 
         $this->throwIfJsonError($response, $contents);
 
@@ -102,7 +102,7 @@ final class HttpTransporter implements TransporterContract
             return $callable();
         } catch (ClientExceptionInterface $clientException) {
             if ($clientException instanceof ClientException) {
-                $this->throwIfJsonError($clientException->getResponse(), $clientException->getResponse()->getBody()->getContents());
+                $this->throwIfJsonError($clientException->getResponse(), (string) $clientException->getResponse()->getBody());
             }
 
             throw new TransporterException($clientException);
@@ -122,7 +122,7 @@ final class HttpTransporter implements TransporterContract
         $statusCode = $response->getStatusCode();
 
         if ($contents instanceof ResponseInterface) {
-            $contents = $contents->getBody()->getContents();
+            $contents = (string) $contents->getBody();
         }
 
         try {
