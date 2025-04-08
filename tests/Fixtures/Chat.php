@@ -24,6 +24,14 @@ function chatCompletion(): array
             'prompt_tokens' => 9,
             'completion_tokens' => 12,
             'total_tokens' => 21,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 5,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 0,
+                'accepted_prediction_tokens' => 0,
+                'rejected_prediction_tokens' => 0,
+            ],
         ],
     ];
 }
@@ -202,6 +210,22 @@ function chatCompletionStreamContentChunk(): array
                 ],
                 'finish_reason' => null,
             ],
+        ],
+    ];
+}
+
+function chatCompletionStreamUsageChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [],
+        'usage' => [
+            'prompt_tokens' => 9,
+            'completion_tokens' => 12,
+            'total_tokens' => 21,
         ],
     ];
 }

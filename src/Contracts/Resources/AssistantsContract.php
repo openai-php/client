@@ -11,7 +11,7 @@ interface AssistantsContract
     /**
      * Create an assistant with a model and instructions.
      *
-     * @see https://platform.openai.com/docs/api-reference/assistants/object
+     * @see https://platform.openai.com/docs/api-reference/assistants/createAssistant
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -48,11 +48,4 @@ interface AssistantsContract
      * @param  array<string, mixed>  $parameters
      */
     public function list(array $parameters = []): AssistantListResponse;
-
-    /**
-     * Manage files attached to an assistant.
-     *
-     * @see https://platform.openai.com/docs/api-reference/assistants
-     */
-    public function files(): AssistantsFilesContract;
 }

@@ -143,7 +143,7 @@ final class Payload
      */
     public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
     {
-        $psr17Factory = new Psr17Factory();
+        $psr17Factory = new Psr17Factory;
 
         $body = null;
 
@@ -164,12 +164,20 @@ final class Payload
             if ($this->contentType === ContentType::MULTIPART) {
                 $streamBuilder = new MultipartStreamBuilder($psr17Factory);
 
-                /** @var array<string, StreamInterface|string|int|float|bool> $parameters */
+                /** @var array<string, StreamInterface|string|int|float|bool|array<int, string>> $parameters */
                 $parameters = $this->parameters;
 
                 foreach ($parameters as $key => $value) {
                     if (is_int($value) || is_float($value) || is_bool($value)) {
                         $value = (string) $value;
+                    }
+
+                    if (is_array($value)) {
+                        foreach ($value as $nestedValue) {
+                            $streamBuilder->addResource($key.'[]', $nestedValue);
+                        }
+
+                        continue;
                     }
 
                     $streamBuilder->addResource($key, $value);

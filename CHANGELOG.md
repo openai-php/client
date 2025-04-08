@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.10.1 (2024-06-06)
+### Added
+-  Add support for Assistants API v2 and Vector Stores endpoints ([#420](https://github.com/openai-php/client/pull/420))
+
+### Docs
+-  Add vector store endpoints documentation ([#420](https://github.com/openai-php/client/pull/420))
+
+## v0.10.0-beta.1 (2024-05-27)
+### Added
+-  Add support for Assistants API v2 and Vector Stores endpoint ([#405](https://github.com/openai-php/client/pull/405))
+
+## v0.9.2 (2024-05-27)
+### Added
+- Support for usage stream option on chat endpoint ([#398](https://github.com/openai-php/client/pull/398))
+
+- ### Fixed
+- Missing output paramenter on streamed code interpreter outpu ([#406](https://github.com/openai-php/client/pull/406))
+
+## v0.9.1 (2024-05-24)
+### Added
+- Add support for Batches endpoint ([#403](https://github.com/openai-php/client/pull/403))
+
+## v0.9.0 (2024-05-21)
+### Added
+- Assistants: add streaming support ([#367](https://github.com/openai-php/client/pull/367))
+
+## v0.8.5 (2024-04-15)
+### Added
+- Audio: add support for timestamp_granularities ([#374](https://github.com/openai-php/client/pull/374))
+
 ## v0.8.4 (2024-02-07)
 ### Fixed
 - Fix default fake data for meta information ([#332](https://github.com/openai-php/client/pull/332))

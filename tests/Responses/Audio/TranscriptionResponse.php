@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
+use OpenAI\Responses\Audio\TranscriptionResponseWord;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from json', function () {
@@ -13,6 +14,7 @@ test('from json', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
+        ->words->toBeEmpty()
         ->text->toBe('Hello, how are you?')
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
@@ -28,6 +30,9 @@ test('from verbose json', function () {
         ->segments->toBeArray()
         ->segments->toHaveCount(1)
         ->segments->each->toBeInstanceOf(TranscriptionResponseSegment::class)
+        ->words->toBeArray()
+        ->words->toHaveCount(4)
+        ->words->each->toBeInstanceOf(TranscriptionResponseWord::class)
         ->text->toBe('Hello, how are you?')
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
@@ -41,6 +46,7 @@ test('from text', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
+        ->words->toBeEmpty()
         ->text->toBe('Hello, how are you?')
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
@@ -54,6 +60,7 @@ test('from srt', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
+        ->words->toBeEmpty()
         ->text->toBe(<<<'SRT'
 1
 00:00:00,000 --> 00:00:04,000
@@ -73,6 +80,7 @@ test('from vtt', function () {
         ->language->toBeNull()
         ->duration->toBeNull()
         ->segments->toBeEmpty()
+        ->words->toBeEmpty()
         ->text->toBe(<<<'VTT'
 WEBVTT
 

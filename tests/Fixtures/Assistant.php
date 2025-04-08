@@ -18,8 +18,56 @@ function assistantResource(): array
                 'type' => 'code_interpreter',
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => null,
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function assistantWithJsonObjectResponseFormat(): array
+{
+    return [
+        'id' => 'asst_reHHtAM0jKLDIxanM6gP6DaR',
+        'object' => 'assistant',
+        'created_at' => 1699642651,
+        'name' => 'Math Tutor',
+        'description' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+        'tools' => [
+            [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'add',
+                    'description' => 'Returns the sum of two numbers',
+                    'parameters' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'a' => [
+                                'type' => 'number',
+                            ],
+                            'b' => [
+                                'type' => 'number',
+                            ],
+                        ],
+                        'required' => [
+                            'a',
+                            'b',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'tool_resources' => [],
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => ['type' => 'json_object'],
     ];
 }
 
@@ -60,31 +108,11 @@ function assistantWithFunctionToolResource(): array
                 ],
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
-    ];
-}
-
-/**
- * @return array<string, mixed>
- */
-function assistantWithRetrievalToolResource(): array
-{
-    return [
-        'id' => 'asst_3jHvDyRbElRz2yig9RrPT9cX',
-        'object' => 'assistant',
-        'created_at' => 1699642972,
-        'name' => 'Math Tutor',
-        'description' => null,
-        'model' => 'gpt-4-1106-preview',
-        'instructions' => 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
-        'tools' => [
-            [
-                'type' => 'retrieval',
-            ],
-        ],
-        'file_ids' => [],
-        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 
@@ -106,7 +134,7 @@ function assistantWithAllToolsResource(): array
                 'type' => 'code_interpreter',
             ],
             [
-                'type' => 'retrieval',
+                'type' => 'file_search',
             ],
             [
                 'type' => 'function',
@@ -131,8 +159,44 @@ function assistantWithAllToolsResource(): array
                 ],
             ],
         ],
-        'file_ids' => [],
+        'tool_resources' => [],
         'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function assistantWithToolResources(): array
+{
+    return [
+        'id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'object' => 'assistant',
+        'created_at' => 1699619403,
+        'name' => 'Math Tutor',
+        'description' => null,
+        'model' => 'gpt-4',
+        'instructions' => 'You are a personal math tutor.',
+        'tools' => [
+            [
+                'type' => 'file_search',
+            ],
+        ],
+        'tool_resources' => [
+            'code_interpreter' => [
+                'file_ids' => ['file-test0001'],
+            ],
+            'file_search' => [
+                'vector_store_ids' => ['vector-store-test0001'],
+            ],
+        ],
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
     ];
 }
 
