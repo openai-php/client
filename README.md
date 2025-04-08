@@ -177,6 +177,7 @@ foreach ($response->choices as $choice) {
     $choice->index; // 0
     $choice->message->role; // 'assistant'
     $choice->message->content; // '\n\nHello there! How can I assist you today?'
+    $choice->logprobs; // null
     $choice->finishReason; // 'stop'
 }
 
