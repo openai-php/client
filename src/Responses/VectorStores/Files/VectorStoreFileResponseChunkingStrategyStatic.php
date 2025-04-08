@@ -27,8 +27,7 @@ final class VectorStoreFileResponseChunkingStrategyStatic implements ResponseCon
         public readonly string $type,
         public readonly int $maxChunkSizeTokens,
         public readonly int $chunkOverlapTokens,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

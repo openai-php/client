@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'image_url', image_url: array{file_id: string, detail?: string}}>
+ * @implements ResponseContract<array{type: 'image_url', image_url: array{url: string, detail?: string}}>
  */
 final class ThreadMessageResponseContentImageUrlObject implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'image_url', image_url: array{file_id: string, detail?: string}}>
+     * @use ArrayAccessible<array{type: 'image_url', image_url: array{url: string, detail?: string}}>
      */
     use ArrayAccessible;
 
@@ -26,13 +26,12 @@ final class ThreadMessageResponseContentImageUrlObject implements ResponseContra
     private function __construct(
         public string $type,
         public ThreadMessageResponseContentImageUrl $imageFile,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{type: 'image_url', image_url: array{file_id: string, detail?: string}}  $attributes
+     * @param  array{type: 'image_url', image_url: array{url: string, detail?: string}}  $attributes
      */
     public static function from(array $attributes): self
     {

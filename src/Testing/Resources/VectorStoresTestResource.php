@@ -47,11 +47,11 @@ final class VectorStoresTestResource implements VectorStoresContract
 
     public function files(): VectorStoresFilesContract
     {
-        return new VectorStoresFilesTestResource($this);
+        return new VectorStoresFilesTestResource($this->fake);
     }
 
     public function batches(): VectorStoresFileBatchesContract
     {
-        return new VectorStoresFileBatchesTestResource($this);
+        return new VectorStoresFileBatchesTestResource($this->fake);
     }
 }

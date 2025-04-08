@@ -14,25 +14,24 @@
     ],
     "require": {
         "php": "^8.1.0",
-        "php-http/discovery": "^1.19.4",
-        "php-http/multipart-stream-builder": "^1.3.0",
+        "php-http/discovery": "^1.20.0",
+        "php-http/multipart-stream-builder": "^1.4.2",
         "psr/http-client": "^1.0.3",
         "psr/http-client-implementation": "^1.0.1",
         "psr/http-factory-implementation": "*",
         "psr/http-message": "^1.1.0|^2.0.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^7.8.1",
-        "guzzlehttp/psr7": "^2.6.2",
-        "laravel/pint": "^1.16.0",
+        "guzzlehttp/guzzle": "^7.9.2",
+        "guzzlehttp/psr7": "^2.7.0",
+        "laravel/pint": "^1.18.1",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^7.10.0",
-        "pestphp/pest": "^2.34.7",
-        "pestphp/pest-plugin-arch": "^2.7",
-        "pestphp/pest-plugin-type-coverage": "^2.8.2",
-        "phpstan/phpstan": "^1.11.2",
-        "rector/rector": "^1.1.0",
-        "symfony/var-dumper": "^6.4.7"
+        "nunomaduro/collision": "^7.11.0|^8.5.0",
+        "pestphp/pest": "^2.36.0|^3.5.0",
+        "pestphp/pest-plugin-arch": "^2.7|^3.0",
+        "pestphp/pest-plugin-type-coverage": "^2.8.7|^3.1.0",
+        "phpstan/phpstan": "^1.12.7",
+        "symfony/var-dumper": "^6.4.11|^7.1.5"
     },
     "autoload": {
         "psr-4": {
@@ -59,15 +58,12 @@
     },
     "scripts": {
         "lint": "pint -v",
-        "refactor": "rector --debug",
         "test:lint": "pint --test -v",
-        "test:refactor": "rector --dry-run",
         "test:types": "phpstan analyse --ansi",
         "test:type-coverage": "pest --type-coverage --min=100",
         "test:unit": "pest --colors=always",
         "test": [
             "@test:lint",
-            "@test:refactor",
             "@test:types",
             "@test:type-coverage",
             "@test:unit"

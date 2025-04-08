@@ -30,8 +30,7 @@ final class CreateStreamedResponse implements ResponseContract
         public readonly string $model,
         public readonly array $choices,
         public readonly ?CreateResponseUsage $usage,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

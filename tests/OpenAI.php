@@ -17,6 +17,12 @@ it('sets organization when provided', function () {
     expect($openAI)->toBeInstanceOf(Client::class);
 });
 
+it('sets project when provided', function () {
+    $openAI = OpenAI::client('foo', 'nunomaduro', 'openai_proj');
+
+    expect($openAI)->toBeInstanceOf(Client::class);
+});
+
 it('may create a client via factory', function () {
     $openAI = OpenAI::factory()
         ->withApiKey('foo')
@@ -33,9 +39,18 @@ it('sets an organization via factory', function () {
     expect($openAI)->toBeInstanceOf(Client::class);
 });
 
+it('sets an project via factory', function () {
+    $openAI = OpenAI::factory()
+        ->withOrganization('nunomaduro')
+        ->withProject('openai_proj')
+        ->make();
+
+    expect($openAI)->toBeInstanceOf(Client::class);
+});
+
 it('sets a custom client via factory', function () {
     $openAI = OpenAI::factory()
-        ->withHttpClient(new GuzzleClient())
+        ->withHttpClient(new GuzzleClient)
         ->make();
 
     expect($openAI)->toBeInstanceOf(Client::class);
@@ -67,7 +82,7 @@ it('sets a custom query parameter via factory', function () {
 
 it('sets a custom stream handler via factory', function () {
     $openAI = OpenAI::factory()
-        ->withHttpClient($client = new GuzzleClient())
+        ->withHttpClient($client = new GuzzleClient)
         ->withStreamHandler(fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]))
         ->make();
 

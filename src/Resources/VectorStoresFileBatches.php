@@ -70,7 +70,7 @@ final class VectorStoresFileBatches implements VectorStoresFileBatchesContract
      */
     public function cancel(string $vectorStoreId, string $fileBatchId): VectorStoreFileBatchResponse
     {
-        $payload = Payload::delete("vector_stores/$vectorStoreId/file_batches", $fileBatchId);
+        $payload = Payload::cancel("vector_stores/$vectorStoreId/file_batches", $fileBatchId);
 
         /** @var Response<array{id: string, object: string, created_at: int, vector_store_id: string, status: string, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}}> $response */
         $response = $this->transporter->requestObject($payload);

@@ -22,8 +22,7 @@ final class ThreadRunResponseIncompleteDetails implements ResponseContract
 
     private function __construct(
         public string $reason,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

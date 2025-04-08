@@ -9,8 +9,7 @@ final class CreateResponseUsage
     private function __construct(
         public readonly int $promptTokens,
         public readonly int $totalTokens,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{prompt_tokens: int, total_tokens: int}  $attributes

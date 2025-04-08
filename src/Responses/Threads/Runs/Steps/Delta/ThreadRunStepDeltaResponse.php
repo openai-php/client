@@ -24,8 +24,7 @@ final class ThreadRunStepDeltaResponse implements ResponseContract
         public ?string $id,
         public string $object,
         public ThreadRunStepDeltaObject $delta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

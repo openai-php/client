@@ -66,10 +66,26 @@ test('fake with override', function () {
         'data' => [
             [
                 'url' => 'https://openai.com/new-image.png',
+                'revised_prompt' => 'the revised prompt',
             ],
         ],
     ]);
 
     expect($response['data'][0])
-        ->url->toBe('https://openai.com/new-image.png');
+        ->url->toBe('https://openai.com/new-image.png')
+        ->revised_prompt->toBe('the revised prompt');
+});
+
+test('fake with override of b64_json', function () {
+    $response = CreateResponse::fake([
+        'data' => [
+            [
+                'url' => '',
+                'b64_json' => 'some-fake-b64-string',
+            ],
+        ],
+    ]);
+
+    expect($response['data'][0])
+        ->b64_json->toBe('some-fake-b64-string');
 });

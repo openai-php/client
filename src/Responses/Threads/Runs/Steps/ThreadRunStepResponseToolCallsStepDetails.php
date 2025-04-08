@@ -27,8 +27,7 @@ final class ThreadRunStepResponseToolCallsStepDetails implements ResponseContrac
     private function __construct(
         public string $type,
         public array $toolCalls,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

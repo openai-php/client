@@ -27,8 +27,7 @@ final class ThreadMessageDeltaResponseContentTextObject implements ResponseContr
         public int $index,
         public string $type,
         public ThreadMessageDeltaResponseContentText $text,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

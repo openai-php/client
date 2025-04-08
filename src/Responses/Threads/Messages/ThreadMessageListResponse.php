@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}|array{type: string, image_file: array{file_id: string}}|array{type: 'image_url', image_url: array{file_id: string, detail?: string}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, array{file_id: string, tools: array<int, array{type: string}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}|array{type: string, image_file: array{file_id: string}}|array{type: 'image_url', image_url: array{url: string, detail?: string}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, array{file_id: string, tools: array<int, array{type: string}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
  */
 final class ThreadMessageListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}|array{type: string, image_file: array{file_id: string}}|array{type: 'image_url', image_url: array{file_id: string, detail?: string}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, array{file_id: string, tools: array<int, array{type: string}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}|array{type: string, image_file: array{file_id: string}}|array{type: 'image_url', image_url: array{url: string, detail?: string}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, array{file_id: string, tools: array<int, array{type: string}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -34,13 +34,12 @@ final class ThreadMessageListResponse implements ResponseContract, ResponseHasMe
         public readonly ?string $lastId,
         public readonly bool $hasMore,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_url', image_url: array{file_id: string, detail?: string}}|array{type: 'image_file', image_file: array{file_id: string, detail?: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, attachments: array<int, array{file_id: string, tools: array<int, array{type: 'file_search'}|array{type: 'code_interpreter'}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, thread_id: string, role: string, content: array<int, array{type: 'image_url', image_url: array{url: string, detail?: string}}|array{type: 'image_file', image_file: array{file_id: string, detail?: string}}|array{type: 'text', text: array{value: string, annotations: array<int, array{type: 'file_citation', text: string, file_citation: array{file_id: string, quote?: string}, start_index: int, end_index: int}|array{type: 'file_path', text: string, file_path: array{file_id: string}, start_index: int, end_index: int}>}}>, assistant_id: ?string, run_id: ?string, attachments?: array<int, array{file_id: string, tools: array<int, array{type: 'file_search'}|array{type: 'code_interpreter'}>}>, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

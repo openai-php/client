@@ -25,8 +25,7 @@ final class ThreadMessageResponseAttachmentFileSearchTool implements ResponseCon
      */
     private function __construct(
         public string $type,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
