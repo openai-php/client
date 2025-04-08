@@ -39,7 +39,7 @@ class ClientFake implements ClientContract
     public function __construct(protected array $responses = []) {}
 
     /**
-     * @param  array<array-key, Response>  $responses
+     * @param  array<array-key, ResponseContract|StreamResponse|string>  $responses
      */
     public function addResponses(array $responses): void
     {
