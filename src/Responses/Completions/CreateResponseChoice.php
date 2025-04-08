@@ -21,7 +21,9 @@ final class CreateResponseChoice
         return new self(
             $attributes['text'],
             $attributes['index'],
-            $attributes['logprobs'] ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
+            isset($attributes['logprobs'])
+                ? CreateResponseChoiceLogprobs::from($attributes['logprobs'])
+                : null,
             $attributes['finish_reason'],
         );
     }
