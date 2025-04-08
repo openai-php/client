@@ -34,8 +34,7 @@ final class VectorStoreFileListResponse implements ResponseContract, ResponseHas
         public readonly ?string $lastId,
         public readonly bool $hasMore,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

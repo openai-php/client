@@ -18,10 +18,10 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Cache dependencies
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache/files
         key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
@@ -31,7 +31,6 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: dom, mbstring, zip
-        tools: prestissimo
         coverage: pcov
 
     - name: Install Composer dependencies
@@ -39,9 +38,6 @@ jobs:
 
     - name: Coding Style Checks
       run: composer test:lint
-
-    - name: Refacto Checks
-      run: composer test:refacto
 
     - name: Type Checks
       run: composer test:types

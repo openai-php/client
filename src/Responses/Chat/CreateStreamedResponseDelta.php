@@ -14,8 +14,7 @@ final class CreateStreamedResponseDelta
         public readonly ?string $content,
         public readonly array $toolCalls,
         public readonly ?CreateStreamedResponseFunctionCall $functionCall,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{role?: string, content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes

@@ -8,8 +8,7 @@ final class MetaInformationRateLimit
         public readonly ?int $limit,
         public readonly int $remaining,
         public readonly ?string $reset,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{limit: ?int, remaining: int, reset: ?string}  $attributes

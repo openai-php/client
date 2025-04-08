@@ -23,8 +23,7 @@ final class VectorStoreFileResponseLastError implements ResponseContract
     private function __construct(
         public readonly string $code,
         public readonly string $message,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

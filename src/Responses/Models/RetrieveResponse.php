@@ -30,8 +30,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly int $created,
         public readonly string $ownedBy,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

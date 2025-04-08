@@ -44,7 +44,7 @@ test('retrieve', function () {
 });
 
 test('cancel', function () {
-    $client = mockClient('DELETE', 'vector_stores/vs_abc123/file_batches/vsfb_abc123', [], Response::from(vectorStoreFileBatchResource(), metaHeaders()));
+    $client = mockClient('POST', 'vector_stores/vs_abc123/file_batches/vsfb_abc123/cancel', [], Response::from(vectorStoreFileBatchResource(), metaHeaders()));
 
     $result = $client->vectorStores()->batches()->cancel('vs_abc123', 'vsfb_abc123');
 

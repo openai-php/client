@@ -26,8 +26,7 @@ final class ThreadRunStepResponseCodeInterpreterOutputLogs implements ResponseCo
     private function __construct(
         public string $type,
         public string $logs,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

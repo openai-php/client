@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 final class ThreadMessageResponseContentImageUrl implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{file_id: string, detail?: string}>
+     * @use ArrayAccessible<array{url: string, detail?: string}>
      */
     use ArrayAccessible;
 
@@ -23,8 +23,7 @@ final class ThreadMessageResponseContentImageUrl implements ResponseContract
     private function __construct(
         public string $url,
         public ?string $detail,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

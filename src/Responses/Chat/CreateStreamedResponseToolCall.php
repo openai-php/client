@@ -10,8 +10,7 @@ final class CreateStreamedResponseToolCall
         public readonly ?string $id,
         public readonly ?string $type,
         public readonly CreateStreamedResponseToolCallFunction $function,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{id?: string, type?: string, function: array{name?: string, arguments: string}}  $attributes

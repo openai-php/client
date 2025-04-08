@@ -10,8 +10,7 @@ final class CreateStreamedResponseChoice
         public readonly int $index,
         public readonly CreateStreamedResponseDelta $delta,
         public readonly ?string $finishReason,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array{index: int, delta?: array{role?: string, content?: string}, finish_reason: string|null}  $attributes
