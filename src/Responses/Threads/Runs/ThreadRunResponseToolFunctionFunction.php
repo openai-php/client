@@ -27,8 +27,7 @@ final class ThreadRunResponseToolFunctionFunction implements ResponseContract
         public string $name,
         public string $description,
         public array $parameters,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

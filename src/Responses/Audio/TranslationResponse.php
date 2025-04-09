@@ -34,8 +34,7 @@ final class TranslationResponse implements ResponseContract, ResponseHasMetaInfo
         public readonly array $segments,
         public readonly string $text,
         private readonly MetaInformation $meta,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

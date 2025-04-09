@@ -44,6 +44,18 @@ it('can have organization', function () {
     ]);
 });
 
+it('can have project', function () {
+    $headers = Headers::withAuthorization(ApiKey::from('foo'))
+        ->withContentType(ContentType::JSON)
+        ->withProject('openai_proj');
+
+    expect($headers->toArray())->toBe([
+        'Authorization' => 'Bearer foo',
+        'Content-Type' => 'application/json',
+        'OpenAI-Project' => 'openai_proj',
+    ]);
+});
+
 it('can have custom header', function () {
     $headers = Headers::withAuthorization(ApiKey::from('foo'))
         ->withContentType(ContentType::JSON)

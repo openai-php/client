@@ -54,7 +54,7 @@ it('throws fake exceptions', function () {
             'message' => 'The model `gpt-1` does not exist',
             'type' => 'invalid_request_error',
             'code' => null,
-        ]),
+        ], 404),
     ]);
 
     $fake->completions()->create([
@@ -189,7 +189,7 @@ it('throws an exception if a request was not sent n times', function () {
 })->expectException(ExpectationFailedException::class);
 
 it('asserts a request was not sent', function () {
-    $fake = new ClientFake();
+    $fake = new ClientFake;
 
     $fake->assertNotSent(Completions::class);
 });
@@ -216,7 +216,7 @@ it('asserts a request was not sent on the resource', function () {
 });
 
 it('asserts no request was sent', function () {
-    $fake = new ClientFake();
+    $fake = new ClientFake;
 
     $fake->assertNothingSent();
 });

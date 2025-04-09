@@ -23,8 +23,7 @@ final class ThreadRunResponseRequiredAction implements ResponseContract
     private function __construct(
         public string $type,
         public ThreadRunResponseRequiredActionSubmitToolOutputs $submitToolOutputs,
-    ) {
-    }
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.

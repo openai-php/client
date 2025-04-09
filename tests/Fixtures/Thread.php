@@ -9,6 +9,7 @@ function threadResource(): array
         'id' => 'thread_agvtHUGezjTCt4SKgQg0NJ2Y',
         'object' => 'thread',
         'created_at' => 1699621778,
+        'tool_resources' => [],
         'metadata' => [],
     ];
 }

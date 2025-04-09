@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ThreadsRunsContract;
 use OpenAI\Resources\ThreadsRuns;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunListResponse;
 use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
@@ -22,6 +23,11 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
+    public function createStreamed(string $threadId, array $parameters): StreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
     public function retrieve(string $threadId, string $runId): ThreadRunResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
@@ -33,6 +39,11 @@ final class ThreadsRunsTestResource implements ThreadsRunsContract
     }
 
     public function submitToolOutputs(string $threadId, string $runId, array $parameters): ThreadRunResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function submitToolOutputsStreamed(string $threadId, string $runId, array $parameters): StreamResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
