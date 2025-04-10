@@ -13,6 +13,7 @@ test('from', function () {
         ->createdAt->toBe(1715956697)
         ->vectorStoreId->toBe('vs_xds05V7ep0QMGI5JmYnWsJwb')
         ->status->toBe('completed')
+        ->attributes->toBe(['foo' => 'bar'])
         ->lastError->toBeNull()
         ->chunkingStrategy->toBeInstanceOf(VectorStoreFileResponseChunkingStrategyStatic::class)
         ->chunkingStrategy->type->toBe('static')
