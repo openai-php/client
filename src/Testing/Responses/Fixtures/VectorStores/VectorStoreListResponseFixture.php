@@ -12,6 +12,7 @@ final class VectorStoreListResponseFixture
                 'object' => 'vector_store',
                 'name' => 'Product Knowledge Base',
                 'status' => 'completed',
+                'attributes' => [],
                 'usage_bytes' => 29882,
                 'created_at' => 1_715_953_317,
                 'file_counts' => [
@@ -31,6 +32,7 @@ final class VectorStoreListResponseFixture
                 'object' => 'vector_store',
                 'name' => null,
                 'status' => 'completed',
+                'attributes' => [],
                 'usage_bytes' => 0,
                 'created_at' => 1_710_869_420,
                 'file_counts' => [
