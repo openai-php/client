@@ -21,6 +21,15 @@ test('from', function () {
         ->chunkingStrategy->chunkOverlapTokens->toBe(400);
 });
 
+test('from while missing attributes', function () {
+    $payload = vectorStoreFileResource();
+    unset($payload['attributes']);
+    $result = VectorStoreFileResponse::from($payload, meta());
+
+    expect($result)
+        ->attributes->toBe([]);
+});
+
 test('as array accessible', function () {
     $result = VectorStoreFileResponse::from(vectorStoreFileResource(), meta());
 
