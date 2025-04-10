@@ -26,7 +26,7 @@ final class VectorStoresFiles implements VectorStoresFilesContract
     {
         $payload = Payload::create("vector_stores/$vectorStoreId/files", $parameters);
 
-        /** @var Response<array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}> $response */
+        /** @var Response<array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, attributes: array<string, string>, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreFileResponse::from($response->data(), $response->meta());
@@ -43,7 +43,7 @@ final class VectorStoresFiles implements VectorStoresFilesContract
     {
         $payload = Payload::list("vector_stores/$vectorStoreId/files", $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, attributes: array<string, string>, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreFileListResponse::from($response->data(), $response->meta());
@@ -58,7 +58,7 @@ final class VectorStoresFiles implements VectorStoresFilesContract
     {
         $payload = Payload::retrieve("vector_stores/$vectorStoreId/files", $fileId);
 
-        /** @var Response<array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}> $response */
+        /** @var Response<array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, attributes: array<string, string>, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreFileResponse::from($response->data(), $response->meta());
