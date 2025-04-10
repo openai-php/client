@@ -38,9 +38,6 @@ function vectorStoreFileWithLastErrorResource(): array
         'created_at' => 1715956697,
         'vector_store_id' => 'vs_xds05V7ep0QMGI5JmYnWsJwb',
         'status' => 'completed',
-        'attributes' => [
-            'foo' => 'bar',
-        ],
         'last_error' => [
             'code' => 'error-001',
             'message' => 'Error scanning file',
