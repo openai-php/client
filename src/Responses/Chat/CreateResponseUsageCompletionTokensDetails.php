@@ -9,8 +9,8 @@ final class CreateResponseUsageCompletionTokensDetails
     private function __construct(
         public readonly ?int $audioTokens,
         public readonly int $reasoningTokens,
-        public readonly int $acceptedPredictionTokens,
-        public readonly int $rejectedPredictionTokens
+        public readonly ?int $acceptedPredictionTokens,
+        public readonly ?int $rejectedPredictionTokens
     ) {}
 
     /**
@@ -21,8 +21,8 @@ final class CreateResponseUsageCompletionTokensDetails
         return new self(
             $attributes['audio_tokens'] ?? null,
             $attributes['reasoning_tokens'],
-            $attributes['accepted_prediction_tokens'],
-            $attributes['rejected_prediction_tokens'],
+            $attributes['accepted_prediction_tokens'] ?? null,
+            $attributes['rejected_prediction_tokens'] ?? null,
         );
     }
 
