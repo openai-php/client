@@ -14,6 +14,16 @@ test('from', function () {
         ->finishReason->toBeIn(['stop', null]);
 });
 
+test('from without logprobs', function () {
+    $result = CreateResponseChoice::from(chatCompletionWithoutLogprobs()['choices'][0]);
+
+    expect($result)
+        ->index->toBe(0)
+        ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->logprobs->toBeNull()
+        ->finishReason->toBeIn(['stop', null]);
+});
+
 test('from with logprobs', function () {
     $result = CreateResponseChoice::from(chatCompletionWithLogprobs()['choices'][0]);
 
