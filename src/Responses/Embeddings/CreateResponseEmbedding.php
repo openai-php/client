@@ -11,31 +11,31 @@ final class CreateResponseEmbedding
      */
     private function __construct(
         public readonly string $object,
-        public readonly int $index,
+        public readonly ?int $index,
         public readonly array $embedding,
     ) {}
 
     /**
-     * @param  array{object: string, index: int, embedding: array<int, float>}  $attributes
+     * @param  array{object: string, index?: int, embedding: array<int, float>}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['object'],
-            $attributes['index'],
+            $attributes['index'] ?? null,
             $attributes['embedding'],
         );
     }
 
     /**
-     * @return array{object: string, index: int, embedding: array<int, float>}
+     * @return array{object: string, index?: int, embedding: array<int, float>}
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'object' => $this->object,
             'index' => $this->index,
             'embedding' => $this->embedding,
-        ];
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }
