@@ -3,7 +3,6 @@
 namespace OpenAI\Testing;
 
 use OpenAI\Contracts\ClientContract;
-use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseStreamContract;
@@ -134,9 +133,8 @@ class ClientFake implements ClientContract
         return $response;
     }
 
-    public function responses(): ResponsesContract
+    public function responses(): ResponsesTestResource
     {
-
         return new ResponsesTestResource($this);
     }
 

@@ -9,14 +9,51 @@ use OpenAI\Responses\Meta\MetaInformation;
 trait Fakeable
 {
     /**
-     * @param  array<string, mixed>  $override
+     * Create a fake response instance with optional attribute overrides.
+     *
+     * This method handles both simple and nested namespace structures for response fixtures:
+     * - Simple: OpenAI\Responses\Category\Response -> OpenAI\Testing\Responses\Fixtures\Category\ResponseFixture
+     * - Nested: OpenAI\Responses\Category\SubCategory\Response -> OpenAI\Testing\Responses\Fixtures\Category\SubCategory\ResponseFixture
+     *
+     * The method preserves the namespace hierarchy after 'Responses' to maintain proper fixture organization:
+     * Example paths:
+     * - Responses\Threads\ThreadResponse -> Fixtures\Threads\ThreadResponseFixture
+     * - Responses\Threads\Runs\ThreadRunResponse -> Fixtures\Threads\Runs\ThreadRunResponseFixture
+     *
+     * It also handles cases where fixture ATTRIBUTES might be wrapped in an additional array layer,
+     * automatically unwrapping single-element arrays to maintain consistency.
+     *
+     * @param array<string, mixed> $override Optional attributes to override in the fake response
+     * @param MetaInformation|null $meta Optional meta information for the response
+     * @throws \RuntimeException If the Responses namespace cannot be found in the class path
+     * @return static Returns a new instance of the response class with fake data
      */
     public static function fake(array $override = [], ?MetaInformation $meta = null): static
     {
-        $class = str_replace('Responses\\', 'Testing\\Responses\\Fixtures\\', static::class).'Fixture';
+        $parts = explode('\\', static::class);
+        $className = end($parts);
+        
+        // Find the position of 'Responses' in the namespace
+        $responsesPos = array_search('Responses', $parts);
+        if ($responsesPos === false) {
+            throw new \RuntimeException('Unable to determine fixture path: no Responses namespace found');
+        }
+        
+        // Get all parts after 'Responses' to preserve nested structure
+        $subPath = implode('\\', array_slice($parts, $responsesPos + 1, -1));
+        
+        // Construct the fixture class path
+        $namespace = 'OpenAI\\Testing\\Responses\\Fixtures\\' . $subPath . '\\';
+        $class = $namespace . $className . 'Fixture';
+
+        $attributes = $class::ATTRIBUTES;
+        // If attributes is a nested array with only one element, use that element
+        if (is_array($attributes) && count($attributes) === 1 && isset($attributes[0]) && is_array($attributes[0])) {
+            $attributes = $attributes[0];
+        }
 
         return static::from(
-            self::buildAttributes($class::ATTRIBUTES, $override),
+            self::buildAttributes($attributes, $override),
             $meta ?? self::fakeResponseMetaInformation(),
         );
     }
