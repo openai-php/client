@@ -16,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use \OpenAI\Exceptions\UnexpectedStatusCodeException;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -529,5 +530,173 @@ test('request stream server errors', function () {
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('request stream client error 400', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(400, [], json_encode([
+        'error' => [
+            'message' => 'Bad Request',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'bad_request',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 400')
+                ->and($e->getCode())->toBe(400);
+        });
+});
+
+test('request stream client error 401', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(401, [], json_encode([
+        'error' => [
+            'message' => 'Unauthorized',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'unauthorized',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 401')
+                ->and($e->getCode())->toBe(401);
+        });
+});
+
+test('request stream client error 403', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(403, [], json_encode([
+        'error' => [
+            'message' => 'Forbidden',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'forbidden',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 403')
+                ->and($e->getCode())->toBe(403);
+        });
+});
+
+test('request stream client error 404', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(404, [], json_encode([
+        'error' => [
+            'message' => 'Not Found',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'not_found',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 404')
+                ->and($e->getCode())->toBe(404);
+        });
+});
+
+test('request stream client error 422', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(422, [], json_encode([
+        'error' => [
+            'message' => 'Unprocessable Entity',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'unprocessable_entity',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 422')
+                ->and($e->getCode())->toBe(422);
+        });
+});
+
+test('request stream client error 429', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(429, [], json_encode([
+        'error' => [
+            'message' => 'Too Many Requests',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'too_many_requests',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 429')
+                ->and($e->getCode())->toBe(429);
+        });
+});
+
+test('request stream client error 500', function () {
+    $payload = Payload::create('completions', []);
+
+    $response = new Response(500, [], json_encode([
+        'error' => [
+            'message' => 'Internal Server Error',
+            'type' => 'client_error',
+            'param' => null,
+            'code' => 'internal_server_error',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 500')
+                ->and($e->getCode())->toBe(500);
         });
 });

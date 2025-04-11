@@ -11,6 +11,7 @@ use OpenAI\Contracts\TransporterContract;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
+use OpenAI\Exceptions\UnexpectedStatusCodeException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
@@ -48,6 +49,8 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
+        $this->throwIfNotSuccessfulStatusCode($response);
+
         $contents = (string) $response->getBody();
 
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
@@ -75,6 +78,8 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
+        $this->throwIfNotSuccessfulStatusCode($response);
+
         $contents = (string) $response->getBody();
 
         $this->throwIfJsonError($response, $contents);
@@ -90,6 +95,8 @@ final class HttpTransporter implements TransporterContract
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
         $response = $this->sendRequest(fn () => ($this->streamHandler)($request));
+
+        $this->throwIfNotSuccessfulStatusCode($response);
 
         $this->throwIfJsonError($response, $response);
 
@@ -134,6 +141,15 @@ final class HttpTransporter implements TransporterContract
             }
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
+        }
+    }
+
+    private function throwIfNotSuccessfulStatusCode(ResponseInterface $response): void
+    {
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode < 200 || $statusCode >= 300) {
+            throw new UnexpectedStatusCodeException($statusCode);
         }
     }
 }
