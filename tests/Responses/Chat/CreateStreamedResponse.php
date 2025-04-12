@@ -60,3 +60,10 @@ test('fake with override', function () {
     expect($response->getIterator()->current())
         ->id->toBe('chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz');
 });
+
+test('fake with ping', function () {
+    $response = CreateStreamedResponse::fake(chatCompletionStreamPing());
+
+    expect($response->getIterator()->current())
+        ->id->toBe('msg_0111RgCFCqN68mJbev6Rq1cz');
+});

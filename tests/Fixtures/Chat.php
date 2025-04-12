@@ -310,6 +310,14 @@ function chatCompletionStream()
 /**
  * @return resource
  */
+function chatCompletionStreamPing()
+{
+    return fopen(__DIR__.'/Streams/ChatCompletionPing.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
 function chatCompletionStreamError()
 {
     return fopen(__DIR__.'/Streams/ChatCompletionCreateError.txt', 'r');
