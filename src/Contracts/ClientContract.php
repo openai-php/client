@@ -15,6 +15,7 @@ use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
+use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
 
@@ -29,6 +30,10 @@ interface ClientContract
     public function completions(): CompletionsContract;
 
     /**
+     * Manage responses to assist models with tasks.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses
+     */
     public function responses(): ResponsesContract;
 
     /**
