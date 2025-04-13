@@ -80,7 +80,6 @@ test('from', function () {
         ->user->toBeNull()
         ->metadata->toBe([]);
 
-
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
 });
