@@ -14,6 +14,7 @@ final class VectorStoreFileListResponseFixture
                 'created_at' => 1_715_956_697,
                 'vector_store_id' => 'vs_xds05V7ep0QMGI5JmYnWsJwb',
                 'status' => 'completed',
+                'attributes' => [],
                 'last_error' => null,
             ],
         ],

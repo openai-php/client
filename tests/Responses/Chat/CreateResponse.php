@@ -21,6 +21,38 @@ test('from', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from without id', function () {
+    $completion = CreateResponse::from(chatCompletionWithoutId(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBeNull()
+        ->object->toBe('chat.completion')
+        ->created->toBe(1677652288)
+        ->model->toBe('gpt-3.5-turbo')
+        ->systemFingerprint->toBeNull()
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from without usage', function () {
+    $completion = CreateResponse::from(chatCompletionWithoutUsage(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('chatcmpl-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1677652288)
+        ->model->toBe('gpt-3.5-turbo')
+        ->systemFingerprint->toBeNull()
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeNull()
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('from with system fingerprint', function () {
     $completion = CreateResponse::from(chatCompletionWithSystemFingerprint(), meta());
 

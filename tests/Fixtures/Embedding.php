@@ -19,6 +19,21 @@ function embedding(): array
 /**
  * @return array<string, mixed>
  */
+function embeddingWithoutIndex(): array
+{
+    return [
+        'object' => 'embedding',
+        'embedding' => [
+            -0.008906792,
+            -0.013743395,
+            0.009874112,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function embeddingList(): array
 {
     return [
@@ -30,6 +45,20 @@ function embeddingList(): array
         'usage' => [
             'prompt_tokens' => 8,
             'total_tokens' => 8,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function embeddingListWithoutUsage(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            embedding(),
+            embedding(),
         ],
     ];
 }

@@ -1,0 +1,2 @@
+event: thread.message.completed
+data: {"id":"msg_zKgPBqNcqb7qYP2bBA3tVyTd","object":"thread.message","created_at":1720104399,"assistant_id":"asst_JA9Pc6eQ744nbec10slSz5BU","thread_id":"thread_sSbvUX4J1FqlUZBv6BaBbOj4","run_id":"run_s1X8yAjuUBlwhGrqiahzfnH7","status":"completed","incomplete_details":null,"incomplete_at":null,"completed_at":1720104399,"role":"assistant","content":[{"type":"text","text":{"value":"Hello! How can I assist you today?","annotations":[]}}],"attachments":[],"metadata":{}}
