@@ -1,29 +1,52 @@
 <?php
 
-use OpenAI\Responses\Responses\ResponseObject;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\ResponseObject;
 
 test('from', function () {
     $result = ResponseObject::from(responseObject(), meta());
 
     expect($result)
         ->toBeInstanceOf(ResponseObject::class)
-        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
+        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
         ->object->toBe('response')
-        ->createdAt->toBe(1699619403)
+        ->createdAt->toBe(1741484430)
         ->status->toBe('completed')
+        ->error->toBeNull()
+        ->incompleteDetails->toBeNull()
+        ->instructions->toBeNull()
+        ->maxOutputTokens->toBeNull()
+        ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(1)
-        ->type->toBe('message')
-        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
-        ->status->toBe('completed')
-        ->role->toBe('assistant')
-        ->content->toBeArray()
-        ->content[0]->toBeInstanceOf(ResponseObject::class)
-        ->content[0]->type->toBe('output_text')
-        ->content[0]->text->toBe('The image depicts a scenic landscape with a wooden boardwalk or pathway leading through lush, green grass under a blue sky with some clouds. The setting suggests a peaceful natural area, possibly a park or nature reserve. There are trees and shrubs in the background.')
-        ->content[0]->annotations->toBeArray()
-        ->content[0]->annotations->toHaveCount(0)
+        ->output->toHaveCount(2)
+        ->output[0]->type->toBe('web_search_call')
+        ->output[0]->id->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
+        ->output[0]->status->toBe('completed')
+        ->output[1]->type->toBe('message')
+        ->output[1]->id->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
+        ->output[1]->status->toBe('completed')
+        ->output[1]->role->toBe('assistant')
+        ->output[1]->content->toBeArray()
+        ->output[1]->content->toHaveCount(1)
+        ->output[1]->content[0]->type->toBe('output_text')
+        ->output[1]->content[0]->text->toBe('As of today, March 9, 2025, one notable positive news story...')
+        ->output[1]->content[0]->annotations->toBeArray()
+        ->output[1]->content[0]->annotations->toHaveCount(3)
+        ->output[1]->content[0]->annotations[0]->type->toBe('url_citation')
+        ->output[1]->content[0]->annotations[0]->startIndex->toBe(442)
+        ->output[1]->content[0]->annotations[0]->endIndex->toBe(557)
+        ->output[1]->content[0]->annotations[0]->url->toBe('https://.../?utm_source=chatgpt.com')
+        ->output[1]->content[0]->annotations[0]->title->toBe('...')
+        ->output[1]->content[0]->annotations[1]->type->toBe('url_citation')
+        ->output[1]->content[0]->annotations[1]->startIndex->toBe(962)
+        ->output[1]->content[0]->annotations[1]->endIndex->toBe(1077)
+        ->output[1]->content[0]->annotations[1]->url->toBe('https://.../?utm_source=chatgpt.com')
+        ->output[1]->content[0]->annotations[1]->title->toBe('...')
+        ->output[1]->content[0]->annotations[2]->type->toBe('url_citation')
+        ->output[1]->content[0]->annotations[2]->startIndex->toBe(1336)
+        ->output[1]->content[0]->annotations[2]->endIndex->toBe(1451)
+        ->output[1]->content[0]->annotations[2]->url->toBe('https://.../?utm_source=chatgpt.com')
+        ->output[1]->content[0]->annotations[2]->title->toBe('...')
         ->parallelToolCalls->toBeTrue()
         ->previousResponseId->toBeNull()
         ->reasoning->toBeArray()
@@ -35,32 +58,43 @@ test('from', function () {
         ->text['format']['type']->toBe('text')
         ->toolChoice->toBe('auto')
         ->tools->toBeArray()
-        ->tools->toHaveCount(0)
+        ->tools->toHaveCount(1)
+        ->tools[0]->type->toBe('web_search_preview')
+        ->tools[0]->domains->toBeArray()->toBeEmpty()
+        ->tools[0]->searchContextSize->toBe('medium')
+        ->tools[0]->userLocation->toBeArray()
+        ->tools[0]->userLocation['type']->toBe('approximate')
+        ->tools[0]->userLocation['city']->toBeNull()
+        ->tools[0]->userLocation['country']->toBe('US')
+        ->tools[0]->userLocation['region']->toBeNull()
+        ->tools[0]->userLocation['timezone']->toBeNull()
         ->topP->toBe(1.0)
         ->truncation->toBe('disabled')
         ->usage->toBeArray()
+        ->usage->toHaveCount(1)
         ->usage['input_tokens']->toBe(328)
         ->usage['input_tokens_details']['cached_tokens']->toBe(0)
-        ->usage['output_tokens']->toBe(52)
+        ->usage['output_tokens']->toBe(356)
         ->usage['output_tokens_details']['reasoning_tokens']->toBe(0)
-        ->usage['total_tokens']->toBe(380)
+        ->usage['total_tokens']->toBe(684)
         ->user->toBeNull()
-        ->metadata->toBeArray()
-        ->metadata->toBeEmpty()
-        ->meta()->toBeInstanceOf(MetaInformation::class);
+        ->metadata->toBe([]);
+
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });
 
 test('as array accessible', function () {
     $result = ResponseObject::from(responseObject(), meta());
 
-    expect($result['id'])->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc');
+    expect($result['id'])->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
 });
 
 test('to array', function () {
     $result = ResponseObject::from(responseObject(), meta());
 
     expect($result->toArray())
-        ->toBeArray()
         ->toBe(responseObject());
 });
 
@@ -68,58 +102,20 @@ test('fake', function () {
     $response = ResponseObject::fake();
 
     expect($response)
-        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
+        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
         ->object->toBe('response')
         ->status->toBe('completed');
 });
 
 test('fake with override', function () {
     $response = ResponseObject::fake([
-        'id' => 'asst_1234',
+        'id' => 'resp_1234',
         'object' => 'custom_response',
-        'status' => 'failed'
+        'status' => 'failed',
     ]);
 
     expect($response)
-        ->id->toBe('asst_1234')
+        ->id->toBe('resp_1234')
         ->object->toBe('custom_response')
         ->status->toBe('failed');
-});
-
-test('from', function () {
-    $result = ResponseObject::from(responseObject(), meta());
-
-    expect($result)
-        ->toBeInstanceOf(ResponseObject::class)
-        ->object->toBe('response')
-        ->meta()->toBeInstanceOf(MetaInformation::class);
-});
-
-test('as array accessible', function () {
-    $result = ResponseObject::from(responseObject(), meta());
-
-    expect($result['object'])->toBe('response');
-});
-
-test('to array', function () {
-    $result = ResponseObject::from(responseObject(), meta());
-
-    expect($result->toArray())
-        ->toBe(responseObject());
-});
-
-test('fake', function () {
-    $response = ResponseObject::fake();
-
-    expect($response)
-        ->object->toBe('response');
-});
-
-test('fake with override', function () {
-    $response = ResponseObject::fake([
-        'object' => 'custom_response'
-    ]);
-
-    expect($response)
-        ->object->toBe('custom_response');
 });

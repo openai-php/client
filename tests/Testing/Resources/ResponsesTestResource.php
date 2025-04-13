@@ -1,10 +1,10 @@
 <?php
 
 use OpenAI\Resources\Responses;
+use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\RetrieveResponse;
-use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\ClientFake;
 
 it('records a response create request', function () {
@@ -16,10 +16,10 @@ it('records a response create request', function () {
         'model' => 'gpt-4o-mini',
         'tools' => [
             [
-                'type' => 'web_search_preview'
-            ]
+                'type' => 'web_search_preview',
+            ],
         ],
-        'input' => "what was a positive news story from today?"
+        'input' => 'what was a positive news story from today?',
     ]);
 
     $fake->assertSent(Responses::class, function ($method, $parameters) {
@@ -27,10 +27,10 @@ it('records a response create request', function () {
             $parameters['model'] === 'gpt-4o-mini' &&
             $parameters['tools'] === [
                 [
-                    'type' => 'web_search_preview'
-                ]
+                    'type' => 'web_search_preview',
+                ],
             ] &&
-            $parameters['input'] === "what was a positive news story from today?";
+            $parameters['input'] === 'what was a positive news story from today?';
     });
 });
 

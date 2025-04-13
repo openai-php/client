@@ -1,6 +1,7 @@
 <?php
-use OpenAI\Responses\Responses\ListInputItems;
+
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\ListInputItems;
 
 test('from', function () {
     $result = ListInputItems::from(listInputItemsResource(), meta());
@@ -9,8 +10,8 @@ test('from', function () {
         ->toBeInstanceOf(ListInputItems::class)
         ->object->toBe('list')
         ->data->toBeArray()
-        ->firstId->toBe('msg_KNsDDwE41BUAHhcPNpDkdHWZ')
-        ->lastId->toBe('msg_KNsDDwE41BUAHhcPNpDkdHWZ')
+        ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
+        ->lastId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->hasMore->toBeFalse()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
@@ -34,7 +35,7 @@ test('fake', function () {
 
     expect($response)
         ->object->toBe('list')
-        ->firstId->toBe('msg_KNsDDwE41BUAHhcPNpDkdHWZ')
+        ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->hasMore->toBeFalse();
 });
 
@@ -42,7 +43,7 @@ test('fake with override', function () {
     $response = ListInputItems::fake([
         'object' => 'custom_list',
         'first_id' => 'msg_1234',
-        'has_more' => true
+        'has_more' => true,
     ]);
 
     expect($response)

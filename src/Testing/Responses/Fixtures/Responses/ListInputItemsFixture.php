@@ -9,20 +9,20 @@ final class ListInputItemsFixture
         'data' => [
             [
                 'type' => 'message',
-                'id' => 'resp_item_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b',
+                'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
                 'status' => 'completed',
                 'role' => 'user',
                 'content' => [
                     [
                         'type' => 'text',
-                        'text' => 'Tell me a story about a unicorn',
+                        'text' => 'What was a positive news story from today?',
                         'annotations' => [],
                     ],
                 ],
             ],
         ],
-        'first_id' => 'resp_item_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b',
-        'last_id' => 'resp_item_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b',
+        'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'has_more' => false,
     ];
 }

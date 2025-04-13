@@ -6,7 +6,7 @@ final class DeleteResponseFixture
 {
     public const ATTRIBUTES = [
         [
-            'id' => 'resp_6786a1bec27481909a17d673315b29f6',
+            'id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
             'object' => 'response',
             'deleted' => true,
         ],
