@@ -13,8 +13,10 @@ interface FilesContract
      * Returns a list of files that belong to the user's organization.
      *
      * @see https://platform.openai.com/docs/api-reference/files/list
+     *
+     * @param  array<string, mixed>  $parameters
      */
-    public function list(): ListResponse;
+    public function list(array $parameters = []): ListResponse;
 
     /**
      * Returns information about a specific file.
