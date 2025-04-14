@@ -7,6 +7,7 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\Resources\VectorStoresFileBatchesContract;
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
+use OpenAI\Responses\VectorStores\Search\VectorStoreSearchResponse;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;
@@ -116,5 +117,22 @@ final class VectorStores implements VectorStoresContract
     public function batches(): VectorStoresFileBatchesContract
     {
         return new VectorStoresFileBatches($this->transporter);
+    }
+
+    /**
+     * Search a vector store for relevant chunks based on a query and file attributes filter.
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores/search
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function search(string $vectorStoreId, array $parameters = []): VectorStoreSearchResponse
+    {
+        $payload = Payload::create("vector_stores/{$vectorStoreId}/search", $parameters);
+
+        /** @var Response<array{object: string, search_query: string|array<mixed>, data: array<int, array{file_id: string, filename: string, score: float, attributes: array<string, mixed>, content: array<int, array{type: string, text: string}>}>, has_more: bool, next_page: ?string}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return VectorStoreSearchResponse::from($response->data(), $response->meta());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\VectorStores\Search\VectorStoreSearchResponse;
 use OpenAI\Responses\VectorStores\VectorStoreDeleteResponse;
 use OpenAI\Responses\VectorStores\VectorStoreListResponse;
 use OpenAI\Responses\VectorStores\VectorStoreResponse;
@@ -62,4 +63,13 @@ interface VectorStoresContract
      * @see https://platform.openai.com/docs/api-reference/vector-stores-file-batches
      */
     public function batches(): VectorStoresFileBatchesContract;
+
+    /**
+     * Search a vector store for relevant chunks based on a query and file attributes filter.
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores/search
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function search(string $vectorStoreId, array $parameters = []): VectorStoreSearchResponse;
 }
