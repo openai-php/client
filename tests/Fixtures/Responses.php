@@ -88,6 +88,7 @@ function responseObject(): array
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
+        'user' => null,
         'usage' => [
             'input_tokens' => 328,
             'input_tokens_details' => [
@@ -99,7 +100,6 @@ function responseObject(): array
             ],
             'total_tokens' => 684,
         ],
-        'user' => null,
     ];
 }
 
@@ -294,6 +294,7 @@ function retrieveResponseResource(): array
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
+        'user' => null,
         'usage' => [
             'input_tokens' => 328,
             'input_tokens_details' => [
@@ -305,7 +306,6 @@ function retrieveResponseResource(): array
             ],
             'total_tokens' => 684,
         ],
-        'user' => null,
     ];
 }
 
@@ -363,7 +363,7 @@ function createStreamedResponseResource(): array
 /**
  * @return resource
  */
-function responseStream()
+function responseCompletionStream()
 {
-    return fopen(__DIR__.'/Streams/ResponseCreate.txt', 'r');
+    return fopen(__DIR__.'/Streams/ResponseCompletionCreate.txt', 'r');
 }
