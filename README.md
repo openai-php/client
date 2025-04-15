@@ -1929,7 +1929,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-
 #### `search`
 
 Search a vector store for relevant chunks based on a query and file attributes filter.
@@ -1963,8 +1962,6 @@ foreach ($response->data as $file) {
 
 $response->toArray(); // ['object' => 'vector_store.search_results.page', ...]
 ```
-
-
 
 ### `Vector Store File Batches` Resource
 
