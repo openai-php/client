@@ -106,6 +106,7 @@ final class ResponseObject implements ResponseContract, ResponseHasMetaInformati
             'incomplete_details' => $this->incompleteDetails,
             'instructions' => $this->instructions,
             'max_output_tokens' => $this->maxOutputTokens,
+            'metadata' => $this->metadata,
             'model' => $this->model,
             'output' => $this->output,
             'parallel_tool_calls' => $this->parallelToolCalls,
@@ -119,7 +120,6 @@ final class ResponseObject implements ResponseContract, ResponseHasMetaInformati
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
             'user' => $this->user,
-            'metadata' => $this->metadata,
             'usage' => $this->usage,
         ];
     }
