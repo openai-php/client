@@ -32,6 +32,21 @@ it('records a files list request', function () {
     });
 });
 
+it('records a file list request with parameters', function () {
+    $fake = new ClientFake([
+        ListResponse::fake(),
+    ]);
+
+    $fake->files()->list([
+        'limit' => 1,
+    ]);
+
+    $fake->assertSent(Files::class, function ($method, $parameters) {
+        return $method === 'list' &&
+            $parameters['limit'] === 1;
+    });
+});
+
 it('records a files download request', function () {
     $fake = new ClientFake([
         'fake-file-content',
