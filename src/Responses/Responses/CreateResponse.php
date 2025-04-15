@@ -54,6 +54,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $truncation,
         public readonly array $usage,
         public readonly ?string $user,
+        public readonly array $metadata,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -85,6 +86,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['truncation'],
             $attributes['usage'],
             $attributes['user'] ?? null,
+            $attributes['metadata'] ?? [],
             $meta,
         );
     }
@@ -103,6 +105,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'incomplete_details' => $this->incompleteDetails,
             'instructions' => $this->instructions,
             'max_output_tokens' => $this->maxOutputTokens,
+            'metadata' => $this->metadata,
             'model' => $this->model,
             'output' => $this->output,
             'parallel_tool_calls' => $this->parallelToolCalls,
