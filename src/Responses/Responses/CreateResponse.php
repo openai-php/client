@@ -9,6 +9,15 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputMessage;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFileCitation as FileCitation;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFilePath as FilePath;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsUrlCitation as UrlCitation;
+use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -25,7 +34,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     /**
-     * @param  array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>  $output
+     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning>  $output
      * @param  array<mixed>  $reasoning
      * @param  array{format: array{type: string}}  $text
      * @param  array<mixed>  $tools
@@ -63,6 +72,18 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
+        $output = array_map(
+            fn (array $output): FileCitation|FilePath|UrlCitation => match ($output['type']) {
+                'message' => OutputMessage::from($output),
+                'file_search_call' => OutputFileSearchToolCall::from($output),
+                'function_call' => OutputFunctionToolCall::from($output),
+                'web_search_call' => OutputWebSearchToolCall::from($output),
+                'computer_call' => OutputComputerToolCall::from($output),
+                'reasoning' => OutputReasoning::from($output),
+            },
+            $attributes['output'],
+        );
+
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -77,7 +98,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['instructions'],
             $attributes['max_output_tokens'],
             $attributes['model'],
-            $attributes['output'],
+            $output,
             $attributes['parallel_tool_calls'],
             $attributes['previous_response_id'],
             $attributes['reasoning'],
