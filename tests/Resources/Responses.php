@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
@@ -8,7 +10,6 @@ use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\ResponseObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\StreamResponse;
-use OpenAI\ValueObjects\Transporter\Response;
 
 test('delete', function () {
     $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [], Response::from(deleteResponseResource(), metaHeaders()));
@@ -118,13 +119,18 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-test('createStreamed', function () {
-    $client = mockClient('POST', 'responses', [
+test('create streamed', function () {
+    $response = new Response(
+        body: new Stream(responseStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'responses', [
         'stream' => true,
         'model' => 'gpt-4o',
         'tools' => [['type' => 'web_search_preview']],
         'input' => 'what was a positive news story from today?',
-    ], Response::from(createStreamedResponseResource(), metaHeaders()));
+    ], $response);
 
     $result = $client->responses()->createStreamed([
         'model' => 'gpt-4o',
