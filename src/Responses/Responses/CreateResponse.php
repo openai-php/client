@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
  */
 final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -36,7 +36,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $object,
         public readonly int $createdAt,
         public readonly string $status,
-        public readonly ?object $error,
+        public readonly ?CreateResponseError $error,
         public readonly ?object $incompleteDetails,
         public readonly ?string $instructions,
         public readonly ?int $maxOutputTokens,
@@ -59,7 +59,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     ) {}
 
     /**
-     * @param  array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -68,7 +68,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['object'],
             $attributes['created_at'],
             $attributes['status'],
-            $attributes['error'],
+            isset($attributes['error']) ? CreateResponseError::from($attributes['error']) : null,
             $attributes['incomplete_details'],
             $attributes['instructions'],
             $attributes['max_output_tokens'],
@@ -92,7 +92,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     }
 
     /**
-     * @return array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}
+     * @return array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}
      */
     public function toArray(): array
     {
@@ -101,7 +101,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'object' => $this->object,
             'created_at' => $this->createdAt,
             'status' => $this->status,
-            'error' => $this->error,
+            'error' => $this->error?->toArray(),
             'incomplete_details' => $this->incompleteDetails,
             'instructions' => $this->instructions,
             'max_output_tokens' => $this->maxOutputTokens,
