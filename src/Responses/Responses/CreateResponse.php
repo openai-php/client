@@ -30,6 +30,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  array{format: array{type: string}}  $text
      * @param  array<mixed>  $tools
      * @param  array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}  $usage
+     * @param  array<string, string>  $metadata
      */
     private function __construct(
         public readonly string $id,
