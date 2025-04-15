@@ -1929,6 +1929,40 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+#### `search`
+
+Search a vector store for relevant chunks based on a query and file attributes filter.
+
+```php
+$response = $client->vectorStores()->search(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'query' => 'What is the return policy?',
+        'max_num_results' => 5,
+        'filters' => [],
+        'rewrite_query' => false
+    ]
+);
+
+$response->object; // 'vector_store.search_results.page'
+$response->searchQuery; // 'What is the return policy?'
+$response->hasMore; // false
+$response->nextPage; // null
+foreach ($response->data as $file) {
+    $result->fileId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+    $result->filename; // 'return_policy.pdf'
+    $result->score; // 0.95
+    $result->attributes; // ['category' => 'customer_service']
+
+    foreach ($result->content as $content) {
+        $content->type; // 'text'
+        $content->text; // 'Our return policy allows customers to return items within 30 days...'
+    }
+}
+
+$response->toArray(); // ['object' => 'vector_store.search_results.page', ...]
+```
+
 ### `Vector Store File Batches` Resource
 
 #### `create`
