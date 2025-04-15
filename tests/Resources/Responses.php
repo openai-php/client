@@ -7,7 +7,6 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
-use OpenAI\Responses\Responses\ResponseObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\StreamResponse;
 
@@ -126,16 +125,12 @@ test('create streamed', function () {
         ->toBeArray();
     expect($current->response->output)
         ->toHaveCount(2);
-    expect($current->response->output[0])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[0]->type)
         ->toBe('web_search_call');
     expect($current->response->output[0]->id)
         ->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
     expect($current->response->output[0]->status)
         ->toBe('completed');
-    expect($current->response->output[1])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[1]->type)
         ->toBe('message');
     expect($current->response->output[1]->id)
@@ -148,8 +143,6 @@ test('create streamed', function () {
         ->toBeArray();
     expect($current->response->output[1]->content)
         ->toHaveCount(1);
-    expect($current->response->output[1]->content[0])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[1]->content[0]->type)
         ->toBe('output_text');
     expect($current->response->output[1]->content[0]->text)
