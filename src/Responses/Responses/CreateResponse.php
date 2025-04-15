@@ -29,7 +29,6 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  array<mixed>  $reasoning
      * @param  array{format: array{type: string}}  $text
      * @param  array<mixed>  $tools
-     * @param  array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}  $usage
      * @param  array<string, string>  $metadata
      */
     private function __construct(
@@ -53,14 +52,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly array $tools,
         public readonly ?float $topP,
         public readonly string $truncation,
-        public readonly array $usage,
+        public readonly CreateResponseUsage $usage,
         public readonly ?string $user,
         public readonly array $metadata,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * @param  array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -85,7 +84,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['tools'],
             $attributes['top_p'],
             $attributes['truncation'],
-            $attributes['usage'],
+            CreateResponseUsage::from($attributes['usage']),
             $attributes['user'] ?? null,
             $attributes['metadata'] ?? [],
             $meta,
@@ -93,7 +92,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     }
 
     /**
-     * @return array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}
+     * @return array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}
      */
     public function toArray(): array
     {
@@ -119,7 +118,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'tools' => $this->tools,
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
-            'usage' => $this->usage,
+            'usage' => $this->usage->toArray(),
             'user' => $this->user,
         ];
     }
