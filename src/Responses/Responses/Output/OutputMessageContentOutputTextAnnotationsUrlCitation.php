@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses\Output;
 
-final class OutputMessageContentOutputTextAnnotationsUrlCitation
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>
+ */
+final class OutputMessageContentOutputTextAnnotationsUrlCitation implements ResponseContract
 {
+    /**
+     * @use ArrayAccessible<array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
     /**
      * @param  'url_citation'  $type
      */
@@ -32,7 +46,7 @@ final class OutputMessageContentOutputTextAnnotationsUrlCitation
     }
 
     /**
-     * @return array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

@@ -4,10 +4,28 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses\Output;
 
-final class OutputMessageContentOutputText
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFileCitation as AnnotationFileCitation;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFilePath as AnnotationFilePath;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsUrlCitation as AnnotationUrlCitation;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}>
+ */
+final class OutputMessageContentOutputText implements ResponseContract
 {
     /**
-     * @param  array<int, OutputMessageContentOutputTextAnnotations>  $annotations
+     * @use ArrayAccessible<array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
+    /**
+     * @param  array<int, AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
+     * @param 'output_text'  $type
      */
     private function __construct(
         public readonly array $annotations,
@@ -16,22 +34,38 @@ final class OutputMessageContentOutputText
     ) {}
 
     /**
-     * @param  array{reasoning_tokens: int}  $attributes
+     * @param  array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}  $attributes
      */
     public static function from(array $attributes): self
     {
+        $annotations = array_map(
+            fn (array $annotation): AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation => match ($annotation['type']) {
+                'file_citation' => AnnotationFileCitation::from($annotation),
+                'file_path' => AnnotationFilePath::from($annotation),
+                'url_citation' => AnnotationUrlCitation::from($annotation),
+            },
+            $attributes['annotations'],
+        );
+
         return new self(
-            $attributes['reasoning_tokens'],
+            annotations: $annotations,
+            text: $attributes['text'],
+            type: $attributes['type'],
         );
     }
 
     /**
-     * @return array{reasoning_tokens: int}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {
         return [
-            'reasoning_tokens' => $this->reasoningTokens,
+            'annotations' => array_map(
+                fn (AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array => $annotation->toArray(),
+                $this->annotations,
+            ),
+            'text' => $this->text,
+            'type' => $this->type,
         ];
     }
 }

@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses\Output;
 
-final class OutputMessageContentOutputTextAnnotationsFilePath
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{file_id: string, index: int, type: 'file_path'}>
+ */
+final class OutputMessageContentOutputTextAnnotationsFilePath implements ResponseContract
 {
+    /**
+     * @use ArrayAccessible<array{file_id: string, index: int, type: 'file_path'}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
     /**
      * @param  'file_path'  $type
      */
@@ -28,7 +42,7 @@ final class OutputMessageContentOutputTextAnnotationsFilePath
     }
 
     /**
-     * @return array{file_id: string, index: int, type: 'file_path'}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {
