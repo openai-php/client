@@ -2,39 +2,37 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\Output;
+namespace OpenAI\Responses\Responses\Output\ComputerAction;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{refusal: string, type: 'refusal'}>
+ * @implements ResponseContract<array{type: 'wait'}>
  */
-final class OutputMessageContentRefusal implements ResponseContract
+final class OutputComputerActionWait implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{refusal: string, type: 'refusal'}>
+     * @use ArrayAccessible<array{type: 'wait'}>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'refusal'  $type
+     * @param  'wait'  $type
      */
     private function __construct(
-        public readonly string $refusal,
         public readonly string $type,
     ) {}
 
     /**
-     * @param  array{refusal: string, type: 'refusal'}  $attributes
+     * @param  array{type: 'wait'}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
-            refusal: $attributes['refusal'],
             type: $attributes['type'],
         );
     }
@@ -45,7 +43,6 @@ final class OutputMessageContentRefusal implements ResponseContract
     public function toArray(): array
     {
         return [
-            'refusal' => $this->refusal,
             'type' => $this->type,
         ];
     }
