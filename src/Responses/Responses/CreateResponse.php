@@ -9,24 +9,21 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
-use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
-use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
-use OpenAI\Responses\Responses\Output\OutputMessage;
-use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFileCitation as FileCitation;
-use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFilePath as FilePath;
-use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsUrlCitation as UrlCitation;
-use OpenAI\Responses\Responses\Output\OutputReasoning;
-use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputComputerToolCall as ComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall as FileSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall as FunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputMessage as MessageCall;
+use OpenAI\Responses\Responses\Output\OutputReasoning as ReasoningCall;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall as WebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
  */
 final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: string|null, metadata?: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -34,7 +31,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     /**
-     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning>  $output
+     * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
+     * @param  array<int, MessageCall|ComputerToolCall|FileSearchToolCall|WebSearchToolCall|FunctionToolCall|ReasoningCall>  $output
      * @param  array<mixed>  $reasoning
      * @param  array{format: array{type: string}}  $text
      * @param  array<mixed>  $tools
@@ -68,56 +66,56 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     ) {}
 
     /**
-     * @param  array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $output = array_map(
-            fn (array $output): FileCitation|FilePath|UrlCitation => match ($output['type']) {
-                'message' => OutputMessage::from($output),
-                'file_search_call' => OutputFileSearchToolCall::from($output),
-                'function_call' => OutputFunctionToolCall::from($output),
-                'web_search_call' => OutputWebSearchToolCall::from($output),
-                'computer_call' => OutputComputerToolCall::from($output),
-                'reasoning' => OutputReasoning::from($output),
+            fn (array $output): MessageCall|ComputerToolCall|FileSearchToolCall|WebSearchToolCall|FunctionToolCall|ReasoningCall => match ($output['type']) {
+                'message' => MessageCall::from($output),
+                'file_search_call' => FileSearchToolCall::from($output),
+                'function_call' => FunctionToolCall::from($output),
+                'web_search_call' => WebSearchToolCall::from($output),
+                'computer_call' => ComputerToolCall::from($output),
+                'reasoning' => ReasoningCall::from($output),
             },
             $attributes['output'],
         );
 
         return new self(
-            $attributes['id'],
-            $attributes['object'],
-            $attributes['created_at'],
-            $attributes['status'],
-            isset($attributes['error'])
+            id: $attributes['id'],
+            object: $attributes['object'],
+            createdAt: $attributes['created_at'],
+            status: $attributes['status'],
+            error: isset($attributes['error'])
                 ? CreateResponseError::from($attributes['error'])
                 : null,
-            isset($attributes['incomplete_details'])
+            incompleteDetails: isset($attributes['incomplete_details'])
                 ? CreateResponseIncompleteDetails::from($attributes['incomplete_details'])
                 : null,
-            $attributes['instructions'],
-            $attributes['max_output_tokens'],
-            $attributes['model'],
-            $output,
-            $attributes['parallel_tool_calls'],
-            $attributes['previous_response_id'],
-            $attributes['reasoning'],
-            $attributes['store'],
-            $attributes['temperature'],
-            $attributes['text'],
-            $attributes['tool_choice'],
-            $attributes['tools'],
-            $attributes['top_p'],
-            $attributes['truncation'],
-            CreateResponseUsage::from($attributes['usage']),
-            $attributes['user'] ?? null,
-            $attributes['metadata'] ?? [],
-            $meta,
+            instructions: $attributes['instructions'],
+            maxOutputTokens: $attributes['max_output_tokens'],
+            model: $attributes['model'],
+            output: $output,
+            parallelToolCalls: $attributes['parallel_tool_calls'],
+            previousResponseId: $attributes['previous_response_id'],
+            reasoning: $attributes['reasoning'],
+            store: $attributes['store'],
+            temperature: $attributes['temperature'],
+            text: $attributes['text'],
+            toolChoice: $attributes['tool_choice'],
+            tools: $attributes['tools'],
+            topP: $attributes['top_p'],
+            truncation: $attributes['truncation'],
+            usage: CreateResponseUsage::from($attributes['usage']),
+            user: $attributes['user'] ?? null,
+            metadata: $attributes['metadata'] ?? [],
+            meta: $meta,
         );
     }
 
     /**
-     * @return array{id: string, object: string, created_at: int, status: string, error: array{code: string, message: string}|null, incomplete_details: array{reason: string}|null, instructions: string|null, max_output_tokens: int|null, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: array<mixed>, store: bool, temperature: float|null, text: array{format: array{type: string}}, tool_choice: string, tools: array<mixed>, top_p: float|null, truncation: string, usage: array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}, user: string|null, metadata?: array<string, string>}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {
