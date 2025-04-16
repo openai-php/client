@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}}>
+ * @implements ResponseContract<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}>
  */
 final class OutputFileSearchToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}}>
+     * @use ArrayAccessible<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}>
      */
     use ArrayAccessible;
 
@@ -35,7 +35,7 @@ final class OutputFileSearchToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}}  $attributes
+     * @param  array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}  $attributes
      */
     public static function from(array $attributes): self
     {
