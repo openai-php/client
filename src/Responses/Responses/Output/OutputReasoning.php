@@ -21,7 +21,7 @@ final class OutputReasoning implements ResponseContract
     use Fakeable;
 
     /**
-     * @param array<int, OutputReasoningSummary> $summary
+     * @param  array<int, OutputReasoningSummary>  $summary
      * @param  'reasoning'  $type
      * @param  'in_progress'|'completed'|'incomplete'  $status
      */
