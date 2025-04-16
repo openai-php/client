@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
-final class CreateResponseUsageOutputTokenDetails
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{reasoning_tokens: int}>
+ */
+final class CreateResponseUsageOutputTokenDetails implements ResponseContract
 {
+    /**
+     * @use ArrayAccessible<array{reasoning_tokens: int}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
     private function __construct(
         public readonly int $reasoningTokens,
     ) {}
@@ -21,7 +35,7 @@ final class CreateResponseUsageOutputTokenDetails
     }
 
     /**
-     * @return array{reasoning_tokens: int}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
-final class CreateResponseIncompleteDetails
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{reason: string}>
+ */
+final class CreateResponseIncompleteDetails implements ResponseContract
 {
+    /**
+     * @use ArrayAccessible<array{reason: string}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
     private function __construct(
         public readonly string $reason,
     ) {}
@@ -21,7 +35,7 @@ final class CreateResponseIncompleteDetails
     }
 
     /**
-     * @return array{reason: string}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

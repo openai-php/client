@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
-final class CreateResponseError
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @implements ResponseContract<array{code: string, message: string}>
+ */
+final class CreateResponseError implements ResponseContract
 {
+    /**
+     * @use ArrayAccessible<array{code: string, message: string}>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
     private function __construct(
         public readonly string $code,
         public readonly string $message
@@ -23,7 +37,7 @@ final class CreateResponseError
     }
 
     /**
-     * @return array{code: string, message: string}
+     * {@inheritDoc}
      */
     public function toArray(): array
     {
