@@ -35,9 +35,9 @@ final class OutputMessageContentOutputTextAnnotationsFileCitation implements Res
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['file_id'],
-            $attributes['index'],
-            $attributes['type'],
+            fileId: $attributes['file_id'],
+            index: $attributes['index'],
+            type: $attributes['type'],
         );
     }
 

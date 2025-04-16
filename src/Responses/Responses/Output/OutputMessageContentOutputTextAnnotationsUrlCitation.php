@@ -37,11 +37,11 @@ final class OutputMessageContentOutputTextAnnotationsUrlCitation implements Resp
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['end_index'],
-            $attributes['start_index'],
-            $attributes['title'],
-            $attributes['type'],
-            $attributes['url'],
+            endIndex: $attributes['end_index'],
+            startIndex: $attributes['start_index'],
+            title: $attributes['title'],
+            type: $attributes['type'],
+            url: $attributes['url'],
         );
     }
 

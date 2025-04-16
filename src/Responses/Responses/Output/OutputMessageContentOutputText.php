@@ -25,7 +25,7 @@ final class OutputMessageContentOutputText implements ResponseContract
 
     /**
      * @param  array<int, AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
-     * @param 'output_text'  $type
+     * @param  'output_text'  $type
      */
     private function __construct(
         public readonly array $annotations,

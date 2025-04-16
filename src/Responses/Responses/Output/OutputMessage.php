@@ -21,9 +21,9 @@ final class OutputMessage implements ResponseContract
     use Fakeable;
 
     /**
-     * @param array<int, OutputMessageContentOutputText|OutputMessageContentRefusal>  $content
-     * @param 'in_progress'|'completed'|'incomplete'  $status
-     * @param 'message' $type
+     * @param  array<int, OutputMessageContentOutputText|OutputMessageContentRefusal>  $content
+     * @param  'in_progress'|'completed'|'incomplete'  $status
+     * @param  'message'  $type
      */
     private function __construct(
         public readonly array $content,
@@ -47,11 +47,11 @@ final class OutputMessage implements ResponseContract
         );
 
         return new self(
-            $content,
-            $attributes['id'],
-            $attributes['role'],
-            $attributes['status'],
-            $attributes['type'],
+            content: $content,
+            id: $attributes['id'],
+            role: $attributes['role'],
+            status: $attributes['status'],
+            type: $attributes['type'],
         );
     }
 
