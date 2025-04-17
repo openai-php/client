@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{name: string, type: 'function'}>
  */
-final class FunctionTool implements ResponseContract
+final class FunctionToolChoice implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{name: string, type: 'function'}>

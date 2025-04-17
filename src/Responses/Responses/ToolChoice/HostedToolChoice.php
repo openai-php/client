@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @implements ResponseContract<array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}>
  */
-final class HostedTool implements ResponseContract
+final class HostedToolChoice implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}>

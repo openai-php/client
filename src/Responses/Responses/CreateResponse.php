@@ -15,8 +15,12 @@ use OpenAI\Responses\Responses\Output\OutputFunctionToolCall as FunctionToolCall
 use OpenAI\Responses\Responses\Output\OutputMessage as MessageCall;
 use OpenAI\Responses\Responses\Output\OutputReasoning as ReasoningCall;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall as WebSearchToolCall;
-use OpenAI\Responses\Responses\ToolChoice\FunctionTool;
-use OpenAI\Responses\Responses\ToolChoice\HostedTool;
+use OpenAI\Responses\Responses\Tool\ComputerUseTool as ComputerTool;
+use OpenAI\Responses\Responses\Tool\FileSearchTool;
+use OpenAI\Responses\Responses\Tool\FunctionTool;
+use OpenAI\Responses\Responses\Tool\WebSearchTool;
+use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
+use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -35,7 +39,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
      * @param  array<int, MessageCall|ComputerToolCall|FileSearchToolCall|WebSearchToolCall|FunctionToolCall|ReasoningCall>  $output
-     * @param  array<mixed>  $tools
+     * @param  array<int, ComputerTool|FileSearchTool|FunctionTool|WebSearchTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata
      */
@@ -56,7 +60,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly bool $store,
         public readonly ?float $temperature,
         public readonly CreateResponseFormat $text,
-        public readonly string|FunctionTool|HostedTool $toolChoice,
+        public readonly string|FunctionToolChoice|HostedToolChoice $toolChoice,
         public readonly array $tools,
         public readonly ?float $topP,
         public readonly ?string $truncation,
@@ -85,10 +89,20 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
 
         $toolChoice = is_array($attributes['tool_choice'])
             ? match ($attributes['tool_choice']['type']) {
-                'file_search', 'web_search_preview', 'computer_use_preview' => HostedTool::from($attributes['tool_choice']),
-                'function' => FunctionTool::from($attributes['tool_choice']),
+                'file_search', 'web_search_preview', 'computer_use_preview' => HostedToolChoice::from($attributes['tool_choice']),
+                'function' => FunctionToolChoice::from($attributes['tool_choice']),
             }
         : $attributes['tool_choice'];
+
+        $tools = array_map(
+            fn (array $tool): ComputerTool|FileSearchTool|FunctionTool|WebSearchTool => match ($tool['type']) {
+                'file_search' => FileSearchTool::from($tool),
+                'web_search' => WebSearchTool::from($tool),
+                'function' => FunctionTool::from($tool),
+                'computer_use' => ComputerTool::from($tool),
+            },
+            $attributes['tools'],
+        );
 
         return new self(
             id: $attributes['id'],
@@ -114,7 +128,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             temperature: $attributes['temperature'],
             text: CreateResponseFormat::from($attributes['text']),
             toolChoice: $toolChoice,
-            tools: $attributes['tools'],
+            tools: $tools,
             topP: $attributes['top_p'],
             truncation: $attributes['truncation'],
             usage: CreateResponseUsage::from($attributes['usage']),
@@ -147,8 +161,11 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'store' => $this->store,
             'temperature' => $this->temperature,
             'text' => $this->text,
-            'tool_choice' => $this->toolChoice,
-            'tools' => $this->tools,
+            'tool_choice' => $this->toolChoice->toArray(),
+            'tools' => array_map(
+                fn (ComputerTool|FileSearchTool|FunctionTool|WebSearchTool $tool) => $tool->toArray(),
+                $this->tools
+            ),
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
             'usage' => $this->usage->toArray(),
