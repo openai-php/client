@@ -203,3 +203,67 @@ test('fake with tool calls', function () {
         ->function->name->toBe('get_current_weather')
         ->function->arguments->toBe("{\n  \"location\": \"Boston, MA\"\n}");
 });
+
+test('from (OpenRouter)', function () {
+    $completion = CreateResponse::from(chatCompletionOpenRouter(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1744873707)
+        ->model->toBe('mistral/ministral-8b')
+        ->systemFingerprint->toBeNull()
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from (OpenRouter OpenAI)', function () {
+    $completion = CreateResponse::from(chatCompletionOpenRouterOpenAI(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1744900650)
+        ->model->toBe('openai/gpt-4o-mini')
+        ->systemFingerprint->toBe('fp_0392822090')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from (OpenRouter Google)', function () {
+    $completion = CreateResponse::from(chatCompletionOpenRouterGoogle(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1744910839)
+        ->model->toBe('google/gemini-2.5-pro-preview-03-25')
+        ->systemFingerprint->toBeNull()
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from (OpenRouter xAI)', function () {
+    $completion = CreateResponse::from(chatCompletionOpenRouterXAI(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1744911228)
+        ->model->toBe('x-ai/grok-3-mini-beta')
+        ->systemFingerprint->toBe('fp_d133ae3397')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
