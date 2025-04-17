@@ -33,7 +33,6 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
      * @param  array<int, MessageCall|ComputerToolCall|FileSearchToolCall|WebSearchToolCall|FunctionToolCall|ReasoningCall>  $output
-     * @param  array{format: array{type: string}}  $text
      * @param  array<mixed>  $tools
      * @param  array<string, string>  $metadata
      */
@@ -53,7 +52,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly ?CreateResponseReasoning $reasoning,
         public readonly bool $store,
         public readonly ?float $temperature,
-        public readonly array $text,
+        public readonly CreateResponseFormat $text,
         public readonly string $toolChoice,
         public readonly array $tools,
         public readonly ?float $topP,
@@ -103,7 +102,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 : null,
             store: $attributes['store'],
             temperature: $attributes['temperature'],
-            text: $attributes['text'],
+            text: CreateResponseFormat::from($attributes['text']),
             toolChoice: $attributes['tool_choice'],
             tools: $attributes['tools'],
             topP: $attributes['top_p'],
