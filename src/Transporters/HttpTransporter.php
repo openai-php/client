@@ -20,6 +20,7 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -49,7 +50,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $this->throwIfNotSuccessfulStatusCode($response);
+        $this->throwIfNotSuccessfulStatusCode($response, $request);
 
         $contents = (string) $response->getBody();
 
@@ -78,7 +79,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
 
-        $this->throwIfNotSuccessfulStatusCode($response);
+        $this->throwIfNotSuccessfulStatusCode($response, $request);
 
         $contents = (string) $response->getBody();
 
@@ -96,7 +97,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn () => ($this->streamHandler)($request));
 
-        $this->throwIfNotSuccessfulStatusCode($response);
+        $this->throwIfNotSuccessfulStatusCode($response, $request);
 
         $this->throwIfJsonError($response, $response);
 
@@ -144,12 +145,12 @@ final class HttpTransporter implements TransporterContract
         }
     }
 
-    private function throwIfNotSuccessfulStatusCode(ResponseInterface $response): void
+    private function throwIfNotSuccessfulStatusCode(ResponseInterface $response, RequestInterface $request): void
     {
         $statusCode = $response->getStatusCode();
 
         if ($statusCode < 200 || $statusCode >= 300) {
-            throw new UnexpectedStatusCodeException($statusCode);
+            throw new UnexpectedStatusCodeException($statusCode, $request, $response);
         }
     }
 }

@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
+use OpenAI\Exceptions\UnexpectedStatusCodeException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
@@ -16,7 +17,6 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use \OpenAI\Exceptions\UnexpectedStatusCodeException;
 
 beforeEach(function () {
     $this->client = Mockery::mock(ClientInterface::class);
@@ -102,7 +102,7 @@ test('request object server user errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
@@ -129,7 +129,7 @@ test('request object server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('That model is currently overloaded with other requests. You can ...')
                 ->and($e->getErrorMessage())->toBe('That model is currently overloaded with other requests. You can ...')
                 ->and($e->getErrorCode())->toBeNull()
@@ -155,7 +155,7 @@ test('error code may be null', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorCode())->toBeNull()
@@ -181,7 +181,7 @@ test('error code may be integer', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorMessage())->toBe('The model `gpt-42` does not exist')
                 ->and($e->getErrorCode())->toBe(123)
@@ -207,7 +207,7 @@ test('error type may be null', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('You exceeded your current quota, please check')
                 ->and($e->getErrorMessage())->toBe('You exceeded your current quota, please check')
                 ->and($e->getErrorCode())->toBe('quota_exceeded')
@@ -236,7 +236,7 @@ test('error message may be an array', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('Invalid schema for function \'get_current_weather\':'.PHP_EOL.'In context=(\'properties\', \'location\'), array schema missing items')
                 ->and($e->getErrorMessage())->toBe('Invalid schema for function \'get_current_weather\':'.PHP_EOL.'In context=(\'properties\', \'location\'), array schema missing items')
                 ->and($e->getErrorCode())->toBeNull()
@@ -262,9 +262,8 @@ test('error message may be empty', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('invalid_api_key')
-                ->and($e->getErrorMessage())->toBe('invalid_api_key')
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 404')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
@@ -288,9 +287,8 @@ test('error message may be empty and code is an integer', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('123')
-                ->and($e->getErrorMessage())->toBe('123')
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 404')
                 ->and($e->getErrorCode())->toBe(123)
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
@@ -314,9 +312,8 @@ test('error message and code may be empty', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestObject($payload))
-        ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('Unknown error')
-                ->and($e->getErrorMessage())->toBe('Unknown error')
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
+            expect($e->getMessage())->toBe('Unexpected status code: 404')
                 ->and($e->getErrorCode())->toBeNull()
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
@@ -473,7 +470,7 @@ test('request content server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestContent($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
@@ -525,7 +522,7 @@ test('request stream server errors', function () {
         ->andReturn($response);
 
     expect(fn () => $this->http->requestStream($payload))
-        ->toThrow(function (ErrorException $e) {
+        ->toThrow(function (UnexpectedStatusCodeException $e) {
             expect($e->getMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
@@ -541,7 +538,6 @@ test('request stream client error 400', function () {
             'message' => 'Bad Request',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'bad_request',
         ],
     ]));
 
@@ -552,7 +548,7 @@ test('request stream client error 400', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 400')
+            expect($e->getMessage())->toBe('Bad Request')
                 ->and($e->getCode())->toBe(400);
         });
 });
@@ -565,7 +561,6 @@ test('request stream client error 401', function () {
             'message' => 'Unauthorized',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'unauthorized',
         ],
     ]));
 
@@ -576,7 +571,7 @@ test('request stream client error 401', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 401')
+            expect($e->getMessage())->toBe('Unauthorized')
                 ->and($e->getCode())->toBe(401);
         });
 });
@@ -589,7 +584,6 @@ test('request stream client error 403', function () {
             'message' => 'Forbidden',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'forbidden',
         ],
     ]));
 
@@ -600,7 +594,7 @@ test('request stream client error 403', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 403')
+            expect($e->getMessage())->toBe('Forbidden')
                 ->and($e->getCode())->toBe(403);
         });
 });
@@ -613,7 +607,6 @@ test('request stream client error 404', function () {
             'message' => 'Not Found',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'not_found',
         ],
     ]));
 
@@ -624,7 +617,7 @@ test('request stream client error 404', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 404')
+            expect($e->getMessage())->toBe('Not Found')
                 ->and($e->getCode())->toBe(404);
         });
 });
@@ -637,7 +630,6 @@ test('request stream client error 422', function () {
             'message' => 'Unprocessable Entity',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'unprocessable_entity',
         ],
     ]));
 
@@ -648,7 +640,7 @@ test('request stream client error 422', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 422')
+            expect($e->getMessage())->toBe('Unprocessable Entity')
                 ->and($e->getCode())->toBe(422);
         });
 });
@@ -661,7 +653,6 @@ test('request stream client error 429', function () {
             'message' => 'Too Many Requests',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'too_many_requests',
         ],
     ]));
 
@@ -672,7 +663,7 @@ test('request stream client error 429', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 429')
+            expect($e->getMessage())->toBe('Too Many Requests')
                 ->and($e->getCode())->toBe(429);
         });
 });
@@ -685,7 +676,6 @@ test('request stream client error 500', function () {
             'message' => 'Internal Server Error',
             'type' => 'client_error',
             'param' => null,
-            'code' => 'internal_server_error',
         ],
     ]));
 
@@ -696,7 +686,7 @@ test('request stream client error 500', function () {
 
     expect(fn () => $this->http->requestStream($payload))
         ->toThrow(function (UnexpectedStatusCodeException $e) {
-            expect($e->getMessage())->toBe('Unexpected status code: 500')
+            expect($e->getMessage())->toBe('Internal Server Error')
                 ->and($e->getCode())->toBe(500);
         });
 });
