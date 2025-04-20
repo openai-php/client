@@ -13,11 +13,21 @@ test('from', function () {
         ->createdAt->toBe(1715956697)
         ->vectorStoreId->toBe('vs_xds05V7ep0QMGI5JmYnWsJwb')
         ->status->toBe('completed')
+        ->attributes->toBe(['foo' => 'bar'])
         ->lastError->toBeNull()
         ->chunkingStrategy->toBeInstanceOf(VectorStoreFileResponseChunkingStrategyStatic::class)
         ->chunkingStrategy->type->toBe('static')
         ->chunkingStrategy->maxChunkSizeTokens->toBe(800)
         ->chunkingStrategy->chunkOverlapTokens->toBe(400);
+});
+
+test('from while missing attributes', function () {
+    $payload = vectorStoreFileResource();
+    unset($payload['attributes']);
+    $result = VectorStoreFileResponse::from($payload, meta());
+
+    expect($result)
+        ->attributes->toBe([]);
 });
 
 test('as array accessible', function () {

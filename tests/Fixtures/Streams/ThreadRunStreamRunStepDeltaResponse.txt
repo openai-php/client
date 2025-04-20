@@ -1,0 +1,2 @@
+event: thread.run.step.delta
+data: {"id":"step_rQmJPtF2uOyGhSCCHqk1zoVd","object":"thread.run.step.delta","delta":{"step_details":{"type":"tool_calls","tool_calls":[{"index":0,"type":"code_interpreter","code_interpreter":{"input":" '"}}]}}}

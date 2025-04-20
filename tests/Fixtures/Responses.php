@@ -14,6 +14,7 @@ function responseObject(): array
         'incomplete_details' => null,
         'instructions' => null,
         'max_output_tokens' => null,
+        'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             [
@@ -87,6 +88,7 @@ function responseObject(): array
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
+        'user' => null,
         'usage' => [
             'input_tokens' => 328,
             'input_tokens_details' => [
@@ -98,8 +100,6 @@ function responseObject(): array
             ],
             'total_tokens' => 684,
         ],
-        'user' => null,
-        'metadata' => [],
     ];
 }
 
@@ -117,6 +117,7 @@ function createResponseResource(): array
         'incomplete_details' => null,
         'instructions' => null,
         'max_output_tokens' => null,
+        'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             [
@@ -202,7 +203,6 @@ function createResponseResource(): array
             'total_tokens' => 684,
         ],
         'user' => null,
-        'metadata' => [],
     ];
 }
 
@@ -220,6 +220,7 @@ function retrieveResponseResource(): array
         'incomplete_details' => null,
         'instructions' => null,
         'max_output_tokens' => null,
+        'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             [
@@ -293,6 +294,7 @@ function retrieveResponseResource(): array
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
+        'user' => null,
         'usage' => [
             'input_tokens' => 328,
             'input_tokens_details' => [
@@ -304,8 +306,6 @@ function retrieveResponseResource(): array
             ],
             'total_tokens' => 684,
         ],
-        'user' => null,
-        'metadata' => [],
     ];
 }
 
@@ -363,7 +363,7 @@ function createStreamedResponseResource(): array
 /**
  * @return resource
  */
-function createStreamedResource()
+function responseCompletionStream()
 {
-    return fopen(__DIR__.'/Streams/CreateStreamedResponse.txt', 'r');
+    return fopen(__DIR__.'/Streams/ResponseCompletionCreate.txt', 'r');
 }

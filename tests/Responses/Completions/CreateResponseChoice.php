@@ -13,6 +13,18 @@ test('from', function () {
         ->finishReason->toBeIn(['length', null]);
 });
 
+test('from with missing logprobs', function () {
+    $payload = completion()['choices'][0];
+    unset($payload['logprobs']);
+    $result = CreateResponseChoice::from($payload);
+
+    expect($result)
+        ->text->toBe("el, she elaborates more on the Corruptor's role, suggesting K")
+        ->index->toBe(0)
+        ->logprobs->toBeNull()
+        ->finishReason->toBeIn(['length', null]);
+});
+
 test('to array', function () {
     $result = CreateResponseChoice::from(completion()['choices'][0]);
 

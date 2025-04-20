@@ -1,0 +1,9 @@
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"role":"assistant"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"type": "ping"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":"Hello!"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":" How can I assist you today? I'm here to help"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":" with information, answer questions, or discuss"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":" various topics. Feel free to let me know what you're"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":" interested in talking about."}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{},"finish_reason":"stop"}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: [DONE]

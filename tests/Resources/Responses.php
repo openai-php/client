@@ -1,69 +1,21 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
-use OpenAI\Responses\Responses\ResponseObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\StreamResponse;
-use OpenAI\ValueObjects\Transporter\Response;
-
-test('delete', function () {
-    $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [], Response::from(deleteResponseResource(), metaHeaders()));
-
-    $result = $client->responses()->delete('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-
-    expect($result)
-        ->toBeInstanceOf(DeleteResponse::class)
-        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
-        ->object->toBe('response.deleted')
-        ->deleted->toBeTrue();
-
-    expect($result->meta())
-        ->toBeInstanceOf(MetaInformation::class);
-});
-
-test('list', function () {
-    $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/input_items', [], Response::from(listInputItemsResource(), metaHeaders()));
-
-    $result = $client->responses()->list('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-
-    expect($result)
-        ->toBeInstanceOf(ListInputItems::class)
-        ->object->toBe('list')
-        ->data->toBeArray()
-        ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
-        ->lastId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
-        ->hasMore->toBeFalse();
-
-    expect($result->meta())
-        ->toBeInstanceOf(MetaInformation::class);
-});
-
-test('retrieve', function () {
-    $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [], Response::from(retrieveResponseResource(), metaHeaders()));
-
-    $result = $client->responses()->retrieve('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-
-    expect($result)
-        ->toBeInstanceOf(RetrieveResponse::class)
-        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
-        ->object->toBe('response')
-        ->createdAt->toBe(1741484430)
-        ->status->toBe('completed');
-
-    expect($result->meta())
-        ->toBeInstanceOf(MetaInformation::class);
-});
 
 test('create', function () {
     $client = mockClient('POST', 'responses', [
         'model' => 'gpt-4o',
         'tools' => [['type' => 'web_search_preview']],
         'input' => 'what was a positive news story from today?',
-    ], Response::from(createResponseResource(), metaHeaders()));
+    ], \OpenAI\ValueObjects\Transporter\Response::from(createResponseResource(), metaHeaders()));
 
     $result = $client->responses()->create([
         'model' => 'gpt-4o',
@@ -118,13 +70,18 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-test('createStreamed', function () {
-    $client = mockClient('POST', 'responses', [
-        'stream' => true,
+test('create streamed', function () {
+    $response = new Response(
+        body: new Stream(responseCompletionStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'responses', [
         'model' => 'gpt-4o',
         'tools' => [['type' => 'web_search_preview']],
         'input' => 'what was a positive news story from today?',
-    ], Response::from(createStreamedResponseResource(), metaHeaders()));
+        'stream' => true,
+    ], $response);
 
     $result = $client->responses()->createStreamed([
         'model' => 'gpt-4o',
@@ -168,16 +125,12 @@ test('createStreamed', function () {
         ->toBeArray();
     expect($current->response->output)
         ->toHaveCount(2);
-    expect($current->response->output[0])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[0]->type)
         ->toBe('web_search_call');
     expect($current->response->output[0]->id)
         ->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
     expect($current->response->output[0]->status)
         ->toBe('completed');
-    expect($current->response->output[1])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[1]->type)
         ->toBe('message');
     expect($current->response->output[1]->id)
@@ -190,8 +143,6 @@ test('createStreamed', function () {
         ->toBeArray();
     expect($current->response->output[1]->content)
         ->toHaveCount(1);
-    expect($current->response->output[1]->content[0])
-        ->toBeInstanceOf(ResponseObject::class);
     expect($current->response->output[1]->content[0]->type)
         ->toBe('output_text');
     expect($current->response->output[1]->content[0]->text)
@@ -294,6 +245,57 @@ test('createStreamed', function () {
         ->toBeEmpty();
     expect($current->response->truncation)
         ->toBe('disabled');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('delete', function () {
+    $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
+    ], \OpenAI\ValueObjects\Transporter\Response::from(deleteResponseResource(), metaHeaders()));
+
+    $result = $client->responses()->delete('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+
+    expect($result)
+        ->toBeInstanceOf(DeleteResponse::class)
+        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
+        ->object->toBe('response.deleted')
+        ->deleted->toBeTrue();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('list', function () {
+    $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/input_items', [
+    ], \OpenAI\ValueObjects\Transporter\Response::from(listInputItemsResource(), metaHeaders()));
+
+    $result = $client->responses()->list('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+
+    expect($result)
+        ->toBeInstanceOf(ListInputItems::class)
+        ->object->toBe('list')
+        ->data->toBeArray()
+        ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
+        ->lastId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
+        ->hasMore->toBeFalse();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('retrieve', function () {
+    $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
+    ], \OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
+
+    $result = $client->responses()->retrieve('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
+        ->object->toBe('response')
+        ->createdAt->toBe(1741484430)
+        ->status->toBe('completed');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

@@ -28,8 +28,9 @@ If you or your business relies on this package, it's important to support the de
 - [Get Started](#get-started)
 - [Usage](#usage)
   - [Models Resource](#models-resource)
-  - [Completions Resource](#completions-resource)
+  - [Responses Resource](#responses-resource)
   - [Chat Resource](#chat-resource)
+  - [Completions Resource](#completions-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
@@ -75,7 +76,7 @@ $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
 $result = $client->chat()->create([
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -152,6 +153,161 @@ $response->object; // 'model'
 $response->deleted; // true
 
 $response->toArray(); // ['id' => 'curie:ft-acmeco-2021-03-03-21-44-20', ...]
+```
+
+### `Responses` Resource
+
+#### `create`
+
+Creates a model response. Provide text or image inputs to generate text or JSON outputs. Have the model call your own custom code or use built-in tools like web search or file search to use your own data as input for the model's response.
+
+```php
+$response = $client->responses()->create([
+    'model' => 'gpt-4o-mini',
+    'tools' => [
+        [
+            'type' => 'web_search_preview'
+        ]
+    ],
+    'input' => "what was a positive news story from today?",
+    'temperature' => 0.7,
+    'max_output_tokens' => 150,
+    'tool_choice' => 'auto',
+    'parallel_tool_calls' => true,
+    'store' => true,
+    'metadata' => [
+        'user_id' => '123',
+        'session_id' => 'abc456'
+    ]
+]);
+
+$response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
+$response->object; // 'response'
+$response->createdAt; // 1741476542
+$response->status; // 'completed'
+$response->model; // 'gpt-4o-mini'
+
+// Access output content
+foreach ($response->output as $output) {
+    $output->type; // 'message'
+    $output->id; // 'msg_67ccd2bf17f0819081ff3bb2cf6508e6'
+    $output->status; // 'completed'
+    $output->role; // 'assistant'
+    
+    foreach ($output->content as $content) {
+        $content->type; // 'output_text'
+        $content->text; // The response text
+        $content->annotations; // Any annotations in the response
+    }
+}
+
+// Access usage information
+$response->usage->inputTokens; // 36
+$response->usage->outputTokens; // 87
+$response->usage->totalTokens; // 123
+
+$response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
+```
+
+#### `create streamed`
+
+When you create a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated.
+
+```php
+$stream = $client->responses()->createStreamed([
+    'model' => 'gpt-4o-mini',
+    'tools' => [
+        [
+            'type' => 'web_search_preview'
+        ]
+    ],
+    'input' => "what was a positive news story from today?",
+    'stream' => true
+]);
+
+foreach ($stream as $response) {
+    $response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
+    $response->object; // 'response'
+    $response->createdAt; // 1741476542
+    
+    foreach ($response->output as $output) {
+        // Process streaming output
+        echo $output->content[0]->text;
+    }
+}
+```
+
+### `retrieve`
+
+Retrieves a model response with the given ID.
+
+```php
+$response = $client->responses()->retrieve('resp_67ccd2bed1ec8190b14f964abc054267');
+
+$response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
+$response->object; // 'response'
+$response->createdAt; // 1741476542
+$response->status; // 'completed'
+$response->error; // null
+$response->incompleteDetails; // null
+$response->instructions; // null
+$response->maxOutputTokens; // null
+$response->model; // 'gpt-4o-2024-08-06'
+$response->parallelToolCalls; // true
+$response->previousResponseId; // null
+$response->store; // true
+$response->temperature; // 1.0
+$response->toolChoice; // 'auto'
+$response->topP; // 1.0
+$response->truncation; // 'disabled'
+
+$response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
+```
+
+### `delete`
+
+Deletes a model response with the given ID.
+
+```php
+$response = $client->responses()->delete('resp_67ccd2bed1ec8190b14f964abc054267');
+
+$response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
+$response->object; // 'response'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'deleted' => true, ...]
+```
+
+### `list`
+
+Lists input items for a response with the given ID.
+
+```php
+$response = $client->responses()->list('resp_67ccd2bed1ec8190b14f964abc054267', [
+    'limit' => 10,
+    'order' => 'desc'
+]);
+
+$response->object; // 'list'
+
+foreach ($response->data as $item) {
+    $item->type; // 'message'
+    $item->id; // Response item ID
+    $item->status; // 'completed'
+    $item->role; // 'user' or 'assistant'
+    
+    foreach ($item->content as $content) {
+        $content->type; // Content type
+        $content->text; // Content text
+        $content->annotations; // Content annotations
+    }
+}
+
+$response->firstId; // First item ID in the list
+$response->lastId; // Last item ID in the list
+$response->hasMore; // Whether there are more items to fetch
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
 
 ### `Completions` Resource
@@ -231,6 +387,7 @@ foreach ($response->choices as $choice) {
     $choice->index; // 0
     $choice->message->role; // 'assistant'
     $choice->message->content; // '\n\nHello there! How can I assist you today?'
+    $choice->logprobs; // null
     $choice->finishReason; // 'stop'
 }
 
@@ -350,7 +507,7 @@ Creates a streamed completion for the chat message.
 
 ```php
 $stream = $client->chat()->createStreamed([
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -387,7 +544,64 @@ foreach($stream as $response){
 }
 ```
 
- `usage` is always `null` except for the last chunk which contains the token usage statistics for the entire request.
+`usage` is always `null` except for the last chunk which contains the token usage statistics for the entire request.
+
+### `Completions` Resource
+
+> [!WARNING]  
+> The `Completions` resource was marked "Legacy" by OpenAI in July 2023. Please use the `Chat` resource instead.
+
+#### `create`
+
+Creates a completion for the provided prompt and parameters.
+
+```php
+$response = $client->completions()->create([
+    'model' => 'gpt-3.5-turbo-instruct',
+    'prompt' => 'Say this is a test',
+    'max_tokens' => 6,
+    'temperature' => 0
+]);
+
+$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
+$response->object; // 'text_completion'
+$response->created; // 1589478378
+$response->model; // 'gpt-3.5-turbo-instruct'
+
+foreach ($response->choices as $choice) {
+    $choice->text; // '\n\nThis is a test'
+    $choice->index; // 0
+    $choice->logprobs; // null
+    $choice->finishReason; // 'length' or null
+}
+
+$response->usage->promptTokens; // 5,
+$response->usage->completionTokens; // 6,
+$response->usage->totalTokens; // 11
+
+$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
+```
+
+#### `create streamed`
+
+Creates a streamed completion for the provided prompt and parameters.
+
+```php
+$stream = $client->completions()->createStreamed([
+        'model' => 'gpt-3.5-turbo-instruct',
+        'prompt' => 'Hi',
+        'max_tokens' => 10,
+    ]);
+
+foreach($stream as $response){
+    $response->choices[0]->text;
+}
+// 1. iteration => 'I'
+// 2. iteration => ' am'
+// 3. iteration => ' very'
+// 4. iteration => ' excited'
+// ...
+```
 
 ### `Audio` Resource
 
@@ -722,159 +936,6 @@ $response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F
 ]);
 ```
 
-### `FineTunes` Resource (deprecated)
-
-#### `create`
-
-Creates a job that fine-tunes a specified model from a given dataset.
-
-```php
-$response = $client->fineTunes()->create([
-    'training_file' => 'file-ajSREls59WBbvgSzJSVWxMCB',
-    'validation_file' => 'file-XjSREls59WBbvgSzJSVWxMCa',
-    'model' => 'curie',
-    'n_epochs' => 4,
-    'batch_size' => null,
-    'learning_rate_multiplier' => null,
-    'prompt_loss_weight' => 0.01,
-    'compute_classification_metrics' => false,
-    'classification_n_classes' => null,
-    'classification_positive_class' => null,
-    'classification_betas' => [],
-    'suffix' => null,
-]);
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-// ...
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `list`
-
-List your organization's fine-tuning jobs.
-
-```php
-$response = $client->fineTunes()->list();
-
-$response->object; // 'list'
-
-foreach ($response->data as $result) {
-    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-    $result->object; // 'fine-tune'
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', 'data' => [...]]
-```
-
-#### `retrieve`
-
-Gets info about the fine-tune job.
-
-```php
-$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-$response->model; // 'curie'
-$response->createdAt; // 1614807352
-$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
-$response->organizationId; // 'org-jwe45798ASN82s'
-$response->resultFiles; // [
-$response->status; // 'succeeded'
-$response->validationFiles; // [
-$response->trainingFiles; // [
-$response->updatedAt; // 1614807865
-
-foreach ($response->events as $result) {
-    $result->object; // 'fine-tune-event' 
-    $result->createdAt; // 1614807352
-    $result->level; // 'info'
-    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
-}
-
-$response->hyperparams->batchSize; // 4 
-$response->hyperparams->learningRateMultiplier; // 0.1 
-$response->hyperparams->nEpochs; // 4 
-$response->hyperparams->promptLossWeight; // 0.1
-
-foreach ($response->resultFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    $result->object; // 'file'
-    $result->bytes; // 140
-    $result->createdAt; // 1613779657
-    $result->filename; // 'mydata.jsonl'
-    $result->purpose; // 'fine-tune'
-    $result->status; // 'succeeded'
-    $result->status_details; // null
-}
-
-foreach ($response->validationFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    // ...
-}
-
-foreach ($response->trainingFiles as $result) {
-    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
-    // ...
-}
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `cancel`
-
-Immediately cancel a fine-tune job.
-
-```php
-$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
-$response->object; // 'fine-tune'
-// ...
-$response->status; // 'cancelled'
-// ...
-
-$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
-```
-
-#### `list events`
-
-Get fine-grained status updates for a fine-tune job.
-
-```php
-$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
-
-$response->object; // 'list'
-
-foreach ($response->data as $result) {
-    $result->object; // 'fine-tune-event' 
-    $result->createdAt; // 1614807352
-    // ...
-}
-
-$response->toArray(); // ['object' => 'list', 'data' => [...]]
-```
-
-#### `list events streamed`
-
-Get streamed fine-grained status updates for a fine-tune job.
-
-```php
-$stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
-
-foreach($stream as $response){
-    $response->message;
-}
-// 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
-// 2. iteration => 'Fine-tune costs $0.00'
-// ...
-// xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
-// xx. iteration => 'Fine-tune succeeded'
-```
-
 ### `Moderations` Resource
 
 #### `create`
@@ -995,7 +1056,7 @@ $response = $client->assistants()->create([
             'type' => 'code_interpreter',
         ],
     ],
-    'model' => 'gpt-4',
+    'model' => 'gpt-4o',
 ]);
 
 $response->id; // 'asst_gxzBkD1wkKEloYqZ410pT5pd'
@@ -1003,7 +1064,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1027,7 +1088,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1053,7 +1114,7 @@ $response->object; // 'assistant'
 $response->createdAt; // 1623936000
 $response->name; // 'New Math Tutor'
 $response->instructions; // 'You are a personal math tutor. When asked a question, write and run Python code to answer the question.'
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->description; // null
 $response->tools[0]->type; // 'code_interpreter'
 $response->toolResources; // []
@@ -1100,7 +1161,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Threads` Resource
 
@@ -1155,7 +1215,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1357,7 +1417,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-
 ### `Threads Runs` Resource
 
 #### `create`
@@ -1385,7 +1444,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1500,7 +1559,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->metadata; // []
@@ -1546,7 +1605,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->usage->total_tokens; // 579
@@ -1585,7 +1644,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->tools; // []
 $response->usage?->total_tokens; // 579
@@ -1632,7 +1691,7 @@ $response->failedAt; // null
 $response->completedAt; // null
 $response->incompleteDetails; // null
 $response->lastError; // null
-$response->model; // 'gpt-4'
+$response->model; // 'gpt-4o'
 $response->instructions; // null
 $response->usage->total_tokens; // 579
 $response->temperature; // null
@@ -1730,7 +1789,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Batches` Resource
 
@@ -1857,7 +1915,6 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
-
 
 ### `Vector Stores` Resource
 
@@ -1988,7 +2045,6 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
-
 ### `Vector Store Files` Resource
 
 #### `create`
@@ -2083,6 +2139,39 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+#### `search`
+
+Search a vector store for relevant chunks based on a query and file attributes filter.
+
+```php
+$response = $client->vectorStores()->search(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    parameters: [
+        'query' => 'What is the return policy?',
+        'max_num_results' => 5,
+        'filters' => [],
+        'rewrite_query' => false
+    ]
+);
+
+$response->object; // 'vector_store.search_results.page'
+$response->searchQuery; // 'What is the return policy?'
+$response->hasMore; // false
+$response->nextPage; // null
+foreach ($response->data as $file) {
+    $result->fileId; // 'file-fUU0hFRuQ1GzhOweTNeJlCXG'
+    $result->filename; // 'return_policy.pdf'
+    $result->score; // 0.95
+    $result->attributes; // ['category' => 'customer_service']
+
+    foreach ($result->content as $content) {
+        $content->type; // 'text'
+        $content->text; // 'Our return policy allows customers to return items within 30 days...'
+    }
+}
+
+$response->toArray(); // ['object' => 'vector_store.search_results.page', ...]
+```
 
 ### `Vector Store File Batches` Resource
 
@@ -2190,8 +2279,8 @@ $response->toArray(); // ['object' => 'list', ...]]
 
 ### `Edits` Resource (deprecated)
 
-> OpenAI has deprecated the Edits API and will stop working by January 4, 2024.
-> https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
+> [!WARNING]
+> OpenAI has deprecated the Edits API and will stop working by January 4, 2024. https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
 
 #### `create`
 
@@ -2217,6 +2306,162 @@ $response->usage->completionTokens; // 32,
 $response->usage->totalTokens; // 57
 
 $response->toArray(); // ['object' => 'edit', ...]
+```
+
+### `FineTunes` Resource (deprecated)
+
+> [!WARNING]
+> OpenAI has deprecated the FineTunes API and will stop working by January 4, 2024 https://platform.openai.com/docs/deprecations#2023-08-22-fine-tunes-endpoint
+
+#### `create`
+
+Creates a job that fine-tunes a specified model from a given dataset.
+
+```php
+$response = $client->fineTunes()->create([
+    'training_file' => 'file-ajSREls59WBbvgSzJSVWxMCB',
+    'validation_file' => 'file-XjSREls59WBbvgSzJSVWxMCa',
+    'model' => 'curie',
+    'n_epochs' => 4,
+    'batch_size' => null,
+    'learning_rate_multiplier' => null,
+    'prompt_loss_weight' => 0.01,
+    'compute_classification_metrics' => false,
+    'classification_n_classes' => null,
+    'classification_positive_class' => null,
+    'classification_betas' => [],
+    'suffix' => null,
+]);
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list`
+
+List your organization's fine-tuning jobs.
+
+```php
+$response = $client->fineTunes()->list();
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+    $result->object; // 'fine-tune'
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `retrieve`
+
+Gets info about the fine-tune job.
+
+```php
+$response = $client->fineTunes()->retrieve('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+$response->model; // 'curie'
+$response->createdAt; // 1614807352
+$response->fineTunedModel; // 'curie => ft-acmeco-2021-03-03-21-44-20'
+$response->organizationId; // 'org-jwe45798ASN82s'
+$response->resultFiles; // [
+$response->status; // 'succeeded'
+$response->validationFiles; // [
+$response->trainingFiles; // [
+$response->updatedAt; // 1614807865
+
+foreach ($response->events as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    $result->level; // 'info'
+    $result->message; // 'Job enqueued. Waiting for jobs ahead to complete. Queue number =>  0.'
+}
+
+$response->hyperparams->batchSize; // 4 
+$response->hyperparams->learningRateMultiplier; // 0.1 
+$response->hyperparams->nEpochs; // 4 
+$response->hyperparams->promptLossWeight; // 0.1
+
+foreach ($response->resultFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    $result->object; // 'file'
+    $result->bytes; // 140
+    $result->createdAt; // 1613779657
+    $result->filename; // 'mydata.jsonl'
+    $result->purpose; // 'fine-tune'
+    $result->status; // 'succeeded'
+    $result->status_details; // null
+}
+
+foreach ($response->validationFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+foreach ($response->trainingFiles as $result) {
+    $result->id; // 'file-XjGxS3KTG0uNmNOK362iJua3'
+    // ...
+}
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `cancel`
+
+Immediately cancel a fine-tune job.
+
+```php
+$response = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->id; // 'ft-AF1WoRqd3aJAHsqc9NY7iL8F'
+$response->object; // 'fine-tune'
+// ...
+$response->status; // 'cancelled'
+// ...
+
+$response->toArray(); // ['id' => 'ft-AF1WoRqd3aJAHsqc9NY7iL8F', ...]
+```
+
+#### `list events`
+
+Get fine-grained status updates for a fine-tune job.
+
+```php
+$response = $client->fineTunes()->listEvents('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
+
+$response->object; // 'list'
+
+foreach ($response->data as $result) {
+    $result->object; // 'fine-tune-event' 
+    $result->createdAt; // 1614807352
+    // ...
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...]]
+```
+
+#### `list events streamed`
+
+Get streamed fine-grained status updates for a fine-tune job.
+
+```php
+$stream = $client->fineTunes()->listEventsStreamed('ft-y3OpNlc8B5qBVGCCVsLZsDST');
+
+foreach($stream as $response){
+    $response->message;
+}
+// 1. iteration => 'Created fine-tune: ft-y3OpNlc8B5qBVGCCVsLZsDST'
+// 2. iteration => 'Fine-tune costs $0.00'
+// ...
+// xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
+// xx. iteration => 'Fine-tune succeeded'
 ```
 
 ## Meta Information

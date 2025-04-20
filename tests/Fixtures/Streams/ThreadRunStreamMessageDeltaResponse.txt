@@ -1,0 +1,2 @@
+event: thread.message.delta
+data: {"id":"msg_zKgPBqNcqb7qYP2bBA3tVyTd","object":"thread.message.delta","delta":{"content":[{"index":0,"type":"text","text":{"value":"Hello","annotations":[]}}]}}

@@ -17,6 +17,7 @@ function chatCompletion(): array
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
                 ],
+                'logprobs' => null,
                 'finish_reason' => 'stop',
             ],
         ],
@@ -39,6 +40,142 @@ function chatCompletion(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithoutId(): array
+{
+    return [
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => "\n\nHello there, how may I assist you today?",
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 9,
+            'completion_tokens' => 12,
+            'total_tokens' => 21,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 5,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 0,
+                'accepted_prediction_tokens' => 0,
+                'rejected_prediction_tokens' => 0,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionWithoutUsage(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => "\n\nHello there, how may I assist you today?",
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionWithoutLogprobs(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => "\n\nHello there, how may I assist you today?",
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 9,
+            'completion_tokens' => 12,
+            'total_tokens' => 21,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 5,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 0,
+                'accepted_prediction_tokens' => 0,
+                'rejected_prediction_tokens' => 0,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionWithLogprobs(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-3.5-turbo',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello!',
+                ],
+                'logprobs' => [
+                    'content' => [
+                        [
+                            'token' => 'Hello',
+                            'logprob' => 0.0,
+                            'bytes' => [72, 101, 108, 108, 111],
+                        ],
+                        [
+                            'token' => '!',
+                            'logprob' => -0.0005715019651688635,
+                            'bytes' => [33],
+                        ],
+                    ],
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 18,
+            'completion_tokens' => 3,
+            'total_tokens' => 21,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithSystemFingerprint(): array
 {
     return [
@@ -54,6 +191,7 @@ function chatCompletionWithSystemFingerprint(): array
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
                 ],
+                'logprobs' => null,
                 'finish_reason' => 'stop',
             ],
         ],
@@ -86,6 +224,7 @@ function chatCompletionWithFunction(): array
                         'arguments' => "{\n  \"location\": \"Boston, MA\"\n}",
                     ],
                 ],
+                'logprobs' => null,
                 'finish_reason' => 'function_call',
             ],
         ],
@@ -124,6 +263,7 @@ function chatCompletionWithToolCalls(): array
                         ],
                     ],
                 ],
+                'logprobs' => null,
                 'finish_reason' => 'tool_calls',
             ],
         ],
@@ -166,6 +306,7 @@ function chatCompletionFromVision(): array
                     'role' => 'assistant',
                     'content' => 'The image shows a beautiful, tranquil natural landscape. A wooden boardwalk path stretches',
                 ],
+                'logprobs' => null,
             ],
         ],
         'usage' => [
@@ -180,6 +321,24 @@ function chatCompletionStreamFirstChunk(): array
 {
     return [
         'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'role' => 'assistant',
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
+function chatCompletionStreamFirstChunkWithoutId(): array
+{
+    return [
         'object' => 'chat.completion.chunk',
         'created' => 1679432086,
         'model' => 'gpt-4-0314',
@@ -305,6 +464,14 @@ function chatCompletionStreamVisionContentChunk(): array
 function chatCompletionStream()
 {
     return fopen(__DIR__.'/Streams/ChatCompletionCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function chatCompletionStreamPing()
+{
+    return fopen(__DIR__.'/Streams/ChatCompletionPing.txt', 'r');
 }
 
 /**

@@ -50,6 +50,17 @@ test('from with byte is null', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from with status_details missing', function () {
+    $data = fileResource();
+    unset($data['status_details']);
+
+    $result = RetrieveResponse::from($data, meta());
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->statusDetails->toBeNull();
+});
+
 test('as array accessible', function () {
     $result = RetrieveResponse::from(fileResource(), meta());
 
