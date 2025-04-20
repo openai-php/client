@@ -12,7 +12,7 @@ final class CreateResponseUsagePromptTokensDetails
     ) {}
 
     /**
-     * @param  array{audio_tokens?:int, cached_tokens?: int}  $attributes
+     * @param  array{audio_tokens?:int|null, cached_tokens?:int}  $attributes
      */
     public static function from(array $attributes): self
     {

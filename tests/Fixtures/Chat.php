@@ -40,6 +40,148 @@ function chatCompletion(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionOpenRouter(): array
+{
+    return [
+        'id' => 'gen-123',
+        'object' => 'chat.completion',
+        'created' => 1744873707,
+        'model' => 'mistral/ministral-8b',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello! How can I assist you today?',
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 13,
+            'completion_tokens' => 20,
+            'total_tokens' => 33,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionOpenRouterOpenAI(): array
+{
+    return [
+        'id' => 'gen-123',
+        'provider' => 'OpenAI',
+        'model' => 'openai/gpt-4o-mini',
+        'object' => 'chat.completion',
+        'created' => 1744900650,
+        'system_fingerprint' => 'fp_0392822090',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello! How can I assist you today?',
+                    'refusal' => null,
+                    'reasoning' => null,
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'stop',
+                'native_finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 21,
+            'completion_tokens' => 21,
+            'total_tokens' => 42,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 0,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 0,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionOpenRouterGoogle(): array
+{
+    return [
+        'id' => 'gen-123',
+        'provider' => 'Google',
+        'model' => 'google/gemini-2.5-pro-preview-03-25',
+        'object' => 'chat.completion',
+        'created' => 1744910839,
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello there! I\'m a large language model, trained by Google.',
+                    'refusal' => null,
+                    'reasoning' => null,
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'stop',
+                'native_finish_reason' => 'STOP',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 10,
+            'completion_tokens' => 138,
+            'total_tokens' => 148,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionOpenRouterXAI(): array
+{
+    return [
+        'id' => 'gen-123',
+        'provider' => 'xAI',
+        'model' => 'x-ai/grok-3-mini-beta',
+        'object' => 'chat.completion',
+        'created' => 1744911228,
+        'system_fingerprint' => 'fp_d133ae3397',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello! I\'m Grok, an AI model created by xAI.',
+                    'refusal' => null,
+                    'reasoning' => 'First, the user is asking "Hello! what model are you?"',
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'stop',
+                'native_finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 21,
+            'completion_tokens' => 36,
+            'total_tokens' => 392,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 0,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 335,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithoutId(): array
 {
     return [
