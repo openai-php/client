@@ -22,14 +22,14 @@ final class InputMessageContentInputFile implements ResponseContract
 
     /**
      * @param 'input_file' $type
-     * @param string $file_data
-     * @param string $file_id
+     * @param string $fileData
+     * @param string $fileId
      * @param string $filename
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $file_data,
-        public readonly string $file_id,
+        public readonly string $fileData,
+        public readonly string $fileId,
         public readonly string $filename,
     ) {}
 
@@ -40,8 +40,8 @@ final class InputMessageContentInputFile implements ResponseContract
     {
         return new self(
             type: $attributes['type'],
-            file_data: $attributes['file_data'],
-            file_id: $attributes['file_id'],
+            fileData: $attributes['file_data'],
+            fileId: $attributes['file_id'],
             filename: $attributes['filename'],
         );
     }
@@ -53,8 +53,8 @@ final class InputMessageContentInputFile implements ResponseContract
     {
         return [
             'type' => $this->type,
-            'file_data' => $this->file_data,
-            'file_id' => $this->file_id,
+            'file_data' => $this->fileData,
+            'file_id' => $this->fileId,
             'filename' => $this->filename,
         ];
     }

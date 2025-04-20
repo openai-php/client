@@ -23,14 +23,14 @@ final class InputMessageContentInputImage implements ResponseContract
     /**
      * @param 'input_image' $type
      * @param string $detail
-     * @param string|null $file_id
-     * @param string|null $image_url
+     * @param string|null $fileId
+     * @param string|null $imageUrl
      */
     private function __construct(
         public readonly string $type,
         public readonly string $detail,
-        public readonly ?string $file_id,
-        public readonly ?string $image_url,
+        public readonly ?string $fileId,
+        public readonly ?string $imageUrl,
     ) {}
 
     /**
@@ -41,8 +41,8 @@ final class InputMessageContentInputImage implements ResponseContract
         return new self(
             type: $attributes['type'],
             detail: $attributes['detail'],
-            file_id: $attributes['file_id'],
-            image_url: $attributes['image_url'],
+            fileId: $attributes['file_id'],
+            imageUrl: $attributes['image_url'],
         );
     }
 
@@ -54,8 +54,8 @@ final class InputMessageContentInputImage implements ResponseContract
         return [
             'type' => $this->type,
             'detail' => $this->detail,
-            'file_id' => $this->file_id,
-            'image_url' => $this->image_url,
+            'file_id' => $this->fileId,
+            'image_url' => $this->imageUrl,
         ];
     }
 }
