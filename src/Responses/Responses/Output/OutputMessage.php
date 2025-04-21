@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: string, status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
+ * @implements ResponseContract<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
  */
 final class OutputMessage implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: string, status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
+     * @use ArrayAccessible<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
      */
     use ArrayAccessible;
 
@@ -22,6 +22,7 @@ final class OutputMessage implements ResponseContract
 
     /**
      * @param  array<int, OutputMessageContentOutputText|OutputMessageContentRefusal>  $content
+     * @param  'assistant' $role
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'message'  $type
      */
@@ -34,7 +35,7 @@ final class OutputMessage implements ResponseContract
     ) {}
 
     /**
-     * @param  array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: string, status: 'in_progress'|'completed'|'incomplete', type: 'message'}  $attributes
+     * @param  array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}  $attributes
      */
     public static function from(array $attributes): self
     {
