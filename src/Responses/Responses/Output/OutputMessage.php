@@ -22,7 +22,7 @@ final class OutputMessage implements ResponseContract
 
     /**
      * @param  array<int, OutputMessageContentOutputText|OutputMessageContentRefusal>  $content
-     * @param  'assistant' $role
+     * @param  'assistant'  $role
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'message'  $type
      */

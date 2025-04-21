@@ -17,6 +17,7 @@ function createResponseResource(): array
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
+            outputWebSearchToolCall(),
             [
                 'type' => 'web_search_call',
                 'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
@@ -57,6 +58,7 @@ function createResponseResource(): array
                     ],
                 ],
             ],
+            outputComputerToolCall(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -120,11 +122,7 @@ function retrieveResponseResource(): array
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
-            [
-                'type' => 'web_search_call',
-                'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
-                'status' => 'completed',
-            ],
+            outputWebSearchToolCall(),
             [
                 'type' => 'message',
                 'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -254,6 +252,44 @@ function createStreamedResponseResource(): array
     return [
         'event' => 'response.created',
         'data' => createResponseResource(),
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputComputerToolCall(): array
+{
+    return [
+        'type' => 'computer_call',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'cu_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'action' => [
+            'button' => 'left',
+            'type' => 'click',
+            'x' => 117,
+            'y' => 123,
+        ],
+        'pending_safety_checks' => [
+            [
+                'code' => 'malicious_instructions',
+                'id' => 'cu_sc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+                'message' => 'Safety check message',
+            ],
+        ],
+        'status' => 'completed',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputWebSearchToolCall(): array
+{
+    return [
+        'type' => 'web_search_call',
+        'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'status' => 'completed',
     ];
 }
 

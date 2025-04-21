@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}>
+ * @implements ResponseContract<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}>
  */
 final class OutputComputerActionClick implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}>
+     * @use ArrayAccessible<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}>
      */
     use ArrayAccessible;
 
@@ -27,12 +27,12 @@ final class OutputComputerActionClick implements ResponseContract
     private function __construct(
         public readonly string $button,
         public readonly string $type,
-        public readonly float $x,
-        public readonly float $y,
+        public readonly int $x,
+        public readonly int $y,
     ) {}
 
     /**
-     * @param  array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}  $attributes
+     * @param  array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -19,12 +19,12 @@ use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerPendingSafety
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
+ * @implements ResponseContract<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
  */
 final class OutputComputerToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
+     * @use ArrayAccessible<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
      */
     use ArrayAccessible;
 
@@ -45,7 +45,7 @@ final class OutputComputerToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: float, y: float}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}  $attributes
+     * @param  array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -82,15 +82,15 @@ final class OutputComputerToolCall implements ResponseContract
     public function toArray(): array
     {
         return [
-            'action' => $this->action->toArray(),
+            'type' => $this->type,
             'call_id' => $this->callId,
             'id' => $this->id,
+            'action' => $this->action->toArray(),
             'pending_safety_checks' => array_map(
                 fn (OutputComputerPendingSafetyCheck $safetyCheck): array => $safetyCheck->toArray(),
                 $this->pendingSafetyChecks,
             ),
             'status' => $this->status,
-            'type' => $this->type,
         ];
     }
 }
