@@ -36,24 +36,24 @@ test('create', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(2);
+        ->output->toHaveCount(4);
 
     expect($output[0])
-        ->type->toBe('web_search_call')
-        ->id->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
-        ->status->toBe('completed');
-
-    expect($output[1])
         ->type->toBe('message')
         ->id->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->status->toBe('completed')
         ->role->toBe('assistant')
         ->content->toBeArray()
-        ->content->toHaveCount(1);
+        ->content->toHaveCount(2);
 
-    expect($output[1]['content'][0])
+    expect($output[0]['content'][0])
         ->type->toBe('output_text')
         ->text->toBe('As of today, March 9, 2025, one notable positive news story...');
+
+    expect($output[1])
+        ->type->toBe('web_search_call')
+        ->id->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
+        ->status->toBe('completed');
 
     expect($result)
         ->parallelToolCalls->toBeTrue()

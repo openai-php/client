@@ -17,9 +17,9 @@ function createResponseResource(): array
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
+            outputMessage(),
             outputWebSearchToolCall(),
             outputFileSearchToolCall(),
-            outputMessage(),
             outputComputerToolCall(),
         ],
         'parallel_tool_calls' => true,
