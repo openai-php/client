@@ -18,6 +18,7 @@ function createResponseResource(): array
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             outputWebSearchToolCall(),
+            outputFileSearchToolCall(),
             outputMessage(),
             outputComputerToolCall(),
         ],
@@ -184,6 +185,33 @@ function createStreamedResponseResource(): array
 /**
  * @return array<string, mixed>
  */
+function outputFileSearchToolCall(): array
+{
+    return [
+        'id' => 'fs_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'queries' => [
+            'map',
+            'kansas',
+        ],
+        'status' => 'completed',
+        'type' => 'file_search_call',
+        'results' => [
+            [
+                'attributes' => [
+                    'foo' => 'bar',
+                ],
+                'file_id' => 'file_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+                'filename' => 'kansas_map.geojson',
+                'score' => 0.98882,
+                'text' => 'Map of Kansas',
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputComputerToolCall(): array
 {
     return [
@@ -252,6 +280,10 @@ function outputMessage(): array
                 ],
                 'text' => 'As of today, March 9, 2025, one notable positive news story...',
                 'type' => 'output_text',
+            ],
+            [
+                'refusal' => 'The assistant refused to answer.',
+                'type' => 'refusal',
             ],
         ],
         'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
