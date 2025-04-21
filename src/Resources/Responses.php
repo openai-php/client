@@ -38,7 +38,6 @@ final class Responses implements ResponsesContract
         $response = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($response->data(), $response->meta());
-
     }
 
     /**
