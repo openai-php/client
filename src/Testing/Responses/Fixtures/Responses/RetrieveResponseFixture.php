@@ -77,10 +77,10 @@ final class RetrieveResponseFixture
                 'search_context_size' => 'medium',
                 'user_location' => [
                     'type' => 'approximate',
-                    'city' => null,
+                    'city' => 'San Francisco',
                     'country' => 'US',
-                    'region' => null,
-                    'timezone' => null,
+                    'region' => 'California',
+                    'timezone' => 'America/Los_Angeles',
                 ],
             ],
         ],

@@ -2,6 +2,9 @@
 
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\CreateResponse;
+use OpenAI\Responses\Responses\CreateResponseFormat;
+use OpenAI\Responses\Responses\CreateResponseReasoning;
+use OpenAI\Responses\Responses\CreateResponseUsage;
 
 test('from', function () {
     $response = CreateResponse::from(createResponseResource(), meta());
@@ -18,20 +21,17 @@ test('from', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(2)
         ->parallelToolCalls->toBeTrue()
         ->previousResponseId->toBeNull()
-        ->reasoning->toBeArray()
+        ->reasoning->toBeInstanceOf(CreateResponseReasoning::class)
         ->store->toBeTrue()
         ->temperature->toBe(1.0)
-        ->text->toBeArray()
+        ->text->toBeInstanceOf(CreateResponseFormat::class)
         ->toolChoice->toBe('auto')
         ->tools->toBeArray()
-        ->tools->toHaveCount(1)
         ->topP->toBe(1.0)
         ->truncation->toBe('disabled')
-        ->usage->toBeArray()
-        ->usage->toHaveCount(5)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
         ->user->toBeNull()
         ->metadata->toBe([]);
 

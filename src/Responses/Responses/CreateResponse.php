@@ -160,7 +160,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             ),
             'parallel_tool_calls' => $this->parallelToolCalls,
             'previous_response_id' => $this->previousResponseId,
-            'reasoning' => $this->reasoning,
+            'reasoning' => $this->reasoning?->toArray(),
             'store' => $this->store,
             'temperature' => $this->temperature,
             'text' => $this->text->toArray(),

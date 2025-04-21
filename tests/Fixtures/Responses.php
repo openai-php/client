@@ -18,46 +18,7 @@ function createResponseResource(): array
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             outputWebSearchToolCall(),
-            [
-                'type' => 'web_search_call',
-                'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
-                'status' => 'completed',
-            ],
-            [
-                'type' => 'message',
-                'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
-                'status' => 'completed',
-                'role' => 'assistant',
-                'content' => [
-                    [
-                        'type' => 'output_text',
-                        'text' => 'As of today, March 9, 2025, one notable positive news story...',
-                        'annotations' => [
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 442,
-                                'end_index' => 557,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 962,
-                                'end_index' => 1077,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 1336,
-                                'end_index' => 1451,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
+            outputMessage(),
             outputComputerToolCall(),
         ],
         'parallel_tool_calls' => true,
@@ -77,14 +38,13 @@ function createResponseResource(): array
         'tools' => [
             [
                 'type' => 'web_search_preview',
-                'domains' => [],
                 'search_context_size' => 'medium',
                 'user_location' => [
                     'type' => 'approximate',
-                    'city' => null,
+                    'city' => 'San Francisco',
                     'country' => 'US',
-                    'region' => null,
-                    'timezone' => null,
+                    'region' => 'California',
+                    'timezone' => 'America/Los_Angeles',
                 ],
             ],
         ],
@@ -123,41 +83,7 @@ function retrieveResponseResource(): array
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             outputWebSearchToolCall(),
-            [
-                'type' => 'message',
-                'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
-                'status' => 'completed',
-                'role' => 'assistant',
-                'content' => [
-                    [
-                        'type' => 'output_text',
-                        'text' => 'As of today, March 9, 2025, one notable positive news story...',
-                        'annotations' => [
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 442,
-                                'end_index' => 557,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 962,
-                                'end_index' => 1077,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                            [
-                                'type' => 'url_citation',
-                                'start_index' => 1336,
-                                'end_index' => 1451,
-                                'url' => 'https://.../?utm_source=chatgpt.com',
-                                'title' => '...',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
+            outputMessage(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -180,10 +106,10 @@ function retrieveResponseResource(): array
                 'search_context_size' => 'medium',
                 'user_location' => [
                     'type' => 'approximate',
-                    'city' => null,
+                    'city' => 'San Francisco',
                     'country' => 'US',
-                    'region' => null,
-                    'timezone' => null,
+                    'region' => 'California',
+                    'timezone' => 'America/Los_Angeles',
                 ],
             ],
         ],
@@ -287,9 +213,51 @@ function outputComputerToolCall(): array
 function outputWebSearchToolCall(): array
 {
     return [
-        'type' => 'web_search_call',
         'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'status' => 'completed',
+        'type' => 'web_search_call',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMessage(): array
+{
+    return [
+        'content' => [
+            [
+                'annotations' => [
+                    [
+                        'end_index' => 557,
+                        'start_index' => 442,
+                        'title' => '...',
+                        'type' => 'url_citation',
+                        'url' => 'https://.../?utm_source=chatgpt.com',
+                    ],
+                    [
+                        'end_index' => 1077,
+                        'start_index' => 962,
+                        'title' => '...',
+                        'type' => 'url_citation',
+                        'url' => 'https://.../?utm_source=chatgpt.com',
+                    ],
+                    [
+                        'end_index' => 1451,
+                        'start_index' => 1336,
+                        'title' => '...',
+                        'type' => 'url_citation',
+                        'url' => 'https://.../?utm_source=chatgpt.com',
+                    ],
+                ],
+                'text' => 'As of today, March 9, 2025, one notable positive news story...',
+                'type' => 'output_text',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'assistant',
+        'status' => 'completed',
+        'type' => 'message',
     ];
 }
 
