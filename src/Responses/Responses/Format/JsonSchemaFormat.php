@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: string, strict: ?bool}>
+ * @implements ResponseContract<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}>
  */
 final class JsonSchemaFormat implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: string, strict: ?bool}>
+     * @use ArrayAccessible<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}>
      */
     use ArrayAccessible;
 
@@ -28,12 +28,12 @@ final class JsonSchemaFormat implements ResponseContract
         public readonly string $name,
         public readonly array $schema,
         public readonly string $type,
-        public readonly string $description,
+        public readonly ?string $description,
         public readonly ?bool $strict = null,
     ) {}
 
     /**
-     * @param  array{name: string, schema: array<string, mixed>, type: 'json_schema', description: string, strict: ?bool}  $attributes
+     * @param  array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -41,7 +41,7 @@ final class JsonSchemaFormat implements ResponseContract
             name: $attributes['name'],
             schema: $attributes['schema'],
             type: $attributes['type'],
-            description: $attributes['description'],
+            description: $attributes['description'] ?? null,
             strict: $attributes['strict'] ?? null,
         );
     }
