@@ -21,6 +21,8 @@ final class CreateResponseChoice
         return new self(
             $attributes['index'],
             CreateResponseMessage::from($attributes['message']),
+            //possibly is set for attributes designating web_search_options if model is search-preview model
+            //We need a CreateResponseChoiceWebSearchOptions class for this
             isset($attributes['logprobs']) ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
             $attributes['finish_reason'] ?? null,
         );
@@ -34,6 +36,7 @@ final class CreateResponseChoice
         return [
             'index' => $this->index,
             'message' => $this->message->toArray(),
+            //will need to return web_search_options if model is search-preview model
             'logprobs' => $this->logprobs?->toArray(),
             'finish_reason' => $this->finishReason,
         ];
