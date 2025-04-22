@@ -21,8 +21,8 @@ final class CreateResponseChoice
         return new self(
             $attributes['index'],
             CreateResponseMessage::from($attributes['message']),
-            //possibly is set for attributes designating web_search_options if model is search-preview model
-            //We need a CreateResponseChoiceWebSearchOptions class for this
+            //possibly is set for attributes designating web_search_options if model is search-preview model; How do we know what model is being used?
+            //do we want to pass the model into attributes so that we can check if it is a search-preview model, or can we just have the attribute web_search_options?
             isset($attributes['logprobs']) ? CreateResponseChoiceLogprobs::from($attributes['logprobs']) : null,
             $attributes['finish_reason'] ?? null,
         );
@@ -36,7 +36,7 @@ final class CreateResponseChoice
         return [
             'index' => $this->index,
             'message' => $this->message->toArray(),
-            //will need to return web_search_options if model is search-preview model
+            //will need to return web_search_options if model is search-preview model, null if not a search-preview model
             'logprobs' => $this->logprobs?->toArray(),
             'finish_reason' => $this->finishReason,
         ];
