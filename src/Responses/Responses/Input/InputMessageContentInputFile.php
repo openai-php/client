@@ -21,10 +21,7 @@ final class InputMessageContentInputFile implements ResponseContract
     use Fakeable;
 
     /**
-     * @param 'input_file' $type
-     * @param string $fileData
-     * @param string $fileId
-     * @param string $filename
+     * @param  'input_file'  $type
      */
     private function __construct(
         public readonly string $type,
@@ -34,7 +31,7 @@ final class InputMessageContentInputFile implements ResponseContract
     ) {}
 
     /**
-     * @param array{type: 'input_file', file_data: string, file_id: string, filename: string} $attributes
+     * @param  array{type: 'input_file', file_data: string, file_id: string, filename: string}  $attributes
      */
     public static function from(array $attributes): self
     {

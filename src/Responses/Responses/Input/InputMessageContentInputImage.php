@@ -21,10 +21,7 @@ final class InputMessageContentInputImage implements ResponseContract
     use Fakeable;
 
     /**
-     * @param 'input_image' $type
-     * @param string $detail
-     * @param string|null $fileId
-     * @param string|null $imageUrl
+     * @param  'input_image'  $type
      */
     private function __construct(
         public readonly string $type,
@@ -34,7 +31,7 @@ final class InputMessageContentInputImage implements ResponseContract
     ) {}
 
     /**
-     * @param array{type: 'input_image', detail: string, file_id: string|null, image_url: string|null} $attributes
+     * @param  array{type: 'input_image', detail: string, file_id: string|null, image_url: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {

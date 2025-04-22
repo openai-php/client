@@ -21,7 +21,7 @@ final class InputMessageContentInputText implements ResponseContract
     use Fakeable;
 
     /**
-     * @param 'input_text' $type
+     * @param  'input_text'  $type
      */
     private function __construct(
         public readonly string $text,
@@ -29,7 +29,7 @@ final class InputMessageContentInputText implements ResponseContract
     ) {}
 
     /**
-     * @param array{text: string, type: 'input_text'} $attributes
+     * @param  array{text: string, type: 'input_text'}  $attributes
      */
     public static function from(array $attributes): self
     {
