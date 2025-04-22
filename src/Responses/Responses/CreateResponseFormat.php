@@ -12,12 +12,12 @@ use OpenAI\Responses\Responses\Format\TextFormat;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{format: array{type: 'text'}|array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}|array{type: 'json_object'}}>
+ * @implements ResponseContract<array{format: array{type: string, name?: string, schema?: array<string, mixed>, description?: ?string, strict?: ?bool}}>
  */
 final class CreateResponseFormat implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{format: array{type: 'text'}|array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}|array{type: 'json_object'}}>
+     * @use ArrayAccessible<array{format: array{type: string, name?: string, schema?: array<string, mixed>, description?: ?string, strict?: ?bool}}>
      */
     use ArrayAccessible;
 
