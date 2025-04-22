@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string, country: string, region: string, timezone: string}}>
+ * @implements ResponseContract<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}>
  */
 final class WebSearchTool implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string, country: string, region: string, timezone: string}}>
+     * @use ArrayAccessible<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}>
      */
     use ArrayAccessible;
 
@@ -31,7 +31,7 @@ final class WebSearchTool implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string, country: string, region: string, timezone: string}}  $attributes
+     * @param  array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}  $attributes
      */
     public static function from(array $attributes): self
     {

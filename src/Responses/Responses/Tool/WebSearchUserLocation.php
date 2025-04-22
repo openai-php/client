@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'approximate', city: string, country: string, region: string, timezone: string}>
+ * @implements ResponseContract<array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}>
  */
 final class WebSearchUserLocation implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'approximate', city: string, country: string, region: string, timezone: string}>
+     * @use ArrayAccessible<array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}>
      */
     use ArrayAccessible;
 
@@ -25,14 +25,14 @@ final class WebSearchUserLocation implements ResponseContract
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $city,
+        public readonly ?string $city,
         public readonly string $country,
-        public readonly string $region,
-        public readonly string $timezone,
+        public readonly ?string $region,
+        public readonly ?string $timezone,
     ) {}
 
     /**
-     * @param  array{type: 'approximate', city: string, country: string, region: string, timezone: string}  $attributes
+     * @param  array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
