@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseChoiceLogprobs;
+use OpenAI\Responses\Chat\CreateResponseChoiceWebSearchOptions;
 use OpenAI\Responses\Chat\CreateResponseMessage;
 
 test('from', function () {
@@ -10,6 +11,7 @@ test('from', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeInstanceOf(CreateResponseChoiceWebSearchOptions::class)
         ->logprobs->toBeNull()
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -20,6 +22,7 @@ test('from without logprobs', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -30,6 +33,7 @@ test('from with logprobs', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeInstanceOf(CreateResponseChoiceWebSearchOptions::class)
         ->logprobs->toBeInstanceOf(CreateResponseChoiceLogprobs::class)
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -40,6 +44,7 @@ test('from vision response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBeNull();
 });
@@ -50,6 +55,7 @@ test('from OpenRouter OpenAI response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
@@ -60,6 +66,7 @@ test('from OpenRouter Google response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
@@ -70,6 +77,7 @@ test('from OpenRouter xAI response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->webSearchOptions->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
