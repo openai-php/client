@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{effort: ?string, generate_summary: ?string}>
+ * @phpstan-type ReasoningType array{effort: ?string, generate_summary: ?string}
+ *
+ * @implements ResponseContract<ReasoningType>
  */
 final class CreateResponseReasoning implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{effort: ?string, generate_summary: ?string}>
+     * @use ArrayAccessible<ReasoningType>
      */
     use ArrayAccessible;
 
@@ -26,7 +28,7 @@ final class CreateResponseReasoning implements ResponseContract
     ) {}
 
     /**
-     * @param  array{effort: ?string, generate_summary: ?string}  $attributes
+     * @param  ReasoningType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'move', x: int, y: int}>
+ * @phpstan-type MoveType array{type: 'move', x: int, y: int}
+ *
+ * @implements ResponseContract<MoveType>
  */
 final class OutputComputerActionMove implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'move', x: int, y: int}>
+     * @use ArrayAccessible<MoveType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class OutputComputerActionMove implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'move', x: int, y: int}  $attributes
+     * @param  MoveType  $attributes
      */
     public static function from(array $attributes): self
     {

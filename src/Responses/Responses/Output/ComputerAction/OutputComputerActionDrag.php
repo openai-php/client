@@ -9,12 +9,16 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{path: array<int, array{x: int, y: int}>, type: 'drag'}>
+ * @phpstan-import-type DragPathType from OutputComputerDragPath
+ *
+ * @phpstan-type DragType array{path: array<int, DragPathType>, type: 'drag'}
+ *
+ * @implements ResponseContract<DragType>
  */
 final class OutputComputerActionDrag implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{path: array<int, array{x: int, y: int}>, type: 'drag'}>
+     * @use ArrayAccessible<DragType>
      */
     use ArrayAccessible;
 
@@ -30,7 +34,7 @@ final class OutputComputerActionDrag implements ResponseContract
     ) {}
 
     /**
-     * @param  array{path: array<int, array{x: int, y: int}>, type: 'drag'}  $attributes
+     * @param  DragType  $attributes
      */
     public static function from(array $attributes): self
     {

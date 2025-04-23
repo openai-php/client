@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{code: string, id: string, message: string}>
+ * @phpstan-type PendingSafetyCheckType array{code: string, id: string, message: string}
+ *
+ * @implements ResponseContract<PendingSafetyCheckType>
  */
 final class OutputComputerPendingSafetyCheck implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{code: string, id: string, message: string}>
+     * @use ArrayAccessible<PendingSafetyCheckType>
      */
     use ArrayAccessible;
 
@@ -27,7 +29,7 @@ final class OutputComputerPendingSafetyCheck implements ResponseContract
     ) {}
 
     /**
-     * @param  array{code: string, id: string, message: string}  $attributes
+     * @param  PendingSafetyCheckType  $attributes
      */
     public static function from(array $attributes): self
     {

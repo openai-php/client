@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>
+ * @phpstan-type UrlCitationType array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}
+ *
+ * @implements ResponseContract<UrlCitationType>
  */
 final class OutputMessageContentOutputTextAnnotationsUrlCitation implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>
+     * @use ArrayAccessible<UrlCitationType>
      */
     use ArrayAccessible;
 
@@ -32,7 +34,7 @@ final class OutputMessageContentOutputTextAnnotationsUrlCitation implements Resp
     ) {}
 
     /**
-     * @param  array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}  $attributes
+     * @param  UrlCitationType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}>
+ * @phpstan-type HostedToolChoiceType array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}
+ *
+ * @implements ResponseContract<HostedToolChoiceType>
  */
 final class HostedToolChoice implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}>
+     * @use ArrayAccessible<HostedToolChoiceType>
      */
     use ArrayAccessible;
 
@@ -28,7 +30,7 @@ final class HostedToolChoice implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'file_search'|'web_search_preview'|'computer_use_preview'}  $attributes
+     * @param  HostedToolChoiceType  $attributes
      */
     public static function from(array $attributes): self
     {

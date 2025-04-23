@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'text'}>
+ * @phpstan-type TextFormatType array{type: 'text'}
+ *
+ * @implements ResponseContract<TextFormatType>
  */
 final class TextFormat implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'text'}>
+     * @use ArrayAccessible<TextFormatType>
      */
     use ArrayAccessible;
 
@@ -28,7 +30,7 @@ final class TextFormat implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'text'}  $attributes
+     * @param  TextFormatType  $attributes
      */
     public static function from(array $attributes): self
     {

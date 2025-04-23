@@ -9,19 +9,23 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}>
+ * @phpstan-import-type OutputFileSearchToolCallResultType from OutputFileSearchToolCallResult
+ *
+ * @phpstan-type OutputFileSearchToolCallType array{id: string, queries: array<int, string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, OutputFileSearchToolCallResultType>}
+ *
+ * @implements ResponseContract<OutputFileSearchToolCallType>
  */
 final class OutputFileSearchToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}>
+     * @use ArrayAccessible<OutputFileSearchToolCallType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  array<string>  $queries
+     * @param  array<int, string>  $queries
      * @param  'in_progress'|'searching'|'incomplete'|'failed'  $status
      * @param  'file_search_call'  $type
      * @param  ?array<int, OutputFileSearchToolCallResult>  $results
@@ -35,7 +39,7 @@ final class OutputFileSearchToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{id: string, queries: array<string>, status: 'in_progress'|'searching'|'incomplete'|'failed', type: 'file_search_call', results: ?array<int, array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>}  $attributes
+     * @param  OutputFileSearchToolCallType  $attributes
      */
     public static function from(array $attributes): self
     {

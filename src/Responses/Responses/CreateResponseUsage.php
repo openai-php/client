@@ -9,12 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}>
+ * @phpstan-import-type InputTokenDetailsType from CreateResponseUsageInputTokenDetails
+ * @phpstan-import-type OutputTokenDetailsType from CreateResponseUsageOutputTokenDetails
+ *
+ * @phpstan-type UsageType array{input_tokens: int, input_tokens_details: InputTokenDetailsType, output_tokens: int, output_tokens_details: OutputTokenDetailsType, total_tokens: int}
+ *
+ * @implements ResponseContract<UsageType>
  */
 final class CreateResponseUsage implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}>
+     * @use ArrayAccessible<UsageType>
      */
     use ArrayAccessible;
 
@@ -29,7 +34,7 @@ final class CreateResponseUsage implements ResponseContract
     ) {}
 
     /**
-     * @param  array{input_tokens: int, input_tokens_details: array{cached_tokens: int}, output_tokens: int, output_tokens_details: array{reasoning_tokens: int}, total_tokens: int}  $attributes
+     * @param  UsageType  $attributes
      */
     public static function from(array $attributes): self
     {

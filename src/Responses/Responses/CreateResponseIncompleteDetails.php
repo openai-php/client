@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{reason: string}>
+ * @phpstan-type IncompleteDetailsType array{reason: string}
+ *
+ * @implements ResponseContract<IncompleteDetailsType>
  */
 final class CreateResponseIncompleteDetails implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{reason: string}>
+     * @use ArrayAccessible<IncompleteDetailsType>
      */
     use ArrayAccessible;
 
@@ -25,7 +27,7 @@ final class CreateResponseIncompleteDetails implements ResponseContract
     ) {}
 
     /**
-     * @param  array{reason: string}  $attributes
+     * @param  IncompleteDetailsType  $attributes
      */
     public static function from(array $attributes): self
     {

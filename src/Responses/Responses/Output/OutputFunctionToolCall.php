@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{arguments: string, call_id: string, name: string, type: 'function_call', id: string, status: 'in_progress'|'completed'|'incomplete'}>
+ * @phpstan-type OutputFunctionToolCallType array{arguments: string, call_id: string, name: string, type: 'function_call', id: string, status: 'in_progress'|'completed'|'incomplete'}
+ *
+ * @implements ResponseContract<OutputFunctionToolCallType>
  */
 final class OutputFunctionToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{arguments: string, call_id: string, name: string, type: 'function_call', id: string, status: 'in_progress'|'completed'|'incomplete'}>
+     * @use ArrayAccessible<OutputFunctionToolCallType>
      */
     use ArrayAccessible;
 
@@ -34,7 +36,7 @@ final class OutputFunctionToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{arguments: string, call_id: string, name: string, type: 'function_call', id: string, status: 'in_progress'|'completed'|'incomplete'}  $attributes
+     * @param  OutputFunctionToolCallType  $attributes
      */
     public static function from(array $attributes): self
     {

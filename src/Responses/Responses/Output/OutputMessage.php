@@ -9,12 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
+ * @phpstan-import-type OutputTextType from OutputMessageContentOutputText
+ * @phpstan-import-type ContentRefusalType from OutputMessageContentRefusal
+ *
+ * @phpstan-type OutputMessageType array{content: array<int, OutputTextType|ContentRefusalType>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
+ *
+ * @implements ResponseContract<OutputMessageType>
  */
 final class OutputMessage implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}>
+     * @use ArrayAccessible<OutputMessageType>
      */
     use ArrayAccessible;
 
@@ -35,7 +40,7 @@ final class OutputMessage implements ResponseContract
     ) {}
 
     /**
-     * @param  array{content: array<int, array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}|array{refusal: string, type: 'refusal'}>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}  $attributes
+     * @param  OutputMessageType  $attributes
      */
     public static function from(array $attributes): self
     {

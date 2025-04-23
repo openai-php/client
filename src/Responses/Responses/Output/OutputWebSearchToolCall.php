@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, status: string, type: 'web_search_call'}>
+ * @phpstan-type OutputWebSearchToolCallType array{id: string, status: string, type: 'web_search_call'}
+ *
+ * @implements ResponseContract<OutputWebSearchToolCallType>
  */
 final class OutputWebSearchToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, status: string, type: 'web_search_call'}>
+     * @use ArrayAccessible<OutputWebSearchToolCallType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class OutputWebSearchToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{id: string, status: string, type: 'web_search_call'}  $attributes
+     * @param  OutputWebSearchToolCallType  $attributes
      */
     public static function from(array $attributes): self
     {

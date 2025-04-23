@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}>
+ * @phpstan-type JsonSchemaFormatType array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}
+ *
+ * @implements ResponseContract<JsonSchemaFormatType>
  */
 final class JsonSchemaFormat implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}>
+     * @use ArrayAccessible<JsonSchemaFormatType>
      */
     use ArrayAccessible;
 
@@ -33,7 +35,7 @@ final class JsonSchemaFormat implements ResponseContract
     ) {}
 
     /**
-     * @param  array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}  $attributes
+     * @param  JsonSchemaFormatType  $attributes
      */
     public static function from(array $attributes): self
     {

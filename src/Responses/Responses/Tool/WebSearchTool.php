@@ -9,12 +9,16 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}>
+ * @phpstan-import-type UserLocationType from WebSearchUserLocation
+ *
+ * @phpstan-type WebSearchToolType array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?UserLocationType}
+ *
+ * @implements ResponseContract<WebSearchToolType>
  */
 final class WebSearchTool implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}>
+     * @use ArrayAccessible<WebSearchToolType>
      */
     use ArrayAccessible;
 
@@ -31,7 +35,7 @@ final class WebSearchTool implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}}  $attributes
+     * @param  WebSearchToolType  $attributes
      */
     public static function from(array $attributes): self
     {

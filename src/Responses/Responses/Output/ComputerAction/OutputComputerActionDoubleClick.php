@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'double_click', x: float, y: float}>
+ * @phpstan-type DoubleClickType array{type: 'double_click', x: float, y: float}
+ *
+ * @implements ResponseContract<DoubleClickType>
  */
 final class OutputComputerActionDoubleClick implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'double_click', x: float, y: float}>
+     * @use ArrayAccessible<DoubleClickType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class OutputComputerActionDoubleClick implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'double_click', x: float, y: float}  $attributes
+     * @param  DoubleClickType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>
+ * @phpstan-type OutputFileSearchToolCallResultType array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}
+ *
+ * @implements ResponseContract<OutputFileSearchToolCallResultType>
  */
 final class OutputFileSearchToolCallResult implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}>
+     * @use ArrayAccessible<OutputFileSearchToolCallResultType>
      */
     use ArrayAccessible;
 
@@ -32,7 +34,7 @@ final class OutputFileSearchToolCallResult implements ResponseContract
     ) {}
 
     /**
-     * @param  array{attributes: array<string, string>, file_id: string, filename: string, score: float, text: string}  $attributes
+     * @param  OutputFileSearchToolCallResultType  $attributes
      */
     public static function from(array $attributes): self
     {

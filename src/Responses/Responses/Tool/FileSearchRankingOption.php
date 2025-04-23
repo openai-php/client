@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{ranker: string, score_threshold: float}>
+ * @phpstan-type RankingOptionType array{ranker: string, score_threshold: float}
+ *
+ * @implements ResponseContract<RankingOptionType>
  */
 final class FileSearchRankingOption implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{ranker: string, score_threshold: float}>
+     * @use ArrayAccessible<RankingOptionType>
      */
     use ArrayAccessible;
 
@@ -26,7 +28,7 @@ final class FileSearchRankingOption implements ResponseContract
     ) {}
 
     /**
-     * @param  array{ranker: string, score_threshold: float}  $attributes
+     * @param  RankingOptionType  $attributes
      */
     public static function from(array $attributes): self
     {

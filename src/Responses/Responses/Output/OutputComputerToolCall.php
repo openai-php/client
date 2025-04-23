@@ -19,12 +19,25 @@ use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerPendingSafety
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
+ * @phpstan-import-type ClickType from Click
+ * @phpstan-import-type DoubleClickType from DoubleClick
+ * @phpstan-import-type DragType from Drag
+ * @phpstan-import-type KeyPressType from KeyPress
+ * @phpstan-import-type MoveType from Move
+ * @phpstan-import-type ScreenshotType from Screenshot
+ * @phpstan-import-type ScrollType from Scroll
+ * @phpstan-import-type TypeType from Type
+ * @phpstan-import-type WaitType from Wait
+ * @phpstan-import-type PendingSafetyCheckType from OutputComputerPendingSafetyCheck
+ *
+ * @phpstan-type OutputComputerToolCallType array{action: ClickType|DoubleClickType|DragType|KeyPressType|MoveType|ScreenshotType|ScrollType|TypeType|WaitType, call_id: string, id: string, pending_safety_checks: array<int, PendingSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}
+ *
+ * @implements ResponseContract<OutputComputerToolCallType>
  */
 final class OutputComputerToolCall implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}>
+     * @use ArrayAccessible<OutputComputerToolCallType>
      */
     use ArrayAccessible;
 
@@ -45,7 +58,7 @@ final class OutputComputerToolCall implements ResponseContract
     ) {}
 
     /**
-     * @param  array{action: array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}|array{type: 'double_click', x: float, y: float}|array{path: array<int, array{x: int, y: int}>, type: 'drag'}|array{keys: array<int, string>, type: 'keypress'}|array{type: 'move', x: int, y: int}|array{type: 'screenshot'}|array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}|array{text: string, type: 'type'}|array{type: 'wait'}, call_id: string, id: string, pending_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}  $attributes
+     * @param  OutputComputerToolCallType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,18 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'file_search', vector_store_ids: array<int, string>, filters: array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}|array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}, max_num_results: int, ranking_options: array{ranker: string, score_threshold: float}}>
+ * @phpstan-import-type RankingOptionType from FileSearchRankingOption
+ * @phpstan-import-type ComparisonFilterType from FileSearchComparisonFilter
+ * @phpstan-import-type CompoundFilterType from FileSearchCompoundFilter
+ *
+ * @phpstan-type FileSearchToolType array{type: 'file_search', vector_store_ids: array<int, string>, filters: ComparisonFilterType|CompoundFilterType, max_num_results: int, ranking_options: RankingOptionType}
+ *
+ * @implements ResponseContract<FileSearchToolType>
  */
 final class FileSearchTool implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'file_search', vector_store_ids: array<int, string>, filters: array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}|array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}, max_num_results: int, ranking_options: array{ranker: string, score_threshold: float}}>
+     * @use ArrayAccessible<FileSearchToolType>
      */
     use ArrayAccessible;
 
@@ -33,7 +39,7 @@ final class FileSearchTool implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'file_search', vector_store_ids: array<int, string>, filters: array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}|array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}, max_num_results: int, ranking_options: array{ranker: string, score_threshold: float}}  $attributes
+     * @param  FileSearchToolType  $attributes
      */
     public static function from(array $attributes): self
     {

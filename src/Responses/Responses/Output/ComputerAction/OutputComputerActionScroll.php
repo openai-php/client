@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}>
+ * @phpstan-type ScrollType array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}
+ *
+ * @implements ResponseContract<ScrollType>
  */
 final class OutputComputerActionScroll implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}>
+     * @use ArrayAccessible<ScrollType>
      */
     use ArrayAccessible;
 
@@ -32,7 +34,7 @@ final class OutputComputerActionScroll implements ResponseContract
     ) {}
 
     /**
-     * @param  array{scroll_x: int, scroll_y: int, type: 'scroll', x: int, y: int}  $attributes
+     * @param  ScrollType  $attributes
      */
     public static function from(array $attributes): self
     {
