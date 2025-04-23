@@ -2,7 +2,7 @@
 
 namespace OpenAI\Responses\Chat;
 
-class CreateResponseChoiceWebSearchOptionsContent
+final class CreateResponseChoiceWebSearchOptionsContent
 {
     public function __construct(
         public readonly string $searchContextSize = 'medium',

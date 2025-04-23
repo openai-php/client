@@ -2,7 +2,7 @@
 
 namespace OpenAI\Responses\Chat;
 
-class CreateResponseChoiceWebSearchOptionsUserLocation
+final class CreateResponseChoiceWebSearchOptionsUserLocation
 {
     public function __construct(
         public readonly array $approximate

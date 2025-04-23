@@ -1,7 +1,7 @@
 <?php
 
 namespace OpenAI\Responses\Chat;
-class CreateResponseChoiceWebSearchOptions
+final class CreateResponseChoiceWebSearchOptions
 {
     //calls CreateResponseChoiceWebSearchOptionsContent
 
