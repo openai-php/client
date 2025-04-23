@@ -8,6 +8,9 @@ final class CreateResponseChoiceWebSearchOptionsUserLocation
         public readonly array $approximate
     ) {}
 
+    /**
+     * @param array{approximate: array{country: string, region: string, city: string}} $attributes
+     */
     public static function from(array $attributes): self
     {
         return new self(
@@ -15,9 +18,13 @@ final class CreateResponseChoiceWebSearchOptionsUserLocation
         );
     }
 
+    /**
+     * @return array{type: string, approximate: array{country: string, region: string, city: string}}
+     */
     public function toArray(): array
     {
         return [
+            'type' => 'approximate',
             'approximate' => $this->approximate,
         ];
     }
