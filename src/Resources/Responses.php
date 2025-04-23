@@ -16,6 +16,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 
 /**
  * @phpstan-import-type CreateResponseType from CreateResponse
+ * @phpstan-import-type RetrieveResponseType from RetrieveResponse
  */
 final class Responses implements ResponsesContract
 {
@@ -72,7 +73,7 @@ final class Responses implements ResponsesContract
     {
         $payload = Payload::retrieve('responses', $id);
 
-        /** @var Response<array{id: string, object: string, created_at: int, status: string, error: object|null, incomplete_details: object|null, instructions: ?string, max_output_tokens: ?int, model: string, output: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, parallel_tool_calls: bool, previous_response_id: ?string, reasoning: array<mixed>, store: bool, temperature: ?float, text: array{format: array{type: 'text'}|array{type: 'json_object'}|array{type: 'json_schema', name: string, schema: array<string, mixed>, description: ?string, strict: ?bool}}, tool_choice: string, tools: array<mixed>, top_p: ?float, truncation: string, usage: array{input_tokens: int, input_tokens_details: array<string, int>, output_tokens: int, output_tokens_details: array<string, int>, total_tokens: int}, user: ?string, metadata?: array<string, string>}> $response */
+        /** @var Response<RetrieveResponseType> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveResponse::from($response->data(), $response->meta());
