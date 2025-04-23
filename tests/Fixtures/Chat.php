@@ -17,6 +17,17 @@ function chatCompletion(): array
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
                 ],
+                'web_search_options' => [
+                    'search_context_size' => 'medium',
+                    'user_location' => [
+                        'type' => 'approximate',
+                        'approximate' => [
+                            'country' => 'US',
+                            'region' => 'CA',
+                            'city' => 'San Francisco',
+                        ],
+                    ]
+                ],
                 'logprobs' => null,
                 'finish_reason' => 'stop',
             ],
@@ -290,6 +301,17 @@ function chatCompletionWithLogprobs(): array
                     'role' => 'assistant',
                     'content' => 'Hello!',
                 ],
+                'web_search_options' => [
+                    'search_context_size' => 'medium',
+                    'user_location' => [
+                        'type' => 'approximate',
+                        'approximate' => [
+                            'country' => 'US',
+                            'region' => 'CA',
+                            'city' => 'San Francisco',
+                        ],
+                    ]
+                ],
                 'logprobs' => [
                     'content' => [
                         [
@@ -332,6 +354,17 @@ function chatCompletionWithSystemFingerprint(): array
                 'message' => [
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
+                ],
+                'web_search_options' => [
+                    'search_context_size' => 'medium',
+                    'user_location' => [
+                        'type' => 'approximate',
+                        'approximate' => [
+                            'country' => 'US',
+                            'region' => 'CA',
+                            'city' => 'San Francisco',
+                        ],
+                    ]
                 ],
                 'logprobs' => null,
                 'finish_reason' => 'stop',
