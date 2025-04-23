@@ -29,14 +29,14 @@ final class CreateResponseChoice
     }
 
     /**
-     * @return array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>},web_search_options?: ?array{content?: ?array<int, array{token: string, logprob: float, bytes?: ?array<int, int>}>}, logprobs: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}
+     * @return array{index: int, message: array{role: string, content: string|null, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>},web_search_options?: ?array{search_context_size?: string, user_location?: array{approximate?: array{type: string}}}, logprobs: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}
      */
     public function toArray(): array
     {
         return [
             'index' => $this->index,
             'message' => $this->message->toArray(),
-            'web_search_options' => $this->webSearchOptions->toArray(),
+            'web_search_options' => $this->webSearchOptions?->toArray(),
             'logprobs' => $this->logprobs?->toArray(),
             'finish_reason' => $this->finishReason,
         ];
