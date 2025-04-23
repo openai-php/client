@@ -4,15 +4,26 @@ namespace OpenAI\Responses\Chat;
 
 class CreateResponseChoiceWebSearchOptionsContent
 {
-    //Example:
-//web_search_options: {
-//search_scope: "web", // or "news", "scholarly", "code", etc. (if supported)
-//freshness: "day", // "hour", "day", "week", "month", or "any"
-//site_restriction: ["bbc.com", "npr.org"], // Limit search to these domains
-//exclude_sites: ["reddit.com"], // Optional: exclude certain domains
-//region: "us", // ISO 3166-1 alpha-2 country code (e.g., "us", "uk", "de")
-//language: "en", // Language preference
-//max_results: 5, // Limit number of results fetched
-//}
+    public function __construct(
+        public readonly string $searchContextSize = 'medium',
+        public readonly ?CreateResponseChoiceWebSearchOptionsUserLocation $userLocation = null
+    ) {}
 
+    public static function from(array $attributes): self
+    {
+        return new self(
+            $attributes['search_context_size'] ?? 'medium',
+            isset($attributes['user_location']) ? CreateResponseChoiceWebSearchOptionsUserLocation::from($attributes['user_location']) : null
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'search_context_size' => $this->searchContextSize,
+            'user_location' => $this->userLocation?->toArray(),
+        ];
+    }
 }
+
+
