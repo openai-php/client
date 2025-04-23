@@ -12,12 +12,14 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, deleted: bool}>
+ * @phpstan-type DeleteResponseType array{id: string, object: string, deleted: bool}
+ *
+ * @implements ResponseContract<DeleteResponseType>
  */
 final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
+     * @use ArrayAccessible<DeleteResponseType>
      */
     use ArrayAccessible;
 
@@ -32,9 +34,7 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
     ) {}
 
     /**
-     * Acts as static factory, and returns a new Response instance.
-     *
-     * @param  array{id: string, object: string, deleted: bool}  $attributes
+     * @param  DeleteResponseType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
