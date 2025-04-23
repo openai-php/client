@@ -7,8 +7,8 @@ test('from', function () {
     $input = [
         'search_context_size' => 'medium',
         'user_location' => [
+            'type' => 'approximate',
             'approximate' => [
-                'type' => 'approximate',
                 'country' => 'US',
                 'region' => 'CA',
                 'city' => 'San Francisco',
@@ -21,7 +21,9 @@ test('from', function () {
     expect($result)
         ->searchContextSize->toBe('medium')
         ->userLocation->toBeInstanceOf(CreateResponseChoiceWebSearchOptionsUserLocation::class)
-        ->userLocation->approximate['country']->toBe('US');
+        ->userLocation->approximate->country->toBe('US')
+        ->userLocation->approximate->region->toBe('CA')
+        ->userLocation->approximate->city->toBe('San Francisco');
 
 });
 
@@ -29,8 +31,8 @@ test('to array', function () {
     $input = [
         'search_context_size' => 'medium',
         'user_location' => [
+            'type' => 'approximate',
             'approximate' => [
-                'type' => 'approximate',
                 'country' => 'US',
                 'region' => 'CA',
                 'city' => 'San Francisco',

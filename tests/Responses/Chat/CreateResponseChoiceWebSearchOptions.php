@@ -1,21 +1,55 @@
 <?php
 
-use OpenAI\Responses\Chat\CreateResponseChoiceLogprobs;
-use OpenAI\Responses\Chat\CreateResponseChoiceLogprobsContent;
+use OpenAI\Responses\Chat\CreateResponseChoiceWebSearchOptions;
+use OpenAI\Responses\Chat\CreateResponseChoiceWebSearchOptionsUserLocation;
 
-test('from', function () {
-    $result = CreateResponseChoiceLogprobs::from(chatCompletionWithLogprobs()['choices'][0]['logprobs']);
+test('from creates an instance correctly', function () {
+    $attributes = [
+        'search_context_size' => 'large',
+        'user_location' => [
+            'approximate' => [
+                'country' => 'US',
+                'region' => 'CA',
+                'city' => 'San Francisco',
+            ]
+        ]
+    ];
 
-    expect($result)
-        ->toBeInstanceOf(CreateResponseChoiceLogprobs::class)
-        ->content->toBeArray()
-        ->content->toHaveCount(2)
-        ->content->each->toBeInstanceOf(CreateResponseChoiceLogprobsContent::class);
+    $result = CreateResponseChoiceWebSearchOptions::from($attributes);
+
+    expect($result)->toBeInstanceOf(CreateResponseChoiceWebSearchOptions::class)
+        ->and($result->searchContextSize)->toBe('large')
+        ->and($result->userLocation)->toBeInstanceOf(CreateResponseChoiceWebSearchOptionsUserLocation::class)
+        ->and($result->userLocation->approximate)->toBe([
+            'country' => 'US',
+            'region' => 'CA',
+            'city' => 'San Francisco',
+        ]);
 });
 
-test('to array', function () {
-    $result = CreateResponseChoiceLogprobs::from(chatCompletionWithLogprobs()['choices'][0]['logprobs']);
+test('toArray returns the correct array structure', function () {
+    $attributes = [
+        'search_context_size' => 'medium',
+        'user_location' => [
+            'approximate' => [
+                'country' => 'US',
+                'region' => 'CA',
+                'city' => 'San Francisco',
+            ]
+        ]
+    ];
 
-    expect($result->toArray())
-        ->toBe(chatCompletionWithLogprobs()['choices'][0]['logprobs']);
+    $result = CreateResponseChoiceWebSearchOptions::from($attributes);
+
+    expect($result->toArray())->toBe([
+        'search_context_size' => 'medium',
+        'user_location' => [
+            'type' => 'approximate',
+            'approximate' => [
+                'country' => 'US',
+                'region' => 'CA',
+                'city' => 'San Francisco',
+            ]
+        ]
+    ]);
 });
