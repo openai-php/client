@@ -10,12 +10,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
- * @implements ResponseContract<array{event: string, data: array<string, mixed>}>
+ * @phpstan-type CreateStreamedResponseType array{event: string, data: array<string, mixed>}
+ *
+ * @implements ResponseContract<CreateStreamedResponseType>
  */
 final class CreateStreamedResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{event: string, data: array<string, mixed>}>
+     * @use ArrayAccessible<CreateStreamedResponseType>
      */
     use ArrayAccessible;
 
@@ -27,11 +29,6 @@ final class CreateStreamedResponse implements ResponseContract
     ) {}
 
     /**
-     * Acts as static factory, and returns a new Response instance.
-     *
-     *  Maps the appropriate classes onto each event from the responses streaming api
-     *  https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses
-     *
      * @param  array<string, mixed>  $attributes
      */
     public static function from(array $attributes): self
@@ -43,11 +40,12 @@ final class CreateStreamedResponse implements ResponseContract
         unset($attributes['__meta']);
 
         $response = match ($event) {
-            'response.created' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.in_progress' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.completed' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.failed' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.incomplete' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
+            'response.created',
+            'response.in_progress',
+            'response.completed',
+            'response.failed',
+            'response.incomplete' => CreateResponse::from($attributes['response'], $meta), // @phpstan-ignore-line
+
             'response.output_item.added' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.output_item.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.content_part.added' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line

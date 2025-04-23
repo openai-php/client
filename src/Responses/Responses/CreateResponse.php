@@ -45,7 +45,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType>
- * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType, user: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -88,7 +88,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly array $tools,
         public readonly ?float $topP,
         public readonly ?string $truncation,
-        public readonly CreateResponseUsage $usage,
+        public readonly ?CreateResponseUsage $usage,
         public readonly ?string $user,
         public readonly array $metadata,
         private readonly MetaInformation $meta,
@@ -155,7 +155,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             tools: $tools,
             topP: $attributes['top_p'],
             truncation: $attributes['truncation'],
-            usage: CreateResponseUsage::from($attributes['usage']),
+            usage: isset($attributes['usage'])
+                ? CreateResponseUsage::from($attributes['usage'])
+                : null,
             user: $attributes['user'] ?? null,
             metadata: $attributes['metadata'] ?? [],
             meta: $meta,
@@ -199,7 +201,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             ),
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
-            'usage' => $this->usage->toArray(),
+            'usage' => $this->usage?->toArray(),
             'user' => $this->user,
         ];
     }
