@@ -15,7 +15,7 @@ final class CreateResponseChoice
     ) {}
 
     /**
-     * @param  array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, web_search_options?: ?array{content?: ?array<int, array{token: string, logprob: float, bytes?: ?array<int, int>}>},logprobs?: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}  $attributes
+     * @param  array{index: int, message: array{role: string, content: ?string, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, web_search_options?: ?array{search_context_size?: string, user_location?: array{approximate?: array{type: string}}},logprobs?: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
