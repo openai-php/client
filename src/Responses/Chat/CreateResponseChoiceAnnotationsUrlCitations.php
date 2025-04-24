@@ -17,8 +17,8 @@ final class CreateResponseChoiceAnnotationsUrlCitations
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['start_index'],
             $attributes['end_index'],
+            $attributes['start_index'],
             $attributes['title'],
             $attributes['url'],
         );
@@ -30,8 +30,8 @@ final class CreateResponseChoiceAnnotationsUrlCitations
     public function toArray(): array
     {
         return [
-            'start_index' => $this->startIndex,
             'end_index' => $this->endIndex,
+            'start_index' => $this->startIndex,
             'title' => $this->title,
             'url' => $this->url,
         ];
