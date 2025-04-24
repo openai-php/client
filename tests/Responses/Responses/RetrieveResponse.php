@@ -1,6 +1,9 @@
 <?php
 
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\CreateResponseFormat;
+use OpenAI\Responses\Responses\CreateResponseReasoning;
+use OpenAI\Responses\Responses\CreateResponseUsage;
 use OpenAI\Responses\Responses\RetrieveResponse;
 
 test('from', function () {
@@ -21,17 +24,16 @@ test('from', function () {
         ->output->toHaveCount(2)
         ->parallelToolCalls->toBeTrue()
         ->previousResponseId->toBeNull()
-        ->reasoning->toBeArray()
+        ->reasoning->toBeInstanceOf(CreateResponseReasoning::class)
         ->store->toBeTrue()
         ->temperature->toBe(1.0)
-        ->text->toBeArray()
+        ->text->toBeInstanceOf(CreateResponseFormat::class)
         ->toolChoice->toBe('auto')
         ->tools->toBeArray()
         ->tools->toHaveCount(1)
         ->topP->toBe(1.0)
         ->truncation->toBe('disabled')
-        ->usage->toBeArray()
-        ->usage->toHaveCount(5)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
         ->user->toBeNull()
         ->metadata->toBe([]);
 
