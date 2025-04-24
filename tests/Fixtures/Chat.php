@@ -258,18 +258,19 @@ function chatCompletionWithAnnotations(): array
                 'annotations' => [
                     'type' => 'url_citation',
                     'url_citation' => [
-                        'end_index' => 736,
-                        'start_index' => 684,
-                        'title' => 'Nido Kings Cross',
-                        'url' => 'http.//www.nidostudentliving.com',
-                    ]
+                        [
+                            'end_index' => 736,
+                            'start_index' => 684,
+                            'title' => 'Nido Kings Cross',
+                            'url' => 'http.//www.nidostudentliving.com',
+                        ],
+                    ],
                 ],
                 'finish_reason' => 'stop',
             ],
         ],
     ];
 }
-
 
 /**
  * @return array<string, mixed>
