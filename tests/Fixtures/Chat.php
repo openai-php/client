@@ -253,16 +253,16 @@ function chatCompletionWithAnnotations(): array
                 'index' => 0,
                 'message' => [
                     'role' => 'assistant',
-                    'content' => "Here is some information about Nido Kings Cross. For more details, visit the provided link.",
+                    'content' => "Hello World",
                 ],
                 'annotations' => [
                     'type' => 'url_citation',
                     'url_citation' => [
                         [
-                            'end_index' => 736,
-                            'start_index' => 684,
-                            'title' => 'Nido Kings Cross',
-                            'url' => 'http.//www.nidostudentliving.com',
+                            'end_index' => 5,
+                            'start_index' => 0,
+                            'title' => 'Hello',
+                            'url' => 'https://example.com',
                         ],
                     ],
                 ],
