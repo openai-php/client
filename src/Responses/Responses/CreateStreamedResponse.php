@@ -7,6 +7,7 @@ namespace OpenAI\Responses\Responses;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
@@ -25,7 +26,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse $response,
+        public readonly CreateResponse|OutputItem $response,
     ) {}
 
     /**
@@ -45,9 +46,9 @@ final class CreateStreamedResponse implements ResponseContract
             'response.completed',
             'response.failed',
             'response.incomplete' => CreateResponse::from($attributes['response'], $meta), // @phpstan-ignore-line
+            'response.output_item.added',
+            'response.output_item.done' => OutputItem::from($attributes, $meta), // @phpstan-ignore-line
 
-            'response.output_item.added' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.output_item.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.content_part.added' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.content_part.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.output_text.delta' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
