@@ -11,7 +11,6 @@ test('from', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeInstanceOf(CreateResponseChoiceAnnotations::class)
         ->logprobs->toBeNull()
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -22,7 +21,6 @@ test('from without logprobs', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -33,7 +31,6 @@ test('from with logprobs', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeInstanceOf(CreateResponseChoiceAnnotations::class)
         ->logprobs->toBeInstanceOf(CreateResponseChoiceLogprobs::class)
         ->finishReason->toBeIn(['stop', null]);
 });
@@ -44,7 +41,6 @@ test('from vision response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBeNull();
 });
@@ -55,7 +51,6 @@ test('from OpenRouter OpenAI response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
@@ -66,7 +61,6 @@ test('from OpenRouter Google response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
@@ -77,7 +71,6 @@ test('from OpenRouter xAI response', function () {
     expect($result)
         ->index->toBe(0)
         ->message->toBeInstanceOf(CreateResponseMessage::class)
-        ->annotations->toBeNull()
         ->logprobs->toBeNull()
         ->finishReason->toBe('stop');
 });
