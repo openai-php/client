@@ -253,7 +253,7 @@ function chatCompletionWithAnnotations(): array
                 'index' => 0,
                 'message' => [
                     'role' => 'assistant',
-                    'content' => "Hello World",
+                    'content' => 'Hello World',
                 ],
                 'annotations' => [
                     'type' => 'url_citation',

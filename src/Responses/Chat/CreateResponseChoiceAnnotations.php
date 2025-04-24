@@ -1,19 +1,18 @@
 <?php
 
 namespace OpenAI\Responses\Chat;
+
 final class CreateResponseChoiceAnnotations
 {
-
     /**
-     * @param ?array<int, CreateResponseChoiceAnnotationsUrlCitations>  $urlCitations
+     * @param  ?array<int, CreateResponseChoiceAnnotationsUrlCitations>  $urlCitations
      */
     public function __construct(
         public readonly ?array $urlCitations,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array{url_citation: array{start_index: int, end_index: int, title: string, url: string}} $attributes
+     * @param  array{url_citation: array{start_index: int, end_index: int, title: string, url: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -24,6 +23,7 @@ final class CreateResponseChoiceAnnotations
                 $attributes['url_citation']
             );
         }
+
         return new self($urlCitations);
     }
 
@@ -37,7 +37,7 @@ final class CreateResponseChoiceAnnotations
             'url_citation' => $this->urlCitations ? array_map(
                 static fn (CreateResponseChoiceAnnotationsUrlCitations $result): array => $result->toArray(),
                 $this->urlCitations,
-            ): null,
+            ) : null,
         ];
     }
 }

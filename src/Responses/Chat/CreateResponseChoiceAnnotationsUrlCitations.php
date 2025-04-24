@@ -12,7 +12,7 @@ final class CreateResponseChoiceAnnotationsUrlCitations
     ) {}
 
     /**
-     * @param array{start_index: int, end_index: int, title: string, url: string} $attributes
+     * @param  array{start_index: int, end_index: int, title: string, url: string}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -37,5 +37,3 @@ final class CreateResponseChoiceAnnotationsUrlCitations
         ];
     }
 }
-
-

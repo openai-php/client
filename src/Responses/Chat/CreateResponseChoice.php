@@ -7,11 +7,11 @@ namespace OpenAI\Responses\Chat;
 final class CreateResponseChoice
 {
     private function __construct(
-        public readonly int                              $index,
-        public readonly CreateResponseMessage            $message,
+        public readonly int $index,
+        public readonly CreateResponseMessage $message,
         public readonly ?CreateResponseChoiceAnnotations $annotations,
-        public readonly ?CreateResponseChoiceLogprobs    $logprobs,
-        public readonly ?string                          $finishReason,
+        public readonly ?CreateResponseChoiceLogprobs $logprobs,
+        public readonly ?string $finishReason,
     ) {}
 
     /**

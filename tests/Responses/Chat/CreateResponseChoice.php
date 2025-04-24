@@ -2,7 +2,6 @@
 
 use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseChoiceLogprobs;
-use OpenAI\Responses\Chat\CreateResponseChoiceAnnotations;
 use OpenAI\Responses\Chat\CreateResponseMessage;
 
 test('from', function () {
