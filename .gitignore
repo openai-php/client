@@ -4,6 +4,7 @@
 /composer.lock
 /phpunit.xml
 /vendor/
+package-lock.json
 *.swp
 *.swo
 playground/*
