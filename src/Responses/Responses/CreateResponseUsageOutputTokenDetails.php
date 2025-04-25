@@ -32,7 +32,7 @@ final class CreateResponseUsageOutputTokenDetails implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['reasoning_tokens'],
+            reasoningTokens: $attributes['reasoning_tokens'],
         );
     }
 

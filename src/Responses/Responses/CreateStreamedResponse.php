@@ -84,8 +84,8 @@ final class CreateStreamedResponse implements ResponseContract
         };
 
         return new self(
-            $event, // @phpstan-ignore-line
-            $response,
+            event: $event, // @phpstan-ignore-line
+            response: $response,
         );
     }
 

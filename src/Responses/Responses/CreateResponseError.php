@@ -33,8 +33,8 @@ final class CreateResponseError implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['code'],
-            $attributes['message'],
+            code: $attributes['code'],
+            message: $attributes['message'],
         );
     }
 

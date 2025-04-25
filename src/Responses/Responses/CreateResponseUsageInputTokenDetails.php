@@ -32,7 +32,7 @@ final class CreateResponseUsageInputTokenDetails implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['cached_tokens'],
+            cachedTokens: $attributes['cached_tokens'],
         );
     }
 
