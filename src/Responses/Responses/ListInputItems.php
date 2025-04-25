@@ -9,35 +9,41 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Responses\Input\AcknowledgedSafetyCheck;
 use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
-use OpenAI\Responses\Responses\Input\ComputerToolCallOutputScreenshot;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
 use OpenAI\Responses\Responses\Input\InputMessage;
-use OpenAI\Responses\Responses\Input\InputMessageContentInputFile;
-use OpenAI\Responses\Responses\Input\InputMessageContentInputImage;
-use OpenAI\Responses\Responses\Input\InputMessageContentInputText;
+use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputMessage;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: 'input_text', text: string}|array{type: 'input_image', detail: string, file_id: string|null, image_url: string|null}|array{type: 'input_file', file_data: string, file_id: string, filename: string}>}>, first_id: string, last_id: string, has_more: bool}>
+ * @phpstan-import-type InputMessageType from InputMessage
+ * @phpstan-import-type OutputMessageType from OutputMessage
+ * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
+ * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
+ * @phpstan-import-type ComputerToolCallOutputType from ComputerToolCallOutput
+ * @phpstan-import-type OutputWebSearchToolCallType from OutputWebSearchToolCall
+ * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
+ * @phpstan-import-type FunctionToolCallOutputType from FunctionToolCallOutput
+ *
+ * @phpstan-type ListInputItemsType array{data: array<int, InputMessageType|OutputMessageType|OutputFileSearchToolCallType|OutputComputerToolCallType|OutputWebSearchToolCallType|OutputFunctionToolCallType|FunctionToolCallOutputType>, first_id: string, has_more: bool, last_id: string, object: 'list'}
+ *
+ * @implements ResponseContract<ListInputItemsType>
  */
 final class ListInputItems implements ResponseContract, ResponseHasMetaInformationContract
 {
-    /** @use ArrayAccessible<array{object: string, data: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: 'input_text', text: string}|array{type: 'input_image', detail: string, file_id: string|null, image_url: string|null}|array{type: 'input_file', file_data: string, file_id: string, filename: string}>}>, first_id: string, last_id: string, has_more: bool}> */
+    /** @use ArrayAccessible<ListInputItemsType> */
     use ArrayAccessible;
 
     use Fakeable;
     use HasMetaInformation;
 
     /**
-     * @param array<int, array{
-     *   type: string,
-     *   id: string,
-     *   status: string,
-     *   role: string,
-     *   content: array<int, InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile|InputMessage|FunctionToolCallOutput|ComputerToolCallOutput|ComputerToolCallOutputScreenshot|AcknowledgedSafetyCheck>
-     * }> $data
+     * @param  array<int, InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput>  $data
+     * @param  'list'  $object
      */
     private function __construct(
         public readonly string $object,
@@ -49,35 +55,19 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     ) {}
 
     /**
-     * Acts as static factory, and returns a new Response instance.
-     *
-     * @param  array{object: string, data: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: 'input_text', text: string}|array{type: 'input_image', detail: string, file_id: string|null, image_url: string|null}|array{type: 'input_file', file_data: string, file_id: string, filename: string}>}>, first_id: string, last_id: string, has_more: bool}  $attributes
+     * @param  ListInputItemsType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $data = array_map(
-            function (array $item): array {
-                $content = array_map(
-                    fn (array $contentItem): InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile|InputMessage|FunctionToolCallOutput|ComputerToolCallOutput|ComputerToolCallOutputScreenshot|AcknowledgedSafetyCheck => match ($contentItem['type']) {
-                        'input_text' => InputMessageContentInputText::from($contentItem),
-                        'input_image' => InputMessageContentInputImage::from($contentItem),
-                        'input_file' => InputMessageContentInputFile::from($contentItem),
-                        'input_message' => InputMessage::from($contentItem),
-                        'function_tool_call_output' => FunctionToolCallOutput::from($contentItem),
-                        'computer_tool_call_output' => ComputerToolCallOutput::from($contentItem),
-                        'computer_tool_call_output_screenshot' => ComputerToolCallOutputScreenshot::from($contentItem),
-                        'acknowledged_safety_check' => AcknowledgedSafetyCheck::from($contentItem),
-                    },
-                    $item['content'],
-                );
-
-                return [
-                    'type' => $item['type'],
-                    'id' => $item['id'],
-                    'status' => $item['status'],
-                    'role' => $item['role'],
-                    'content' => $content,
-                ];
+            fn (array $item): InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput => match ($item['type']) {
+                'message' => $item['role'] === 'assistant' ? OutputMessage::from($item) : InputMessage::from($item),
+                'file_search_call' => OutputFileSearchToolCall::from($item),
+                'function_call' => OutputFunctionToolCall::from($item),
+                'function_call_output' => FunctionToolCallOutput::from($item),
+                'web_search_call' => OutputWebSearchToolCall::from($item),
+                'computer_call' => OutputComputerToolCall::from($item),
+                'computer_call_output' => ComputerToolCallOutput::from($item),
             },
             $attributes['data'],
         );
@@ -99,7 +89,10 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     {
         return [
             'object' => $this->object,
-            'data' => $this->data,
+            'data' => array_map(
+                fn (InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput $item): array => $item->toArray(),
+                $this->data,
+            ),
             'first_id' => $this->firstId,
             'last_id' => $this->lastId,
             'has_more' => $this->hasMore,
