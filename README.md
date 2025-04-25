@@ -187,7 +187,6 @@ $response->createdAt; // 1741476542
 $response->status; // 'completed'
 $response->model; // 'gpt-4o-mini'
 
-// Access output content
 foreach ($response->output as $output) {
     $output->type; // 'message'
     $output->id; // 'msg_67ccd2bf17f0819081ff3bb2cf6508e6'
@@ -201,7 +200,6 @@ foreach ($response->output as $output) {
     }
 }
 
-// Access usage information
 $response->usage->inputTokens; // 36
 $response->usage->outputTokens; // 87
 $response->usage->totalTokens; // 123
@@ -211,7 +209,7 @@ $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 
 #### `create streamed`
 
-When you create a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated.
+When you create a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses-streaming).
 
 ```php
 $stream = $client->responses()->createStreamed([
@@ -222,18 +220,10 @@ $stream = $client->responses()->createStreamed([
         ]
     ],
     'input' => "what was a positive news story from today?",
-    'stream' => true
 ]);
 
 foreach ($stream as $response) {
-    $response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
-    $response->object; // 'response'
-    $response->createdAt; // 1741476542
-    
-    foreach ($response->output as $output) {
-        // Process streaming output
-        echo $output->content[0]->text;
-    }
+    $response->event; // 'response.created'
 }
 ```
 
@@ -252,7 +242,7 @@ $response->error; // null
 $response->incompleteDetails; // null
 $response->instructions; // null
 $response->maxOutputTokens; // null
-$response->model; // 'gpt-4o-2024-08-06'
+$response->model; // 'gpt-4o-mini-2024-07-18"'
 $response->parallelToolCalls; // true
 $response->previousResponseId; // null
 $response->store; // true
@@ -280,7 +270,7 @@ $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'dele
 
 ### `list`
 
-Lists input items for a response with the given ID.
+Lists input items for a response with the given ID. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses/list).
 
 ```php
 $response = $client->responses()->list('resp_67ccd2bed1ec8190b14f964abc054267', [
@@ -292,20 +282,14 @@ $response->object; // 'list'
 
 foreach ($response->data as $item) {
     $item->type; // 'message'
-    $item->id; // Response item ID
+    $item->id; // 'msg_680bf4e8c1948192b64abf0bad54b30806e0834f49400fc3'
     $item->status; // 'completed'
-    $item->role; // 'user' or 'assistant'
-    
-    foreach ($item->content as $content) {
-        $content->type; // Content type
-        $content->text; // Content text
-        $content->annotations; // Content annotations
-    }
+    $item->role; // 'user'
 }
 
-$response->firstId; // First item ID in the list
-$response->lastId; // Last item ID in the list
-$response->hasMore; // Whether there are more items to fetch
+$response->firstId; // 'msg_680bf4e8c1948192b64abf0bad54b30806e0834f49400fc3'
+$response->lastId; // 'msg_680bf4e8c1948192b64abf0bad54b30806e0834f49400fc3'
+$response->hasMore; // false
 
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
