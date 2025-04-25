@@ -8,12 +8,20 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Responses\Streaming\ContentPart;
+use OpenAI\Responses\Responses\Streaming\Error;
+use OpenAI\Responses\Responses\Streaming\FileSearchCall;
+use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDelta;
+use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
-use OpenAI\Responses\Responses\Streaming\RefusalDelta;
-use OpenAI\Responses\Responses\Streaming\RefusalDone;
 use OpenAI\Responses\Responses\Streaming\OutputTextAnnotationAdded;
 use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
 use OpenAI\Responses\Responses\Streaming\OutputTextDone;
+use OpenAI\Responses\Responses\Streaming\ReasoningSummaryPart;
+use OpenAI\Responses\Responses\Streaming\ReasoningSummaryTextDelta;
+use OpenAI\Responses\Responses\Streaming\ReasoningSummaryTextDone;
+use OpenAI\Responses\Responses\Streaming\RefusalDelta;
+use OpenAI\Responses\Responses\Streaming\RefusalDone;
+use OpenAI\Responses\Responses\Streaming\WebSearchCall;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
@@ -32,7 +40,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone $response,
+        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|Error $response,
     ) {}
 
     /**
@@ -61,16 +69,20 @@ final class CreateStreamedResponse implements ResponseContract
             'response.output_text.annotation.added' => OutputTextAnnotationAdded::from($attributes, $meta), // @phpstan-ignore-line
             'response.refusal.delta' => RefusalDelta::from($attributes, $meta), // @phpstan-ignore-line
             'response.refusal.done' => RefusalDone::from($attributes, $meta), // @phpstan-ignore-line
-
-            'response.function_call_arguments.delta' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.function_call_arguments.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.file_search_call.in_progress' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.file_search_call.searching' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.file_search_call.completed' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.web_search_call.in_progress' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.web_search_call.searching' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.web_search_call.completed' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            default => throw new UnknownEventException('Unknown event: '.$event),
+            'response.function_call_arguments.delta' => FunctionCallArgumentsDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.function_call_arguments.done' => FunctionCallArgumentsDone::from($attributes, $meta), // @phpstan-ignore-line
+            'response.file_search_call.in_progress',
+            'response.file_search_call.searching',
+            'response.file_search_call.completed' => FileSearchCall::from($attributes, $meta), // @phpstan-ignore-line
+            'response.web_search_call.in_progress',
+            'response.web_search_call.searching',
+            'response.web_search_call.completed' => WebSearchCall::from($attributes, $meta), // @phpstan-ignore-line
+            'response.reasoning_summary_part.added',
+            'response.reasoning_summary_part.done' => ReasoningSummaryPart::from($attributes, $meta), // @phpstan-ignore-line
+            'response.reasoning_summary_text.delta' => ReasoningSummaryTextDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.reasoning_summary_text.done' => ReasoningSummaryTextDone::from($attributes, $meta), // @phpstan-ignore-line
+            'error' => Error::from($attributes, $meta), // @phpstan-ignore-line
+            default => throw new UnknownEventException('Unknown Responses streaming event: '.$event),
         };
 
         return new self(
