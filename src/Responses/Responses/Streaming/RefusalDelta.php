@@ -12,14 +12,14 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputRefusalDeltaType array{content_index: int, delta: string, item_id: string, output_index: int}
+ * @phpstan-type RefusalDeltaType array{content_index: int, delta: string, item_id: string, output_index: int}
  *
- * @implements ResponseContract<OutputRefusalDeltaType>
+ * @implements ResponseContract<RefusalDeltaType>
  */
-final class OutputRefusalDelta implements ResponseContract, ResponseHasMetaInformationContract
+final class RefusalDelta implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<OutputRefusalDeltaType>
+     * @use ArrayAccessible<RefusalDeltaType>
      */
     use ArrayAccessible;
 
@@ -35,7 +35,7 @@ final class OutputRefusalDelta implements ResponseContract, ResponseHasMetaInfor
     ) {}
 
     /**
-     * @param  OutputRefusalDeltaType  $attributes
+     * @param  RefusalDeltaType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

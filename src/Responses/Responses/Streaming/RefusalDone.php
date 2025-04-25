@@ -12,14 +12,14 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputRefusalDoneType array{content_index: int, item_id: string, output_index: int, refusal: string}
+ * @phpstan-type RefusalDoneType array{content_index: int, item_id: string, output_index: int, refusal: string}
  *
- * @implements ResponseContract<OutputRefusalDoneType>
+ * @implements ResponseContract<RefusalDoneType>
  */
-final class OutputRefusalDone implements ResponseContract, ResponseHasMetaInformationContract
+final class RefusalDone implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<OutputRefusalDoneType>
+     * @use ArrayAccessible<RefusalDoneType>
      */
     use ArrayAccessible;
 
@@ -35,7 +35,7 @@ final class OutputRefusalDone implements ResponseContract, ResponseHasMetaInform
     ) {}
 
     /**
-     * @param  OutputRefusalDoneType  $attributes
+     * @param  RefusalDoneType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
