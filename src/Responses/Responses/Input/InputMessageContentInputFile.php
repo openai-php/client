@@ -16,7 +16,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 final class InputMessageContentInputFile implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'input_file', file_data: string, file_id: string, filename: string}>
+     * @use ArrayAccessible<ContentInputFileType>
      */
     use ArrayAccessible;
 
@@ -33,7 +33,7 @@ final class InputMessageContentInputFile implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'input_file', file_data: string, file_id: string, filename: string}  $attributes
+     * @param  ContentInputFileType  $attributes
      */
     public static function from(array $attributes): self
     {
