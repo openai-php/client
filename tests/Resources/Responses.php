@@ -70,6 +70,14 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('create throws an exception if stream option is true', function () {
+    OpenAI::client('foo')->responses()->create([
+        'model' => 'gpt-3.5-turbo',
+        'messages' => ['role' => 'user', 'content' => 'Hello!'],
+        'stream' => true,
+    ]);
+})->throws(OpenAI\Exceptions\InvalidArgumentException::class, 'Stream option is not supported. Please use the createStreamed() method instead.');
+
 test('create streamed', function () {
     $response = new Response(
         body: new Stream(responseCompletionStream()),
@@ -110,7 +118,7 @@ test('create streamed', function () {
     expect($current->response->createdAt)
         ->toBe(1741484430);
     expect($current->response->status)
-        ->toBe('completed');
+        ->toBe('in_progress');
     expect($current->response->error)
         ->toBeNull();
     expect($current->response->incompleteDetails)
@@ -124,63 +132,7 @@ test('create streamed', function () {
     expect($current->response->output)
         ->toBeArray();
     expect($current->response->output)
-        ->toHaveCount(2);
-    expect($current->response->output[0]->type)
-        ->toBe('web_search_call');
-    expect($current->response->output[0]->id)
-        ->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
-    expect($current->response->output[0]->status)
-        ->toBe('completed');
-    expect($current->response->output[1]->type)
-        ->toBe('message');
-    expect($current->response->output[1]->id)
-        ->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c');
-    expect($current->response->output[1]->status)
-        ->toBe('completed');
-    expect($current->response->output[1]->role)
-        ->toBe('assistant');
-    expect($current->response->output[1]->content)
-        ->toBeArray();
-    expect($current->response->output[1]->content)
-        ->toHaveCount(1);
-    expect($current->response->output[1]->content[0]->type)
-        ->toBe('output_text');
-    expect($current->response->output[1]->content[0]->text)
-        ->toBe('As of today, March 9, 2025, one notable positive news story...');
-    expect($current->response->output[1]->content[0]->annotations)
-        ->toBeArray();
-    expect($current->response->output[1]->content[0]->annotations)
-        ->toHaveCount(3);
-    expect($current->response->output[1]->content[0]->annotations[0]->type)
-        ->toBe('url_citation');
-    expect($current->response->output[1]->content[0]->annotations[0]->startIndex)
-        ->toBe(442);
-    expect($current->response->output[1]->content[0]->annotations[0]->endIndex)
-        ->toBe(557);
-    expect($current->response->output[1]->content[0]->annotations[0]->url)
-        ->toBe('https://.../?utm_source=chatgpt.com');
-    expect($current->response->output[1]->content[0]->annotations[0]->title)
-        ->toBe('...');
-    expect($current->response->output[1]->content[0]->annotations[1]->type)
-        ->toBe('url_citation');
-    expect($current->response->output[1]->content[0]->annotations[1]->startIndex)
-        ->toBe(962);
-    expect($current->response->output[1]->content[0]->annotations[1]->endIndex)
-        ->toBe(1077);
-    expect($current->response->output[1]->content[0]->annotations[1]->url)
-        ->toBe('https://.../?utm_source=chatgpt.com');
-    expect($current->response->output[1]->content[0]->annotations[1]->title)
-        ->toBe('...');
-    expect($current->response->output[1]->content[0]->annotations[2]->type)
-        ->toBe('url_citation');
-    expect($current->response->output[1]->content[0]->annotations[2]->startIndex)
-        ->toBe(1336);
-    expect($current->response->output[1]->content[0]->annotations[2]->endIndex)
-        ->toBe(1451);
-    expect($current->response->output[1]->content[0]->annotations[2]->url)
-        ->toBe('https://.../?utm_source=chatgpt.com');
-    expect($current->response->output[1]->content[0]->annotations[2]->title)
-        ->toBe('...');
+        ->toHaveCount(0);
     expect($current->response->parallelToolCalls)
         ->toBeTrue();
     expect($current->response->previousResponseId)
@@ -191,60 +143,6 @@ test('create streamed', function () {
         ->toBe('auto');
     expect($current->response->topP)
         ->toBe(1.0);
-    expect($current->response->truncation)
-        ->toBe('disabled');
-    expect($current->response->reasoning)
-        ->toBeArray();
-    expect($current->response->reasoning['effort'])
-        ->toBeNull();
-    expect($current->response->reasoning['generate_summary'])
-        ->toBeNull();
-    expect($current->response->text)
-        ->toBeArray();
-    expect($current->response->text['format']['type'])
-        ->toBe('text');
-    expect($current->response->tools)
-        ->toBeArray();
-    expect($current->response->tools)
-        ->toHaveCount(1);
-    expect($current->response->tools[0]->type)
-        ->toBe('web_search_preview');
-    expect($current->response->tools[0]->domains)
-        ->toBeArray()->toBeEmpty();
-    expect($current->response->tools[0]->searchContextSize)
-        ->toBe('medium');
-    expect($current->response->tools[0]->userLocation)
-        ->toBeArray();
-    expect($current->response->tools[0]->userLocation['type'])
-        ->toBe('approximate');
-    expect($current->response->tools[0]->userLocation['city'])
-        ->toBeNull();
-    expect($current->response->tools[0]->userLocation['country'])
-        ->toBe('US');
-    expect($current->response->tools[0]->userLocation['region'])
-        ->toBeNull();
-    expect($current->response->tools[0]->userLocation['timezone'])
-        ->toBeNull();
-    expect($current->response->usage)
-        ->toBeArray();
-    expect($current->response->usage['input_tokens'])
-        ->toBe(328);
-    expect($current->response->usage['input_tokens_details']['cached_tokens'])
-        ->toBe(0);
-    expect($current->response->usage['output_tokens'])
-        ->toBe(356);
-    expect($current->response->usage['output_tokens_details']['reasoning_tokens'])
-        ->toBe(0);
-    expect($current->response->usage['total_tokens'])
-        ->toBe(684);
-    expect($current->response->user)
-        ->toBeNull();
-    expect($current->response->metadata)
-        ->toBeArray();
-    expect($current->response->metadata)
-        ->toBeEmpty();
-    expect($current->response->truncation)
-        ->toBe('disabled');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

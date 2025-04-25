@@ -161,7 +161,7 @@ function deleteResponseResource(): array
 /**
  * @return array<string, mixed>
  */
-function createStreamedResponseResource(): array
+function createStreamedResponseResponseCreatedEvent(): array
 {
     return [
         'event' => 'response.created',
