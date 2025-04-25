@@ -17,7 +17,6 @@ function chatCompletion(): array
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
                 ],
-                'annotations' => null,
                 'logprobs' => null,
                 'finish_reason' => 'stop',
             ],
@@ -254,16 +253,16 @@ function chatCompletionWithAnnotations(): array
                 'message' => [
                     'role' => 'assistant',
                     'content' => 'Hello World',
-                ],
-                'annotations' => [
-                    'type' => 'url_citation',
-                    'url_citation' => [
+                    'annotations' => [
                         [
-                            'end_index' => 5,
-                            'start_index' => 0,
-                            'title' => 'Hello',
-                            'url' => 'https://example.com',
-                        ],
+                        'type' => 'url_citation',
+                        'url_citation' => [
+                                'end_index' => 5,
+                                'start_index' => 0,
+                                'title' => 'Hello',
+                                'url' => 'https://example.com',
+                            ],
+],
                     ],
                 ],
                 'finish_reason' => 'stop',
@@ -325,7 +324,6 @@ function chatCompletionWithLogprobs(): array
                     'role' => 'assistant',
                     'content' => 'Hello!',
                 ],
-                'annotations' => null,
                 'logprobs' => [
                     'content' => [
                         [
@@ -369,7 +367,6 @@ function chatCompletionWithSystemFingerprint(): array
                     'role' => 'assistant',
                     'content' => "\n\nHello there, how may I assist you today?",
                 ],
-                'annotations' => null,
                 'logprobs' => null,
                 'finish_reason' => 'stop',
             ],
