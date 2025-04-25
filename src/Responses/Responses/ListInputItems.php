@@ -29,7 +29,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
  * @phpstan-import-type FunctionToolCallOutputType from FunctionToolCallOutput
  *
- * @phpstan-type ListInputItemsType array{data: array<int, InputMessageType|OutputMessageType|OutputFileSearchToolCallType|OutputComputerToolCallType|OutputWebSearchToolCallType|OutputFunctionToolCallType|FunctionToolCallOutputType>, first_id: string, has_more: bool, last_id: string, object: 'list'}
+ * @phpstan-type ListInputItemsType array{data: array<int, InputMessageType|OutputMessageType|OutputFileSearchToolCallType|OutputComputerToolCallType|ComputerToolCallOutputType|OutputWebSearchToolCallType|OutputFunctionToolCallType|FunctionToolCallOutputType>, first_id: string, has_more: bool, last_id: string, object: 'list'}
  *
  * @implements ResponseContract<ListInputItemsType>
  */
@@ -42,7 +42,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     /**
-     * @param  array<int, InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput>  $data
+     * @param  array<int, InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput>  $data
      * @param  'list'  $object
      */
     private function __construct(
@@ -60,7 +60,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $data = array_map(
-            fn (array $item): InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput => match ($item['type']) {
+            fn (array $item): InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput => match ($item['type']) {
                 'message' => $item['role'] === 'assistant' ? OutputMessage::from($item) : InputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -90,7 +90,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
         return [
             'object' => $this->object,
             'data' => array_map(
-                fn (InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput $item): array => $item->toArray(),
+                fn (InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput $item): array => $item->toArray(),
                 $this->data,
             ),
             'first_id' => $this->firstId,

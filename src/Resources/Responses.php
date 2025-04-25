@@ -17,6 +17,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 /**
  * @phpstan-import-type CreateResponseType from CreateResponse
  * @phpstan-import-type RetrieveResponseType from RetrieveResponse
+ * @phpstan-import-type ListInputItemsType from ListInputItems
  */
 final class Responses implements ResponsesContract
 {
@@ -105,7 +106,7 @@ final class Responses implements ResponsesContract
     {
         $payload = Payload::list('responses/'.$id.'/input_items', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{type: string, id: string, status: string, role: string, content: array<int, array{type: string, text: string, annotations: array<mixed>}>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
+        /** @var Response<ListInputItemsType> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListInputItems::from($response->data(), $response->meta());
