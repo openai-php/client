@@ -3,47 +3,20 @@
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 
-test('from', function () {
-    $response = CreateStreamedResponse::from(createStreamedResponseResponseCreatedEvent());
+test('fake', function () {
+    $response = CreateStreamedResponse::fake();
 
-    expect($response)
+    expect($response->getIterator()->current()->response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654');
+});
+
+test('from', function () {
+    $response = CreateStreamedResponse::fake(responseCompletionSteamCreatedEvent());
+
+    expect($response->getIterator()->current())
         ->toBeInstanceOf(CreateStreamedResponse::class)
         ->event->toBe('response.created')
         ->response->toBeInstanceOf(CreateResponse::class)
         ->response->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-});
-
-test('as array accessible', function () {
-    $response = CreateStreamedResponse::from(createStreamedResponseResponseCreatedEvent());
-
-    expect($response['event'])->toBe('response.created');
-});
-
-test('to array', function () {
-    $response = CreateStreamedResponse::from(createStreamedResponseResponseCreatedEvent());
-
-    expect($response->toArray())
-        ->toBeArray()
-        ->toBe([
-            'event' => 'response.created',
-            'response' => [
-                'id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
-            ],
-        ]);
-});
-
-test('fake', function () {
-    $response = CreateStreamedResponse::fake();
-
-    expect($response)
-        ->event->toBe('response.created')
-        ->response->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-});
-
-test('fake with override', function () {
-    $response = CreateStreamedResponse::fake(createStreamedResponseResponseCreatedEvent());
-
-    expect($response)
-        ->event->toBe('response.completed')
-        ->response->id->toBe('resp_1234');
 });

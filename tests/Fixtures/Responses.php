@@ -161,17 +161,6 @@ function deleteResponseResource(): array
 /**
  * @return array<string, mixed>
  */
-function createStreamedResponseResponseCreatedEvent(): array
-{
-    return [
-        'event' => 'response.created',
-        'data' => createResponseResource(),
-    ];
-}
-
-/**
- * @return array<string, mixed>
- */
 function inputMessage(): array
 {
     return [
@@ -305,4 +294,12 @@ function outputMessage(): array
 function responseCompletionStream()
 {
     return fopen(__DIR__.'/Streams/ResponseCompletionCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function responseCompletionSteamCreatedEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseCreatedResponse.txt', 'r');
 }
