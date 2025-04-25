@@ -9,8 +9,11 @@ use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Responses\Streaming\ContentPart;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
+use OpenAI\Responses\Responses\Streaming\OutputRefusalDelta;
+use OpenAI\Responses\Responses\Streaming\OutputRefusalDone;
 use OpenAI\Responses\Responses\Streaming\OutputTextAnnotationAdded;
 use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
+use OpenAI\Responses\Responses\Streaming\OutputTextDone;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
@@ -29,7 +32,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded $response,
+        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|OutputRefusalDelta|OutputRefusalDone $response,
     ) {}
 
     /**
@@ -54,11 +57,11 @@ final class CreateStreamedResponse implements ResponseContract
             'response.content_part.added',
             'response.content_part.done' => ContentPart::from($attributes, $meta), // @phpstan-ignore-line
             'response.output_text.delta' => OutputTextDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.output_text.done' => OutputTextDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.output_text.annotation.added' => OutputTextAnnotationAdded::from($attributes, $meta), // @phpstan-ignore-line
+            'response.refusal.delta' => OutputRefusalDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.refusal.done' => OutputRefusalDone::from($attributes, $meta), // @phpstan-ignore-line
 
-            'response.output_text.done',
-            'response.refusal.delta' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
-            'response.refusal.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.delta' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.done' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
             'response.file_search_call.in_progress' => CreateResponse::from($attributes, $meta), // @phpstan-ignore-line
