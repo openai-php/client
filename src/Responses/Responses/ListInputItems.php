@@ -9,6 +9,11 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Input\AcknowledgedSafetyCheck;
+use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
+use OpenAI\Responses\Responses\Input\ComputerToolCallOutputScreenshot;
+use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
+use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\Input\InputMessageContentInputFile;
 use OpenAI\Responses\Responses\Input\InputMessageContentInputImage;
 use OpenAI\Responses\Responses\Input\InputMessageContentInputText;
@@ -31,7 +36,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
      *   id: string,
      *   status: string,
      *   role: string,
-     *   content: array<int, InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile>
+     *   content: array<int, InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile|InputMessage|FunctionToolCallOutput|ComputerToolCallOutput|ComputerToolCallOutputScreenshot|AcknowledgedSafetyCheck>
      * }> $data
      */
     private function __construct(
@@ -53,10 +58,15 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
         $data = array_map(
             function (array $item): array {
                 $content = array_map(
-                    fn (array $contentItem): InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile => match ($contentItem['type']) {
+                    fn (array $contentItem): InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile|InputMessage|FunctionToolCallOutput|ComputerToolCallOutput|ComputerToolCallOutputScreenshot|AcknowledgedSafetyCheck => match ($contentItem['type']) {
                         'input_text' => InputMessageContentInputText::from($contentItem),
                         'input_image' => InputMessageContentInputImage::from($contentItem),
                         'input_file' => InputMessageContentInputFile::from($contentItem),
+                        'input_message' => InputMessage::from($contentItem),
+                        'function_tool_call_output' => FunctionToolCallOutput::from($contentItem),
+                        'computer_tool_call_output' => ComputerToolCallOutput::from($contentItem),
+                        'computer_tool_call_output_screenshot' => ComputerToolCallOutputScreenshot::from($contentItem),
+                        'acknowledged_safety_check' => AcknowledgedSafetyCheck::from($contentItem),
                     },
                     $item['content'],
                 );
