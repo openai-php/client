@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{refusal: string, type: 'refusal'}>
+ * @phpstan-type ContentRefusalType array{refusal: string, type: 'refusal'}
+ *
+ * @implements ResponseContract<ContentRefusalType>
  */
 final class OutputMessageContentRefusal implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{refusal: string, type: 'refusal'}>
+     * @use ArrayAccessible<ContentRefusalType>
      */
     use ArrayAccessible;
 
@@ -29,7 +31,7 @@ final class OutputMessageContentRefusal implements ResponseContract
     ) {}
 
     /**
-     * @param  array{refusal: string, type: 'refusal'}  $attributes
+     * @param  ContentRefusalType  $attributes
      */
     public static function from(array $attributes): self
     {

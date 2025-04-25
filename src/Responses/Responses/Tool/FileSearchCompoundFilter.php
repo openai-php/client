@@ -9,12 +9,16 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}>
+ * @phpstan-import-type ComparisonFilterType from FileSearchComparisonFilter
+ *
+ * @phpstan-type CompoundFilterType array{filters: array<int, ComparisonFilterType>, type: 'and'|'or'}
+ *
+ * @implements ResponseContract<CompoundFilterType>
  */
 final class FileSearchCompoundFilter implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}>
+     * @use ArrayAccessible<CompoundFilterType>
      */
     use ArrayAccessible;
 
@@ -30,7 +34,7 @@ final class FileSearchCompoundFilter implements ResponseContract
     ) {}
 
     /**
-     * @param  array{filters: array<int, array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>, type: 'and'|'or'}  $attributes
+     * @param  CompoundFilterType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'wait'}>
+ * @phpstan-type WaitType array{type: 'wait'}
+ *
+ * @implements ResponseContract<WaitType>
  */
 final class OutputComputerActionWait implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'wait'}>
+     * @use ArrayAccessible<WaitType>
      */
     use ArrayAccessible;
 
@@ -28,7 +30,7 @@ final class OutputComputerActionWait implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'wait'}  $attributes
+     * @param  WaitType  $attributes
      */
     public static function from(array $attributes): self
     {

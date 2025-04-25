@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{name: string, type: 'function'}>
+ * @phpstan-type FunctionToolChoiceType array{name: string, type: 'function'}
+ *
+ * @implements ResponseContract<FunctionToolChoiceType>
  */
 final class FunctionToolChoice implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{name: string, type: 'function'}>
+     * @use ArrayAccessible<FunctionToolChoiceType>
      */
     use ArrayAccessible;
 
@@ -29,7 +31,7 @@ final class FunctionToolChoice implements ResponseContract
     ) {}
 
     /**
-     * @param  array{name: string, type: 'function'}  $attributes
+     * @param  FunctionToolChoiceType  $attributes
      */
     public static function from(array $attributes): self
     {

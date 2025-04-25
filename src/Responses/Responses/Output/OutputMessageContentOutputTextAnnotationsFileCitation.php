@@ -9,7 +9,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{file_id: string, index: int, type: 'file_citation'}>
+ * @phpstan-type FileCitationType array{file_id: string, index: int, type: 'file_citation'}
+ *
+ * @implements ResponseContract<FileCitationType>
  */
 final class OutputMessageContentOutputTextAnnotationsFileCitation implements ResponseContract
 {

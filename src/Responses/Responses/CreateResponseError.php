@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{code: string, message: string}>
+ * @phpstan-type ErrorType array{code: string, message: string}
+ *
+ * @implements ResponseContract<ErrorType>
  */
 final class CreateResponseError implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{code: string, message: string}>
+     * @use ArrayAccessible<ErrorType>
      */
     use ArrayAccessible;
 
@@ -26,7 +28,7 @@ final class CreateResponseError implements ResponseContract
     ) {}
 
     /**
-     * @param  array{code: string, message: string}  $attributes
+     * @param  ErrorType  $attributes
      */
     public static function from(array $attributes): self
     {

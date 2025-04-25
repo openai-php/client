@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'screenshot'}>
+ * @phpstan-type ScreenshotType array{type: 'screenshot'}
+ *
+ * @implements ResponseContract<ScreenshotType>
  */
 final class OutputComputerActionScreenshot implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{type: 'screenshot'}>
+     * @use ArrayAccessible<ScreenshotType>
      */
     use ArrayAccessible;
 
@@ -28,7 +30,7 @@ final class OutputComputerActionScreenshot implements ResponseContract
     ) {}
 
     /**
-     * @param  array{type: 'screenshot'}  $attributes
+     * @param  ScreenshotType  $attributes
      */
     public static function from(array $attributes): self
     {

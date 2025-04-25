@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{text: string, type: 'input_text'}>
+ * @phpstan-type ContentInputTextType array{text: string, type: 'input_text'}
+ *
+ * @implements ResponseContract<ContentInputTextType>
  */
 final class InputMessageContentInputText implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{text: string, type: 'input_text'}>
+     * @use ArrayAccessible<ContentInputTextType>
      */
     use ArrayAccessible;
 
@@ -29,7 +31,7 @@ final class InputMessageContentInputText implements ResponseContract
     ) {}
 
     /**
-     * @param  array{text: string, type: 'input_text'}  $attributes
+     * @param  ContentInputTextType  $attributes
      */
     public static function from(array $attributes): self
     {

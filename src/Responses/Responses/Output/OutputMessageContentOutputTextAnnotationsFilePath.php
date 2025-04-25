@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{file_id: string, index: int, type: 'file_path'}>
+ * @phpstan-type FilePathType array{file_id: string, index: int, type: 'file_path'}
+ *
+ * @implements ResponseContract<FilePathType>
  */
 final class OutputMessageContentOutputTextAnnotationsFilePath implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{file_id: string, index: int, type: 'file_path'}>
+     * @use ArrayAccessible<FilePathType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class OutputMessageContentOutputTextAnnotationsFilePath implements Respons
     ) {}
 
     /**
-     * @param  array{file_id: string, index: int, type: 'file_path'}  $attributes
+     * @param  FilePathType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}>
+ * @phpstan-type ClickType array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}
+ *
+ * @implements ResponseContract<ClickType>
  */
 final class OutputComputerActionClick implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}>
+     * @use ArrayAccessible<ClickType>
      */
     use ArrayAccessible;
 
@@ -32,7 +34,7 @@ final class OutputComputerActionClick implements ResponseContract
     ) {}
 
     /**
-     * @param  array{button: 'left'|'right'|'wheel'|'back'|'forward', type: 'click', x: int, y: int}  $attributes
+     * @param  ClickType  $attributes
      */
     public static function from(array $attributes): self
     {

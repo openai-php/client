@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{reasoning_tokens: int}>
+ * @phpstan-type OutputTokenDetailsType array{reasoning_tokens: int}
+ *
+ * @implements ResponseContract<OutputTokenDetailsType>
  */
 final class CreateResponseUsageOutputTokenDetails implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{reasoning_tokens: int}>
+     * @use ArrayAccessible<OutputTokenDetailsType>
      */
     use ArrayAccessible;
 
@@ -25,7 +27,7 @@ final class CreateResponseUsageOutputTokenDetails implements ResponseContract
     ) {}
 
     /**
-     * @param  array{reasoning_tokens: int}  $attributes
+     * @param  OutputTokenDetailsType  $attributes
      */
     public static function from(array $attributes): self
     {

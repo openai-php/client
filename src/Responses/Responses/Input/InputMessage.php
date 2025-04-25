@@ -9,36 +9,18 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{
- *   content: array<int, array{
- *     type: 'input_text', text: string
- *   }|array{
- *     type: 'input_image', detail: string, file_id: string, image_url: string|null
- *   }|array{
- *     type: 'input_file', file_data: string, file_id: string, filename: string
- *   }>,
- *   id: string,
- *   role: string,
- *   status: 'in_progress'|'completed'|'incomplete',
- *   type: 'message'
- * }>
+ * @phpstan-import-type ContentInputTextType from InputMessageContentInputText
+ * @phpstan-import-type ContentInputImageType from InputMessageContentInputImage
+ * @phpstan-import-type ContentInputFileType from InputMessageContentInputFile
+ *
+ * @phpstan-type InputMessageType array{content: array<int, ContentInputTextType|ContentInputImageType|ContentInputFileType>, id: string, role: string, status: 'in_progress'|'completed'|'incomplete', type: 'message'}
+ *
+ * @implements ResponseContract<InputMessageType>
  */
 final class InputMessage implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{
-     *   content: array<int, array{
-     *     type: 'input_text', text: string
-     *   }|array{
-     *     type: 'input_image', detail: string, file_id: string, image_url: string|null
-     *   }|array{
-     *     type: 'input_file', file_data: string, file_id: string, filename: string
-     *   }>,
-     *   id: string,
-     *   role: string,
-     *   status: 'in_progress'|'completed'|'incomplete',
-     *   type: 'message'
-     * }>
+     * @use ArrayAccessible<InputMessageType>
      */
     use ArrayAccessible;
 
@@ -58,19 +40,7 @@ final class InputMessage implements ResponseContract
     ) {}
 
     /**
-     * @param  array{
-     *   content: array<int, array{
-     *     type: 'input_text', text: string
-     *   }|array{
-     *     type: 'input_image', detail: string, file_id: string, image_url: string|null
-     *   }|array{
-     *     type: 'input_file', file_data: string, file_id: string, filename: string
-     *   }>,
-     *   id: string,
-     *   role: string,
-     *   status: 'in_progress'|'completed'|'incomplete',
-     *   type: 'message'
-     * } $attributes
+     * @param  InputMessageType  $attributes
      */
     public static function from(array $attributes): self
     {

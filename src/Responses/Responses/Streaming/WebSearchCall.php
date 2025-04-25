@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses;
+namespace OpenAI\Responses\Responses\Streaming;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
@@ -12,14 +12,14 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type DeleteResponseType array{id: string, object: string, deleted: bool}
+ * @phpstan-type WebSearchCallType array{item_id: string, output_index: int}
  *
- * @implements ResponseContract<DeleteResponseType>
+ * @implements ResponseContract<WebSearchCallType>
  */
-final class DeleteResponse implements ResponseContract, ResponseHasMetaInformationContract
+final class WebSearchCall implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<DeleteResponseType>
+     * @use ArrayAccessible<WebSearchCallType>
      */
     use ArrayAccessible;
 
@@ -27,21 +27,19 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     private function __construct(
-        public readonly string $id,
-        public readonly string $object,
-        public readonly bool $deleted,
+        public readonly string $itemId,
+        public readonly int $outputIndex,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * @param  DeleteResponseType  $attributes
+     * @param  WebSearchCallType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
-            id: $attributes['id'],
-            object: $attributes['object'],
-            deleted: $attributes['deleted'],
+            itemId: $attributes['item_id'],
+            outputIndex: $attributes['output_index'],
             meta: $meta,
         );
     }
@@ -52,9 +50,8 @@ final class DeleteResponse implements ResponseContract, ResponseHasMetaInformati
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'object' => $this->object,
-            'deleted' => $this->deleted,
+            'item_id' => $this->itemId,
+            'output_index' => $this->outputIndex,
         ];
     }
 }

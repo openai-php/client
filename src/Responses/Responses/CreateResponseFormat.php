@@ -12,12 +12,18 @@ use OpenAI\Responses\Responses\Format\TextFormat;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{format: array{type: 'text'}|array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}|array{type: 'json_object'}}>
+ * @phpstan-import-type JsonObjectFormatType from JsonObjectFormat
+ * @phpstan-import-type JsonSchemaFormatType from JsonSchemaFormat
+ * @phpstan-import-type TextFormatType from TextFormat
+ *
+ * @phpstan-type ResponseFormatType array{format: TextFormatType|JsonObjectFormatType|JsonSchemaFormatType}
+ *
+ * @implements ResponseContract<ResponseFormatType>
  */
 final class CreateResponseFormat implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{format: array{type: 'text'}|array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}|array{type: 'json_object'}}>
+     * @use ArrayAccessible<ResponseFormatType>
      */
     use ArrayAccessible;
 
@@ -28,7 +34,7 @@ final class CreateResponseFormat implements ResponseContract
     ) {}
 
     /**
-     * @param  array{format: array{type: 'text'}|array{name: string, schema: array<string, mixed>, type: 'json_schema', description: ?string, strict: ?bool}|array{type: 'json_object'}}  $attributes
+     * @param  ResponseFormatType  $attributes
      */
     public static function from(array $attributes): self
     {

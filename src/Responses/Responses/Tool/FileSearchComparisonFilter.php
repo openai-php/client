@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>
+ * @phpstan-type ComparisonFilterType array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}
+ *
+ * @implements ResponseContract<ComparisonFilterType>
  */
 final class FileSearchComparisonFilter implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}>
+     * @use ArrayAccessible<ComparisonFilterType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class FileSearchComparisonFilter implements ResponseContract
     ) {}
 
     /**
-     * @param  array{key: string, type: 'eq'|'ne'|'gt'|'gte'|'lt'|'lte', value: string|int|bool}  $attributes
+     * @param  ComparisonFilterType  $attributes
      */
     public static function from(array $attributes): self
     {

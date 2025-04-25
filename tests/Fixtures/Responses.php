@@ -103,20 +103,18 @@ function retrieveResponseResource(): array
         'tools' => [
             [
                 'type' => 'web_search_preview',
-                'domains' => [],
                 'search_context_size' => 'medium',
                 'user_location' => [
                     'type' => 'approximate',
-                    'city' => 'San Francisco',
+                    'city' => null,
                     'country' => 'US',
-                    'region' => 'California',
-                    'timezone' => 'America/Los_Angeles',
+                    'region' => null,
+                    'timezone' => null,
                 ],
             ],
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
-        'user' => null,
         'usage' => [
             'input_tokens' => 328,
             'input_tokens_details' => [
@@ -128,6 +126,7 @@ function retrieveResponseResource(): array
             ],
             'total_tokens' => 684,
         ],
+        'user' => null,
     ];
 }
 

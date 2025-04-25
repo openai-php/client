@@ -9,7 +9,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{type: 'input_file', file_data: string, file_id: string, filename: string}>
+ * @phpstan-type ContentInputFileType array{type: 'input_file', file_data: string, file_id: string, filename: string}
+ *
+ * @implements ResponseContract<ContentInputFileType>
  */
 final class InputMessageContentInputFile implements ResponseContract
 {

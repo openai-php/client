@@ -9,12 +9,17 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{call_id: string, id: string, output: array{type: 'computer_screenshot', file_id: string, image_url: string}, type: 'computer_call_output', acknowledged_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete'}>
+ * @phpstan-import-type ComputerToolCallOutputScreenshotType from ComputerToolCallOutputScreenshot
+ * @phpstan-import-type AcknowledgedSafetyCheckType from AcknowledgedSafetyCheck
+ *
+ * @phpstan-type ComputerToolCallOutputType array{call_id: string, id: string, output: ComputerToolCallOutputScreenshotType, type: 'computer_call_output', acknowledged_safety_checks: array<int, AcknowledgedSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete'}
+ *
+ * @implements ResponseContract<ComputerToolCallOutputType>
  */
 final class ComputerToolCallOutput implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{call_id: string, id: string, output: array{type: 'computer_screenshot', file_id: string, image_url: string}, type: 'computer_call_output', acknowledged_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete'}>
+     * @use ArrayAccessible<ComputerToolCallOutputType>
      */
     use ArrayAccessible;
 
@@ -35,7 +40,7 @@ final class ComputerToolCallOutput implements ResponseContract
     ) {}
 
     /**
-     * @param  array{call_id: string, id: string, output: array{type: 'computer_screenshot', file_id: string, image_url: string}, type: 'computer_call_output', acknowledged_safety_checks: array<int, array{code: string, id: string, message: string}>, status: 'in_progress'|'completed'|'incomplete'}  $attributes
+     * @param  ComputerToolCallOutputType  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -12,12 +12,18 @@ use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsU
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}>
+ * @phpstan-import-type FileCitationType from OutputMessageContentOutputTextAnnotationsFileCitation
+ * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
+ * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
+ *
+ * @phpstan-type OutputTextType array{annotations: array<int, FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text'}
+ *
+ * @implements ResponseContract<OutputTextType>
  */
 final class OutputMessageContentOutputText implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}>
+     * @use ArrayAccessible<OutputTextType>
      */
     use ArrayAccessible;
 
@@ -34,7 +40,7 @@ final class OutputMessageContentOutputText implements ResponseContract
     ) {}
 
     /**
-     * @param  array{annotations: array<int, array{file_id: string, index: int, type: 'file_citation'}|array{file_id: string, index: int, type: 'file_path'}|array{end_index: int, start_index: int, title: string, type: 'url_citation', url: string}>, text: string, type: 'output_text'}  $attributes
+     * @param  OutputTextType  $attributes
      */
     public static function from(array $attributes): self
     {

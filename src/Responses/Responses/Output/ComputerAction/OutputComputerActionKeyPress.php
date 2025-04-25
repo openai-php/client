@@ -9,12 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{keys: array<int, string>, type: 'keypress'}>
+ * @phpstan-type KeyPressType array{keys: array<int, string>, type: 'keypress'}
+ *
+ * @implements ResponseContract<KeyPressType>
  */
 final class OutputComputerActionKeyPress implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{keys: array<int, string>, type: 'keypress'}>
+     * @use ArrayAccessible<KeyPressType>
      */
     use ArrayAccessible;
 
@@ -30,7 +32,7 @@ final class OutputComputerActionKeyPress implements ResponseContract
     ) {}
 
     /**
-     * @param  array{keys: array<int, string>, type: 'keypress'}  $attributes
+     * @param  KeyPressType  $attributes
      */
     public static function from(array $attributes): self
     {
