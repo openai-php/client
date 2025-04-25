@@ -138,19 +138,7 @@ function listInputItemsResource(): array
     return [
         'object' => 'list',
         'data' => [
-            [
-                'type' => 'message',
-                'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
-                'status' => 'completed',
-                'role' => 'user',
-                'content' => [
-                    [
-                        'type' => 'text',
-                        'text' => 'What was a positive news story from today?',
-                        'annotations' => [],
-                    ],
-                ],
-            ],
+            inputMessage(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -178,6 +166,25 @@ function createStreamedResponseResource(): array
     return [
         'event' => 'response.created',
         'data' => createResponseResource(),
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function inputMessage(): array
+{
+    return [
+        'content' => [
+            [
+                'text' => 'What was a positive news story from today?',
+                'type' => 'input_text',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'user',
+        'status' => 'completed',
+        'type' => 'message',
     ];
 }
 
