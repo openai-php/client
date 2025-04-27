@@ -14,6 +14,18 @@ function model(): array
 }
 
 /**
+ * @return array<string, string>
+ */
+function googleModel(): array
+{
+    return [
+        'id' => 'text-davinci-003',
+        'object' => 'model',
+        'owned_by' => 'google',
+    ];
+}
+
+/**
  * @return array<string, mixed>
  */
 function modelList(): array
