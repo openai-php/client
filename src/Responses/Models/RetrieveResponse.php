@@ -27,7 +27,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
     private function __construct(
         public readonly string $id,
         public readonly string $object,
-        public readonly int $created,
+        public readonly ?int $created,
         public readonly string $ownedBy,
         private readonly MetaInformation $meta,
     ) {}
@@ -42,7 +42,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         return new self(
             $attributes['id'],
             $attributes['object'],
-            $attributes['created'],
+            $attributes['created'] ?? null,
             $attributes['owned_by'],
             $meta,
         );
