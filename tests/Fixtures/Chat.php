@@ -255,14 +255,14 @@ function chatCompletionWithAnnotations(): array
                     'content' => 'Hello World',
                     'annotations' => [
                         [
-                        'type' => 'url_citation',
-                        'url_citation' => [
+                            'type' => 'url_citation',
+                            'url_citation' => [
                                 'end_index' => 5,
                                 'start_index' => 0,
                                 'title' => 'Hello',
                                 'url' => 'https://example.com',
                             ],
-],
+                        ],
                     ],
                 ],
                 'finish_reason' => 'stop',
