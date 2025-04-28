@@ -102,3 +102,64 @@ function moderationOmniResource(): array
         ],
     ];
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function moderationOmniWithTextAndImageResource(): array
+{
+    return [
+        'id' => 'modr-5MWoLO',
+        'model' => 'omni-moderation-001',
+        'results' => [
+            [
+                'categories' => [
+                    'hate' => false,
+                    'hate/threatening' => false,
+                    'harassment' => false,
+                    'harassment/threatening' => false,
+                    'illicit' => false,
+                    'illicit/violent' => false,
+                    'self-harm' => false,
+                    'self-harm/intent' => false,
+                    'self-harm/instructions' => false,
+                    'sexual' => false,
+                    'sexual/minors' => false,
+                    'violence' => true,
+                    'violence/graphic' => true,
+                ],
+                'category_scores' => [
+                    'hate' => 0.22714105248451233,
+                    'hate/threatening' => 0.4132447838783264,
+                    'illicit' => 0.1602763684674149,
+                    'illicit/violent' => 0.9223177433013916,
+                    'harassment' => 0.1602763684674149,
+                    'harassment/threatening' => 0.1602763684674149,
+                    'self-harm' => 0.005232391878962517,
+                    'self-harm/intent' => 0.005134391873962517,
+                    'self-harm/instructions' => 0.005132591874962517,
+                    'sexual' => 0.01407341007143259,
+                    'sexual/minors' => 0.0038522258400917053,
+                    'violence' => 0.4132447838783264,
+                    'violence/graphic' => 5.7929166992142E-5,
+                ],
+                'flagged' => true,
+                'category_applied_input_types' => [
+                    'hate' => ['text'],
+                    'hate/threatening' => ['text'],
+                    'harassment' => ['text'],
+                    'harassment/threatening' => ['text'],
+                    'self-harm' => ['text', 'image'],
+                    'self-harm/intent' => ['text', 'image'],
+                    'self-harm/instructions' => ['text', 'image'],
+                    'sexual' => ['text', 'image'],
+                    'sexual/minors' => ['text', 'image'],
+                    'violence' => ['text', 'image'],
+                    'violence/graphic' => ['text', 'image'],
+                    'illicit' => ['text'],
+                    'illicit/violent' => ['text'],
+                ],
+            ],
+        ],
+    ];
+}
