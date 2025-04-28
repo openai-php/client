@@ -15,6 +15,17 @@ test('from', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from google', function () {
+    $result = RetrieveResponse::from(googleModel(), meta());
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('text-davinci-003')
+        ->object->toBe('model')
+        ->ownedBy->toBe('google')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('as array accessible', function () {
     $result = RetrieveResponse::from(model(), meta());
 
