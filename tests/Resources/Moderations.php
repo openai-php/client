@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Enums\Moderations\Category;
+use OpenAI\Enums\Moderations\CategoryAppliedInputType;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Moderations\CreateResponse;
 use OpenAI\Responses\Moderations\CreateResponseCategory;
@@ -47,12 +48,16 @@ test('create legacy', closure: function () {
 test('create omni', closure: function () {
     $client = mockClient('POST', 'moderations', [
         'model' => 'omni-moderation-latest',
-        'input' => 'I want to kill them.',
+        'input' => [
+            ['type' => 'text', 'text' => '.. I want to kill...'],
+        ],
     ], Response::from(moderationOmniResource(), metaHeaders()));
 
     $result = $client->moderations()->create([
         'model' => 'omni-moderation-latest',
-        'input' => 'I want to kill them.',
+        'input' => [
+            ['type' => 'text', 'text' => '.. I want to kill...'],
+        ],
     ]);
 
     expect($result)
@@ -76,6 +81,10 @@ test('create omni', closure: function () {
         ->category->toBe(Category::IllicitViolent)
         ->violated->toBe(true)
         ->score->toBe(0.9223177433013916);
+
+    expect($result->results[0]->categoryAppliedInputTypes)
+        ->toHaveCount(13)
+        ->each->toBe([CategoryAppliedInputType::Text->value]);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
