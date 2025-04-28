@@ -5,39 +5,40 @@ namespace OpenAI\Responses\Chat;
 final class CreateResponseChoiceAnnotations
 {
     /**
-     * @param  ?array<int, CreateResponseChoiceAnnotationsUrlCitations>  $urlCitations
+     * @param  ?array<int, CreateResponseChoiceAnnotationsUrlCitations>  $citations
      */
     public function __construct(
-        public readonly ?array $urlCitations,
+        public readonly ?array $citations,
     ) {}
 
     /**
-     * @param  array{url_citation: array{start_index: int, end_index: int, title: string, url: string}}  $attributes
+     * @param array{type: 'url_citation', url_citation: array{start_index: int, end_index: int, title: string, url: string}} $attributes
      */
     public static function from(array $attributes): self
     {
-        $urlCitations = null;
-        if (isset($attributes['url_citation']) && is_array($attributes['url_citation'])) {
-            $urlCitations = array_map(
-                fn (array $result): CreateResponseChoiceAnnotationsUrlCitations => CreateResponseChoiceAnnotationsUrlCitations::from($result),
-                $attributes['url_citation']
-            );
+        $annotations = [];
+
+        if ($attributes['type'] === 'url_citation') {
+            $annotations[] = CreateResponseChoiceAnnotationsUrlCitations::from($attributes['url_citation']);
         }
 
-        return new self($urlCitations);
+        return new self($annotations);
     }
 
     /**
-     * @return array{url_citation: array{start_index: int, end_index: int, title: string, url: string}}
+     * @return array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}|null}
      */
     public function toArray(): array
     {
         return [
-            'type' => 'url_citation',
-            'url_citation' => $this->urlCitations ? array_map(
-                static fn (CreateResponseChoiceAnnotationsUrlCitations $result): array => $result->toArray(),
-                $this->urlCitations,
-            ) : null,
+            'annotations' => array_map(
+                fn(CreateResponseChoiceAnnotationsUrlCitations $citation): array => [
+                    'type' => 'url_citation',
+                    'url_citation' => $citation->toArray(),
+                ],
+                $this->citations
+            ),
         ];
     }
+
 }
