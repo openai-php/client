@@ -31,7 +31,7 @@ final class CreateResponseMessage
             $attributes['annotations']
         ) : null;
 
-        dump($annotations); //Test  is showing me that there is an extra array wrapped around the annotations.
+        dump($annotations); // Test  is showing me that there is an extra array wrapped around the annotations.
 
         return new self(
             $attributes['role'],
@@ -52,10 +52,9 @@ final class CreateResponseMessage
             'content' => $this->content,
         ];
 
-        if($this->annotations){
-            $data['annotations'] = array_map(fn (CreateResponseChoiceAnnotations $annotations): array => $annotations->toArray(), $this->annotations);
+        if ($this->annotations) {
+            $data['annotations'] = $this->annotations;
         }
-
 
         if ($this->functionCall instanceof CreateResponseFunctionCall) {
             $data['function_call'] = $this->functionCall->toArray();
