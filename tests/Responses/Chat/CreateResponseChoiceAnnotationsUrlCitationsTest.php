@@ -3,7 +3,8 @@
 use OpenAI\Responses\Chat\CreateResponseChoiceAnnotationsUrlCitations;
 
 it('from', function () {
-    $result = CreateResponseChoiceAnnotationsUrlCitations::from(chatCompletionWithAnnotations()['choices'][0]['annotations']['url_citation'][0]);
+
+    $result = CreateResponseChoiceAnnotationsUrlCitations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']['url_citation'][0]);
 
     expect($result)
         ->endIndex->toBe(5)
@@ -13,8 +14,8 @@ it('from', function () {
 });
 
 test('to array', function () {
-    $result = CreateResponseChoiceAnnotationsUrlCitations::from(chatCompletionWithAnnotations()['choices'][0]['annotations']['url_citation'][0]);
+    $result = CreateResponseChoiceAnnotationsUrlCitations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']['url_citation'][0]);
 
     expect($result->toArray())
-        ->toBe(chatCompletionWithAnnotations()['choices'][0]['annotations']['url_citation'][0]);
+        ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']['url_citation'][0]);
 });

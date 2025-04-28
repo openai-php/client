@@ -62,3 +62,10 @@ test('to array from tool calls response', function () {
     expect($result->toArray())
         ->toBe(chatCompletionWithToolCalls()['choices'][0]['message']);
 });
+
+test('to array from web search options response', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithAnnotations()['choices'][0]['message']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']);
+});
