@@ -12,7 +12,7 @@ final class CreateResponseChoiceAnnotationsUrlCitations
     ) {}
 
     /**
-     * @param  array{start_index: int, end_index: int, title: string, url: string}  $attributes
+     * @param  array{end_index: int, start_index: int, title: string, url: string}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -25,7 +25,7 @@ final class CreateResponseChoiceAnnotationsUrlCitations
     }
 
     /**
-     * @return array{start_index: int, end_index: int, title: string, url: string}
+     * @return array{end_index: int, start_index: int, title: string, url: string}
      */
     public function toArray(): array
     {
