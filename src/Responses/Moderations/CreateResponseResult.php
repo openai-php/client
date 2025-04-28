@@ -45,14 +45,7 @@ final class CreateResponseResult
         );
     }
 
-    /**
-     * @return array{
-     *     categories: array<string, bool>,
-     *     category_scores: array<string, float>,
-     *     flagged: bool,
-     *     category_applied_input_types?: array<string, array<string>>
-     * }
-     */
+    /** @return array{ categories: array<string, bool>, category_scores: array<string, float>, flagged: bool, category_applied_input_types?: array<string, array<int, string>>} */
     public function toArray(): array
     {
         $categories = [];
