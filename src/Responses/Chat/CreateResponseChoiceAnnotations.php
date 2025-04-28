@@ -26,7 +26,7 @@ final class CreateResponseChoiceAnnotations
     }
 
     /**
-     * @return array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}|null}
+     *  @return array{annotations: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>}
      */
     public function toArray(): array
     {
