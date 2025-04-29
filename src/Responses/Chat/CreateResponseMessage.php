@@ -36,7 +36,7 @@ final class CreateResponseMessage
     }
 
     /**
-     * @return array{role: string, content: string|null, function_call?: array{name: string, arguments: string},annotations?: ?array<int, array{type: "url_citation", url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}
+     * @return array{role: string, content: string|null, annotations?: ?array<int, array{type: "url_citation", url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}
      */
     public function toArray(): array
     {
