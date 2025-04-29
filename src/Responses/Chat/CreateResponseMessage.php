@@ -12,7 +12,7 @@ final class CreateResponseMessage
     private function __construct(
         public readonly string $role,
         public readonly ?string $content,
-        public readonly ?array $annotations,
+        public readonly ?CreateResponseChoiceAnnotations $annotations,
         public readonly array $toolCalls,
         public readonly ?CreateResponseFunctionCall $functionCall,
     ) {}
@@ -26,17 +26,10 @@ final class CreateResponseMessage
             $result
         ), $attributes['tool_calls'] ?? []);
 
-        $annotations = isset($attributes['annotations']) ? array_map(
-            fn (array $result): CreateResponseChoiceAnnotations => CreateResponseChoiceAnnotations::from($result),
-            $attributes['annotations']
-        ) : null;
-
-        dump($annotations); // Test  is showing me that there is an extra array wrapped around the annotations.
-
         return new self(
             $attributes['role'],
             $attributes['content'] ?? null,
-            $annotations,
+            isset($attributes['annotations']) ? CreateResponseChoiceAnnotations::from($attributes['annotations']) : null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
         );
@@ -53,7 +46,7 @@ final class CreateResponseMessage
         ];
 
         if ($this->annotations) {
-            $data['annotations'] = $this->annotations;
+            $data['annotations'] = $this->annotations->toArray();
         }
 
         if ($this->functionCall instanceof CreateResponseFunctionCall) {

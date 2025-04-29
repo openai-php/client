@@ -18,12 +18,15 @@ final class CreateResponseChoiceAnnotations
     {
         $annotations = [];
 
-        if ($attributes['type'] === 'url_citation') {
-            $annotations[] = CreateResponseChoiceAnnotationsUrlCitations::from($attributes['url_citation']);
+        if(isset($attributes['url_citation'])) {
+            $annotations = array_map(fn (array $result) : CreateResponseChoiceAnnotations => CreateResponseChoiceAnnotations::from(
+                $result
+            ), $attributes['url_citation']);
+        }
+        dump($annotations);
+        return new self($annotations);
         }
 
-        return new self($annotations);
-    }
 
     /**
      * @return array{annotations: array<int, array{type: string, url_citation: array{end_index: int, start_index: int, title: string, url: string}}>}
