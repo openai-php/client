@@ -18,7 +18,7 @@ final class CreateResponseChoiceAnnotations
     {
         $urlCitations = array_map(
             fn (array $citation) => CreateResponseChoiceAnnotationsUrlCitations::from($citation['url_citation']),
-            array_filter($attributes, fn (array $annotation) => $annotation['type'] === 'url_citation')
+            $attributes
         );
 
         return new self($urlCitations);
