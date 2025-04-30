@@ -24,7 +24,7 @@ final class Moderations implements ModerationsContract
     {
         $payload = Payload::create('moderations', $parameters);
 
-        /** @var Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}> $response */
+        /** @var Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool,category_applied_input_types?: array<string, array<int, string>>}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($response->data(), $response->meta());
