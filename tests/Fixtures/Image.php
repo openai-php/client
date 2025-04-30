@@ -12,7 +12,6 @@ function imageCreateWithUrl(): array
                 'url' => 'https://openai.com/image.png',
             ],
         ],
-        'usage' => null,
     ];
 }
 
@@ -29,7 +28,6 @@ function imageCreateWithUrlDallE3(): array
                 'revised_prompt' => 'This is a revised prompt.',
             ],
         ],
-        'usage' => null,
     ];
 }
 
@@ -45,7 +43,6 @@ function imageCreateWithB46Json(): array
                 'b64_json' => 'iVBORw0KGgoAAAAN...',
             ],
         ],
-        'usage' => null,
     ];
 }
 
