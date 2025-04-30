@@ -8,11 +8,12 @@ final class CreateResponseMessage
 {
     /**
      * @param  array<int, CreateResponseToolCall>  $toolCalls
+     * @param  array<int, CreateResponseChoiceAnnotations>  $annotations
      */
     private function __construct(
         public readonly string $role,
         public readonly ?string $content,
-        public readonly array $annotations, 
+        public readonly array $annotations,
         public readonly array $toolCalls,
         public readonly ?CreateResponseFunctionCall $functionCall,
     ) {}
