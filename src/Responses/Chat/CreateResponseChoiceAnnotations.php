@@ -10,24 +10,24 @@ final class CreateResponseChoiceAnnotations
     ) {}
 
     /**
-     * @param  array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}  $attributes
+     * @param  array{type: string, url_citation: array{end_index: int, start_index: int, title: string, url: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
-       return new self(
-           $attributes['type'],
-           CreateResponseChoiceAnnotationsUrlCitations::from($attributes['url_citation'])
-       );
+        return new self(
+            $attributes['type'],
+            CreateResponseChoiceAnnotationsUrlCitations::from($attributes['url_citation'])
+        );
     }
 
     /**
-     * @return array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}
+     * @return array{type: string, url_citation: array{end_index: int, start_index: int, title: string, url: string}}
      */
     public function toArray(): array
     {
         return [
             'type' => $this->type,
-            'url_citation' => $this->urlCitations->toArray()
+            'url_citation' => $this->urlCitations->toArray(),
         ];
     }
 }
