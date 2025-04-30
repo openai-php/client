@@ -4,18 +4,16 @@ use OpenAI\Responses\Chat\CreateResponseChoiceAnnotations;
 use OpenAI\Responses\Chat\CreateResponseChoiceAnnotationsUrlCitations;
 
 it('from url_citation annotation', function () {
-    $result = CreateResponseChoiceAnnotations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']);
+    $result = CreateResponseChoiceAnnotations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations'][0]);
 
     expect($result)
-        ->toBeInstanceOf(CreateResponseChoiceAnnotations::class)
-        ->urlCitations->toBeArray()
-        ->urlCitations->toHaveLength(1)
-        ->urlCitations->each->toBeInstanceOf(CreateResponseChoiceAnnotationsUrlCitations::class);
+        ->type->toBe('url_citation')
+        ->urlCitations->toBeInstanceOf(CreateResponseChoiceAnnotationsUrlCitations::class);
 });
 
 test('to array', function () {
-    $result = CreateResponseChoiceAnnotations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']);
+    $result = CreateResponseChoiceAnnotations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations'][0]);
 
     expect($result->toArray())
-        ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']);
+        ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']['annotations'][0]);
 });

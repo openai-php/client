@@ -4,37 +4,30 @@ namespace OpenAI\Responses\Chat;
 
 final class CreateResponseChoiceAnnotations
 {
-    /**
-     * @param  array<int, CreateResponseChoiceAnnotationsUrlCitations>  $urlCitations
-     */
     public function __construct(
-        public readonly array $urlCitations
+        public readonly string $type,
+        public readonly CreateResponseChoiceAnnotationsUrlCitations $urlCitations
     ) {}
 
     /**
-     * @param  array<int, array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}>  $attributes
+     * @param  array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
-        $urlCitations = array_map(
-            fn (array $citation) => CreateResponseChoiceAnnotationsUrlCitations::from($citation['url_citation']),
-            $attributes
-        );
-
-        return new self($urlCitations);
+       return new self(
+           $attributes['type'],
+           CreateResponseChoiceAnnotationsUrlCitations::from($attributes['url_citation'])
+       );
     }
 
     /**
-     * @return array<int, array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}>
+     * @return array{type: 'url_citation', url_citation: array{end_index: int, start_index: int, title: string, url: string}}
      */
     public function toArray(): array
     {
-        return array_map(
-            fn (CreateResponseChoiceAnnotationsUrlCitations $citation) => [
-                'type' => 'url_citation',
-                'url_citation' => $citation->toArray(),
-            ],
-            $this->urlCitations
-        );
+        return [
+            'type' => $this->type,
+            'url_citation' => $this->urlCitations->toArray()
+        ];
     }
 }
