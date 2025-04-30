@@ -26,7 +26,7 @@ final class Images implements ImagesContract
     {
         $payload = Payload::create('images/generations', $parameters);
 
-        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}> $response */
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>, usage: ?array{total_tokens: int, input_tokens: int, output_tokens: int, input_tokens_details: array{text_tokens: int, image_tokens: int}}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($response->data(), $response->meta());

@@ -54,6 +54,14 @@ test('to array with b64_json', function () {
         ->toBe(imageCreateWithB46Json());
 });
 
+test('from usage', function () {
+    $response = CreateResponse::from(imageCreateWithUsage(), meta());
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toBe(imageCreateWithUsage());
+});
+
 test('fake', function () {
     $response = CreateResponse::fake();
 

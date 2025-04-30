@@ -12,6 +12,7 @@ function imageCreateWithUrl(): array
                 'url' => 'https://openai.com/image.png',
             ],
         ],
+        'usage' => null,
     ];
 }
 
@@ -28,6 +29,7 @@ function imageCreateWithUrlDallE3(): array
                 'revised_prompt' => 'This is a revised prompt.',
             ],
         ],
+        'usage' => null,
     ];
 }
 
@@ -41,6 +43,31 @@ function imageCreateWithB46Json(): array
         'data' => [
             [
                 'b64_json' => 'iVBORw0KGgoAAAAN...',
+            ],
+        ],
+        'usage' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function imageCreateWithUsage(): array
+{
+    return [
+        'created' => 1664136088,
+        'data' => [
+            [
+                'b64_json' => 'iVBORw0KGgoAAAAN...',
+            ],
+        ],
+        'usage' => [
+            'total_tokens' => 250,
+            'input_tokens' => 100,
+            'output_tokens' => 150,
+            'input_tokens_details' => [
+                'image_tokens' => 100,
+                'text_tokens' => 100,
             ],
         ],
     ];
