@@ -17,16 +17,5 @@ test('to array', function () {
     $result = CreateResponseChoiceAnnotations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']);
 
     expect($result->toArray())
-        ->toBe([
-            [
-                'type' => 'url_citation',
-                'url_citation' => [
-                    'end_index' => 5,
-                    'start_index' => 0,
-                    'title' => 'Hello',
-                    'url' => 'https://example.com',
-                ],
-            ],
-
-        ]);
+        ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']['annotations']);
 });
