@@ -1,5 +1,6 @@
 <?php
 
+use OpenAI\Responses\Chat\CreateResponseChoiceAnnotations;
 use OpenAI\Responses\Chat\CreateResponseFunctionCall;
 use OpenAI\Responses\Chat\CreateResponseMessage;
 use OpenAI\Responses\Chat\CreateResponseToolCall;
@@ -10,6 +11,7 @@ test('from', function () {
     expect($result)
         ->role->toBe('assistant')
         ->content->toBe("\n\nHello there, how may I assist you today?")
+        ->annotations->toBeArray()
         ->functionCall->toBeNull();
 });
 
@@ -19,6 +21,7 @@ test('from function response', function () {
     expect($result)
         ->role->toBe('assistant')
         ->content->toBeNull()
+        ->annotations->toBeArray()
         ->functionCall->toBeInstanceOf(CreateResponseFunctionCall::class);
 });
 
@@ -31,6 +34,17 @@ test('from tool calls response', function () {
         ->toolCalls->toBeArray()
         ->toolCalls->toHaveCount(1)
         ->toolCalls->each->toBeInstanceOf(CreateResponseToolCall::class);
+});
+
+test('from annotations response', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithAnnotations()['choices'][0]['message']);
+
+    expect($result)
+        ->role->toBe('assistant')
+        ->content->toBe('Hello World')
+        ->annotations->toBeArray()
+        ->annotations->toHaveCount(1)
+        ->annotations->each->toBeInstanceOf(CreateResponseChoiceAnnotations::class);
 });
 
 test('from function response without content', function () {
@@ -63,7 +77,7 @@ test('to array from tool calls response', function () {
         ->toBe(chatCompletionWithToolCalls()['choices'][0]['message']);
 });
 
-test('to array from web search options response', function () {
+test('to array from annotations response', function () {
     $result = CreateResponseMessage::from(chatCompletionWithAnnotations()['choices'][0]['message']);
 
     expect($result->toArray())

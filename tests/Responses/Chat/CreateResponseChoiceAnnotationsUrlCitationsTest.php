@@ -3,7 +3,6 @@
 use OpenAI\Responses\Chat\CreateResponseChoiceAnnotationsUrlCitations;
 
 it('from', function () {
-
     $result = CreateResponseChoiceAnnotationsUrlCitations::from(chatCompletionWithAnnotations()['choices'][0]['message']['annotations'][0]['url_citation']);
 
     expect($result)

@@ -246,7 +246,7 @@ function chatCompletionWithAnnotations(): array
         'id' => 'chatcmpl-123',
         'object' => 'chat.completion',
         'created' => 1677652288,
-        'model' => 'gpt-4o-preview',
+        'model' => 'gpt-4o-mini-search-preview',
         'choices' => [
             [
                 'index' => 0,
