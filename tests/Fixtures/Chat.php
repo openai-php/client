@@ -379,6 +379,40 @@ function chatCompletionWithSystemFingerprint(): array
     ];
 }
 
+function chatCompletionWithCitations(): array
+{
+    return [
+        "id" => "80a3200c-98d0-4d29-97d0-4766130d7e4d",
+        "object" => "chat.completion",
+        "created" => 1746182677,
+        "model" => "sonar",
+        "citations" => [
+            "https://hennessey.com/seo/technical/what-are-the-benefits-of-technical-seo/",
+            "https://www.cloudflare.com/learning/performance/how-website-speed-boosts-seo/",
+            "https://www.semrush.com/blog/technical-seo/",
+            "https://thriveagency.com/news/mastering-technical-seo-for-website-performance/",
+            "https://elearninginfographics.com/the-importance-of-prioritizing-technical-seo-for-improved-website-performance/"
+        ],
+        "choices" => [
+            [
+                "index" => 0,
+                "message" => [
+                    "role" => "assistant",
+                    "content" => "Technical SEO plays a crucial role in boosting website performance by enhancing various aspects that contribute to better search engine rankings and user experience. Here's how technical SEO impacts website performance, based on expert insights and case studies:\n\n## Key Benefits of Technical SEO\n\n1. **Website Speed**: Technical SEO improves site speed, which is a critical factor for both user experience and search engine rankings. Faster websites retain visitors, reduce bounce rates, and improve the chances of higher rankings in search results[2][5]. Techniques like compressing images, using Content Delivery Networks (CDNs), and minifying code can enhance speed[5].\n\n2. **Mobile Compatibility**: Ensuring that a website is mobile-friendly is vital, as Google prioritizes mobile-first indexing. Technical SEO helps websites adapt to mobile screens, providing a seamless experience across devices[1][5].\n\n3. **Crawlability and Indexing**: Technical SEO optimizes crawlability and indexing by guiding search engine bots through the site more efficiently. This involves creating XML sitemaps, using proper URL structures, and implementing canonical tags to ensure that content is indexed correctly, leading to better search engine visibility[3][5].\n\n4. **Security and Navigation**: Technical SEO also emphasizes website security and navigation. Ensuring that a site is secure (HTTPS) and easy to navigate improves user trust and engagement, which can positively influence search engine rankings[1][5].\n\n## Expert Views\n\nExperts generally agree that technical SEO is essential for maintaining high website performance. It not only ensures that search engines can crawl and index content effectively but also enhances the overall user experience, which is crucial for converting traffic into leads and customers[1][3]. \n\n## Case Studies\n\nWhile specific case studies are not provided in the search results, it is common for businesses to see significant improvements in organic traffic and user engagement when they implement comprehensive technical SEO strategies. Improvements in website speed, mobile compatibility, and crawlability typically lead to increased visibility in search results and better user retention rates.\n\nIn summary, technical SEO is indispensable for boosting website performance by optimizing for search engines and enhancing user experience, which are both critical factors in achieving higher search engine rankings and driving organic traffic."
+                ],
+                'logprobs' => null,
+                'finish_reason' => null,
+            ]
+        ],
+        "usage" => [
+            "prompt_tokens" => 15,
+            "completion_tokens" => 438,
+            "total_tokens" => 453,
+            "search_context_size" => "low"
+        ],
+    ];
+}
+
 /**
  * @return array<string, mixed>
  */
@@ -639,7 +673,7 @@ function chatCompletionStreamVisionContentChunk(): array
  */
 function chatCompletionStream()
 {
-    return fopen(__DIR__.'/Streams/ChatCompletionCreate.txt', 'r');
+    return fopen(__DIR__ . '/Streams/ChatCompletionCreate.txt', 'r');
 }
 
 /**
@@ -647,7 +681,7 @@ function chatCompletionStream()
  */
 function chatCompletionStreamPing()
 {
-    return fopen(__DIR__.'/Streams/ChatCompletionPing.txt', 'r');
+    return fopen(__DIR__ . '/Streams/ChatCompletionPing.txt', 'r');
 }
 
 /**
@@ -655,5 +689,5 @@ function chatCompletionStreamPing()
  */
 function chatCompletionStreamError()
 {
-    return fopen(__DIR__.'/Streams/ChatCompletionCreateError.txt', 'r');
+    return fopen(__DIR__ . '/Streams/ChatCompletionCreateError.txt', 'r');
 }

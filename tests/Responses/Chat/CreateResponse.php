@@ -73,6 +73,27 @@ test('from with system fingerprint', function () {
         ->toBe(chatCompletionWithSystemFingerprint());
 });
 
+test('from with citations', function () {
+    $completion = CreateResponse::from(chatCompletionWithCitations(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('80a3200c-98d0-4d29-97d0-4766130d7e4d')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1746182677)
+        ->model->toBe('sonar')
+        ->systemFingerprint->toBeNull()
+        ->citations->toBeArray()->toHaveCount(5)
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+
+    expect($completion->toArray())
+        ->toBeArray()
+        ->toEqual(chatCompletionWithCitations());
+});
+
 test('from function response', function () {
     $completion = CreateResponse::from(chatCompletionWithFunction(), meta());
 
