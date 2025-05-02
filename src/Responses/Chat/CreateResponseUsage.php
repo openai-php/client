@@ -16,7 +16,7 @@ final class CreateResponseUsage
     ) {}
 
     /**
-     * @param  array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int, prompt_tokens_details?:array{cached_tokens:int}, completion_tokens_details?:array{audio_tokens?:int, reasoning_tokens:int, accepted_prediction_tokens:int, rejected_prediction_tokens:int}, search_context_size: 'low'|'medium'|'high'|null}  $attributes
+     * @param  array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int, prompt_tokens_details?:array{cached_tokens:int}, completion_tokens_details?:array{audio_tokens?:int, reasoning_tokens:int, accepted_prediction_tokens:int, rejected_prediction_tokens:int}, search_context_size: string|null}  $attributes
      */
     public static function from(array $attributes): self
     {
