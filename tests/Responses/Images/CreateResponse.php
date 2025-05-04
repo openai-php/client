@@ -2,6 +2,8 @@
 
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\CreateResponseData;
+use OpenAI\Responses\Images\ImageResponseUsage;
+use OpenAI\Responses\Images\ImageResponseUsageInputTokensDetails;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from with url', function () {
@@ -12,7 +14,8 @@ test('from with url', function () {
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
         ->data->each->toBeInstanceOf(CreateResponseData::class)
-        ->meta()->toBeInstanceOf(MetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeNull();
 });
 
 test('as array accessible with url', function () {
@@ -37,7 +40,8 @@ test('from with b64_json', function () {
         ->created->toBe(1664136088)
         ->data->toBeArray()->toHaveCount(1)
         ->data->each->toBeInstanceOf(CreateResponseData::class)
-        ->meta()->toBeInstanceOf(MetaInformation::class);
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeNull();
 });
 
 test('as array accessible with b64_json', function () {
@@ -52,6 +56,32 @@ test('to array with b64_json', function () {
     expect($response->toArray())
         ->toBeArray()
         ->toBe(imageCreateWithB46Json());
+});
+
+test('from with usage', function () {
+    $response = CreateResponse::from(imageCreateWithUsage(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->created->toBe(1664136088)
+        ->data->toBeArray()->toHaveCount(1)
+        ->data->each->toBeInstanceOf(CreateResponseData::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeInstanceOf(ImageResponseUsage::class)
+        ->usage->totalTokens->toBe(100)
+        ->usage->inputTokens->toBe(50)
+        ->usage->outputTokens->toBe(50)
+        ->usage->inputTokensDetails->toBeInstanceOf(ImageResponseUsageInputTokensDetails::class)
+        ->usage->inputTokensDetails->textTokens->toBe(10)
+        ->usage->inputTokensDetails->imageTokens->toBe(40);
+});
+
+test('to array with usage', function () {
+    $response = CreateResponse::from(imageCreateWithUsage(), meta());
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toBe(imageCreateWithUsage());
 });
 
 test('fake', function () {

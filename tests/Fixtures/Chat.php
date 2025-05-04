@@ -240,6 +240,40 @@ function chatCompletionWithoutUsage(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithAnnotations(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1677652288,
+        'model' => 'gpt-4o-mini-search-preview',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => 'Hello World',
+                    'annotations' => [
+                        [
+                            'type' => 'url_citation',
+                            'url_citation' => [
+                                'end_index' => 5,
+                                'start_index' => 0,
+                                'title' => 'Hello',
+                                'url' => 'https://example.com',
+                            ],
+                        ],
+                    ],
+                ],
+                'finish_reason' => 'stop',
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithoutLogprobs(): array
 {
     return [

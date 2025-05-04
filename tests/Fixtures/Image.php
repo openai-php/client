@@ -49,6 +49,30 @@ function imageCreateWithB46Json(): array
 /**
  * @return array<string, mixed>
  */
+function imageCreateWithUsage(): array
+{
+    return [
+        'created' => 1664136088,
+        'data' => [
+            [
+                'url' => 'https://openai.com/image.png',
+            ],
+        ],
+        'usage' => [
+            'total_tokens' => 100,
+            'input_tokens' => 50,
+            'output_tokens' => 50,
+            'input_tokens_details' => [
+                'text_tokens' => 10,
+                'image_tokens' => 40,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function imageEditWithUrl(): array
 {
     return [
@@ -79,6 +103,30 @@ function imageEditWithB46Json(): array
 /**
  * @return array<string, mixed>
  */
+function imageEditWithUsage(): array
+{
+    return [
+        'created' => 1664136088,
+        'data' => [
+            [
+                'url' => 'https://openai.com/image.png',
+            ],
+        ],
+        'usage' => [
+            'total_tokens' => 100,
+            'input_tokens' => 50,
+            'output_tokens' => 50,
+            'input_tokens_details' => [
+                'text_tokens' => 10,
+                'image_tokens' => 40,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function imageVariationWithUrl(): array
 {
     return [
@@ -101,6 +149,30 @@ function imageVariationWithB46Json(): array
         'data' => [
             [
                 'b64_json' => 'iVBORw0KGgoAAAAN...',
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function imageVariationWithUsage(): array
+{
+    return [
+        'created' => 1664136088,
+        'data' => [
+            [
+                'url' => 'https://openai.com/image.png',
+            ],
+        ],
+        'usage' => [
+            'total_tokens' => 100,
+            'input_tokens' => 50,
+            'output_tokens' => 50,
+            'input_tokens_details' => [
+                'text_tokens' => 10,
+                'image_tokens' => 40,
             ],
         ],
     ];
