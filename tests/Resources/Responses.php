@@ -36,7 +36,7 @@ test('create', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(4);
+        ->output->toHaveCount(5);
 
     expect($output[0])
         ->type->toBe('message')
@@ -54,6 +54,9 @@ test('create', function () {
         ->type->toBe('web_search_call')
         ->id->toBe('ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->status->toBe('completed');
+
+    expect($output[4])
+        ->type->toBe('reasoning');
 
     expect($result)
         ->parallelToolCalls->toBeTrue()

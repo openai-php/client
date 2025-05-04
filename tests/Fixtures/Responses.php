@@ -21,6 +21,7 @@ function createResponseResource(): array
             outputWebSearchToolCall(),
             outputFileSearchToolCall(),
             outputComputerToolCall(),
+            outputReasoning(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -239,6 +240,24 @@ function outputWebSearchToolCall(): array
         'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'status' => 'completed',
         'type' => 'web_search_call',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputReasoning(): array
+{
+    return [
+        'id' => 'rs_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'summary' => [
+            [
+                'text' => 'A summary of the reasoning process.',
+                'type' => 'summary_text',
+            ],
+        ],
+        'type' => 'reasoning',
+        'status' => 'completed',
     ];
 }
 
