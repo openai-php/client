@@ -257,6 +257,7 @@ function outputReasoning(): array
             ],
         ],
         'type' => 'reasoning',
+        'encrypted_content' => 'aabbccddeeff',
         'status' => 'completed',
     ];
 }

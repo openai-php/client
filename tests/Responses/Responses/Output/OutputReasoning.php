@@ -10,6 +10,7 @@ test('from', function () {
         ->summary->toBeArray()
         ->id->toBe('rs_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->type->toBe('reasoning')
+        ->encryptedContent->toBe('aabbccddeeff')
         ->status->toBe('completed');
 });
 
@@ -24,6 +25,7 @@ test('from no status', function () {
         ->summary->toBeArray()
         ->id->toBe('rs_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->type->toBe('reasoning')
+        ->encryptedContent->toBe('aabbccddeeff')
         ->status->toBeNull();
 });
 

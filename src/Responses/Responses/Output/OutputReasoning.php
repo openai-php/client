@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type ReasoningSummaryType from OutputReasoningSummary
  *
- * @phpstan-type OutputReasoningType array{id: string, summary: array<int, ReasoningSummaryType>, type: 'reasoning', status?: 'in_progress'|'completed'|'incomplete'|null}
+ * @phpstan-type OutputReasoningType array{id: string, summary: array<int, ReasoningSummaryType>, type: 'reasoning', encrypted_content: string|null, status?: 'in_progress'|'completed'|'incomplete'|null}
  *
  * @implements ResponseContract<OutputReasoningType>
  */
@@ -33,6 +33,7 @@ final class OutputReasoning implements ResponseContract
         public readonly string $id,
         public readonly array $summary,
         public readonly string $type,
+        public readonly ?string $encryptedContent,
         public readonly ?string $status,
     ) {}
 
@@ -50,6 +51,7 @@ final class OutputReasoning implements ResponseContract
             id: $attributes['id'],
             summary: $summary,
             type: $attributes['type'],
+            encryptedContent: $attributes['encrypted_content'] ?? null,
             status: $attributes['status'] ?? null,
         );
     }
@@ -66,6 +68,7 @@ final class OutputReasoning implements ResponseContract
                 $this->summary,
             ),
             'type' => $this->type,
+            'encrypted_content' => $this->encryptedContent,
             'status' => $this->status,
         ];
     }
