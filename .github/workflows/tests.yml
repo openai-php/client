@@ -12,6 +12,9 @@ jobs:
         php: [8.2, 8.3, 8.4]
         pest: [3, 4]
         dependency-version: [prefer-lowest, prefer-stable]
+        exclude:
+          - php: 8.2
+            pest: 4
 
     name: Tests P${{ matrix.php }} - Pest ${{ matrix.pest }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
