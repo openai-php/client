@@ -55,7 +55,7 @@ If you or your business relies on this package, it's important to support the de
 
 ## Get Started
 
-> **Requires [PHP 8.2+](https://php.net/releases/)**
+> **Requires [PHP 8.2+](https://www.php.net/releases/)**
 
 First, install OpenAI via the [Composer](https://getcomposer.org/) package manager:
 
