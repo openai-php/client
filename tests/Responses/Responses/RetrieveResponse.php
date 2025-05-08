@@ -30,7 +30,7 @@ test('from', function () {
         ->text->toBeInstanceOf(CreateResponseFormat::class)
         ->toolChoice->toBe('auto')
         ->tools->toBeArray()
-        ->tools->toHaveCount(1)
+        ->tools->toHaveCount(2)
         ->topP->toBe(1.0)
         ->truncation->toBe('disabled')
         ->usage->toBeInstanceOf(CreateResponseUsage::class)

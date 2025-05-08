@@ -13,7 +13,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ComparisonFilterType from FileSearchComparisonFilter
  * @phpstan-import-type CompoundFilterType from FileSearchCompoundFilter
  *
- * @phpstan-type FileSearchToolType array{type: 'file_search', vector_store_ids: array<int, string>, filters: ComparisonFilterType|CompoundFilterType, max_num_results: int, ranking_options: RankingOptionType}
+ * @phpstan-type FileSearchToolType array{type: 'file_search', vector_store_ids: array<int, string>, filters: ComparisonFilterType|CompoundFilterType|null, max_num_results: int, ranking_options: RankingOptionType}
  *
  * @implements ResponseContract<FileSearchToolType>
  */
@@ -33,7 +33,7 @@ final class FileSearchTool implements ResponseContract
     private function __construct(
         public readonly string $type,
         public readonly array $vectorStoreIds,
-        public readonly FileSearchComparisonFilter|FileSearchCompoundFilter $filters,
+        public readonly FileSearchComparisonFilter|FileSearchCompoundFilter|null $filters,
         public readonly int $maxNumResults,
         public readonly FileSearchRankingOption $rankingOptions,
     ) {}
@@ -43,10 +43,14 @@ final class FileSearchTool implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $filters = match ($attributes['filters']['type']) {
-            'eq', 'ne', 'gt', 'gte', 'lt', 'lte' => FileSearchComparisonFilter::from($attributes['filters']),
-            'and', 'or' => FileSearchCompoundFilter::from($attributes['filters']),
-        };
+        $filters = null;
+
+        if (isset($attributes['filters']['type'])) {
+            $filters = match ($attributes['filters']['type']) {
+                'eq', 'ne', 'gt', 'gte', 'lt', 'lte' => FileSearchComparisonFilter::from($attributes['filters']),
+                'and', 'or' => FileSearchCompoundFilter::from($attributes['filters']),
+            };
+        }
 
         return new self(
             type: $attributes['type'],
@@ -65,7 +69,7 @@ final class FileSearchTool implements ResponseContract
         return [
             'type' => $this->type,
             'vector_store_ids' => $this->vectorStoreIds,
-            'filters' => $this->filters->toArray(),
+            'filters' => $this->filters?->toArray(),
             'max_num_results' => $this->maxNumResults,
             'ranking_options' => $this->rankingOptions->toArray(),
         ];

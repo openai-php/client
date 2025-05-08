@@ -38,17 +38,8 @@ function createResponseResource(): array
         ],
         'tool_choice' => 'auto',
         'tools' => [
-            [
-                'type' => 'web_search_preview',
-                'search_context_size' => 'medium',
-                'user_location' => [
-                    'type' => 'approximate',
-                    'city' => 'San Francisco',
-                    'country' => 'US',
-                    'region' => 'California',
-                    'timezone' => 'America/Los_Angeles',
-                ],
-            ],
+            toolWebSearchPreview(),
+            toolFileSearch(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -102,17 +93,8 @@ function retrieveResponseResource(): array
         ],
         'tool_choice' => 'auto',
         'tools' => [
-            [
-                'type' => 'web_search_preview',
-                'search_context_size' => 'medium',
-                'user_location' => [
-                    'type' => 'approximate',
-                    'city' => null,
-                    'country' => 'US',
-                    'region' => null,
-                    'timezone' => null,
-                ],
-            ],
+            toolWebSearchPreview(),
+            toolFileSearch(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -305,6 +287,48 @@ function outputMessage(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolWebSearchPreview(): array
+{
+    return [
+        'type' => 'web_search_preview',
+        'search_context_size' => 'medium',
+        'user_location' => [
+            'type' => 'approximate',
+            'city' => 'San Francisco',
+            'country' => 'US',
+            'region' => 'California',
+            'timezone' => 'America/Los_Angeles',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolFileSearch(): array
+{
+    return [
+        'type' => 'file_search',
+        'vector_store_ids' => [
+            'vector_store_id_1',
+            'vector_store_id_2',
+        ],
+        'filters' => [
+            'key' => 'search-term',
+            'type' => 'eq',
+            'value' => 'search-term-value',
+        ],
+        'max_num_results' => 5,
+        'ranking_options' => [
+            'ranker' => 'bm25',
+            'score_threshold' => 0.5,
+        ],
     ];
 }
 
