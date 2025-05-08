@@ -21,6 +21,7 @@ use OpenAI\Resources\FineTuning;
 use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
+use OpenAI\Resources\Responses;
 use OpenAI\Resources\Threads;
 use OpenAI\Resources\VectorStores;
 
@@ -32,6 +33,16 @@ final class Client implements ClientContract
     public function __construct(private readonly TransporterContract $transporter)
     {
         // ..
+    }
+
+    /**
+     * Manage responses to assist models with tasks.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses
+     */
+    public function responses(): Responses
+    {
+        return new Responses($this->transporter);
     }
 
     /**

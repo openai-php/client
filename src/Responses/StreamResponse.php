@@ -66,8 +66,8 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
             if ($event !== null) {
                 $response['__event'] = $event;
-                $response['__meta'] = $this->meta();
             }
+            $response['__meta'] = $this->meta();
 
             yield $this->responseClass::from($response);
         }
