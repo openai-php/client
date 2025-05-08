@@ -2613,7 +2613,7 @@ $client = new ClientFake([
         'message' => 'The model `gpt-1` does not exist',
         'type' => 'invalid_request_error',
         'code' => null,
-    ])
+    ], 404)
 ]);
 
 // the `ErrorException` will be thrown

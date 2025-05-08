@@ -24,13 +24,6 @@ Clone your fork, then install the dev dependencies:
 composer install
 ```
 
-## Refactor
-
-Refactor your code:
-```bash
-composer refactor
-```
-
 ## Lint
 
 Lint your code:
@@ -43,11 +36,6 @@ composer lint
 Run all tests:
 ```bash
 composer test
-```
-
-Check code quality:
-```bash
-composer test:refactor
 ```
 
 Check types:
