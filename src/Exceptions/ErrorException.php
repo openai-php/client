@@ -11,15 +11,21 @@ final class ErrorException extends Exception
     /**
      * Creates a new Exception instance.
      *
-     * @param  array{message: string|array<int, string>, type: ?string, code: string|int|null}  $contents
+     * @param array|string $contents
+     * @param int $statusCode
      */
-    public function __construct(private readonly array $contents, private readonly int $statusCode)
+    public function __construct(private readonly array|string $contents, private readonly int $statusCode)
     {
-        $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
+        if(is_string($contents)) {
+            $message = $contents;
+        } else {
+            $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
 
-        if (is_array($message)) {
-            $message = implode(PHP_EOL, $message);
+            if (is_array($message)) {
+                $message = implode(PHP_EOL, $message);
+            }
         }
+
 
         parent::__construct($message);
     }
