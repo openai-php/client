@@ -601,6 +601,7 @@ function chatCompletionStreamToolCallsChunk(): array
                 'delta' => [
                     'tool_calls' => [
                         [
+                            'index' => 0,
                             'id' => 'call_trlgKnhMpYSC7CFXKw3CceUZ',
                             'type' => 'function',
                             'function' => [
