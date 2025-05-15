@@ -27,14 +27,15 @@ final class CreateStreamedResponseToolCall
     }
 
     /**
-     * @return array{id?: string, type?: string, function?: array{name?: string, arguments: string}}
+     * @return array{index?: int, id?: string, type?: string, function?: array{name?: string, arguments: string}}
      */
     public function toArray(): array
     {
         return array_filter([
+            'index' => $this->index,
             'id' => $this->id,
             'type' => $this->type,
             'function' => $this->function->toArray(),
-        ]);
+        ], fn ($value) => $value !== null);
     }
 }
