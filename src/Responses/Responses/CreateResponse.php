@@ -13,6 +13,7 @@ use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputMessage;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Responses\Responses\Tool\ComputerUseTool;
@@ -45,7 +46,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType>
- * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -78,6 +79,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly ?int $maxOutputTokens,
         public readonly string $model,
         public readonly array $output,
+        public readonly ?string $outputText,
         public readonly bool $parallelToolCalls,
         public readonly ?string $previousResponseId,
         public readonly ?CreateResponseReasoning $reasoning,
@@ -128,6 +130,18 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['tools'],
         );
 
+        // Remake the sdk only property output_text.
+        $texts = [];
+        foreach ($output as $item) {
+            if ($item instanceof OutputMessage) {
+                foreach ($item->content as $content) {
+                    if ($content instanceof OutputMessageContentOutputText) {
+                        $texts[] = $content->text;
+                    }
+                }
+            }
+        }
+
         return new self(
             id: $attributes['id'],
             object: $attributes['object'],
@@ -143,6 +157,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
+            outputText: implode(' ', $texts),
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
             reasoning: isset($attributes['reasoning'])
@@ -203,6 +218,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'truncation' => $this->truncation,
             'usage' => $this->usage?->toArray(),
             'user' => $this->user,
+            'output_text' => $this->outputText,
         ];
     }
 }
