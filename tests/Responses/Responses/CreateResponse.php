@@ -48,9 +48,25 @@ test('as array accessible', function () {
 test('to array', function () {
     $response = CreateResponse::from(createResponseResource(), meta());
 
+    $expected = createResponseResource();
+    $expected['output_text'] = 'As of today, March 9, 2025, one notable positive news story...';
+
     expect($response->toArray())
         ->toBeArray()
-        ->toBe(createResponseResource());
+        ->toBe($expected);
+});
+
+test('to array with no messages', function () {
+    $payload = createResponseResource();
+    $payload['output'] = [
+        outputMessageOnlyRefusal(),
+    ];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->outputText->toBeNull();
 });
 
 test('fake', function () {
