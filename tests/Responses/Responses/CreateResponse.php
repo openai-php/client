@@ -56,6 +56,19 @@ test('to array', function () {
         ->toBe($expected);
 });
 
+test('to array with no messages', function () {
+    $payload = createResponseResource();
+    $payload['output'] = [
+        outputMessageOnlyRefusal(),
+    ];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->outputText->toBeNull();
+});
+
 test('fake', function () {
     $response = CreateResponse::fake();
 

@@ -157,7 +157,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
-            outputText: implode(' ', $texts),
+            outputText: empty($texts) ? null : implode(' ', $texts),
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
             reasoning: isset($attributes['reasoning'])
