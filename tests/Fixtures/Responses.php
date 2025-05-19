@@ -293,6 +293,25 @@ function outputMessage(): array
 /**
  * @return array<string, mixed>
  */
+function outputMessageOnlyRefusal(): array
+{
+    return [
+        'content' => [
+            [
+                'refusal' => 'The assistant refused to answer.',
+                'type' => 'refusal',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'assistant',
+        'status' => 'completed',
+        'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolWebSearchPreview(): array
 {
     return [
