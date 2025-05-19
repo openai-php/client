@@ -3,6 +3,8 @@
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
+use OpenAI\Responses\Chat\CreateResponseUsageCompletionTokensDetails;
+use OpenAI\Responses\Chat\CreateResponseUsagePromptTokensDetails;
 use OpenAI\Responses\Meta\MetaInformation;
 
 test('from', function () {
@@ -69,6 +71,109 @@ test('from tool calls response', function () {
         ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
         ->usage->toBeInstanceOf(CreateResponseUsage::class)
         ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from usage details response', function () {
+    $response = CreateResponse::from(chatCompletionWithUsageDetails(), meta());
+
+    expect($response->usage->promptTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsagePromptTokensDetails::class)
+        ->audioTokens->toBe(0)
+        ->imageTokens->toBe(0)
+        ->textTokens->toBe(9);
+
+    expect($response->usage->completionTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsageCompletionTokensDetails::class)
+        ->audioTokens->toBe(0)
+        ->reasoningTokens->toBe(0)
+        ->acceptedPredictionTokens->toBe(12)
+        ->rejectedPredictionTokens->toBe(0);
+});
+
+test('from OpenRouter response', function () {
+    $response = CreateResponse::from(chatCompletionOpenRouter(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-hPV4VUD2Jc8f59N2QPpK5n4834mR')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1708000000)
+        ->model->toBe('google/gemma-7b-it:free')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->{0}->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from OpenRouter OpenAI response', function () {
+    $response = CreateResponse::from(chatCompletionOpenRouterOpenAI(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-hPV4VUD2Jc8f59N2QPpK5n4834mR')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1708000000)
+        ->model->toBe('openai/gpt-4-turbo-preview')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->{0}->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+
+    expect($response->usage->promptTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsagePromptTokensDetails::class)
+        ->audioTokens->toBeNull()
+        ->imageTokens->toBeNull()
+        ->textTokens->toBe(21);
+
+    expect($response->usage->completionTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsageCompletionTokensDetails::class)
+        ->audioTokens->toBeNull()
+        ->reasoningTokens->toBe(0)
+        ->acceptedPredictionTokens->toBe(21)
+        ->rejectedPredictionTokens->toBe(0);
+});
+
+test('from OpenRouter Google response', function () {
+    $response = CreateResponse::from(chatCompletionOpenRouterGoogle(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-hPV4VUD2Jc8f59N2QPpK5n4834mR')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1708000000)
+        ->model->toBe('google/gemini-pro')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->{0}->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from OpenRouter xAI response', function () {
+    $response = CreateResponse::from(chatCompletionOpenRouterXAI(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('gen-hPV4VUD2Jc8f59N2QPpK5n4834mR')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1708000000)
+        ->model->toBe('xai/grok-1')
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->{0}->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+
+    expect($response->usage->promptTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsagePromptTokensDetails::class)
+        ->audioTokens->toBeNull()
+        ->imageTokens->toBeNull()
+        ->textTokens->toBe(21);
+
+    expect($response->usage->completionTokensDetails)
+        ->toBeInstanceOf(CreateResponseUsageCompletionTokensDetails::class)
+        ->audioTokens->toBeNull()
+        ->reasoningTokens->toBe(0)
+        ->acceptedPredictionTokens->toBe(36)
+        ->rejectedPredictionTokens->toBe(0);
 });
 
 test('as array accessible', function () {

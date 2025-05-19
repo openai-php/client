@@ -10,14 +10,15 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
+use OpenAI\Responses\Images\ImageResponseUsage;
 
 /**
- * @implements ResponseContract<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}>
+ * @implements ResponseContract<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>, usage?: array{total_tokens: int, input_tokens: int, output_tokens: int, input_tokens_details: array{text_tokens: int, image_tokens: int}}}>
  */
 final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}>
+     * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>, usage?: array{total_tokens: int, input_tokens: int, output_tokens: int, input_tokens_details: array{text_tokens: int, image_tokens: int}}}>
      */
     use ArrayAccessible;
 
@@ -31,13 +32,15 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly int $created,
         public readonly array $data,
         private readonly MetaInformation $meta,
+        public readonly ?ImageResponseUsage $usage,
     ) {
     }
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}  $attributes
+     * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>, usage?: array{total_tokens: int, input_tokens: int, output_tokens: int, input_tokens_details: array{text_tokens: int, image_tokens: int}}}  $attributes
+     * @param  MetaInformation  $meta
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -45,10 +48,13 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $result
         ), $attributes['data']);
 
+        $usage = isset($attributes['usage']) ? ImageResponseUsage::from($attributes['usage']) : null;
+
         return new self(
             $attributes['created'],
             $results,
             $meta,
+            $usage,
         );
     }
 
@@ -57,12 +63,28 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     public function toArray(): array
     {
-        return [
+        $data = array_map(
+            static fn (CreateResponseData $result): array => $result->toArray(),
+            $this->data,
+        );
+
+        $result = [
             'created' => $this->created,
-            'data' => array_map(
-                static fn (CreateResponseData $result): array => $result->toArray(),
-                $this->data,
-            ),
+            'data' => $data,
         ];
+
+        if ($this->usage !== null) {
+            $result['usage'] = $this->usage->toArray();
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function meta(): MetaInformation
+    {
+        return $this->meta;
     }
 }

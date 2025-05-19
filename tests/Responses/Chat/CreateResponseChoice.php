@@ -21,6 +21,36 @@ test('from vision response', function () {
         ->finishReason->toBeNull();
 });
 
+test('from OpenRouter OpenAI response', function () {
+    $result = CreateResponseChoice::from(chatCompletionOpenRouterOpenAI()['choices'][0]);
+
+    expect($result)
+        ->index->toBe(0)
+        ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->logprobs->toBeNull()
+        ->finishReason->toBe('stop');
+});
+
+test('from OpenRouter Google response', function () {
+    $result = CreateResponseChoice::from(chatCompletionOpenRouterGoogle()['choices'][0]);
+
+    expect($result)
+        ->index->toBe(0)
+        ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->logprobs->toBeNull()
+        ->finishReason->toBe('stop');
+});
+
+test('from OpenRouter xAI response', function () {
+    $result = CreateResponseChoice::from(chatCompletionOpenRouterXAI()['choices'][0]);
+
+    expect($result)
+        ->index->toBe(0)
+        ->message->toBeInstanceOf(CreateResponseMessage::class)
+        ->logprobs->toBeNull()
+        ->finishReason->toBe('stop');
+});
+
 test('to array', function () {
     $result = CreateResponseChoice::from(chatCompletion()['choices'][0]);
 
