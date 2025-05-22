@@ -36,6 +36,6 @@ final class CreateStreamedResponseToolCall
             'id' => $this->id,
             'type' => $this->type,
             'function' => $this->function->toArray(),
-        ], fn ($value) => $value !== null);
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }
