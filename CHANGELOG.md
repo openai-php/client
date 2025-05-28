@@ -4,6 +4,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.13.0 (2025-05-14)
+### Added
+- Add support for Responses API ([#541](https://github.com/openai-php/client/pull/541))
+
+### Fixed
+- Add Throwable type support to ClientFake responses ([#576](https://github.com/openai-php/client/pull/576))
+
+## v0.12.0 (2025-05-04)
+### Changed
+- Removed PHP 8.1 support
+
+## v0.11.0 (2025-05-04)
+### Added
+- Add logprobs to Chat Response ([#533](https://github.com/openai-php/client/pull/533))
+- Add ResponseHasMetaInformationContract contract to ThreadRunStepResponse ([#523](https://github.com/openai-php/client/pull/523))
+- Add support for 'attributes' on vector store files ([#551](https://github.com/openai-php/client/pull/551))
+- Add OpenAI compatibility support for Google Gemini ([#502](https://github.com/openai-php/client/pull/502))
+- Add compatibility for Aliyun LLM APIs ([#530](https://github.com/openai-php/client/pull/530))
+- Add ability to pass arguments to files list request ([#557](https://github.com/openai-php/client/pull/557))
+- Add search vector store functionality ([#559](https://github.com/openai-php/client/pull/559))
+- Add Image Response usage ([#571](https://github.com/openai-php/client/pull/571))
+- Add category applied input types to moderation response ([#572](https://github.com/openai-php/client/pull/572))
+- Add support for annotations in Chat response (Web Search) ([#564](https://github.com/openai-php/client/pull/564))
+- Add test coverage for assistants streaming and related functionality ([#444](https://github.com/openai-php/client/pull/444))
+
+### Changed
+- Update GitHub Action deprecations & opt into Dependabot ([#544](https://github.com/openai-php/client/pull/544))
+- Draw attention away from deprecated completions endpoints in docs ([#548](https://github.com/openai-php/client/pull/548))
+
+### Fixed
+- Fix type definition for responses in ClientFake::addResponses method ([#382](https://github.com/openai-php/client/pull/382))
+- Fix Content retrieval in HttpTransport with custom HttpClient ([#343](https://github.com/openai-php/client/pull/343))
+- Fix correct completion endpoint when logprobs missing ([#550](https://github.com/openai-php/client/pull/550))
+- Fix chat completion choices to allow responses without logprobs field ([#554](https://github.com/openai-php/client/pull/554))
+- Fix support for streaming of non-OpenAI models that return "ping" ([#556](https://github.com/openai-php/client/pull/556))
+- Fix OpenRouter token usage response ([#560](https://github.com/openai-php/client/pull/560))
+- Fix Gemini list models ([#567](https://github.com/openai-php/client/pull/567))
+
+## v0.10.3 (2024-11-12)
+### Added
+- Add http status to ErrorException ([#487](https://github.com/openai-php/client/pull/487))
+- Add `cached_usage` to CreateResponseUsage for Chat ([#494](https://github.com/openai-php/client/pull/494))
+- Add moderation categories (Illicit*) ([#495](https://github.com/openai-php/client/pull/495))
+
+### Fixed
+- Fix missing parameters on FineTuning RetrieveJobResponse ([#496](https://github.com/openai-php/client/pull/496))
+- Fix nullable description on Assistants Tool Function ([#484](https://github.com/openai-php/client/pull/484))
+- Fix attachment key missing on ThreadMessageResponse ([#471](https://github.com/openai-php/client/pull/471))
+
+## v0.10.2 (2024-10-17)
+### Added
+- Add `thread.run.incomplete` to ThreadRunStreamResponse ([#421](https://github.com/openai-php/client/pull/421))
+- Add `withProject` to configure the project for the client ([#377](https://github.com/openai-php/client/pull/377))
+- Add fake `b64_json` to support mocking ([#462](https://github.com/openai-php/client/pull/462))
+
+### Fixed
+- Fix image url content type to use `url` instead of `file_id` ([#422](https://github.com/openai-php/client/pull/422))
+- Fix type error on VectorStoresFilesTestResources ([#460](https://github.com/openai-php/client/pull/460))
+- Fix vector store cancel method ([#435](https://github.com/openai-php/client/pull/435))
+
 ## v0.10.1 (2024-06-06)
 ### Added
 -  Add support for Assistants API v2 and Vector Stores endpoints ([#420](https://github.com/openai-php/client/pull/420))
@@ -19,8 +79,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Support for usage stream option on chat endpoint ([#398](https://github.com/openai-php/client/pull/398))
 
-- ### Fixed
-- Missing output paramenter on streamed code interpreter outpu ([#406](https://github.com/openai-php/client/pull/406))
+### Fixed
+- Missing output parameter on streamed code interpreter output ([#406](https://github.com/openai-php/client/pull/406))
 
 ## v0.9.1 (2024-05-24)
 ### Added
@@ -212,7 +272,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.4.1 (2023-03-24)
 ### Added
-- Stream suppport ([#84](https://github.com/openai-php/client/pull/84))
+- Stream support ([#84](https://github.com/openai-php/client/pull/84))
 
 ## v0.4.0 (2023-03-17)
 ### Changed

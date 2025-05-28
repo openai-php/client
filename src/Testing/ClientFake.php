@@ -21,6 +21,7 @@ use OpenAI\Testing\Resources\FineTuningTestResource;
 use OpenAI\Testing\Resources\ImagesTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
+use OpenAI\Testing\Resources\ResponsesTestResource;
 use OpenAI\Testing\Resources\ThreadsTestResource;
 use OpenAI\Testing\Resources\VectorStoresTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -130,6 +131,11 @@ class ClientFake implements ClientContract
         }
 
         return $response;
+    }
+
+    public function responses(): ResponsesTestResource
+    {
+        return new ResponsesTestResource($this);
     }
 
     public function completions(): CompletionsTestResource
