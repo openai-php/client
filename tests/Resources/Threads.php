@@ -10,7 +10,7 @@ use OpenAI\ValueObjects\Transporter\Response;
 test('create', function () {
     $client = mockClient('POST', 'threads', [], Response::from(threadResource(), metaHeaders()));
 
-    $result = $client->threads()->create([]);
+    $result = $client->threads()->create();
 
     expect($result)
         ->toBeInstanceOf(ThreadResponse::class)
