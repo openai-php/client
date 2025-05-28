@@ -201,3 +201,20 @@ test('retrieve', function () {
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
 });
+
+test('cancel', function () {
+    $client = mockClient('POST', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/cancel', [
+    ], \OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
+
+    $result = $client->responses()->cancel('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
+        ->object->toBe('response')
+        ->createdAt->toBe(1741484430)
+        ->status->toBe('completed');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
