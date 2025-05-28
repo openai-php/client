@@ -27,7 +27,7 @@ final class Threads implements ThreadsContract
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): ThreadResponse
+    public function create(array $parameters = []): ThreadResponse
     {
         $payload = Payload::create('threads', $parameters);
 
