@@ -81,6 +81,21 @@ final class Responses implements ResponsesContract
     }
 
     /**
+     * Cancels a model response with the given ID. Must be marked as 'background' to be cancellable.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses/cancel
+     */
+    public function cancel(string $id): RetrieveResponse
+    {
+        $payload = Payload::cancel('responses', $id);
+
+        /** @var Response<RetrieveResponseType> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return RetrieveResponse::from($response->data(), $response->meta());
+    }
+
+    /**
      * Deletes a model response with the given ID.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/delete

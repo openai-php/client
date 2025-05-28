@@ -254,6 +254,19 @@ $response->truncation; // 'disabled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 ```
 
+### `cancel`
+
+Cancel a model response (background request) with the given ID.
+
+```php
+$response = $client->responses()->cancel('resp_67ccd2bed1ec8190b14f964abc054267');
+
+$response->id; // 'resp_67ccd2bed1ec8190b14f964abc054267'
+$response->status; // 'canceled'
+
+$response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'status' => 'canceled', ...]
+```
+
 ### `delete`
 
 Deletes a model response with the given ID.
