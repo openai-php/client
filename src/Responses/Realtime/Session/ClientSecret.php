@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Realtime;
+namespace OpenAI\Responses\Realtime\Session;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
@@ -13,7 +13,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  *
  * @implements ResponseContract<ClientSecretType>
  */
-final class SessionClientSecret implements ResponseContract
+final class ClientSecret implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ClientSecretType>

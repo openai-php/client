@@ -5,27 +5,43 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\RealtimeContract;
-use OpenAI\Responses\Responses\CreateResponse;
-use OpenAI\Responses\Responses\ListInputItems;
-use OpenAI\Responses\Responses\RetrieveResponse;
+use OpenAI\Responses\Realtime\SessionResponse;
+use OpenAI\Responses\Realtime\TranscriptionSessionResponse;
+use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
 /**
- * @phpstan-import-type CreateResponseType from CreateResponse
- * @phpstan-import-type RetrieveResponseType from RetrieveResponse
- * @phpstan-import-type ListInputItemsType from ListInputItems
+ * @phpstan-import-type SessionType from SessionResponse
+ * @phpstan-import-type TranscriptionSessionType from TranscriptionSessionResponse
  */
 final class Realtime implements RealtimeContract
 {
-    use Concerns\Streamable;
     use Concerns\Transportable;
 
-    public function token(array $parameters = [])
+    /**
+     * Create an ephemeral API token for real time sessions.
+     *
+     * @see https://platform.openai.com/docs/api-reference/realtime-sessions/create
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function token(array $parameters = []): SessionResponse
     {
-        // TODO: Implement token() method.
+        $payload = Payload::create('realtime/sessions', $parameters);
+
+        /** @var Response<SessionType> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return SessionResponse::from($response->data());
     }
 
-    public function transcribeToken(array $parameters = [])
+    public function transcribeToken(array $parameters = []): TranscriptionSessionResponse
     {
-        // TODO: Implement transcribeToken() method.
+        $payload = Payload::create('realtime/transcription_sessions', $parameters);
+
+        /** @var Response<TranscriptionSessionType> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return TranscriptionSessionResponse::from($response->data());
     }
 }

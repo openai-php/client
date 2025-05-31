@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\Realtime\SessionResponse;
+use OpenAI\Responses\Realtime\TranscriptionSessionResponse;
+
 interface RealtimeContract
 {
     /**
@@ -13,7 +16,7 @@ interface RealtimeContract
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function token(array $parameters = []);
+    public function token(array $parameters = []): SessionResponse;
 
     /**
      * Create a new response.
@@ -22,5 +25,5 @@ interface RealtimeContract
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function transcribeToken(array $parameters = []);
+    public function transcribeToken(array $parameters = []): TranscriptionSessionResponse;
 }
