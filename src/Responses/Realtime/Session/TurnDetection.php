@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type TurnDetectionType array{prefix_padding_ms: int, silence_duration_ms: int, threshold: int, type: 'server_vad'}
+ * @phpstan-type TurnDetectionType array{prefix_padding_ms: int, silence_duration_ms: int, threshold: float, type: 'server_vad'}
  *
  * @implements ResponseContract<TurnDetectionType>
  */
@@ -28,7 +28,7 @@ final class TurnDetection implements ResponseContract
     private function __construct(
         public readonly int $prefixPaddingMs,
         public readonly int $silenceDurationMs,
-        public readonly int $threshold,
+        public readonly float $threshold,
         public readonly string $type,
     ) {}
 
