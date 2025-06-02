@@ -35,6 +35,13 @@ final class Realtime implements RealtimeContract
         return SessionResponse::from($response->data());
     }
 
+    /**
+     * Create an ephemeral API token for real time transcription sessions.
+     *
+     * @see https://platform.openai.com/docs/api-reference/realtime-sessions/create-transcription
+     *
+     * @param  array<string, mixed>  $parameters
+     */
     public function transcribeToken(array $parameters = []): TranscriptionSessionResponse
     {
         $payload = Payload::create('realtime/transcription_sessions', $parameters);
