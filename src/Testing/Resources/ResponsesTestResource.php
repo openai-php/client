@@ -40,6 +40,11 @@ final class ResponsesTestResource implements ResponsesContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
+    public function cancel(string $id): RetrieveResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
     public function delete(string $id): DeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
