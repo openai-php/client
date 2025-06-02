@@ -19,7 +19,7 @@ interface RealtimeContract
     public function token(array $parameters = []): SessionResponse;
 
     /**
-     * Create a new response.
+     * Create an ephemeral API token for real time transcription sessions.
      *
      * @see https://platform.openai.com/docs/api-reference/realtime-sessions/create-transcription
      *
