@@ -47,6 +47,19 @@ it('records a response retrieve request', function () {
     });
 });
 
+it('records a response cancel request', function () {
+    $fake = new ClientFake([
+        RetrieveResponse::fake(),
+    ]);
+
+    $fake->responses()->cancel('asst_SMzoVX8XmCZEg1EbMHoAm8tc');
+
+    $fake->assertSent(Responses::class, function ($method, $responseId) {
+        return $method === 'cancel' &&
+            $responseId === 'asst_SMzoVX8XmCZEg1EbMHoAm8tc';
+    });
+});
+
 it('records a response delete request', function () {
     $fake = new ClientFake([
         DeleteResponse::fake(),

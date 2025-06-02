@@ -43,6 +43,13 @@ interface ResponsesContract
     public function retrieve(string $id): RetrieveResponse;
 
     /**
+     * Cancels a model response with the given ID. Must be marked as 'background' to be cancellable.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses/cancel
+     */
+    public function cancel(string $id): RetrieveResponse;
+
+    /**
      * Deletes a model response with the given ID.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/delete
