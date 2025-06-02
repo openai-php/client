@@ -18,7 +18,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type TurnDetectionType from TurnDetection
  * @phpstan-import-type FunctionToolType from FunctionTool
  *
- * @phpstan-type TranscriptionSessionType array{client_secret: ClientSecretType, input_audio_format: 'pcm16'|'g711_ulaw'|'g711_alaw', input_audio_transcription: InputAudioTranscriptionType|null, modalities: array<string>, turn_detection: TurnDetectionType|null}
+ * @phpstan-type TranscriptionSessionType array{client_secret: ClientSecretType, input_audio_format: 'pcm16'|'g711_ulaw'|'g711_alaw', input_audio_transcription: InputAudioTranscriptionType|null, modalities: array<string>|null, turn_detection: TurnDetectionType|null}
  *
  * @implements ResponseContract<TranscriptionSessionType>
  */
@@ -33,13 +33,13 @@ final class TranscriptionSessionResponse implements ResponseContract
 
     /**
      * @param  'pcm16'|'g711_ulaw'|'g711_alaw'  $inputAudioFormat
-     * @param  array<string>  $modalities
+     * @param  array<string>|null  $modalities
      */
     private function __construct(
         public readonly ClientSecret $clientSecret,
         public readonly string $inputAudioFormat,
         public readonly ?InputAudioTranscription $inputAudioTranscription,
-        public readonly array $modalities,
+        public readonly ?array $modalities,
         public readonly ?TurnDetection $turnDetection,
     ) {}
 
@@ -54,7 +54,7 @@ final class TranscriptionSessionResponse implements ResponseContract
             inputAudioTranscription: isset($attributes['input_audio_transcription'])
                 ? InputAudioTranscription::from($attributes['input_audio_transcription'])
                 : null,
-            modalities: $attributes['modalities'],
+            modalities: $attributes['modalities'] ?? null,
             turnDetection: isset($attributes['turn_detection'])
                 ? TurnDetection::from($attributes['turn_detection'])
                 : null,
