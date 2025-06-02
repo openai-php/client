@@ -40,7 +40,7 @@ function transcriptionSessionResponseResource(): array
     return [
         'client_secret' => [
             'expires_at' => 1735680000,
-            'value' => 'ek_secret_123',
+            'value' => 'ek_secret_345',
         ],
         'input_audio_format' => 'pcm16',
         'input_audio_transcription' => null,
