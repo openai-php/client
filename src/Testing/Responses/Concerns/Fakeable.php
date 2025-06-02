@@ -29,9 +29,9 @@ trait Fakeable
         $new = [];
 
         foreach ($original as $key => $entry) {
-            $new[$key] = is_array($entry) ?
-                self::buildAttributes($entry, $override[$key] ?? []) :
-                $override[$key] ?? $entry;
+            $new[$key] = is_array($entry)
+                ? self::buildAttributes($entry, $override[$key] ?? [])
+                : $override[$key] ?? $entry;
             unset($override[$key]);
         }
 
