@@ -40,6 +40,7 @@ function createResponseResource(): array
         'tools' => [
             toolWebSearchPreview(),
             toolFileSearch(),
+            toolImageGeneration(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -95,6 +96,7 @@ function retrieveResponseResource(): array
         'tools' => [
             toolWebSearchPreview(),
             toolFileSearch(),
+            toolImageGeneration(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -324,6 +326,25 @@ function toolWebSearchPreview(): array
             'region' => 'California',
             'timezone' => 'America/Los_Angeles',
         ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolImageGeneration(): array
+{
+    return [
+        'type' => 'image_generation',
+        'background' => 'transparent',
+        'input_image_mask' => null,
+        'model' => 'gpt-image-1',
+        'moderation' => 'auto',
+        'output_compression' => 100,
+        'output_format' => 'png',
+        'partial_images' => 0,
+        'quality' => 'auto',
+        'size' => 'auto',
     ];
 }
 
