@@ -15,6 +15,7 @@ use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
+use OpenAI\Contracts\Resources\RealtimeContract;
 use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
@@ -35,6 +36,13 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/responses
      */
     public function responses(): ResponsesContract;
+
+    /**
+     * Communicate with a GPT-4o class model in real time using WebRTC or WebSockets. Supports text and audio inputs and outputs, along with audio transcriptions.
+     *
+     * @see https://platform.openai.com/docs/api-reference/realtime-sessions
+     */
+    public function realtime(): RealtimeContract;
 
     /**
      * Given a chat conversation, the model will return a chat completion response.
