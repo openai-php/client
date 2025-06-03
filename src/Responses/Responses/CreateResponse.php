@@ -19,6 +19,7 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Responses\Responses\Tool\ComputerUseTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
+use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
@@ -34,6 +35,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputWebSearchToolCallType from OutputWebSearchToolCall
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type FileSearchToolType from FileSearchTool
+ * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool
  * @phpstan-import-type FunctionToolType from FunctionTool
  * @phpstan-import-type WebSearchToolType from WebSearchTool
  * @phpstan-import-type ErrorType from CreateResponseError
@@ -44,7 +46,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
  *
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
- * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType>
+ * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType>
  * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
@@ -64,7 +66,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  'response'  $object
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
      * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning>  $output
-     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool>  $tools
+     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata
      */
@@ -121,11 +123,12 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         : $attributes['tool_choice'];
 
         $tools = array_map(
-            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool => match ($tool['type']) {
+            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
                 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
                 'computer_use_preview' => ComputerUseTool::from($tool),
+                'image_generation' => ImageGenerationTool::from($tool),
             },
             $attributes['tools'],
         );
@@ -211,7 +214,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
             'tools' => array_map(
-                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool $tool): array => $tool->toArray(),
+                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
             'top_p' => $this->topP,
