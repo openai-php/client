@@ -81,10 +81,18 @@ test('fake with override', function () {
         'id' => 'resp_1234',
         'object' => 'custom_response',
         'status' => 'failed',
+        'output' => [
+            outputBasicMessage(),
+        ],
     ]);
 
     expect($response)
         ->id->toBe('resp_1234')
         ->object->toBe('custom_response')
-        ->status->toBe('failed');
+        ->status->toBe('failed')
+        ->output->toBeArray();
+
+    expect($response->output[0]['content'][0])
+        ->type->toBe('output_text')
+        ->text->toBe('This is a basic message.');
 });

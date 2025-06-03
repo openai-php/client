@@ -17,7 +17,7 @@ function createResponseResource(): array
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
-            outputMessage(),
+            outputAnnotationMessage(),
             outputWebSearchToolCall(),
             outputFileSearchToolCall(),
             outputComputerToolCall(),
@@ -77,7 +77,7 @@ function retrieveResponseResource(): array
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             outputWebSearchToolCall(),
-            outputMessage(),
+            outputAnnotationMessage(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -249,7 +249,27 @@ function outputReasoning(): array
 /**
  * @return array<string, mixed>
  */
-function outputMessage(): array
+function outputBasicMessage(): array
+{
+    return [
+        'content' => [
+            [
+                'annotations' => [],
+                'text' => 'This is a basic message.',
+                'type' => 'output_text',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'assistant',
+        'status' => 'completed',
+        'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputAnnotationMessage(): array
 {
     return [
         'content' => [
