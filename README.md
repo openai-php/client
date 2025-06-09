@@ -227,7 +227,7 @@ foreach ($stream as $response) {
 }
 ```
 
-### `retrieve`
+#### `retrieve`
 
 Retrieves a model response with the given ID.
 
@@ -254,7 +254,7 @@ $response->truncation; // 'disabled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 ```
 
-### `cancel`
+#### `cancel`
 
 Cancel a model response (background request) with the given ID.
 
@@ -267,7 +267,7 @@ $response->status; // 'canceled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'status' => 'canceled', ...]
 ```
 
-### `delete`
+#### `delete`
 
 Deletes a model response with the given ID.
 
@@ -281,7 +281,7 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'deleted' => true, ...]
 ```
 
-### `list`
+#### `list`
 
 Lists input items for a response with the given ID. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses/list).
 
