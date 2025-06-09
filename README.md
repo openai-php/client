@@ -46,6 +46,7 @@ If you or your business relies on this package, it's important to support the de
   - [Vector Stores Files Resource](#vector-store-files-resource)
   - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
+  - [Realtime Ephemeral Keys](#realtime-ephemeral-keys)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -2272,6 +2273,30 @@ foreach ($response->data as $result) {
 }
 
 $response->toArray(); // ['object' => 'list', ...]]
+```
+
+### Realtime Ephemeral Keys
+
+#### `token`
+
+Create an ephemeral API token for real time sessions.
+
+```php
+$response = $client->realtime()->token();
+
+$response->clientSecret->value // 'ek-1234567890abcdefg'
+$response->clientSecret->expiresAt // 1717703267
+```
+
+#### `transcribeToken`
+
+Create an ephemeral API token for real time transcription sessions.
+
+```php
+$response = $client->realtime()->transcribeToken();
+
+$response->clientSecret->value // 'et-1234567890abcdefg'
+$response->clientSecret->expiresAt // 1717703267
 ```
 
 ### `Edits` Resource (deprecated)
