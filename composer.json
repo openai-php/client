@@ -30,7 +30,7 @@
         "pestphp/pest": "^3.8.2|^4.0.0",
         "pestphp/pest-plugin-arch": "^3.1.1|^4.0.0",
         "pestphp/pest-plugin-type-coverage": "^3.5.1|^4.0.0",
-        "phpstan/phpstan": "^1.12.25",
+        "phpstan/phpstan": "^2.1.17",
         "symfony/var-dumper": "^7.2.6"
     },
     "autoload": {
