@@ -7,7 +7,7 @@ namespace OpenAI\ValueObjects\Transporter;
 use OpenAI\Responses\Meta\MetaInformation;
 
 /**
- * @template-covariant TData of array|string
+ * @template TData of array|string
  *
  * @internal
  */
