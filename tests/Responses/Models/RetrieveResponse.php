@@ -26,6 +26,18 @@ test('from google', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from azure', function () {
+    $result = RetrieveResponse::from(azureModel(), meta());
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveResponse::class)
+        ->id->toBe('gpt-35-turbo')
+        ->object->toBe('model')
+        ->created->toBe(1700000000)
+        ->ownedBy->toBeNull()
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('as array accessible', function () {
     $result = RetrieveResponse::from(model(), meta());
 
