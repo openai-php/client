@@ -12,6 +12,10 @@ use OpenAI\Responses\Responses\Streaming\Error;
 use OpenAI\Responses\Responses\Streaming\FileSearchCall;
 use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDelta;
 use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDone;
+use OpenAI\Responses\Responses\Streaming\McpCall;
+use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDelta;
+use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDone;
+use OpenAI\Responses\Responses\Streaming\McpListTools;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Responses\Responses\Streaming\OutputTextAnnotationAdded;
 use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
@@ -40,7 +44,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|Error $response,
+        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|McpListTools|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|Error $response,
     ) {}
 
     /**
@@ -79,6 +83,16 @@ final class CreateStreamedResponse implements ResponseContract
             'response.reasoning_summary_part.done' => ReasoningSummaryPart::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_text.delta' => ReasoningSummaryTextDelta::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_text.done' => ReasoningSummaryTextDone::from($attributes, $meta), // @phpstan-ignore-line
+            'response.mcp_list_tools.in_progress',
+            'response.mcp_list_tools.failed',
+            'response.mcp_list_tools.completed' => McpListTools::from($attributes, $meta), // @phpstan-ignore-line
+            'response.mcp_call.in_progress',
+            'response.mcp_call.failed',
+            'response.mcp_call.completed' => McpCall::from($attributes, $meta), // @phpstan-ignore-line
+            'response.mcp_call.arguments.delta',
+            'response.mcp_call_arguments.delta' => McpCallArgumentsDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.mcp_call.arguments.done',
+            'response.mcp_call_arguments.done' => McpCallArgumentsDone::from($attributes, $meta), // @phpstan-ignore-line
             'error' => Error::from($attributes, $meta), // @phpstan-ignore-line
             default => throw new UnknownEventException('Unknown Responses streaming event: '.$event),
         };

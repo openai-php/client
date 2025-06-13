@@ -41,6 +41,7 @@ function createResponseResource(): array
             toolWebSearchPreview(),
             toolFileSearch(),
             toolImageGeneration(),
+            toolRemoteMcp(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -97,6 +98,7 @@ function retrieveResponseResource(): array
             toolWebSearchPreview(),
             toolFileSearch(),
             toolImageGeneration(),
+            toolRemoteMcp(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -186,6 +188,50 @@ function outputFileSearchToolCall(): array
                 'text' => 'Map of Kansas',
             ],
         ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMcpApprovalRequest(): array
+{
+    return [
+        'id' => 'fs_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'server_label' => 'server-name',
+        'type' => 'mcp_approval_request',
+        'arguments' => '',
+        'name' => 'Name',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMcpCall(): array
+{
+    return [
+        'id' => 'fs_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'server_label' => 'server-name',
+        'type' => 'mcp_call',
+        'arguments' => '',
+        'name' => 'Name',
+        'approval_request_id' => null,
+        'error' => null,
+        'output' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMcpListTools(): array
+{
+    return [
+        'id' => 'fs_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'server_label' => 'server-name',
+        'type' => 'mcp_list_tools',
+        'tools' => [],
     ];
 }
 
@@ -365,6 +411,21 @@ function toolImageGeneration(): array
         'partial_images' => 0,
         'quality' => 'auto',
         'size' => 'auto',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolRemoteMcp(): array
+{
+    return [
+        'type' => 'mcp',
+        'server_label' => 'My test MCP server',
+        'server_url' => 'https://server.example.com/mcp',
+        'require_approval' => null,
+        'allowed_tools' => null,
+        'headers' => null,
     ];
 }
 
