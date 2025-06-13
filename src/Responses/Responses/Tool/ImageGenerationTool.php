@@ -49,6 +49,7 @@ final class ImageGenerationTool implements ResponseContract
      */
     public static function from(array $attributes): self
     {
+        dd($attributes);
         return new self(
             type: $attributes['type'],
             background: $attributes['background'],

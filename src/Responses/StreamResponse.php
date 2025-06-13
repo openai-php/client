@@ -52,6 +52,8 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
             if ($data === '[DONE]') {
                 break;
             }
+            
+            dump($data);
 
             /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}, type?: string} $response */
             $response = json_decode($data, true, flags: JSON_THROW_ON_ERROR);
