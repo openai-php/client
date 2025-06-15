@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type InputImageMaskType from ImageGenerationInputImageMask
  *
- * @phpstan-type ImageGenerationToolType array{type: 'image_generation', background: 'transparent'|'opaque'|'auto', input_image_mask: InputImageMaskType|null, model: string, moderation: string, output_compression: integer, output_format: 'png'|'webp'|'jpeg', partial_images: ?int, quality: 'low'|'medium'|'high'|'auto', size: '1024x1024'|'1024x1536'|'1536x1024'|'auto'}
+ * @phpstan-type ImageGenerationToolType array{type: 'image_generation', background: 'transparent'|'opaque'|'auto', input_image_mask: InputImageMaskType|null, model?: ?string, moderation: string, output_compression: integer, output_format: 'png'|'webp'|'jpeg', partial_images: ?int, quality: 'low'|'medium'|'high'|'auto', size: '1024x1024'|'1024x1536'|'1536x1024'|'auto'}
  *
  * @implements ResponseContract<ImageGenerationToolType>
  */
@@ -35,7 +35,7 @@ final class ImageGenerationTool implements ResponseContract
         public readonly string $type,
         public readonly string $background,
         public readonly ?ImageGenerationInputImageMask $inputImageMask,
-        public readonly string $model,
+        public readonly ?string $model,
         public readonly string $moderation,
         public readonly int $outputCompression,
         public readonly string $outputFormat,
@@ -55,7 +55,7 @@ final class ImageGenerationTool implements ResponseContract
             inputImageMask: isset($attributes['input_image_mask'])
                 ? ImageGenerationInputImageMask::from($attributes['input_image_mask'])
                 : null,
-            model: $attributes['model'],
+            model: $attributes['model'] ?? null,
             moderation: $attributes['moderation'],
             outputCompression: $attributes['output_compression'],
             outputFormat: $attributes['output_format'],

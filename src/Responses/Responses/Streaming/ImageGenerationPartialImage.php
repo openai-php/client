@@ -32,6 +32,7 @@ final class ImageGenerationPartialImage implements ResponseContract, ResponseHas
         public readonly int $sequenceNumber,
         public readonly int $partialImageIndex,
         public readonly string $partialImageB64,
+        private readonly MetaInformation $meta,
     ) {}
 
     /**
@@ -45,6 +46,7 @@ final class ImageGenerationPartialImage implements ResponseContract, ResponseHas
             sequenceNumber: $attributes['sequence_number'],
             partialImageIndex: $attributes['partial_image_index'],
             partialImageB64: $attributes['partial_image_b64'],
+            meta: $meta,
         );
     }
 

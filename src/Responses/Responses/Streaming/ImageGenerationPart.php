@@ -30,6 +30,7 @@ final class ImageGenerationPart implements ResponseContract, ResponseHasMetaInfo
         public readonly int $outputIndex,
         public readonly string $itemId,
         public readonly int $sequenceNumber,
+        private readonly MetaInformation $meta,
     ) {}
 
     /**
@@ -41,6 +42,7 @@ final class ImageGenerationPart implements ResponseContract, ResponseHasMetaInfo
             outputIndex: $attributes['output_index'],
             itemId: $attributes['item_id'],
             sequenceNumber: $attributes['sequence_number'],
+            meta: $meta,
         );
     }
 
