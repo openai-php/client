@@ -187,7 +187,10 @@ test('create streamed image generation', function () {
     expect($result->getIterator())
         ->toBeInstanceOf(Iterator::class);
 
-    $current = $result->getIterator()->current();
+    foreach ($result as $event) {
+        expect($event)
+            ->toBeInstanceOf(CreateStreamedResponse::class);
+    }
 });
 
 test('delete', function () {
