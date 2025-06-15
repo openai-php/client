@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputImageGenerationToolCallType array{id: string, result: string|null, status: string, type: 'image_generation_call'}
+ * @phpstan-type OutputImageGenerationToolCallType array{id: string, result?: string|null, status: string, type: 'image_generation_call'}
  *
  * @implements ResponseContract<OutputImageGenerationToolCallType>
  */
@@ -39,7 +39,7 @@ final class OutputImageGenerationToolCall implements ResponseContract
     {
         return new self(
             id: $attributes['id'],
-            result: $attributes['result'],
+            result: $attributes['result'] ?? null,
             status: $attributes['status'],
             type: $attributes['type'],
         );
