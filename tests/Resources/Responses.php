@@ -151,6 +151,45 @@ test('create streamed', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('create streamed image generation', function () {
+    $response = new Response(
+        body: new Stream(responseImageGenerationStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'responses', [
+        'model' => 'gpt-4.1-mini',
+        'input' => 'Generate an image of a futuristic cityscape at sunset.',
+        'tools' => [
+            [
+                'type' => 'image_generation',
+                'partial_images' => 1,
+            ],
+        ],
+        'stream' => true,
+    ], $response);
+
+    $result = $client->responses()->createStreamed([
+        'model' => 'gpt-4.1-mini',
+        'input' => 'Generate an image of a futuristic cityscape at sunset.',
+        'tools' => [
+            [
+                'type' => 'image_generation',
+                'partial_images' => 1,
+            ],
+        ],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class);
+
+    expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
+
+    $current = $result->getIterator()->current();
+});
+
 test('delete', function () {
     $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
     ], \OpenAI\ValueObjects\Transporter\Response::from(deleteResponseResource(), metaHeaders()));
