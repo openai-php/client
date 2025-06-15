@@ -12,6 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
 use OpenAI\Responses\Responses\Output\OutputMessage;
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
@@ -33,6 +34,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMessageType from OutputMessage
  * @phpstan-import-type OutputReasoningType from OutputReasoning
  * @phpstan-import-type OutputWebSearchToolCallType from OutputWebSearchToolCall
+ * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type FileSearchToolType from FileSearchTool
  * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool
@@ -47,7 +49,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  *
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType>
- * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType>
+ * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputImageGenerationToolCallType>
  * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
@@ -65,7 +67,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * @param  'response'  $object
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
-     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning>  $output
+     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputImageGenerationToolCall>  $output
      * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata
@@ -104,13 +106,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $output = array_map(
-            fn (array $output): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning => match ($output['type']) {
+            fn (array $output): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputImageGenerationToolCall => match ($output['type']) {
                 'message' => OutputMessage::from($output),
                 'file_search_call' => OutputFileSearchToolCall::from($output),
                 'function_call' => OutputFunctionToolCall::from($output),
                 'web_search_call' => OutputWebSearchToolCall::from($output),
                 'computer_call' => OutputComputerToolCall::from($output),
                 'reasoning' => OutputReasoning::from($output),
+                'image_generation_call' => OutputImageGenerationToolCall::from($output),
             },
             $attributes['output'],
         );
@@ -201,7 +204,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'metadata' => $this->metadata ?? [],
             'model' => $this->model,
             'output' => array_map(
-                fn (OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning $output): array => $output->toArray(),
+                fn (OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputImageGenerationToolCall $output): array => $output->toArray(),
                 $this->output
             ),
             'parallel_tool_calls' => $this->parallelToolCalls,

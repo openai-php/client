@@ -403,6 +403,14 @@ function responseCompletionStream()
 /**
  * @return resource
  */
+function responseImageGenerationStream()
+{
+    return fopen(__DIR__.'/Streams/ResponseImageGenerationCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
 function responseCompletionSteamCreatedEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseCreatedResponse.txt', 'r');
