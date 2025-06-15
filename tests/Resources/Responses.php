@@ -159,10 +159,12 @@ test('create streamed image generation', function () {
 
     $client = mockStreamClient('POST', 'responses', [
         'model' => 'gpt-4.1-mini',
-        'input' => 'Generate an image of a futuristic cityscape at sunset.',
+        'input' => 'A single black line forming a perfect circle on a white background.',
         'tools' => [
             [
                 'type' => 'image_generation',
+                'size' => '1024x1024',
+                'quality' => 'low',
                 'partial_images' => 1,
             ],
         ],
@@ -171,10 +173,12 @@ test('create streamed image generation', function () {
 
     $result = $client->responses()->createStreamed([
         'model' => 'gpt-4.1-mini',
-        'input' => 'Generate an image of a futuristic cityscape at sunset.',
+        'input' => 'A single black line forming a perfect circle on a white background.',
         'tools' => [
             [
                 'type' => 'image_generation',
+                'size' => '1024x1024',
+                'quality' => 'low',
                 'partial_images' => 1,
             ],
         ],
