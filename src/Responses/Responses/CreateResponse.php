@@ -122,13 +122,23 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             }
         : $attributes['tool_choice'];
 
+        // Image Generation streaming removes `model` from the tool definition, so we
+        // need to add it back in from the parent attributes.
+        $imageGenerationToolParser = function (array $tool, array $attributes): ImageGenerationTool {
+            if (! array_key_exists('model', $tool) && array_key_exists('model', $attributes)) {
+                $tool['model'] = $attributes['model'];
+            }
+
+            return ImageGenerationTool::from($tool);
+        };
+
         $tools = array_map(
             fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
                 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
                 'computer_use_preview' => ComputerUseTool::from($tool),
-                'image_generation' => ImageGenerationTool::from($tool),
+                'image_generation' => $imageGenerationToolParser($tool, $attributes),
             },
             $attributes['tools'],
         );
