@@ -48,7 +48,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  *
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType>
- * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputImageGenerationToolCall>
+ * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputImageGenerationToolCallType>
  * @phpstan-type RetrieveResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<RetrieveResponseType>
