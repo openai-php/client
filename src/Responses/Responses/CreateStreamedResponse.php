@@ -12,6 +12,8 @@ use OpenAI\Responses\Responses\Streaming\Error;
 use OpenAI\Responses\Responses\Streaming\FileSearchCall;
 use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDelta;
 use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDone;
+use OpenAI\Responses\Responses\Streaming\ImageGenerationPart;
+use OpenAI\Responses\Responses\Streaming\ImageGenerationPartialImage;
 use OpenAI\Responses\Responses\Streaming\McpCall;
 use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDelta;
 use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDone;
