@@ -9,7 +9,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type RemoteMcpToolType array{type: 'mcp', server_label: string, server_url: string, require_approval: 'never'|null, allowed_tools: string[]|null, headers: array<string, string>|null}
+ * @phpstan-import-type McpToolNamesFilterType from McpToolNamesFilter
+ *
+ * @phpstan-type RemoteMcpToolType array{type: 'mcp', server_label: string, server_url: string, require_approval: 'never'|'always'|array<'never'|'always', McpToolNamesFilterType>|null, allowed_tools: array<int, string>|McpToolNamesFilterType|null, headers: array<string, string>|null}
  *
  * @implements ResponseContract<RemoteMcpToolType>
  */
@@ -24,16 +26,16 @@ final class RemoteMcpTool implements ResponseContract
 
     /**
      * @param  'mcp'  $type
-     * @param  'never'|null  $requireApproval
-     * @param  string[]|null  $allowedTools
+     * @param  'never'|'always'|array<'never'|'always', McpToolNamesFilter>|null  $requireApproval
+     * @param  string[]|McpToolNamesFilter|null  $allowedTools
      * @param  array<string, string>|null  $headers
      */
     private function __construct(
         public readonly string $type,
         public readonly string $serverLabel,
         public readonly string $serverUrl,
-        public readonly ?string $requireApproval = null,
-        public readonly ?array $allowedTools = null,
+        public readonly string|array|null $requireApproval = null,
+        public readonly array|McpToolNamesFilter|null $allowedTools = null,
         public readonly ?array $headers = null,
     ) {}
 
@@ -42,12 +44,24 @@ final class RemoteMcpTool implements ResponseContract
      */
     public static function from(array $attributes): self
     {
+        $requireApproval = $attributes['require_approval'] ?? null;
+        if (is_array($requireApproval)) {
+            $requireApproval = array_map(function (array $approvalAttributes): McpToolNamesFilter {
+                return McpToolNamesFilter::from($approvalAttributes);
+            }, $requireApproval);
+        }
+
+        $allowedTools = $attributes['allowed_tools'] ?? null;
+        if ($allowedTools !== null && isset($allowedTools['tool_names']) && is_array($allowedTools['tool_names'])) {
+            $allowedTools = McpToolNamesFilter::from($allowedTools);
+        }
+
         return new self(
             type: $attributes['type'],
             serverLabel: $attributes['server_label'],
             serverUrl: $attributes['server_url'],
-            requireApproval: $attributes['require_approval'] ?? null,
-            allowedTools: $attributes['allowed_tools'] ?? null,
+            requireApproval: $requireApproval,
+            allowedTools: $allowedTools, // @phpstan-ignore-line
             headers: $attributes['headers'] ?? null,
         );
     }
@@ -57,12 +71,24 @@ final class RemoteMcpTool implements ResponseContract
      */
     public function toArray(): array
     {
+        $requireApproval = $this->requireApproval;
+        if (is_array($requireApproval)) {
+            $requireApproval = array_map(function (McpToolNamesFilter $approvalFilter): array {
+                return $approvalFilter->toArray();
+            }, $requireApproval);
+        }
+
+        $allowedTools = $this->allowedTools;
+        if ($allowedTools instanceof McpToolNamesFilter) {
+            $allowedTools = $allowedTools->toArray();
+        }
+
         return [
             'type' => $this->type,
             'server_label' => $this->serverLabel,
             'server_url' => $this->serverUrl,
-            'require_approval' => $this->requireApproval,
-            'allowed_tools' => $this->allowedTools,
+            'require_approval' => $requireApproval,
+            'allowed_tools' => $allowedTools,
             'headers' => $this->headers,
         ];
     }
