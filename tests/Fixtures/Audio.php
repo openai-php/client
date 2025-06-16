@@ -188,3 +188,11 @@ function speechStream()
 {
     return fopen(__DIR__.'/Streams/Speech.mp3', 'r');
 }
+
+/**
+ * @return resource
+ */
+function audioTranscriptionStream()
+{
+    return fopen(__DIR__.'/Streams/AudioTranscriptionTranscribe.txt', 'r');
+}

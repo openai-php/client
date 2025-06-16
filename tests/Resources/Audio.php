@@ -102,6 +102,31 @@ test('transcribe to verbose json', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('transcribe to text streaming', function () {
+    $response = new Response(
+        headers: metaHeaders(),
+        body: new Stream(audioTranscriptionStream()),
+    );
+
+    $client = mockStreamClient('POST', 'audio/transcriptions', [
+        'file' => audioFileResource(),
+        'model' => 'gpt-4o-transcribe',
+        'stream' => true,
+    ], $response);
+
+    $result = $client->audio()->transcribeStreamed([
+        'file' => audioFileResource(),
+        'model' => 'gpt-4o-transcribe',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(SpeechStreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class);
+
+    expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
+});
+
 test('translate to text', function () {
     $client = mockClient('POST', 'audio/translations', [
         'file' => audioFileResource(),
