@@ -27,7 +27,7 @@ final class RemoteMcpTool implements ResponseContract
     /**
      * @param  'mcp'  $type
      * @param  'never'|'always'|array<'never'|'always', McpToolNamesFilter>|null  $requireApproval
-     * @param  string[]|McpToolNamesFilter|null  $allowedTools
+     * @param  array<int, string>|McpToolNamesFilter|null  $allowedTools
      * @param  array<string, string>|null  $headers
      */
     private function __construct(

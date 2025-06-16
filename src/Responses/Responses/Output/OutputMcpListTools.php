@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type OutputMcpListToolsToolType from OutputMcpListToolsTool
  *
- * @phpstan-type OutputMcpListToolsType array{id: string, server_label: string, type: 'mcp_list_tools', tools: OutputMcpListToolsToolType[]}
+ * @phpstan-type OutputMcpListToolsType array{id: string, server_label: string, type: 'mcp_list_tools', tools: array<int, OutputMcpListToolsToolType>}
  *
  * @implements ResponseContract<OutputMcpListToolsType>
  */
