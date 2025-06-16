@@ -18,8 +18,6 @@ use OpenAI\Responses\Responses\Streaming\McpCall;
 use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDelta;
 use OpenAI\Responses\Responses\Streaming\McpCallArgumentsDone;
 use OpenAI\Responses\Responses\Streaming\McpListTools;
-use OpenAI\Responses\Responses\Streaming\ImageGenerationPart;
-use OpenAI\Responses\Responses\Streaming\ImageGenerationPartialImage;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Responses\Responses\Streaming\OutputTextAnnotationAdded;
 use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
