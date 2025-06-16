@@ -4,6 +4,7 @@ namespace OpenAI\Contracts\Resources;
 
 use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
+use OpenAI\Responses\Audio\TranscriptionStreamResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\StreamResponse;
 
@@ -42,6 +43,7 @@ interface AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranscription#audio-createtranscription-stream
      *
      * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<TranscriptionStreamResponse>
      */
     public function transcribeStreamed(array $parameters): StreamResponse;
 

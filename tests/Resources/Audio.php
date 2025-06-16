@@ -5,9 +5,11 @@ use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\Audio\SpeechStreamResponse;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
+use OpenAI\Responses\Audio\TranscriptionStreamResponse;
 use OpenAI\Responses\Audio\TranslationResponse;
 use OpenAI\Responses\Audio\TranslationResponseSegment;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\StreamResponse;
 
 test('transcribe to text', function () {
     $client = mockClient('POST', 'audio/transcriptions', [
@@ -112,7 +114,7 @@ test('transcribe to text streaming', function () {
         'file' => audioFileResource(),
         'model' => 'gpt-4o-transcribe',
         'stream' => true,
-    ], $response);
+    ], $response, false);
 
     $result = $client->audio()->transcribeStreamed([
         'file' => audioFileResource(),
@@ -120,11 +122,15 @@ test('transcribe to text streaming', function () {
     ]);
 
     expect($result)
-        ->toBeInstanceOf(SpeechStreamResponse::class)
-        ->toBeInstanceOf(IteratorAggregate::class);
-
-    expect($result->getIterator())
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class)
+        ->and($result->getIterator())
         ->toBeInstanceOf(Iterator::class);
+
+    foreach ($result as $event) {
+        expect($event)
+            ->toBeInstanceOf(TranscriptionStreamResponse::class);
+    }
 });
 
 test('translate to text', function () {
@@ -240,15 +246,15 @@ test('text to speech', function () {
 
 test('text to speech streamed', function () {
     $response = new Response(
-        body: new Stream(speechStream()),
         headers: metaHeaders(),
+        body: new Stream(speechStream()),
     );
 
     $client = mockStreamClient('POST', 'audio/speech', [
         'model' => 'tts-1',
         'input' => 'Hello, how are you?',
         'voice' => 'alloy',
-    ], $response, 'requestContent');
+    ], $response);
 
     $result = $client->audio()->speechStreamed([
         'model' => 'tts-1',

@@ -1,12 +1,12 @@
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":"The"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" quick"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" brown"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" fox"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" jumps"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" over"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" the"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" lazy"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":" dog"}}
-data: {"event":"transcript.text.delta","data":{"logprobs":null,"delta":"."}}
-data: {"event":"transcript.text.done","data":{"logprobs":null,"text":"The quick brown fox jumps over the lazy dog."}}
-
+data: {"type":"transcript.text.delta","delta":"The"}
+data: {"type":"transcript.text.delta","delta":" quick"}
+data: {"type":"transcript.text.delta","delta":" brown"}
+data: {"type":"transcript.text.delta","delta":" fox"}
+data: {"type":"transcript.text.delta","delta":" jumps"}
+data: {"type":"transcript.text.delta","delta":" over"}
+data: {"type":"transcript.text.delta","delta":" the"}
+data: {"type":"transcript.text.delta","delta":" lazy"}
+data: {"type":"transcript.text.delta","delta":" dog"}
+data: {"type":"transcript.text.delta","delta":"."}
+data: {"type":"transcript.text.done","text":"The quick brown fox jumps over the lazy dog."}
+data: [DONE]

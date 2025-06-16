@@ -75,6 +75,7 @@ final class Audio implements AudioContract
      * @see https://platform.openai.com/docs/api-reference/audio/createTranscription#audio-createtranscription-stream
      *
      * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<TranscriptionStreamResponse>
      */
     public function transcribeStreamed(array $parameters): StreamResponse
     {

@@ -28,6 +28,9 @@ final class TranscriptTextDelta implements ResponseContract, ResponseHasMetaInfo
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param array<int, string>|null $logprobs
+     */
     private function __construct(
         public readonly ?array $logprobs,
         public readonly string $delta,

@@ -28,6 +28,9 @@ final class TranscriptTextDone implements ResponseContract, ResponseHasMetaInfor
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param array<int, string>|null $logprobs
+     */
     private function __construct(
         public readonly ?array $logprobs,
         public readonly string $text,
