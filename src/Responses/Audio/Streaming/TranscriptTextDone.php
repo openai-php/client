@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type LogprobsType from Logprobs
  *
- * @phpstan-type TranscriptTextDoneType array{logprobs?: array<int, LogprobsType>, text: string}
+ * @phpstan-type TranscriptTextDoneType array{logprobs?: array<int, LogprobsType>|null, text: string}
  *
  * @implements ResponseContract<TranscriptTextDoneType>
  */
@@ -29,7 +29,7 @@ final class TranscriptTextDone implements ResponseContract, ResponseHasMetaInfor
     use HasMetaInformation;
 
     /**
-     * @param array<int, string>|null $logprobs
+     * @param  array<int, Logprobs>|null  $logprobs
      */
     private function __construct(
         public readonly ?array $logprobs,

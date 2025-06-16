@@ -27,7 +27,7 @@ final class TranscriptionStreamResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly mixed $response,
+        public readonly TranscriptTextDelta|TranscriptTextDone $response,
     ) {}
 
     /**
