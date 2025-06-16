@@ -26,7 +26,7 @@ final class OutputMcpListTools implements ResponseContract
 
     /**
      * @param  'mcp_list_tools'  $type
-     * @param  OutputMcpListToolsTool[]  $tools
+     * @param  array<int, OutputMcpListToolsTool>  $tools
      */
     private function __construct(
         public readonly string $id,
