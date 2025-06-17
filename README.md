@@ -30,7 +30,6 @@ If you or your business relies on this package, it's important to support the de
   - [Models Resource](#models-resource)
   - [Responses Resource](#responses-resource)
   - [Chat Resource](#chat-resource)
-  - [Completions Resource](#completions-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
@@ -42,11 +41,12 @@ If you or your business relies on this package, it's important to support the de
   - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
   - [Realtime Ephemeral Keys](#realtime-ephemeral-keys)
+  - [Completions Resource (legacy)](#completions-resource-legacy)
   - [Assistants Resource (deprecated)](#assistants-resource-deprecated)
   - [Thread Resource (deprecated)](#threads-resource-deprecated)
-  - [Thread Messages Resource (deprecated)](#threads-messages-resource-deprecated)
-  - [Thread Runs Resource (deprecated)](#threads-runs-resource-deprecated)
-  - [Thread Runs Steps Resource (deprecated)](#threads-runs-steps-resource-deprecated)
+  - [Thread Messages Resource (deprecated)](#thread-messages-resource-deprecated)
+  - [Thread Runs Resource (deprecated)](#thread-runs-resource-deprecated)
+  - [Thread Runs Steps Resource (deprecated)](#thread-run-steps-resource-deprecated)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -543,63 +543,6 @@ foreach($stream as $response){
 ```
 
 `usage` is always `null` except for the last chunk which contains the token usage statistics for the entire request.
-
-### `Completions` Resource
-
-> [!WARNING]  
-> The `Completions` resource was marked "Legacy" by OpenAI in July 2023. Please use the `Chat` resource instead.
-
-#### `create`
-
-Creates a completion for the provided prompt and parameters.
-
-```php
-$response = $client->completions()->create([
-    'model' => 'gpt-3.5-turbo-instruct',
-    'prompt' => 'Say this is a test',
-    'max_tokens' => 6,
-    'temperature' => 0
-]);
-
-$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
-$response->object; // 'text_completion'
-$response->created; // 1589478378
-$response->model; // 'gpt-3.5-turbo-instruct'
-
-foreach ($response->choices as $choice) {
-    $choice->text; // '\n\nThis is a test'
-    $choice->index; // 0
-    $choice->logprobs; // null
-    $choice->finishReason; // 'length' or null
-}
-
-$response->usage->promptTokens; // 5,
-$response->usage->completionTokens; // 6,
-$response->usage->totalTokens; // 11
-
-$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
-```
-
-#### `create streamed`
-
-Creates a streamed completion for the provided prompt and parameters.
-
-```php
-$stream = $client->completions()->createStreamed([
-        'model' => 'gpt-3.5-turbo-instruct',
-        'prompt' => 'Hi',
-        'max_tokens' => 10,
-    ]);
-
-foreach($stream as $response){
-    $response->choices[0]->text;
-}
-// 1. iteration => 'I'
-// 2. iteration => ' am'
-// 3. iteration => ' very'
-// 4. iteration => ' excited'
-// ...
-```
 
 ### `Audio` Resource
 
@@ -1559,6 +1502,68 @@ $response = $client->realtime()->transcribeToken();
 $response->clientSecret->value // 'et-1234567890abcdefg'
 $response->clientSecret->expiresAt // 1717703267
 ```
+
+### `Completions` Resource (legacy)
+
+> [!WARNING]  
+> The `Completions` resource was marked "Legacy" by OpenAI in July 2023. Please use the `Chat` resource instead.
+
+<details>
+<summary>Completion API Information</summary>
+
+#### `create`
+
+Creates a completion for the provided prompt and parameters.
+
+```php
+$response = $client->completions()->create([
+    'model' => 'gpt-3.5-turbo-instruct',
+    'prompt' => 'Say this is a test',
+    'max_tokens' => 6,
+    'temperature' => 0
+]);
+
+$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
+$response->object; // 'text_completion'
+$response->created; // 1589478378
+$response->model; // 'gpt-3.5-turbo-instruct'
+
+foreach ($response->choices as $choice) {
+    $choice->text; // '\n\nThis is a test'
+    $choice->index; // 0
+    $choice->logprobs; // null
+    $choice->finishReason; // 'length' or null
+}
+
+$response->usage->promptTokens; // 5,
+$response->usage->completionTokens; // 6,
+$response->usage->totalTokens; // 11
+
+$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
+```
+
+#### `create streamed`
+
+Creates a streamed completion for the provided prompt and parameters.
+
+```php
+$stream = $client->completions()->createStreamed([
+        'model' => 'gpt-3.5-turbo-instruct',
+        'prompt' => 'Hi',
+        'max_tokens' => 10,
+    ]);
+
+foreach($stream as $response){
+    $response->choices[0]->text;
+}
+// 1. iteration => 'I'
+// 2. iteration => ' am'
+// 3. iteration => ' very'
+// 4. iteration => ' excited'
+// ...
+```
+
+</details>
 
 ### `Assistants` Resource (deprecated)
 
