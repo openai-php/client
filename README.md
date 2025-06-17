@@ -671,6 +671,21 @@ foreach ($response->words as $word) {
 $response->toArray(); // ['task' => 'transcribe', ...]
 ```
 
+#### `transcribe streamed`
+
+Transcribes audio into the input language with streaming.
+
+```php
+$stream = OpenAI::audio()->transcribeStreamed([
+    'model' => 'gpt-4o-transcribe',
+    'file' => fopen('audio.mp3', 'r'),
+]);
+
+foreach ($stream as $event) {
+    echo json_encode($event->toArray()); // {"event":"transcript.text.delta","data":{"delta":"The"}}
+}
+```
+
 #### `translate`
 
 Translates audio into English.
