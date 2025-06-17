@@ -42,7 +42,7 @@ final class TranscriptionStreamResponse implements ResponseContract
         $response = match ($event) {
             'transcript.text.delta' => TranscriptTextDelta::from($attributes, $meta), // @phpstan-ignore-line
             'transcript.text.done' => TranscriptTextDone::from($attributes, $meta), // @phpstan-ignore-line
-            default => throw new UnknownEventException('Unknown Responses streaming event: '.$event),
+            default => throw new UnknownEventException('Unknown Audio Transcription streaming event: '.$event),
         };
 
         return new self(
