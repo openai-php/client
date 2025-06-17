@@ -29,6 +29,33 @@ function assistantResource(): array
 /**
  * @return array<string, mixed>
  */
+function assistantReasoningModelResource(): array
+{
+    return [
+        'id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'object' => 'assistant',
+        'created_at' => 1699619403,
+        'name' => 'Math Tutor',
+        'reasoning_effort' => 'high',
+        'description' => null,
+        'model' => 'gpt-o3',
+        'instructions' => 'You are a personal math tutor.',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+            ],
+        ],
+        'tool_resources' => null,
+        'metadata' => [],
+        'temperature' => 0.7,
+        'top_p' => 1.0,
+        'response_format' => 'text',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function assistantWithJsonObjectResponseFormat(): array
 {
     return [
@@ -210,6 +237,23 @@ function assistantListResource(): array
         'data' => [
             assistantResource(),
             assistantResource(),
+        ],
+        'first_id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
+        'last_id' => 'asst_y49lAdZDiaQUxEBR6zrG846Q',
+        'has_more' => true,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function assistantReasoningListResource(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            assistantReasoningModelResource(),
+            assistantReasoningModelResource(),
         ],
         'first_id' => 'asst_SMzoVX8XmCZEg1EbMHoAm8tc',
         'last_id' => 'asst_y49lAdZDiaQUxEBR6zrG846Q',

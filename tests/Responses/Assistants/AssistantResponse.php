@@ -15,6 +15,7 @@ test('from', function () {
         ->object->toBe('assistant')
         ->createdAt->toBe(1699619403)
         ->name->toBe('Math Tutor')
+        ->reasoningEffort->toBeNull()
         ->description->toBeNull()
         ->model->toBe('gpt-4')
         ->instructions->toBe('You are a personal math tutor.')
@@ -26,6 +27,14 @@ test('from', function () {
         ->temperature->toBe(0.7)
         ->topP->toBe(1.0)
         ->responseFormat->toBe('text');
+});
+
+test('from reasoning model', function () {
+    $result = AssistantResponse::from(assistantReasoningModelResource(), meta());
+
+    expect($result)
+        ->id->toBe('asst_SMzoVX8XmCZEg1EbMHoAm8tc')
+        ->reasoningEffort->toBe('high');
 });
 
 test('with file search', function () {

@@ -15,6 +15,14 @@ test('from', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from reasoning models', function () {
+    $response = AssistantListResponse::from(assistantReasoningListResource(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(AssistantListResponse::class)
+        ->data->each->toBeInstanceOf(AssistantResponse::class);
+});
+
 test('as array accessible', function () {
     $response = AssistantListResponse::from(assistantListResource(), meta());
 
