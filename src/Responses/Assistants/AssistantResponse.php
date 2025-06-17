@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, reasoning_effort?: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
  */
 final class AssistantResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, reasoning_effort?: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: string}|array{type: string}|array{type: string, function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: string}}>
      */
     use ArrayAccessible;
 
@@ -33,6 +33,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
         public string $object,
         public int $createdAt,
         public ?string $name,
+        public ?string $reasoningEffort,
         public ?string $description,
         public string $model,
         public ?string $instructions,
@@ -48,7 +49,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: 'text'|'json_object'}}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, reasoning_effort?: ?string, description: ?string, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: ?string, name: string, parameters: array<string, mixed>}}>, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>, temperature: ?float, top_p: ?float, response_format: string|array{type: 'text'|'json_object'}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -70,6 +71,7 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             $attributes['object'],
             $attributes['created_at'],
             $attributes['name'],
+            $attributes['reasoning_effort'] ?? null,
             $attributes['description'],
             $attributes['model'],
             $attributes['instructions'],
@@ -88,11 +90,12 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
      */
     public function toArray(): array
     {
-        return [
+        $response = [
             'id' => $this->id,
             'object' => $this->object,
             'created_at' => $this->createdAt,
             'name' => $this->name,
+            'reasoning_effort' => $this->reasoningEffort,
             'description' => $this->description,
             'model' => $this->model,
             'instructions' => $this->instructions,
@@ -103,5 +106,12 @@ final class AssistantResponse implements ResponseContract, ResponseHasMetaInform
             'top_p' => $this->topP,
             'response_format' => is_string($this->responseFormat) ? $this->responseFormat : $this->responseFormat->toArray(),
         ];
+
+        // Only reasoning models will have this property.
+        if (! $this->reasoningEffort) {
+            unset($response['reasoning_effort']);
+        }
+
+        return $response;
     }
 }
