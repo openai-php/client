@@ -1570,8 +1570,10 @@ foreach($stream as $response){
 > [!WARNING]
 > OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
 
-> [!NOTE]
-> If you are creating the client manually from the factory. Make sure you provide the necessary header:
+<details>
+<summary>Assistants API Information</summary>
+
+> **Note** - If you are creating the client manually from the factory. Make sure you provide the necessary header:
 > ```php
 > $factory->withHttpHeader('OpenAI-Beta', 'assistants=v2')
 > ```
@@ -1695,10 +1697,15 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+</details>
+
 ### `Threads` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+
+<details>
+<summary>Threads API Information</summary>
 
 #### `create`
 
@@ -1817,10 +1824,15 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ```
 
+</details>
+
 ### `Thread Messages` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+
+<details>
+<summary>Thread Messages API Information</summary>
 
 #### `create`
 
@@ -1956,10 +1968,15 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+</details>
+
 ### `Thread Runs` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+
+<details>
+<summary>Thread Runs API Information</summary>
 
 #### `create`
 
@@ -2274,10 +2291,15 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+</details>
+
 ### `Thread Run Steps` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+
+<details>
+<summary>Thread Run Steps API Information</summary>
 
 #### `retrieve`
 
@@ -2335,10 +2357,15 @@ foreach ($response->data as $result) {
 $response->toArray(); // ['object' => 'list', ...]]
 ```
 
+</details>
+
 ### `Edits` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the Edits API and will stop working by January 4, 2024. https://openai.com/blog/gpt-4-api-general-availability#deprecation-of-the-edits-api
+
+<details>
+<summary>Edits API Information</summary>
 
 #### `create`
 
@@ -2366,10 +2393,15 @@ $response->usage->totalTokens; // 57
 $response->toArray(); // ['object' => 'edit', ...]
 ```
 
+</details>
+
 ### `FineTunes` Resource (deprecated)
 
 > [!WARNING]
 > OpenAI has deprecated the FineTunes API and will stop working by January 4, 2024 https://platform.openai.com/docs/deprecations#2023-08-22-fine-tunes-endpoint
+
+<details>
+<summary>FineTunes API Information</summary>
 
 #### `create`
 
@@ -2521,6 +2553,8 @@ foreach($stream as $response){
 // xx. iteration => 'Uploaded result file: file-ajLKUCMsFPrT633zqwr0eI4l'
 // xx. iteration => 'Fine-tune succeeded'
 ```
+
+</details>
 
 ## Meta Information
 
