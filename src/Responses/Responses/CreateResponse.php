@@ -9,6 +9,7 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
@@ -25,6 +26,7 @@ use OpenAI\Responses\Responses\Tool\ComputerUseTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
+use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
@@ -33,6 +35,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type ResponseFormatType from CreateResponseFormat
+ * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
@@ -43,6 +46,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
+ * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type FileSearchToolType from FileSearchTool
  * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool
@@ -116,7 +120,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     public static function from(array $attributes, MetaInformation $meta): self
     {
         $output = array_map(
-            fn (array $output): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall => match ($output['type']) {
+            fn (array $output): OutputMessage|OutputCodeInterpreterToolCall|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall => match ($output['type']) {
                 'message' => OutputMessage::from($output),
                 'file_search_call' => OutputFileSearchToolCall::from($output),
                 'function_call' => OutputFunctionToolCall::from($output),
@@ -127,6 +131,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 'mcp_approval_request' => OutputMcpApprovalRequest::from($output),
                 'mcp_call' => OutputMcpCall::from($output),
                 'image_generation_call' => OutputImageGenerationToolCall::from($output),
+                'code_interpreter_call' => OutputCodeInterpreterToolCall::from($output),
             },
             $attributes['output'],
         );
@@ -219,7 +224,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'metadata' => $this->metadata ?? [],
             'model' => $this->model,
             'output' => array_map(
-                fn (OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $output): array => $output->toArray(),
+                fn (OutputMessage|OutputCodeInterpreterToolCall|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $output): array => $output->toArray(),
                 $this->output
             ),
             'parallel_tool_calls' => $this->parallelToolCalls,

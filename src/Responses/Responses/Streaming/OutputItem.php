@@ -9,6 +9,7 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
@@ -22,6 +23,7 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
+ * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
@@ -32,9 +34,8 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMcpListToolsType from OutputMcpListTools
  * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
- * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  *
- * @phpstan-type OutputItemType array{item: OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType, output_index: int}
+ * @phpstan-type OutputItemType array{item: OutputCodeInterpreterToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType, output_index: int}
  *
  * @implements ResponseContract<OutputItemType>
  */
@@ -50,7 +51,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
 
     private function __construct(
         public readonly int $outputIndex,
-        public readonly OutputMessage|OutputFileSearchToolCall|OutputFunctionToolCall|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $item,
+        public readonly OutputMessage|OutputCodeInterpreterToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $item,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -70,6 +71,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
             'mcp_list_tools' => OutputMcpListTools::from($attributes['item']),
             'mcp_approval_request' => OutputMcpApprovalRequest::from($attributes['item']),
             'mcp_call' => OutputMcpCall::from($attributes['item']),
+            'code_interpreter_call' => OutputCodeInterpreterToolCall::from($attributes['item']),
         };
 
         return new self(
