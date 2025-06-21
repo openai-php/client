@@ -19,6 +19,7 @@ use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputMessage;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
+use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
 use OpenAI\Responses\Responses\Tool\ComputerUseTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
@@ -48,6 +49,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type RemoteMcpToolType from RemoteMcpTool
  * @phpstan-import-type FunctionToolType from FunctionTool
  * @phpstan-import-type WebSearchToolType from WebSearchTool
+ * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
  * @phpstan-import-type ErrorType from CreateResponseError
  * @phpstan-import-type IncompleteDetailsType from CreateResponseIncompleteDetails
  * @phpstan-import-type UsageType from CreateResponseUsage
@@ -56,7 +58,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
  *
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
- * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType>
+ * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType>
  * @phpstan-type RetrieveResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
@@ -76,7 +78,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
      * @param  'response'  $object
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
      * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall>  $output
-     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool>  $tools
+     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata
      */
@@ -136,13 +138,14 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         : $attributes['tool_choice'];
 
         $tools = array_map(
-            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool => match ($tool['type']) {
+            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
                 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
                 'computer_use_preview' => ComputerUseTool::from($tool),
                 'image_generation' => ImageGenerationTool::from($tool),
                 'mcp' => RemoteMcpTool::from($tool),
+                'code_interpreter' => CodeInterpreterTool::from($tool),
             },
             $attributes['tools'],
         );
@@ -215,7 +218,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
             'tools' => array_map(
-                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool $tool): array => $tool->toArray(),
+                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
             'top_p' => $this->topP,
