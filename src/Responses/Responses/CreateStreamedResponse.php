@@ -7,6 +7,9 @@ namespace OpenAI\Responses\Responses;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Streaming\CodeInterpreterCall;
+use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDelta;
+use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDone;
 use OpenAI\Responses\Responses\Streaming\ContentPart;
 use OpenAI\Responses\Responses\Streaming\Error;
 use OpenAI\Responses\Responses\Streaming\FileSearchCall;
@@ -47,7 +50,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|Error $response,
+        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|Error $response,
     ) {}
 
     /**
@@ -82,6 +85,12 @@ final class CreateStreamedResponse implements ResponseContract
             'response.web_search_call.in_progress',
             'response.web_search_call.searching',
             'response.web_search_call.completed' => WebSearchCall::from($attributes, $meta), // @phpstan-ignore-line
+            'response.code_interpreter_call.in_progress',
+            'response.code_interpreter_call.running',
+            'response.code_interpreter_call.interpreting',
+            'response.code_interpreter_call.completed' => CodeInterpreterCall::from($attributes, $meta), // @phpstan-ignore-line
+            'response.code_interpreter_call_code.delta' => CodeInterpreterCodeDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.code_interpreter_call_code.done' => CodeInterpreterCodeDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_part.added',
             'response.reasoning_summary_part.done' => ReasoningSummaryPart::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_text.delta' => ReasoningSummaryTextDelta::from($attributes, $meta), // @phpstan-ignore-line
