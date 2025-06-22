@@ -27,6 +27,9 @@ final class CodeInterpreterTool implements ResponseContract
      * @param  array{type: string, files?: array<string>}|string|null  $container
      */
     private function __construct(
+        /**
+         * @var 'code_interpreter'
+         */
         public readonly string $type,
         public readonly array|string|null $container,
     ) {}
@@ -48,7 +51,7 @@ final class CodeInterpreterTool implements ResponseContract
     public function toArray(): array
     {
         $result = [
-            'type' => $this->type,
+            'type' => 'code_interpreter',
         ];
 
         if ($this->container !== null) {

@@ -53,19 +53,19 @@ final class OutputMessageContentOutputTextAnnotationsContainerFile implements Re
             'file_id' => $this->fileId,
             'type' => $this->type,
         ];
-        
+
         if ($this->text !== null) {
             $result['text'] = $this->text;
         }
-        
+
         if ($this->startIndex !== null) {
             $result['start_index'] = $this->startIndex;
         }
-        
+
         if ($this->endIndex !== null) {
             $result['end_index'] = $this->endIndex;
         }
-        
+
         return $result;
     }
 }
