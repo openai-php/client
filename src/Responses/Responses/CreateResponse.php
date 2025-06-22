@@ -26,7 +26,6 @@ use OpenAI\Responses\Responses\Tool\ComputerUseTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
-use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
