@@ -11,6 +11,11 @@ use OpenAI\Responses\Responses\Output\CodeInterpreter\CodeTextOutput;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
+ * @phpstan-import-type CodeFileOutputType from CodeFileOutput
+ * @phpstan-import-type CodeTextOutputType from CodeTextOutput
+ *
+ * @phpstan-type ResultType array<int, CodeFileOutputType|CodeTextOutputType>
+ * @phpstan-type OutputCodeInterpreterToolCallType array{code: string, id: string, results: ResultType, status: string, type: 'code_interpreter_call', container_id: string}
  *
  * @implements ResponseContract<OutputCodeInterpreterToolCallType>
  */
