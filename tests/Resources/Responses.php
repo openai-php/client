@@ -197,6 +197,53 @@ test('create streamed image generation', function () {
     }
 });
 
+test('create streamed code interpreter', function () {
+    $response = new Response(
+        body: new Stream(responseCodeInterpreterStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'responses', [
+        'model' => 'gpt-4o-mini',
+        'instructions' => 'You are a personal math tutor. When asked a math question, write and run code to answer the question.',
+        'input' => 'I need to solve the equation 3x + 11 = 14. Can you help me?',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+                'container' => [
+                    'type' => 'auto',
+                ],
+            ],
+        ],
+        'stream' => true,
+    ], $response);
+
+    $result = $client->responses()->createStreamed([
+        'model' => 'gpt-4o-mini',
+        'instructions' => 'You are a personal math tutor. When asked a math question, write and run code to answer the question.',
+        'input' => 'I need to solve the equation 3x + 11 = 14. Can you help me?',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+                'container' => [
+                    'type' => 'auto',
+                ],
+            ],
+        ],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class)
+        ->and($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
+
+    foreach ($result as $event) {
+        expect($event)
+            ->toBeInstanceOf(CreateStreamedResponse::class);
+    }
+});
+
 test('delete', function () {
     $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
     ], \OpenAI\ValueObjects\Transporter\Response::from(deleteResponseResource(), metaHeaders()));

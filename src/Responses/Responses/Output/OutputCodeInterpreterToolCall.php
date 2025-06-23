@@ -14,8 +14,8 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type CodeFileOutputType from CodeFileOutput
  * @phpstan-import-type CodeTextOutputType from CodeTextOutput
  *
- * @phpstan-type ResultType array<int, CodeFileOutputType|CodeTextOutputType>
- * @phpstan-type OutputCodeInterpreterToolCallType array{code: string, id: string, results: ResultType, status: string, type: 'code_interpreter_call', container_id: string}
+ * @phpstan-type OutputType array<int, CodeFileOutputType|CodeTextOutputType>|null
+ * @phpstan-type OutputCodeInterpreterToolCallType array{code: string, id: string, outputs: OutputType, status: string, type: 'code_interpreter_call', container_id: string}
  *
  * @implements ResponseContract<OutputCodeInterpreterToolCallType>
  */
@@ -29,13 +29,13 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  array<int, CodeFileOutput|CodeTextOutput>  $results
+     * @param  array<int, CodeFileOutput|CodeTextOutput>|null  $outputs
      * @param  'code_interpreter_call'  $type
      */
     private function __construct(
         public readonly string $code,
         public readonly string $id,
-        public readonly array $results,
+        public readonly ?array $outputs,
         public readonly string $status,
         public readonly string $type,
         public readonly string $containerId,
@@ -46,18 +46,22 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $results = array_map(
-            static fn (array $result): CodeFileOutput|CodeTextOutput => match ($result['type']) {
-                'files' => CodeFileOutput::from($result),
-                'logs' => CodeTextOutput::from($result),
-            },
-            $attributes['results']
-        );
+        $outputs = null;
+
+        if (is_array($attributes['outputs'])) {
+            $outputs = array_map(
+                static fn (array $output): CodeFileOutput|CodeTextOutput => match ($output['type']) {
+                    'files' => CodeFileOutput::from($output),
+                    'logs' => CodeTextOutput::from($output),
+                },
+                $attributes['outputs']
+            );
+        }
 
         return new self(
             code: $attributes['code'],
             id: $attributes['id'],
-            results: $results,
+            outputs: $outputs,
             status: $attributes['status'],
             type: $attributes['type'],
             containerId: $attributes['container_id'],
@@ -72,10 +76,9 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
         return [
             'code' => $this->code,
             'id' => $this->id,
-            'results' => array_map(
-                static fn (CodeFileOutput|CodeTextOutput $result): array => $result->toArray(),
-                $this->results
-            ),
+            'outputs' => $this->outputs
+                ? array_map(static fn (CodeFileOutput|CodeTextOutput $output): array => $output->toArray(), $this->outputs)
+                : null,
             'status' => $this->status,
             'type' => $this->type,
             'container_id' => $this->containerId,

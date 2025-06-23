@@ -321,7 +321,7 @@ function outputCodeInterpreterToolCall(): array
     return [
         'code' => 'print("Hello, World!")',
         'id' => 'ci_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
-        'results' => [
+        'outputs' => [
             [
                 'type' => 'logs',
                 'logs' => 'Execution started.',
@@ -497,6 +497,14 @@ function responseCompletionStream()
 function responseImageGenerationStream()
 {
     return fopen(__DIR__.'/Streams/ResponseImageGenerationCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function responseCodeInterpreterStream()
+{
+    return fopen(__DIR__.'/Streams/ResponseCodeInterpreterCreate.txt', 'r');
 }
 
 /**
