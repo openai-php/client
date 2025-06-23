@@ -1,7 +1,6 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
-use OpenAI\Responses\Responses\Output\OutputMcpCall;
 
 test('from', function () {
     $response = OutputCodeInterpreterToolCall::from(outputCodeInterpreterToolCall());
