@@ -7,6 +7,7 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
+use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\StreamResponse;
 
@@ -71,6 +72,23 @@ test('create', function () {
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('create with stored prompt.', function () {
+    $client = mockClient('POST', 'responses', [
+        'model' => 'gpt-4o',
+        'input' => 'what was a positive news story from today?',
+    ], \OpenAI\ValueObjects\Transporter\Response::from(createResponseStoredPromptResource(), metaHeaders()));
+
+    $result = $client->responses()->create([
+        'model' => 'gpt-4o',
+        'input' => 'what was a positive news story from today?',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->instructions->toBeArray()
+        ->prompt->toBeInstanceOf(ReferencePromptObject::class);
 });
 
 test('create throws an exception if stream option is true', function () {

@@ -58,11 +58,13 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FunctionToolChoiceType from FunctionToolChoice
  * @phpstan-import-type HostedToolChoiceType from HostedToolChoice
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
+ * @phpstan-import-type ReferencePromptObjectType from ReferencePromptObject
  *
+ * @phpstan-type InstructionsType array<int, mixed>|string|null
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: string|null, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -79,6 +81,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * @param  'response'  $object
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
+     * @param  array<int, mixed>|string|null  $instructions
      * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $output
      * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|ImageGenerationTool|CodeInterpreterTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
@@ -91,13 +94,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $status,
         public readonly ?CreateResponseError $error,
         public readonly ?CreateResponseIncompleteDetails $incompleteDetails,
-        public readonly ?string $instructions,
+        public readonly array|string|null $instructions,
         public readonly ?int $maxOutputTokens,
         public readonly string $model,
         public readonly array $output,
         public readonly ?string $outputText,
         public readonly bool $parallelToolCalls,
         public readonly ?string $previousResponseId,
+        public readonly ?ReferencePromptObject $prompt,
         public readonly ?CreateResponseReasoning $reasoning,
         public readonly bool $store,
         public readonly ?float $temperature,
@@ -184,6 +188,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             outputText: empty($texts) ? null : implode(' ', $texts),
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
+            prompt: isset($attributes['prompt'])
+                ? ReferencePromptObject::from($attributes['prompt'])
+                : null,
             reasoning: isset($attributes['reasoning'])
                 ? CreateResponseReasoning::from($attributes['reasoning'])
                 : null,
@@ -227,6 +234,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             ),
             'parallel_tool_calls' => $this->parallelToolCalls,
             'previous_response_id' => $this->previousResponseId,
+            'prompt' => $this->prompt?->toArray(),
             'reasoning' => $this->reasoning?->toArray(),
             'store' => $this->store,
             'temperature' => $this->temperature,

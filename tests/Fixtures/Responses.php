@@ -26,6 +26,7 @@ function createResponseResource(): array
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
+        'prompt' => null,
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
@@ -44,6 +45,75 @@ function createResponseResource(): array
             toolImageGeneration(),
             toolRemoteMcp(),
         ],
+        'top_p' => 1.0,
+        'truncation' => 'disabled',
+        'usage' => [
+            'input_tokens' => 328,
+            'input_tokens_details' => [
+                'cached_tokens' => 0,
+            ],
+            'output_tokens' => 356,
+            'output_tokens_details' => [
+                'reasoning_tokens' => 0,
+            ],
+            'total_tokens' => 684,
+        ],
+        'user' => null,
+    ];
+}
+
+function createResponseStoredPromptResource(): array
+{
+    return [
+        'id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+        'object' => 'response',
+        'created_at' => 1741484430,
+        'status' => 'completed',
+        'error' => null,
+        'incomplete_details' => null,
+        'instructions' => [
+            [
+                'type' => 'message',
+                'content' => [
+                    [
+                        'type' => 'input_text',
+                        'text' => 'What is the weather in Tampa?',
+                    ],
+                ],
+                'role' => 'system',
+            ],
+        ],
+        'max_output_tokens' => null,
+        'model' => 'gpt-4.1-nano-2025-04-14',
+        'output' => [
+            outputBasicMessage(),
+        ],
+        'outputText' => 'The weather in Tampa is sunny with a high of 85°F.',
+        'prompt' => [
+            'id' => 'prompt_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+            'variables' => [
+                'city' => [
+                    'type' => 'input_text',
+                    'text' => 'Tampa',
+                ],
+            ],
+            'version' => '1',
+        ],
+        'parallel_tool_calls' => true,
+        'previous_response_id' => null,
+        'reasoning' => [
+            'effort' => null,
+            'generate_summary' => null,
+        ],
+        'store' => true,
+        'temperature' => 1.0,
+        'text' => [
+            'format' => [
+                'type' => 'text',
+            ],
+        ],
+        'tool_choice' => 'auto',
+        'tools' => [],
         'top_p' => 1.0,
         'truncation' => 'disabled',
         'usage' => [
