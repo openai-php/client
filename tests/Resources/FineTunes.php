@@ -185,8 +185,8 @@ test('list events', function () {
 
 test('list events streamed', function () {
     $response = new Response(
-        body: new Stream(fineTuneListEventsStream()),
         headers: metaHeaders(),
+        body: new Stream(fineTuneListEventsStream()),
     );
 
     $client = mockStreamClient('GET', 'fine-tunes/ft-MaoEAULREoazpupm8uB7qoIl/events', ['stream' => 'true'], $response);

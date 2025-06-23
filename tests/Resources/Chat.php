@@ -57,8 +57,8 @@ test('create throws an exception if stream option is true', function () {
 
 test('create streamed', function () {
     $response = new Response(
-        body: new Stream(chatCompletionStream()),
         headers: metaHeaders(),
+        body: new Stream(chatCompletionStream()),
     );
 
     $client = mockStreamClient('POST', 'chat/completions', [
@@ -102,8 +102,8 @@ test('create streamed', function () {
 
 test('handles ping messages in stream', function () {
     $response = new Response(
-        body: new Stream(chatCompletionStreamPing()),
         headers: metaHeaders(),
+        body: new Stream(chatCompletionStreamPing()),
     );
 
     $client = mockStreamClient('POST', 'chat/completions', [
