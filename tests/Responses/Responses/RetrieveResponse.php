@@ -24,6 +24,7 @@ test('from', function () {
         ->output->toHaveCount(2)
         ->parallelToolCalls->toBeTrue()
         ->previousResponseId->toBeNull()
+        ->prompt->toBeNull()
         ->reasoning->toBeInstanceOf(CreateResponseReasoning::class)
         ->store->toBeTrue()
         ->temperature->toBe(1.0)

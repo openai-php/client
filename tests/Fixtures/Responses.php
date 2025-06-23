@@ -153,6 +153,7 @@ function retrieveResponseResource(): array
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
+        'prompt' => null,
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
