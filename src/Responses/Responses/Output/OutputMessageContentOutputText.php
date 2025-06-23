@@ -70,9 +70,7 @@ final class OutputMessageContentOutputText implements ResponseContract
     {
         return [
             'annotations' => array_map(
-                static function (AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array {
-                    return $annotation->toArray();
-                },
+                fn (AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array => $annotation->toArray(),
                 $this->annotations,
             ),
             'text' => $this->text,
