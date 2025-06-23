@@ -22,6 +22,7 @@ function createResponseResource(): array
             outputFileSearchToolCall(),
             outputComputerToolCall(),
             outputReasoning(),
+            outputCodeInterpreterToolCall(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -315,6 +316,35 @@ function outputBasicMessage(): array
 /**
  * @return array<string, mixed>
  */
+function outputCodeInterpreterToolCall(): array
+{
+    return [
+        'code' => 'print("Hello, World!")',
+        'id' => 'ci_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'outputs' => [
+            [
+                'type' => 'logs',
+                'logs' => 'Execution started.',
+            ],
+            [
+                'type' => 'files',
+                'files' => [
+                    [
+                        'file_id' => 'file_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+                        'mime_type' => 'text/plain',
+                    ],
+                ],
+            ],
+        ],
+        'status' => 'completed',
+        'type' => 'code_interpreter_call',
+        'container_id' => 'container_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputAnnotationMessage(): array
 {
     return [
@@ -467,6 +497,14 @@ function responseCompletionStream()
 function responseImageGenerationStream()
 {
     return fopen(__DIR__.'/Streams/ResponseImageGenerationCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function responseCodeInterpreterStream()
+{
+    return fopen(__DIR__.'/Streams/ResponseCodeInterpreterCreate.txt', 'r');
 }
 
 /**

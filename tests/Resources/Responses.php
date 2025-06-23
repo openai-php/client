@@ -36,7 +36,7 @@ test('create', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(5);
+        ->output->toHaveCount(6);
 
     expect($output[0])
         ->type->toBe('message')
@@ -189,6 +189,53 @@ test('create streamed image generation', function () {
         ->toBeInstanceOf(IteratorAggregate::class);
 
     expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
+
+    foreach ($result as $event) {
+        expect($event)
+            ->toBeInstanceOf(CreateStreamedResponse::class);
+    }
+});
+
+test('create streamed code interpreter', function () {
+    $response = new Response(
+        body: new Stream(responseCodeInterpreterStream()),
+        headers: metaHeaders(),
+    );
+
+    $client = mockStreamClient('POST', 'responses', [
+        'model' => 'gpt-4o-mini',
+        'instructions' => 'You are a personal math tutor. When asked a math question, write and run code to answer the question.',
+        'input' => 'I need to solve the equation 3x + 11 = 14. Can you help me?',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+                'container' => [
+                    'type' => 'auto',
+                ],
+            ],
+        ],
+        'stream' => true,
+    ], $response);
+
+    $result = $client->responses()->createStreamed([
+        'model' => 'gpt-4o-mini',
+        'instructions' => 'You are a personal math tutor. When asked a math question, write and run code to answer the question.',
+        'input' => 'I need to solve the equation 3x + 11 = 14. Can you help me?',
+        'tools' => [
+            [
+                'type' => 'code_interpreter',
+                'container' => [
+                    'type' => 'auto',
+                ],
+            ],
+        ],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class)
+        ->and($result->getIterator())
         ->toBeInstanceOf(Iterator::class);
 
     foreach ($result as $event) {

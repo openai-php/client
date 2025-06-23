@@ -6,17 +6,19 @@ namespace OpenAI\Responses\Responses\Output;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsContainerFile as AnnotationContainerFile;
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFileCitation as AnnotationFileCitation;
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsFilePath as AnnotationFilePath;
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextAnnotationsUrlCitation as AnnotationUrlCitation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
+ * @phpstan-import-type ContainerFileType from OutputMessageContentOutputTextAnnotationsContainerFile
  * @phpstan-import-type FileCitationType from OutputMessageContentOutputTextAnnotationsFileCitation
  * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
  * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
  *
- * @phpstan-type OutputTextType array{annotations: array<int, FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text'}
+ * @phpstan-type OutputTextType array{annotations: array<int, ContainerFileType|FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text'}
  *
  * @implements ResponseContract<OutputTextType>
  */
@@ -30,7 +32,7 @@ final class OutputMessageContentOutputText implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  array<int, AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
+     * @param  array<int, AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
      * @param  'output_text'  $type
      */
     private function __construct(
@@ -45,10 +47,11 @@ final class OutputMessageContentOutputText implements ResponseContract
     public static function from(array $attributes): self
     {
         $annotations = array_map(
-            fn (array $annotation): AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation => match ($annotation['type']) {
+            fn (array $annotation): AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation|AnnotationContainerFile => match ($annotation['type']) {
                 'file_citation' => AnnotationFileCitation::from($annotation),
                 'file_path' => AnnotationFilePath::from($annotation),
                 'url_citation' => AnnotationUrlCitation::from($annotation),
+                'container_file_citation' => AnnotationContainerFile::from($annotation),
             },
             $attributes['annotations'],
         );
@@ -67,7 +70,7 @@ final class OutputMessageContentOutputText implements ResponseContract
     {
         return [
             'annotations' => array_map(
-                fn (AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array => $annotation->toArray(),
+                fn (AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array => $annotation->toArray(),
                 $this->annotations,
             ),
             'text' => $this->text,
