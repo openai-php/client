@@ -34,7 +34,6 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type ResponseFormatType from CreateResponseFormat
- * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
@@ -45,7 +44,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
- * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
+ * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type FileSearchToolType from FileSearchTool
  * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool
@@ -80,7 +79,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * @param  'response'  $object
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
-     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|CodeInterpreterToolType>  $output
+     * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $output
      * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|ImageGenerationTool|CodeInterpreterTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata

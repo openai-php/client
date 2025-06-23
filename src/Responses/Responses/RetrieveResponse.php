@@ -9,6 +9,7 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
@@ -43,6 +44,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
+ * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type FileSearchToolType from FileSearchTool
  * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool

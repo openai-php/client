@@ -49,30 +49,12 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $annotationType = $attributes['annotation']['type'];
-
-        // Handle container_file types with any suffix
-        if (str_starts_with($annotationType, 'container_file')) {
-            /** @var ContainerFileType $containerFileAttributes */
-            $containerFileAttributes = $attributes['annotation'];
-            $annotation = OutputMessageContentOutputTextAnnotationsContainerFile::from($containerFileAttributes);
-        } else {
-            $annotation = match ($annotationType) {
-                'file_citation' => (static function (array $ann) {
-                    /** @var FileCitationType $ann */
-                    return OutputMessageContentOutputTextAnnotationsFileCitation::from($ann);
-                })($attributes['annotation']),
-                'file_path' => (static function (array $ann) {
-                    /** @var FilePathType $ann */
-                    return OutputMessageContentOutputTextAnnotationsFilePath::from($ann);
-                })($attributes['annotation']),
-                'url_citation' => (static function (array $ann) {
-                    /** @var UrlCitationType $ann */
-                    return OutputMessageContentOutputTextAnnotationsUrlCitation::from($ann);
-                })($attributes['annotation']),
-                default => throw new \UnhandledMatchError("Unhandled annotation type: {$annotationType}")
-            };
-        }
+        $annotation = match ($attributes['annotation']['type']) {
+            'file_citation' => OutputMessageContentOutputTextAnnotationsFileCitation::from($attributes['annotation']),
+            'file_path' => OutputMessageContentOutputTextAnnotationsFilePath::from($attributes['annotation']),
+            'url_citation' => OutputMessageContentOutputTextAnnotationsUrlCitation::from($attributes['annotation']),
+            'container_file_citation' => OutputMessageContentOutputTextAnnotationsContainerFile::from($attributes['annotation']),
+        };
 
         return new self(
             annotation: $annotation,
