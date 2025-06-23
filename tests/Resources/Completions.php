@@ -56,8 +56,8 @@ test('create throws an exception if stream option is true', function () {
 
 test('create streamed', function () {
     $response = new Response(
-        body: new Stream(completionStream()),
         headers: metaHeaders(),
+        body: new Stream(completionStream()),
     );
 
     $client = mockStreamClient('POST', 'completions', [

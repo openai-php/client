@@ -7,8 +7,8 @@ use OpenAI\Responses\Meta\MetaInformation;
 
 test('from response', function () {
     $response = new Response(
-        body: new Stream(speechStream()),
         headers: metaHeaders(),
+        body: new Stream(speechStream()),
     );
 
     $speech = new SpeechStreamResponse($response);

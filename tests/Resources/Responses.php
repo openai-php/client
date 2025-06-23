@@ -83,8 +83,8 @@ test('create throws an exception if stream option is true', function () {
 
 test('create streamed', function () {
     $response = new Response(
-        body: new Stream(responseCompletionStream()),
         headers: metaHeaders(),
+        body: new Stream(responseCompletionStream()),
     );
 
     $client = mockStreamClient('POST', 'responses', [
@@ -153,8 +153,8 @@ test('create streamed', function () {
 
 test('create streamed image generation', function () {
     $response = new Response(
-        body: new Stream(responseImageGenerationStream()),
         headers: metaHeaders(),
+        body: new Stream(responseImageGenerationStream()),
     );
 
     $client = mockStreamClient('POST', 'responses', [
@@ -199,8 +199,8 @@ test('create streamed image generation', function () {
 
 test('create streamed code interpreter', function () {
     $response = new Response(
-        body: new Stream(responseCodeInterpreterStream()),
         headers: metaHeaders(),
+        body: new Stream(responseCodeInterpreterStream()),
     );
 
     $client = mockStreamClient('POST', 'responses', [
