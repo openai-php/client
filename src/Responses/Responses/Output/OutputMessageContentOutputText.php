@@ -47,30 +47,11 @@ final class OutputMessageContentOutputText implements ResponseContract
     public static function from(array $attributes): self
     {
         $annotations = array_map(
-            function (array $annotation): AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation {
-                $annotationType = $annotation['type'];
-
-                // Handle container_file types with any suffix
-                if (str_starts_with($annotationType, 'container_file')) {
-                    /** @var ContainerFileType $annotation */
-                    return AnnotationContainerFile::from($annotation);
-                }
-
-                return match ($annotationType) {
-                    'file_citation' => (static function (array $annotation) {
-                        /** @var FileCitationType $annotation */
-                        return AnnotationFileCitation::from($annotation);
-                    })($annotation),
-                    'file_path' => (static function (array $annotation) {
-                        /** @var FilePathType $annotation */
-                        return AnnotationFilePath::from($annotation);
-                    })($annotation),
-                    'url_citation' => (static function (array $annotation) {
-                        /** @var UrlCitationType $annotation */
-                        return AnnotationUrlCitation::from($annotation);
-                    })($annotation),
-                    default => throw new \UnhandledMatchError("Unhandled annotation type: {$annotationType}")
-                };
+            fn (array $annotation): AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation|AnnotationContainerFile => match ($annotation['type']) {
+                'file_citation' => AnnotationFileCitation::from($annotation),
+                'file_path' => AnnotationFilePath::from($annotation),
+                'url_citation' => AnnotationUrlCitation::from($annotation),
+                'container_file_citation' => AnnotationContainerFile::from($annotation),
             },
             $attributes['annotations'],
         );
