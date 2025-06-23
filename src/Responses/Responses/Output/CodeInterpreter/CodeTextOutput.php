@@ -47,8 +47,8 @@ final class CodeTextOutput implements ResponseContract
     public function toArray(): array
     {
         return [
-            'logs' => $this->logs,
             'type' => $this->type,
+            'logs' => $this->logs,
         ];
     }
 }

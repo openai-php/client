@@ -22,6 +22,7 @@ function createResponseResource(): array
             outputFileSearchToolCall(),
             outputComputerToolCall(),
             outputReasoning(),
+            outputCodeInterpreterToolCall(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -309,6 +310,35 @@ function outputBasicMessage(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputCodeInterpreterToolCall(): array
+{
+    return [
+        'code' => 'print("Hello, World!")',
+        'id' => 'ci_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'results' => [
+            [
+                'type' => 'logs',
+                'logs' => 'Execution started.',
+            ],
+            [
+                'type' => 'files',
+                'files' => [
+                    [
+                        'file_id' => 'file_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+                        'mime_type' => 'text/plain',
+                    ],
+                ],
+            ],
+        ],
+        'status' => 'completed',
+        'type' => 'code_interpreter_call',
+        'container_id' => 'container_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
     ];
 }
 

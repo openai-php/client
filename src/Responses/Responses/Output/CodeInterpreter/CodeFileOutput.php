@@ -55,11 +55,11 @@ final class CodeFileOutput implements ResponseContract
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'files' => array_map(
                 static fn (CodeFileObject $file): array => $file->toArray(),
                 $this->files
             ),
-            'type' => $this->type,
         ];
     }
 }

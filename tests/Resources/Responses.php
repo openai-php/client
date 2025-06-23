@@ -36,7 +36,7 @@ test('create', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(5);
+        ->output->toHaveCount(6);
 
     expect($output[0])
         ->type->toBe('message')
