@@ -1,8 +1,36 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## v0.14.0 (2025-06-24)
+### Added
+- Add helper method `output_text` to Responses API ([#579](https://github.com/openai-php/client/pull/579))
+- Add support for response cancel in Responses API ([#588](https://github.com/openai-php/client/pull/588))
+- Add support for Image Generation Tool to Responses API ([#594](https://github.com/openai-php/client/pull/594))
+- Add streaming for Image Generation in Responses API ([#602](https://github.com/openai-php/client/pull/602))
+- Add support for Code Interpreter to Responses API ([#610](https://github.com/openai-php/client/pull/610))
+- Add support for Remote MCP Tool in Responses API ([#601](https://github.com/openai-php/client/pull/601))
+- Add realtime ephemeral tokens ([#591](https://github.com/openai-php/client/pull/591))
+- Add streaming support for Audio transcriptions ([#603](https://github.com/openai-php/client/pull/603))
+- Add realtime key documentation ([#597](https://github.com/openai-php/client/pull/597))
+
+### Fixed
+- Add missing `index` to `CreateStreamedResponseToolCall` ([#562](https://github.com/openai-php/client/pull/562))
+- Make `$parameters` optional in thread `create()` method ([#577](https://github.com/openai-php/client/pull/577))
+- Support Azure `model.list` endpoint ([#599](https://github.com/openai-php/client/pull/599))
+- Add `reasoning_effort` support to Assistants ([#606](https://github.com/openai-php/client/pull/606))
+- Use proper parameter order in `Response` constructor ([#615](https://github.com/openai-php/client/pull/615))
+- Support reused prompts/instructions in Responses API ([#616](https://github.com/openai-php/client/pull/616))
+
+### Changed
+- Use proper header notation for Responses API docs ([#596](https://github.com/openai-php/client/pull/596))
+- Collapse legacy/deprecated sections by default in docs ([#609](https://github.com/openai-php/client/pull/609))
+
+### Deprecated
+- mark Assistants API as deprecated ([#607](https://github.com/openai-php/client/pull/607))
+- mark Completions API as legacy ([#608](https://github.com/openai-php/client/pull/608))
 
 ## v0.13.0 (2025-05-14)
 ### Added
