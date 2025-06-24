@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputMcpCallType array{id: string, server_label: string, type: 'mcp_call', approval_request_id: ?string, arguments: string, error: ?string, name: string, output: ?string}
+ * @phpstan-type OutputMcpCallType array{id: string, server_label: string, type: 'mcp_call', approval_request_id: ?string, arguments: string, error?: mixed, name: string, output?: ?string}
  *
  * @implements ResponseContract<OutputMcpCallType>
  */
@@ -41,6 +41,40 @@ final class OutputMcpCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
+        // Handle error field which might be a string or an MCP content array
+        $error = $attributes['error'] ?? null;
+        $extractedError = null;
+
+        if (is_array($error)) {
+            // OpenAI might be passing through the MCP content array format
+
+            // Check if it's a direct content array [{type: 'text', text: '...'}]
+            if (isset($error[0])) {
+                /** @var array<int, mixed> $errorArray */
+                $errorArray = $error;
+                foreach ($errorArray as $content) {
+                    if (is_array($content) && isset($content['type']) && $content['type'] === 'text' && isset($content['text'])) {
+                        $extractedError = $content['text'];
+                        break;
+                    }
+                }
+            }
+            // Check if it has a content property {content: [{type: 'text', text: '...'}]}
+            elseif (isset($error['content']) && is_array($error['content'])) {
+                foreach ($error['content'] as $content) {
+                    if (is_array($content) && isset($content['type']) && $content['type'] === 'text' && isset($content['text'])) {
+                        $extractedError = $content['text'];
+                        break;
+                    }
+                }
+            }
+
+            // Fallback to JSON encoding if we can't extract the text
+            $extractedError = $extractedError ?? json_encode($error, JSON_THROW_ON_ERROR);
+        } else {
+            $extractedError = $error;
+        }
+
         return new self(
             id: $attributes['id'],
             serverLabel: $attributes['server_label'],
@@ -48,8 +82,8 @@ final class OutputMcpCall implements ResponseContract
             arguments: $attributes['arguments'],
             name: $attributes['name'],
             approvalRequestId: $attributes['approval_request_id'],
-            error: $attributes['error'],
-            output: $attributes['output'],
+            error: $extractedError,
+            output: $attributes['output'] ?? null,
         );
     }
 
