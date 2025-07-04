@@ -17,8 +17,8 @@ final class ImageResponseUsageInputTokensDetails
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['text_tokens'],
-            $attributes['image_tokens'],
+            $attributes['text_tokens'] ?? 0,
+            $attributes['image_tokens'] ?? 0,
         );
     }
 
