@@ -12,13 +12,13 @@ final class CreateStreamedResponseToolCallFunction
     ) {}
 
     /**
-     * @param  array{name?: string, arguments: string}  $attributes
+     * @param  array{name?: string, arguments?: string}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['name'] ?? null,
-            $attributes['arguments'],
+            $attributes['arguments'] ?? '',
         );
     }
 

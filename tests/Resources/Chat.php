@@ -98,6 +98,11 @@ test('create streamed', function () {
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
+
+    foreach ($result->getIterator() as $response) {
+        expect($response)
+            ->toBeInstanceOf(CreateStreamedResponse::class);
+    }
 });
 
 test('handles ping messages in stream', function () {
