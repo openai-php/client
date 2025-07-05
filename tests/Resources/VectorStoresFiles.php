@@ -62,6 +62,35 @@ test('retrieve', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('updateAttributes', function () {
+    $client = mockClient('POST', 'vector_stores/vs_8VE2cQq1jTFlH7FizhYCzUz0/files/file-HuwUghQzWasTZeX3uRRawY5R', [
+        'attributes' => [
+            'key1' => 'value1',
+            'key2' => 2,
+        ],
+    ], Response::from(vectorStoreFileResource(), metaHeaders()));
+
+    $result = $client->vectorStores()->files()->updateAttributes('vs_8VE2cQq1jTFlH7FizhYCzUz0', 'file-HuwUghQzWasTZeX3uRRawY5R', [
+        'attributes' => [
+            'key1' => 'value1',
+            'key2' => 2,
+        ],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(VectorStoreFileResponse::class)
+        ->id->toBe('file-HuwUghQzWasTZeX3uRRawY5R')
+        ->object->toBe('vector_store.file')
+        ->usageBytes->toBe(29882)
+        ->createdAt->toBe(1715956697)
+        ->vectorStoreId->toBe('vs_xds05V7ep0QMGI5JmYnWsJwb')
+        ->status->toBe('completed')
+        ->lastError->toBeNull();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
 test('delete', function () {
     $client = mockClient('DELETE', 'vector_stores/vs_xzlnkCbIQE50B9A8RzmcFmtP/files/file-HuwUghQzWasTZeX3uRRawY5R', [], Response::from(vectorStoreFileDeleteResource(), metaHeaders()));
 
