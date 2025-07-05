@@ -499,6 +499,25 @@ $response->usage->completionTokens; // 18,
 $response->usage->totalTokens; // 100
 ```
 
+Creates a chat completion with image input via `image_url`.  
+Useful for describing and analyzing visual content.
+
+```php
+$response = $client->chat()->create([
+    'model' => 'gpt-4o',
+    'messages' => [
+        [
+            'role' => 'user',
+            'content' => [
+                ['type' => 'text', 'text' => 'What is in this image?'],
+                // Replace with a real, accessible image
+                ['type' => 'image_url', 'image_url' => ['url' => 'https://example.com/image.jpg']], 
+            ]
+        ]
+    ]
+]);
+```
+
 #### `create streamed`
 
 Creates a streamed completion for the chat message.
