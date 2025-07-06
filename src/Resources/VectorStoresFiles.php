@@ -65,6 +65,23 @@ final class VectorStoresFiles implements VectorStoresFilesContract
     }
 
     /**
+     * Update attributes on a vector store file.
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-files/updateAttributes
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function updateAttributes(string $vectorStoreId, string $fileId, array $parameters): VectorStoreFileResponse
+    {
+        $payload = Payload::modify("vector_stores/$vectorStoreId/files", $fileId, $parameters);
+
+        /** @var Response<array{id: string, object: string, usage_bytes: int, created_at: int, vector_store_id: string, status: string, attributes: array<string, string>, last_error: ?array{code: string, message: string}, chunking_strategy: array{type: 'static', static: array{max_chunk_size_tokens: int, chunk_overlap_tokens: int}}|array{type: 'other'}}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return VectorStoreFileResponse::from($response->data(), $response->meta());
+    }
+
+    /**
      * Delete a file within a vector store.
      *
      * https://platform.openai.com/docs/api-reference/vector-stores/delete
