@@ -67,7 +67,7 @@ final class VectorStoresFiles implements VectorStoresFilesContract
     /**
      * Update attributes on a vector store file.
      *
-     * @see https://platform.openai.com/docs/api-reference/vector-stores-files/updateFile
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-files/updateAttributes
      *
      * @param  array<string, mixed>  $parameters
      */
