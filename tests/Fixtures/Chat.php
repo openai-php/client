@@ -493,6 +493,52 @@ function chatCompletionFromVision(): array
     ];
 }
 
+/**
+ * @return array<string, mixed>
+ */
+function chatCompleteAudioModality(): array
+{
+    return [
+        'id' => 'chatcmpl-BrW5kAHkOXIH2zQjz47IF9HrkR0yR',
+        'object' => 'chat.completion',
+        'created' => 1700000000,
+        'model' => 'gpt-4o-audio-preview-2025-06-03',
+        'system_fingerprint' => 'fp_1234567890abcdef',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => null,
+                    'audio' => [
+                        'id' => 'audio_1234567890abcdef',
+                        'data' => 'base64-encoded-audio-data',
+                        'expires_at' => 1700000000,
+                        'transcript' => 'This is a sample transcript of the audio.',
+                    ],
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'stop',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 50,
+            'completion_tokens' => 0,
+            'total_tokens' => 50,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 0,
+                'audio_tokens' => 100,
+            ],
+            'completion_tokens_details' => [
+                'reasoning_tokens' => 0,
+                'accepted_prediction_tokens' => 0,
+                'rejected_prediction_tokens' => 0,
+                'audio_tokens' => 100,
+            ],
+        ],
+    ];
+}
+
 function chatCompletionStreamFirstChunk(): array
 {
     return [

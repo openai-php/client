@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Chat\CreateResponseChoice;
+use OpenAI\Responses\Chat\CreateResponseChoiceAudio;
 use OpenAI\Responses\Chat\CreateResponseChoiceLogprobs;
 use OpenAI\Responses\Chat\CreateResponseMessage;
 
@@ -42,6 +43,19 @@ test('from vision response', function () {
         ->message->toBeInstanceOf(CreateResponseMessage::class)
         ->logprobs->toBeNull()
         ->finishReason->toBeNull();
+});
+
+test('from audio modality response', function () {
+    $result = CreateResponseChoice::from(chatCompleteAudioModality()['choices'][0]);
+
+    expect($result)
+        ->message->audio->toBeInstanceOf(CreateResponseChoiceAudio::class);
+
+    expect($result->message->audio)
+        ->id->toBe('audio_1234567890abcdef')
+        ->data->toBe('base64-encoded-audio-data')
+        ->expiresAt->toBe(1700000000)
+        ->transcript->toBe('This is a sample transcript of the audio.');
 });
 
 test('from OpenRouter OpenAI response', function () {
