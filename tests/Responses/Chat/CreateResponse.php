@@ -103,6 +103,14 @@ test('from tool calls response', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from audio modality response', function () {
+    $result = CreateResponse::from(chatCompleteAudioModality(), meta());
+
+    expect($result->usage)
+        ->promptTokensDetails->audioTokens->toBe(100)
+        ->completionTokensDetails->audioTokens->toBe(100);
+});
+
 test('as array accessible', function () {
     $completion = CreateResponse::from(chatCompletion(), meta());
 
