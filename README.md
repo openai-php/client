@@ -638,7 +638,7 @@ $response->toArray(); // ['task' => 'transcribe', ...]
 Transcribes audio into the input language with streaming.
 
 ```php
-$stream = OpenAI::audio()->transcribeStreamed([
+$stream = $client->audio()->transcribeStreamed([
     'model' => 'gpt-4o-transcribe',
     'file' => fopen('audio.mp3', 'r'),
 ]);
