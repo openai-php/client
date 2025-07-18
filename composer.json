@@ -24,7 +24,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9.3",
         "guzzlehttp/psr7": "^2.7.1",
-        "laravel/pint": "^1.22.0",
+        "laravel/pint": "^1.24.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.0",
         "pestphp/pest": "^3.8.2|^4.0.0",
@@ -57,8 +57,8 @@
         }
     },
     "scripts": {
-        "lint": "pint -v",
-        "test:lint": "pint --test -v",
+        "lint": "pint -v --parallel",
+        "test:lint": "pint --test -v --parallel",
         "test:types": "phpstan analyse --ansi",
         "test:type-coverage": "pest --type-coverage --min=100",
         "test:unit": "pest --colors=always",
