@@ -697,6 +697,7 @@ $response->object; // 'list'
 
 foreach ($response->embeddings as $embedding) {
     $embedding->object; // 'embedding'
+    $embedding->model; // 'text-similarity-babbage-001'
     $embedding->embedding; // [0.018990106880664825, -0.0073809814639389515, ...]
     $embedding->index; // 0
 }
