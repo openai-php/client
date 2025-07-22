@@ -11,7 +11,7 @@ test('from', function () {
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
         ->object->toBe('list')
-        ->model->toBe('text-embedding-3-small') // Verifica el campo model
+        ->model->toBe('text-embedding-3-small')
         ->embeddings->toBeArray()->toHaveCount(2)
         ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
         ->usage->toBeInstanceOf(CreateResponseUsage::class)
@@ -24,7 +24,7 @@ test('from without usage', function () {
     expect($response)
         ->toBeInstanceOf(CreateResponse::class)
         ->object->toBe('list')
-        ->model->toBe('text-embedding-3-small') // Verifica el campo model
+        ->model->toBe('text-embedding-3-small')
         ->embeddings->toBeArray()->toHaveCount(2)
         ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
         ->usage->toBeNull()

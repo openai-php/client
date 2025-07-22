@@ -38,7 +38,7 @@ function embeddingList(): array
 {
     return [
         'object' => 'list',
-        'model' => 'text-embedding-3-small', // Añadido para testear el campo model
+        'model' => 'text-embedding-3-small',
         'data' => [
             embedding(),
             embedding(),
@@ -57,7 +57,7 @@ function embeddingListWithoutUsage(): array
 {
     return [
         'object' => 'list',
-        'model' => 'text-embedding-3-small', // Añadido para testear el campo model
+        'model' => 'text-embedding-3-small',
         'data' => [
             embedding(),
             embedding(),
