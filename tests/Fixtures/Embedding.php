@@ -38,6 +38,7 @@ function embeddingList(): array
 {
     return [
         'object' => 'list',
+        'model' => 'text-embedding-3-small',
         'data' => [
             embedding(),
             embedding(),
@@ -56,9 +57,28 @@ function embeddingListWithoutUsage(): array
 {
     return [
         'object' => 'list',
+        'model' => 'text-embedding-3-small',
         'data' => [
             embedding(),
             embedding(),
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function embeddingListWithoutModel(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            embedding(),
+            embedding(),
+        ],
+        'usage' => [
+            'prompt_tokens' => 8,
+            'total_tokens' => 8,
         ],
     ];
 }
