@@ -31,6 +31,19 @@ test('from without usage', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from without model', function () {
+    $response = CreateResponse::from(embeddingListWithoutModel(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->object->toBe('list')
+        ->model->toBeNull()
+        ->embeddings->toBeArray()->toHaveCount(2)
+        ->embeddings->each->toBeInstanceOf(CreateResponseEmbedding::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('as array accessible', function () {
     $response = CreateResponse::from(embeddingList(), meta());
 
@@ -41,6 +54,12 @@ test('to array', function () {
     $response = CreateResponse::from(embeddingList(), meta());
 
     expect($response->toArray())->toBeArray()->toBe(embeddingList());
+});
+
+test('to array without model', function () {
+    $response = CreateResponse::from(embeddingListWithoutModel(), meta());
+
+    expect($response->toArray())->toBeArray()->toBe(embeddingListWithoutModel());
 });
 
 test('fake', function () {
