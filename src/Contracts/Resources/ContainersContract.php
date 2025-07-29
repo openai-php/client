@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\Containers\CreateContainer;
 use OpenAI\Responses\Containers\DeleteContainer;
+use OpenAI\Responses\Containers\ListContainers;
 use OpenAI\Responses\Containers\RetrieveContainer;
-use OpenAI\Responses\Responses\CreateResponse;
-use OpenAI\Responses\Responses\ListInputItems;
 
 interface ContainersContract
 {
     /**
-     * Creates a model response.
-     * Provide text or image inputs to generate text or JSON outputs.
-     * Have the model call your own custom code or use built-in tools
-     * like web search or file search to use your own data as input for the model's response.
+     * Creates a container for use with the Code Interpreter tool.
      *
-     * @see https://platform.openai.com/docs/api-reference/responses/create
+     * @see https://platform.openai.com/docs/api-reference/containers/createContainers
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): CreateResponse;
+    public function create(array $parameters): CreateContainer;
 
     /**
      * Retrieves a container with the given ID.
@@ -38,11 +35,11 @@ interface ContainersContract
     public function delete(string $id): DeleteContainer;
 
     /**
-     * Returns a list of input items for a given response.
+     * List containers
      *
-     * @see https://platform.openai.com/docs/api-reference/responses/input-items
+     * @see https://platform.openai.com/docs/api-reference/containers/listContainers
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function list(string $id, array $parameters = []): ListInputItems;
+    public function list(array $parameters = []): ListContainers;
 }
