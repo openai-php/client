@@ -4,10 +4,10 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ContainersContract;
 use OpenAI\Resources\Containers;
+use OpenAI\Responses\Containers\CreateContainer;
 use OpenAI\Responses\Containers\DeleteContainer;
+use OpenAI\Responses\Containers\ListContainers;
 use OpenAI\Responses\Containers\RetrieveContainer;
-use OpenAI\Responses\Responses\CreateResponse;
-use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Testing\Resources\Concerns\Testable;
 
 final class ContainersTestResource implements ContainersContract
@@ -19,7 +19,7 @@ final class ContainersTestResource implements ContainersContract
         return Containers::class;
     }
 
-    public function create(array $parameters): CreateResponse
+    public function create(array $parameters): CreateContainer
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
@@ -29,7 +29,7 @@ final class ContainersTestResource implements ContainersContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
-    public function list(string $id, array $parameters = []): ListInputItems
+    public function list(array $parameters = []): ListContainers
     {
         return $this->record(__FUNCTION__, func_get_args());
     }

@@ -14,6 +14,7 @@ use OpenAI\Resources\Audio;
 use OpenAI\Resources\Batches;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
+use OpenAI\Resources\Containers;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
@@ -66,6 +67,16 @@ final class Client implements ClientContract
     public function chat(): Chat
     {
         return new Chat($this->transporter);
+    }
+
+    /**
+     * Create and manage containers for use with the Code Interpreter tool.
+     *
+     * @see https://platform.openai.com/docs/api-reference/containers
+     */
+    public function containers(): Containers
+    {
+        return new Containers($this->transporter);
     }
 
     /**
