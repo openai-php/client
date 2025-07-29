@@ -15,7 +15,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type ExpiresAfterType from ExpiresAfter
  *
- * @phpstan-type CreateContainerType array{id: string, object: 'container', created_at: int, status: string, expires_after: ExpiresAfter, last_active_at: int, name: string}
+ * @phpstan-type CreateContainerType array{id: string, object: 'container', created_at: int, status: string, expires_after: ExpiresAfterType, last_active_at: int, name: string}
  *
  * @implements ResponseContract<CreateContainerType>
  */
