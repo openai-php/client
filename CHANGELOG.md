@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## v0.15.0 (2025-08-04)
+### Added
+
+* Add `updateAttributes` method to `VectorStoresFiles` ([#626](https://github.com/openai-php/client/pull/626))
+* Add support for chat completion audio modality ([#629](https://github.com/openai-php/client/pull/629))
+* Add `Containers` API ([#636](https://github.com/openai-php/client/pull/636))
+* Add `model` field to `CreateResponse` for embeddings ([#634](https://github.com/openai-php/client/pull/634))
+
+### Fixed
+
+* Fix streamed response tool call without arguments in VLLM ([#623](https://github.com/openai-php/client/pull/623))
+* Fix support for `code_interpreter_call` on retrieve response ([#632](https://github.com/openai-php/client/pull/632))
+* Fix JSON encoding to preserve UTF-8 characters using `JSON_UNESCAPED_UNICODE` ([#628](https://github.com/openai-php/client/pull/628))
+
 ## v0.14.0 (2025-06-24)
 ### Added
 - Add helper method `output_text` to Responses API ([#579](https://github.com/openai-php/client/pull/579))
