@@ -19,10 +19,10 @@ final class ImageResponseUsage
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['total_tokens'],
-            $attributes['input_tokens'],
-            $attributes['output_tokens'],
-            ImageResponseUsageInputTokensDetails::from($attributes['input_tokens_details']),
+            $attributes['total_tokens'] ?? 0,
+            $attributes['input_tokens'] ?? 0,
+            $attributes['output_tokens'] ?? 0,
+            ImageResponseUsageInputTokensDetails::from($attributes['input_tokens_details'] ?? []),
         );
     }
 
