@@ -64,7 +64,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type CreateResponseType array{id: string, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, reasoning: ReasoningType|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -89,12 +89,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     private function __construct(
         public readonly string $id,
+        public readonly ?bool $background,
         public readonly string $object,
         public readonly int $createdAt,
         public readonly string $status,
         public readonly ?CreateResponseError $error,
         public readonly ?CreateResponseIncompleteDetails $incompleteDetails,
         public readonly array|string|null $instructions,
+        public readonly ?int $maxToolCalls,
         public readonly ?int $maxOutputTokens,
         public readonly string $model,
         public readonly array $output,
@@ -102,16 +104,21 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly bool $parallelToolCalls,
         public readonly ?string $previousResponseId,
         public readonly ?ReferencePromptObject $prompt,
+        public readonly ?string $promptCacheKey,
+        public readonly ?string $safetyIdentifier,
+        public readonly ?string $serviceTier,
         public readonly ?CreateResponseReasoning $reasoning,
         public readonly bool $store,
         public readonly ?float $temperature,
         public readonly CreateResponseFormat $text,
         public readonly string|FunctionToolChoice|HostedToolChoice $toolChoice,
         public readonly array $tools,
+        public readonly ?int $topLogProbs,
         public readonly ?float $topP,
         public readonly ?string $truncation,
         public readonly ?CreateResponseUsage $usage,
         public readonly ?string $user,
+        public readonly ?string $verbosity,
         public readonly array $metadata,
         private readonly MetaInformation $meta,
     ) {}
@@ -172,6 +179,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
 
         return new self(
             id: $attributes['id'],
+            background: $attributes['background'] ?? null,
             object: $attributes['object'],
             createdAt: $attributes['created_at'],
             status: $attributes['status'],
@@ -182,6 +190,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 ? CreateResponseIncompleteDetails::from($attributes['incomplete_details'])
                 : null,
             instructions: $attributes['instructions'],
+            maxToolCalls: $attributes['max_tool_calls'] ?? null,
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
@@ -191,6 +200,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             prompt: isset($attributes['prompt'])
                 ? ReferencePromptObject::from($attributes['prompt'])
                 : null,
+            promptCacheKey: $attributes['prompt_cache_key'] ?? null,
+            safetyIdentifier: $attributes['safety_identifier'] ?? null,
+            serviceTier: $attributes['service_tier'] ?? null,
             reasoning: isset($attributes['reasoning'])
                 ? CreateResponseReasoning::from($attributes['reasoning'])
                 : null,
@@ -199,12 +211,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             text: CreateResponseFormat::from($attributes['text']),
             toolChoice: $toolChoice,
             tools: $tools,
+            topLogProbs: $attributes['top_logprobs'] ?? null,
             topP: $attributes['top_p'],
             truncation: $attributes['truncation'],
             usage: isset($attributes['usage'])
                 ? CreateResponseUsage::from($attributes['usage'])
                 : null,
             user: $attributes['user'] ?? null,
+            verbosity: $attributes['verbosity'] ?? null,
             metadata: $attributes['metadata'] ?? [],
             meta: $meta,
         );
@@ -219,12 +233,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         // @phpstan-ignore-next-line
         return [
             'id' => $this->id,
+            'background' => $this->background,
             'object' => $this->object,
             'created_at' => $this->createdAt,
             'status' => $this->status,
             'error' => $this->error?->toArray(),
             'incomplete_details' => $this->incompleteDetails?->toArray(),
             'instructions' => $this->instructions,
+            'max_tool_calls' => $this->maxToolCalls,
             'max_output_tokens' => $this->maxOutputTokens,
             'metadata' => $this->metadata ?? [],
             'model' => $this->model,
@@ -235,6 +251,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'parallel_tool_calls' => $this->parallelToolCalls,
             'previous_response_id' => $this->previousResponseId,
             'prompt' => $this->prompt?->toArray(),
+            'prompt_cache_key' => $this->promptCacheKey,
+            'safety_identifier' => $this->safetyIdentifier,
+            'service_tier' => $this->serviceTier,
             'reasoning' => $this->reasoning?->toArray(),
             'store' => $this->store,
             'temperature' => $this->temperature,
@@ -246,10 +265,12 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
+            'top_logprobs' => $this->topLogProbs,
             'top_p' => $this->topP,
             'truncation' => $this->truncation,
             'usage' => $this->usage?->toArray(),
             'user' => $this->user,
+            'verbosity' => $this->verbosity,
             'output_text' => $this->outputText,
         ];
     }
