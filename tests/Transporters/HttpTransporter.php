@@ -7,6 +7,7 @@ use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
+use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -380,6 +381,20 @@ test('request object serialization errors', function () {
         ->andReturn($response);
 
     $this->http->requestObject($payload);
+})->throws(UnserializableResponse::class, 'Syntax error', 0);
+
+test('request object server 404 html', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(404, ['Content-Type' => 'text/plain; charset=utf-8'], '404 page not found');
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    $response = $this->http->requestObject($payload);
+    ListResponse::from($response->data(), $response->meta());
 })->throws(UnserializableResponse::class, 'Syntax error', 0);
 
 test('request plain text', function () {
