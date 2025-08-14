@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningType array{effort: ?string, generate_summary: ?string}
+ * @phpstan-type ReasoningType array{effort: ?string, generate_summary: ?string, summary: ?string}
  *
  * @implements ResponseContract<ReasoningType>
  */
@@ -24,7 +24,8 @@ final class CreateResponseReasoning implements ResponseContract
 
     private function __construct(
         public readonly ?string $effort,
-        public readonly ?string $generate_summary,
+        public readonly ?string $generateSummary,
+        public readonly ?string $summary,
     ) {}
 
     /**
@@ -34,7 +35,8 @@ final class CreateResponseReasoning implements ResponseContract
     {
         return new self(
             effort: $attributes['effort'] ?? null,
-            generate_summary: $attributes['generate_summary'] ?? null,
+            generateSummary: $attributes['generate_summary'] ?? null,
+            summary: $attributes['summary'] ?? null,
         );
     }
 
@@ -45,7 +47,8 @@ final class CreateResponseReasoning implements ResponseContract
     {
         return [
             'effort' => $this->effort,
-            'generate_summary' => $this->generate_summary,
+            'generate_summary' => $this->generateSummary,
+            'summary' => $this->summary,
         ];
     }
 }

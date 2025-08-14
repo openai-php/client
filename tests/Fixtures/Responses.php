@@ -35,6 +35,7 @@ function createResponseResource(): array
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
+            'summary' => null,
         ],
         'store' => true,
         'temperature' => 1.0,
@@ -170,6 +171,7 @@ function retrieveResponseResource(): array
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
+            'summary' => null,
         ],
         'store' => true,
         'temperature' => 1.0,
