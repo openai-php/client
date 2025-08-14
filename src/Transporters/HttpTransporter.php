@@ -12,6 +12,7 @@ use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
+use OpenAI\ValueObjects\Transporter\AdaptableResponse;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 use OpenAI\ValueObjects\Transporter\Payload;
@@ -60,6 +61,33 @@ final class HttpTransporter implements TransporterContract
         }
 
         return Response::from($data, $response->getHeaders());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function requestStringOrObject(Payload $payload): AdaptableResponse
+    {
+        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        $response = $this->sendRequest(fn (): \Psr\Http\Message\ResponseInterface => $this->client->sendRequest($request));
+
+        $contents = (string) $response->getBody();
+
+        if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
+            return AdaptableResponse::from($contents, $response->getHeaders());
+        }
+
+        $this->throwIfJsonError($response, $contents);
+
+        try {
+            /** @var array{error?: array{message: string, type: string, code: string}} $data */
+            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $jsonException) {
+            throw new UnserializableResponse($jsonException, $response);
+        }
+
+        return AdaptableResponse::from($data, $response->getHeaders());
     }
 
     /**
@@ -129,7 +157,7 @@ final class HttpTransporter implements TransporterContract
                 throw new ErrorException($response['error'], $statusCode);
             }
         } catch (JsonException $jsonException) {
-            throw new UnserializableResponse($jsonException);
+            throw new UnserializableResponse($jsonException, $response);
         }
     }
 }

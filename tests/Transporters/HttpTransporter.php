@@ -407,7 +407,7 @@ test('request plain text', function () {
         ->once()
         ->andReturn($response);
 
-    $response = $this->http->requestObject($payload);
+    $response = $this->http->requestStringOrObject($payload);
 
     expect($response->data())->toBe('Hello, how are you?');
 });

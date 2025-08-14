@@ -7,6 +7,7 @@ namespace OpenAI\Contracts;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
+use OpenAI\ValueObjects\Transporter\AdaptableResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -17,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 interface TransporterContract
 {
     /**
-     * Sends a request to a server.
+     * Sends a request to a server expecting an object back.
      *
      * @return Response<array<array-key, mixed>>
      *
@@ -26,7 +27,16 @@ interface TransporterContract
     public function requestObject(Payload $payload): Response;
 
     /**
-     * Sends a content request to a server.
+     * Sends a request to a server expecting an adaptable response (object/string) back.
+     *
+     * @return AdaptableResponse<array<array-key, mixed>|string>
+     *
+     * @throws ErrorException|UnserializableResponse|TransporterException
+     */
+    public function requestStringOrObject(Payload $payload): AdaptableResponse;
+
+    /**
+     * Sends a content request to a server expecting a string back.
      *
      * @throws ErrorException|TransporterException
      */
