@@ -7,12 +7,14 @@ function createResponseResource(): array
 {
     return [
         'id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+        'background' => null,
         'object' => 'response',
         'created_at' => 1741484430,
         'status' => 'completed',
         'error' => null,
         'incomplete_details' => null,
         'instructions' => null,
+        'max_tool_calls' => null,
         'max_output_tokens' => null,
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
@@ -27,6 +29,9 @@ function createResponseResource(): array
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
         'prompt' => null,
+        'prompt_cache_key' => null,
+        'safety_identifier' => null,
+        'service_tier' => null,
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
@@ -45,6 +50,7 @@ function createResponseResource(): array
             toolImageGeneration(),
             toolRemoteMcp(),
         ],
+        'top_logprobs' => null,
         'top_p' => 1.0,
         'truncation' => 'disabled',
         'usage' => [
@@ -59,6 +65,7 @@ function createResponseResource(): array
             'total_tokens' => 684,
         ],
         'user' => null,
+        'verbosity' => null,
     ];
 }
 
@@ -138,12 +145,14 @@ function retrieveResponseResource(): array
 {
     return [
         'id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+        'background' => null,
         'object' => 'response',
         'created_at' => 1741484430,
         'status' => 'completed',
         'error' => null,
         'incomplete_details' => null,
         'instructions' => null,
+        'max_tool_calls' => null,
         'max_output_tokens' => null,
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
@@ -151,9 +160,13 @@ function retrieveResponseResource(): array
             outputWebSearchToolCall(),
             outputAnnotationMessage(),
         ],
+        'output_text' => 'As of today, March 9, 2025, one notable positive news story...',
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
         'prompt' => null,
+        'prompt_cache_key' => null,
+        'safety_identifier' => null,
+        'service_tier' => null,
         'reasoning' => [
             'effort' => null,
             'generate_summary' => null,
@@ -172,6 +185,7 @@ function retrieveResponseResource(): array
             toolImageGeneration(),
             toolRemoteMcp(),
         ],
+        'top_logprobs' => null,
         'top_p' => 1.0,
         'truncation' => 'disabled',
         'usage' => [
@@ -186,6 +200,7 @@ function retrieveResponseResource(): array
             'total_tokens' => 684,
         ],
         'user' => null,
+        'verbosity' => null,
     ];
 }
 
