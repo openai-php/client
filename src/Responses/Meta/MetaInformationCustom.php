@@ -12,11 +12,11 @@ final readonly class MetaInformationCustom
     ) {}
 
     /**
-     * @param  array<string, string>  $headers
+     * @param  array<string, string|null>  $headers
      */
     public static function from(array $headers): self
     {
-        return new self($headers);
+        return new self(array_filter($headers));
     }
 
     /**

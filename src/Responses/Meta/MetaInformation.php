@@ -80,10 +80,8 @@ final class MetaInformation implements MetaInformationContract
             if (in_array($name, $knownHeaders, true)) {
                 continue;
             }
-            if (! is_array($values) || ! isset($values[0])) {
-                continue;
-            }
-            $customHeaders[$name] = $values[0];
+
+            $customHeaders[$name] = $values[0] ?? null;
         }
 
         $custom = MetaInformationCustom::from($customHeaders);
@@ -116,6 +114,6 @@ final class MetaInformation implements MetaInformationContract
             'x-ratelimit-reset-tokens' => $this->tokenLimit->reset ?? null,
             'x-request-id' => $this->requestId,
             'custom' => ! $this->custom->isEmpty() ? $this->custom->toArray() : null,
-        ], fn ($value): bool => ! is_null($value));
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }

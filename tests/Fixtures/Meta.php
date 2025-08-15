@@ -47,6 +47,7 @@ function metaHeadersWithCustomCases(): array
     return array_merge(metaHeaders(), [
         'Custom-Header-One' => ['custom-value-1'],
         'Custom-Header-Two' => ['custom-value-2'],
+        'Custom-Blank-Header' => [null],
     ]);
 }
 
