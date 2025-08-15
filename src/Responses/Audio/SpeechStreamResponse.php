@@ -32,7 +32,6 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
 
     public function meta(): MetaInformation
     {
-        // @phpstan-ignore-next-line
         return MetaInformation::from($this->response->getHeaders());
     }
 
@@ -44,7 +43,9 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
 
         if ($meta instanceof \OpenAI\Responses\Meta\MetaInformation) {
             foreach ($meta->toArray() as $key => $value) {
-                $response = $response->withHeader($key, (string) $value);
+                if (is_scalar($value)) {
+                    $response = $response->withHeader($key, (string) $value);
+                }
             }
         }
 

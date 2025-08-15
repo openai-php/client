@@ -34,7 +34,6 @@ final readonly class AdaptableResponse
      */
     public static function from(array|string $data, array $headers): self
     {
-        // @phpstan-ignore-next-line
         $meta = MetaInformation::from($headers);
 
         return new self($data, $meta);
