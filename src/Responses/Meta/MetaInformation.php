@@ -114,6 +114,6 @@ final class MetaInformation implements MetaInformationContract
             'x-ratelimit-reset-tokens' => $this->tokenLimit->reset ?? null,
             'x-request-id' => $this->requestId,
             'custom' => ! $this->custom->isEmpty() ? $this->custom->toArray() : null,
-        ], fn (mixed $value): bool => ! is_null($value));
+        ], fn (array|string|int|null $value): bool => ! is_null($value));
     }
 }
