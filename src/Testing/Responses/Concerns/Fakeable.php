@@ -10,14 +10,13 @@ use OpenAI\Testing\Enums\OverrideStrategy;
 trait Fakeable
 {
     /**
-     * @param array<string, mixed> $override
+     * @param  array<string, mixed>  $override
      */
     public static function fake(
         array $override = [],
         ?MetaInformation $meta = null,
         OverrideStrategy $strategy = OverrideStrategy::Merge,
-    ): static
-    {
+    ): static {
         $class = str_replace('OpenAI\\Responses\\', 'OpenAI\\Testing\\Responses\\Fixtures\\', static::class).'Fixture';
 
         return static::from(
@@ -43,13 +42,6 @@ trait Fakeable
         ]);
     }
 
-    /**
-     * @param array $original
-     * @param array $override
-     * @param \OpenAI\Testing\Enums\OverrideStrategy $strategy
-     *
-     * @return array
-     */
     private static function buildAttributes(
         array $original,
         array $override,
