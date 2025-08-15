@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Meta\MetaInformationCustom;
 use OpenAI\Responses\Meta\MetaInformationOpenAI;
 use OpenAI\Responses\Meta\MetaInformationRateLimit;
 
@@ -23,6 +24,23 @@ test('from response headers', function () {
         ->tokenLimit->limit->toBe(250000)
         ->tokenLimit->remaining->toBe(249989)
         ->tokenLimit->reset->toBe('2ms');
+});
+
+test('includes custom headers', function () {
+    $headers = metaHeaders();
+    $headers['x-custom-foo'] = ['bar'];
+    $headers['Another-Header'] = ['baz'];
+
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+
+    $array = $meta->toArray();
+
+    expect($array['custom'])
+        ->toBeArray()
+        ->toHaveKey('x-custom-foo', 'bar')
+        ->toHaveKey('another-header', 'baz');
+
+    expect($meta['custom']['x-custom-foo'])->toBe('bar');
 });
 
 test('from response headers without "x-request-id"', function () {
@@ -97,6 +115,22 @@ test('from response headers in different cases', function () {
         ->tokenLimit->toBeNull();
 });
 
+test('from response headers with custom headers', function () {
+    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersWithCustomCases()))->getHeaders());
+
+    expect($meta)
+        ->toBeInstanceOf(MetaInformation::class)
+        ->requestId->toBe('3813fa4fa3f17bdf0d7654f0f49ebab4')
+        ->custom->toBeInstanceOf(MetaInformationCustom::class);
+
+    expect($meta->custom)
+        ->headers->toBeArray();
+
+    expect($meta->custom->headers)
+        ->toHaveKey('custom-header-one')
+        ->toHaveKey('custom-header-two');
+});
+
 test('as array accessible', function () {
     $meta = MetaInformation::from(metaHeaders());
 
@@ -111,6 +145,7 @@ test('to array', function () {
         ->toBe([
             'openai-model' => 'gpt-3.5-turbo-instruct',
             'openai-organization' => 'org-1234',
+            'openai-project' => 'project-5678',
             'openai-processing-ms' => 410,
             'openai-version' => '2020-10-01',
             'x-ratelimit-limit-requests' => 3000,

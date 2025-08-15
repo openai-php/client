@@ -95,7 +95,6 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
     public function meta(): MetaInformation
     {
-        // @phpstan-ignore-next-line
         return MetaInformation::from($this->response->getHeaders());
     }
 }
