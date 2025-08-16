@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\ContainerFileContract;
 use OpenAI\Contracts\Resources\ContainersContract;
 use OpenAI\Responses\Containers\CreateContainer;
 use OpenAI\Responses\Containers\DeleteContainer;
@@ -84,5 +85,15 @@ final class Containers implements ContainersContract
         $response = $this->transporter->requestObject($payload);
 
         return ListContainers::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the files related to the container.
+     *
+     * @see https://platform.openai.com/docs/api-reference/container-files
+     */
+    public function files(): ContainerFileContract
+    {
+        return new ContainerFile($this->transporter);
     }
 }
