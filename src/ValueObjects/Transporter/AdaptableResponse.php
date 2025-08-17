@@ -7,32 +7,32 @@ namespace OpenAI\ValueObjects\Transporter;
 use OpenAI\Responses\Meta\MetaInformation;
 
 /**
- * @template-covariant TData of array
+ * @template-covariant TData of array|string
  *
  * @internal
  */
-final readonly class Response
+final readonly class AdaptableResponse
 {
     /**
-     * Creates a new Response value object.
+     * Creates a new AdaptableResponse value object.
      *
      * @param  TData  $data
      */
     private function __construct(
-        private array $data,
+        private array|string $data,
         private MetaInformation $meta
     ) {
         // ..
     }
 
     /**
-     * Creates a new Response value object from the given data and meta information.
+     * Creates a new AdaptableResponse value object from the given data and meta information.
      *
      * @param  TData  $data
      * @param  array<string, array<int, string>>  $headers
-     * @return Response<TData>
+     * @return AdaptableResponse<TData>
      */
-    public static function from(array $data, array $headers): self
+    public static function from(array|string $data, array $headers): self
     {
         $meta = MetaInformation::from($headers);
 
@@ -44,7 +44,7 @@ final readonly class Response
      *
      * @return TData
      */
-    public function data(): array
+    public function data(): array|string
     {
         return $this->data;
     }
