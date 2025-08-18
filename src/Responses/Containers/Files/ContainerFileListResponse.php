@@ -29,6 +29,7 @@ final class ContainerFileListResponse implements ResponseContract, ResponseHasMe
     use HasMetaInformation;
 
     /**
+     * @param  'list'  $object
      * @param  array<int, ContainerFileResponse>  $data
      */
     private function __construct(
