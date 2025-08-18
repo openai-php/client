@@ -11,7 +11,7 @@ interface ContainerFileContract
     /**
      * Create a container file
      *
-     * @see https://platform.openai.com/docs/api-reference/containers/create-container-file
+     * @see https://platform.openai.com/docs/api-reference/container_files/createContainerFile
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -20,7 +20,7 @@ interface ContainerFileContract
     /**
      * List container files
      *
-     * @see https://platform.openai.com/docs/api-reference/containers/list-container-files
+     * @see https://platform.openai.com/docs/api-reference/container_files/listContainerFiles
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -29,21 +29,21 @@ interface ContainerFileContract
     /**
      * Retrieve a container file
      *
-     * @see https://platform.openai.com/docs/api-reference/containers/retrieve-container-file
+     * @see https://platform.openai.com/docs/api-reference/container_files/retrieveContainerFile
      */
     public function retrieve(string $containerId, string $fileId): ContainerFileResponse;
 
     /**
      * Retrieve container file content
      *
-     * @see https://platform.openai.com/docs/api-reference/containers/retrieve-container-file-content
+     * @see https://platform.openai.com/docs/api-reference/container_files/retrieveContainerFileContent
      */
     public function content(string $containerId, string $fileId): string;
 
     /**
      * Delete a container file
      *
-     * @see https://platform.openai.com/docs/api-reference/containers/delete-container-file
+     * @see https://platform.openai.com/docs/api-reference/container_files/deleteContainerFile
      */
     public function delete(string $containerId, string $fileId): ContainerFileDeleteResponse;
 }
