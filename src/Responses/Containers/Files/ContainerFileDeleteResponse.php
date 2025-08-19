@@ -41,10 +41,10 @@ final class ContainerFileDeleteResponse implements ResponseContract, ResponseHas
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
-            $attributes['id'],
-            $attributes['object'],
-            $attributes['deleted'],
-            $meta,
+            id: $attributes['id'],
+            object: $attributes['object'],
+            deleted: $attributes['deleted'],
+            meta: $meta,
         );
     }
 

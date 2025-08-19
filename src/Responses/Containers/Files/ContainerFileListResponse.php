@@ -54,12 +54,12 @@ final class ContainerFileListResponse implements ResponseContract, ResponseHasMe
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
-            $data,
-            $attributes['first_id'] ?? null,
-            $attributes['last_id'] ?? null,
-            $attributes['has_more'],
-            $meta,
+            object: $attributes['object'],
+            data: $data,
+            firstId: $attributes['first_id'] ?? null,
+            lastId: $attributes['last_id'] ?? null,
+            hasMore: $attributes['has_more'],
+            meta: $meta,
         );
     }
 
