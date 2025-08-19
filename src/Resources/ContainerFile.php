@@ -29,7 +29,14 @@ final class ContainerFile implements ContainerFileContract
      */
     public function create(string $containerId, array $parameters = []): ContainerFileResponse
     {
-        $payload = Payload::create("containers/$containerId/files", $parameters);
+        if (isset($parameters['file_id']) && isset($parameters['file'])) {
+            throw new \InvalidArgumentException('You cannot set both "file_id" and "file" parameters.');
+        }
+
+        $url = "containers/$containerId/files";
+        $payload = isset($parameters['file'])
+            ? Payload::upload($url, $parameters)
+            : Payload::create($url, $parameters);
 
         /** @var Response<ContainerFileType> $response */
         $response = $this->transporter->requestObject($payload);
