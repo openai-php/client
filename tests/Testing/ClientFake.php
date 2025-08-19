@@ -54,7 +54,7 @@ it('throws fake exceptions', function () {
             'message' => 'The model `gpt-1` does not exist',
             'type' => 'invalid_request_error',
             'code' => null,
-        ], 404),
+        ], new \GuzzleHttp\Psr7\Response(404)),
     ]);
 
     $fake->completions()->create([
