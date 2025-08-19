@@ -35,6 +35,36 @@ test('create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('create with file upload', function () {
+    $containerId = 'container_upload123';
+
+    $client = mockClient('POST', "containers/{$containerId}/files", [
+        'path' => '/mnt/data/example.txt',
+        'source' => 'user',
+        'file' => fileResourceResource(),
+    ], Response::from(containerFileResource(), metaHeaders()), validateParams: false);
+
+    $result = $client->containers()->files()->create($containerId, [
+        'path' => '/mnt/data/example.txt',
+        'source' => 'user',
+        'file' => fileResourceResource(),
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(ContainerFileResponse::class);
+});
+
+test('create with both file_id and file throws', function () {
+    $containerId = 'container_both123';
+
+    OpenAI::client('foo')->containers()->files()->create($containerId, [
+        'path' => '/mnt/data/example.txt',
+        'source' => 'user',
+        'file_id' => 'file_abc',
+        'file' => fileResourceResource(),
+    ]);
+})->throws(InvalidArgumentException::class, 'You cannot set both "file_id" and "file" parameters.');
+
 // list
 
 test('list', function () {
@@ -117,7 +147,7 @@ test('delete', function () {
     $containerId = 'container_delete123';
     $fileId = 'cfile_682e0e8a43c88191a7978f477a09bdf5';
 
-    $client = mockClient('DELETE', "containers/{$containerId}/files/{$fileId}", [], Response::from(containerFileDeleteResource(), metaHeaders()));
+    $client = mockClient('DELETE', "containers/$containerId/files/$fileId", [], Response::from(containerFileDeleteResource(), metaHeaders()));
 
     $result = $client->containers()->files()->delete($containerId, $fileId);
 
