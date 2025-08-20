@@ -313,23 +313,189 @@ $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 
 #### `create`
 
+Creates a container for use with the Code Interpreter tool.
+
+```php
+$response = $client->containers()->create([
+    'name' => 'My Container',
+    'expires_after' => [
+        'anchor' => 'last_active_at',
+        'minutes' => 60,
+    ],
+]);
+
+$response->id; // 'container_abc123'
+$response->object; // 'container'
+$response->createdAt; // 1690000000
+$response->status; // 'active'
+$response->expiresAfter->anchor; // 'last_active_at'
+$response->expiresAfter->minutes; // 60
+$response->lastActiveAt; // 1690001000
+$response->name; // 'My Container'
+
+$response->toArray(); // ['id' => 'container_abc123', 'object' => 'container', ...]
+```
+
 #### `list`
+
+Returns a list of containers.
+
+```php
+$response = $client->containers()->list([
+    'limit' => 10,
+    'order' => 'desc',
+]);
+
+$response->object; // 'list'
+
+foreach ($response->data as $container) {
+    $container->id; // 'container_abc123'
+    $container->object; // 'container'
+    $container->createdAt; // 1690000000
+    $container->status; // 'active'
+    $container->expiresAfter->anchor; // 'last_active_at'
+    $container->expiresAfter->minutes; // 60
+    $container->lastActiveAt; // 1690001000
+    $container->name; // 'Test Container'
+}
+
+$response->firstId; // 'container_abc123'
+$response->lastId; // 'container_def456'
+$response->hasMore; // false
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
 
 #### `retrieve`
 
+Retrieves a container with the given ID.
+
+```php
+$response = $client->containers()->retrieve('container_abc123');
+
+$response->id; // 'container_abc123'
+$response->object; // 'container'
+$response->createdAt; // 1690000000
+$response->status; // 'active'
+$response->expiresAfter->anchor; // 'last_active_at'
+$response->expiresAfter->minutes; // 60
+$response->lastActiveAt; // 1690001000
+$response->name; // 'Test Container'
+
+$response->toArray(); // ['id' => 'container_abc123', 'object' => 'container', ...]
+```
+
 #### `delete`
+
+Delete a container with the given ID.
+
+```php
+$response = $client->containers()->delete('container_abc123');
+
+$response->id; // 'container_abc123'
+$response->object; // 'container'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'container_abc123', 'object' => 'container', 'deleted' => true]
+```
 
 ### `Containers Files` Resource
 
 #### `create`
 
+Create or upload a file into a container.
+
+```php
+$response = $client->containers()->files()->create('container_abc123', [
+    'file' => fopen('path/to/local-file.txt', 'r'),
+]);
+$response = $client->containers()->files()->create('container_abc123', [
+    'file_id' => 'file_XjGxS3KTG0uNmNOK362iJua3',
+]);
+
+$response->id; // 'cfile_682e0e8a43c88191a7978f477a09bdf5'
+$response->object; // 'container.file'
+$response->createdAt; // 1747848842
+$response->bytes; // 880
+$response->containerId; // 'container_abc123'
+$response->path; // '/mnt/data/local-file.txt'
+$response->source; // 'user'
+
+$response->toArray(); // ['id' => 'cfile_...', 'object' => 'container.file', ...]
+```
+
+> [!NOTE]
+> You must provide either `file` or `file_id`, but not both.
+
 #### `list`
+
+Returns a list of files in the container.
+
+```php
+$response = $client->containers()->files()->list('container_abc123', [
+    'limit' => 10,
+    'order' => 'desc',
+]);
+
+$response->object; // 'list'
+
+foreach ($response->data as $file) {
+    $file->id; // 'cfile_682e0e8a43c88191a7978f477a09bdf5'
+    $file->object; // 'container.file'
+    $file->createdAt; // 1747848842
+    $file->bytes; // 880
+    $file->containerId; // 'container_abc123'
+    $file->path; // '/mnt/data/...' 
+    $file->source; // 'user'
+}
+
+$response->firstId; // 'cfile_...'
+$response->lastId; // 'cfile_...'
+$response->hasMore; // false
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
 
 #### `retrieve`
 
+Retrieve information about a container file.
+
+```php
+$response = $client->containers()->files()->retrieve('container_abc123', 'cfile_682e0e8a43c88191a7978f477a09bdf5');
+
+$response->id; // 'cfile_682e0e8a43c88191a7978f477a09bdf5'
+$response->object; // 'container.file'
+$response->createdAt; // 1747848842
+$response->bytes; // 880
+$response->containerId; // 'container_abc123'
+$response->path; // '/mnt/data/...'
+$response->source; // 'user'
+
+$response->toArray(); // ['id' => 'cfile_...', 'object' => 'container.file', ...]
+```
+
 #### `retrieve content`
 
+Returns the raw content of the specified container file.
+
+```php
+$content = $client->containers()->files()->content('container_abc123', 'cfile_682e0e8a43c88191a7978f477a09bdf5');
+// $content => string
+```
+
 #### `delete`
+
+Delete a container file.
+
+```php
+$response = $client->containers()->files()->delete('container_abc123', 'cfile_682e0e8a43c88191a7978f477a09bdf5');
+
+$response->id; // 'cfile_682e0e8a43c88191a7978f477a09bdf5'
+$response->object; // 'container.file.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'cfile_...', 'object' => 'container.file.deleted', 'deleted' => true]
+```
 
 ### `Chat` Resource
 
