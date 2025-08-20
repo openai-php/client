@@ -61,7 +61,7 @@ it('throws fake exceptions', function () {
         'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
-})->expectExceptionMessage('The model `gpt-1` does not exist');
+})->throws(\OpenAI\Exceptions\ErrorException::class, 'The model `gpt-1` does not exist');
 
 it('throws an exception if there is no more fake response', function () {
     $fake = new ClientFake([
@@ -77,7 +77,7 @@ it('throws an exception if there is no more fake response', function () {
         'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
-})->expectExceptionMessage('No fake responses left');
+})->throws('No fake responses left');
 
 it('allows to add more responses', function () {
     $fake = new ClientFake([
@@ -136,7 +136,7 @@ it('throws an exception if a request was not sent', function () {
             $parameters['model'] === 'gpt-3.5-turbo-instruct' &&
             $parameters['prompt'] === 'PHP is ';
     });
-})->expectException(ExpectationFailedException::class);
+})->throws(ExpectationFailedException::class);
 
 it('asserts a request was sent on the resource', function () {
     $fake = new ClientFake([
@@ -186,7 +186,7 @@ it('throws an exception if a request was not sent n times', function () {
     ]);
 
     $fake->assertSent(Completions::class, 2);
-})->expectException(ExpectationFailedException::class);
+})->throws(ExpectationFailedException::class);
 
 it('asserts a request was not sent', function () {
     $fake = new ClientFake;
@@ -205,7 +205,7 @@ it('throws an exception if an unexpected request was sent', function () {
     ]);
 
     $fake->assertNotSent(Completions::class);
-})->expectException(ExpectationFailedException::class);
+})->throws(ExpectationFailedException::class);
 
 it('asserts a request was not sent on the resource', function () {
     $fake = new ClientFake([
@@ -232,4 +232,4 @@ it('throws an exception if any request was sent when non was expected', function
     ]);
 
     $fake->assertNothingSent();
-})->expectException(ExpectationFailedException::class);
+})->throws(ExpectationFailedException::class);

@@ -145,7 +145,7 @@ it('throws an exception if there are no more fake responses', function () {
         ],
         'input' => 'what was a positive news story from today?',
     ]);
-})->expectExceptionMessage('No fake responses left');
+})->throws('No fake responses left');
 
 it('throws an exception if a request was not sent', function () {
     $fake = new ClientFake([
@@ -155,4 +155,4 @@ it('throws an exception if a request was not sent', function () {
     $fake->assertSent(Responses::class, function ($method, $parameters) {
         return $method === 'create';
     });
-})->expectException(ExpectationFailedException::class);
+})->throws(ExpectationFailedException::class);
