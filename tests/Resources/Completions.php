@@ -52,7 +52,7 @@ test('create throws an exception if stream option is true', function () {
         'prompt' => 'hi',
         'stream' => true,
     ]);
-})->expectException(InvalidArgumentException::class);
+})->throws(InvalidArgumentException::class);
 
 test('create streamed', function () {
     $response = new Response(
