@@ -6,19 +6,15 @@ use OpenAI\Responses\Containers\Files\ContainerFileResponse;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\ValueObjects\Transporter\Response;
 
-// create
-
-test('create', function () {
+test('create with file_id', function () {
     $containerId = 'container_abc123';
 
-    $client = mockClient('POST', "containers/{$containerId}/files", [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
+    $client = mockClient('POST', "containers/$containerId/files", [
+        'file_id' => 'file_abc123',
     ], Response::from(containerFileResource(), metaHeaders()));
 
     $result = $client->containers()->files()->create($containerId, [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
+        'file_id' => 'file_abc123',
     ]);
 
     expect($result)
@@ -38,15 +34,11 @@ test('create', function () {
 test('create with file upload', function () {
     $containerId = 'container_upload123';
 
-    $client = mockClient('POST', "containers/{$containerId}/files", [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
+    $client = mockClient('POST', "containers/$containerId/files", [
         'file' => fileResourceResource(),
     ], Response::from(containerFileResource(), metaHeaders()), validateParams: false);
 
     $result = $client->containers()->files()->create($containerId, [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
         'file' => fileResourceResource(),
     ]);
 
@@ -58,19 +50,15 @@ test('create with both file_id and file throws', function () {
     $containerId = 'container_both123';
 
     OpenAI::client('foo')->containers()->files()->create($containerId, [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
         'file_id' => 'file_abc',
         'file' => fileResourceResource(),
     ]);
 })->throws(InvalidArgumentException::class, 'You cannot set both "file_id" and "file" parameters.');
 
-// list
-
 test('list', function () {
     $containerId = 'container_list123';
 
-    $client = mockClient('GET', "containers/{$containerId}/files", [], Response::from(containerFileListResource(), metaHeaders()));
+    $client = mockClient('GET', "containers/$containerId/files", [], Response::from(containerFileListResource(), metaHeaders()));
 
     $result = $client->containers()->files()->list($containerId);
 
@@ -87,12 +75,10 @@ test('list', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-// list with parameters
-
 test('list with parameters', function () {
     $containerId = 'container_list_params';
 
-    $client = mockClient('GET', "containers/{$containerId}/files", ['limit' => 1], Response::from(containerFileListResource(), metaHeaders()));
+    $client = mockClient('GET', "containers/$containerId/files", ['limit' => 1], Response::from(containerFileListResource(), metaHeaders()));
 
     $result = $client->containers()->files()->list($containerId, [
         'limit' => 1,
@@ -104,13 +90,11 @@ test('list with parameters', function () {
         ->data->toBeArray()->toHaveCount(1);
 });
 
-// retrieve
-
 test('retrieve', function () {
     $containerId = 'container_retrieve123';
     $fileId = 'cfile_682e0e8a43c88191a7978f477a09bdf5';
 
-    $client = mockClient('GET', "containers/{$containerId}/files/{$fileId}", [], Response::from(containerFileResource(), metaHeaders()));
+    $client = mockClient('GET', "containers/$containerId/files/$fileId", [], Response::from(containerFileResource(), metaHeaders()));
 
     $result = $client->containers()->files()->retrieve($containerId, $fileId);
 
@@ -128,8 +112,6 @@ test('retrieve', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-// content
-
 test('content', function () {
     $containerId = 'container_content123';
     $fileId = 'cfile_682e0e8a43c88191a7978f477a09bdf5';
@@ -140,8 +122,6 @@ test('content', function () {
 
     expect($result)->toBe('file-content');
 });
-
-// delete
 
 test('delete', function () {
     $containerId = 'container_delete123';
