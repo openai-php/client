@@ -2,8 +2,6 @@
 
 use OpenAI\Responses\Containers\Files\ContainerFileResponse;
 
-// from
-
 test('from', function () {
     $result = ContainerFileResponse::from(containerFileResource(), meta());
 
@@ -17,16 +15,12 @@ test('from', function () {
         ->source->toBe('user');
 });
 
-// as array accessible
-
 test('as array accessible', function () {
     $result = ContainerFileResponse::from(containerFileResource(), meta());
 
     expect($result['container_id'])
         ->toBe('cntr_682e0e7318108198aa783fd921ff305e08e78805b9fdbb04');
 });
-
-// to array
 
 test('to array', function () {
     $result = ContainerFileResponse::from(containerFileResource(), meta());

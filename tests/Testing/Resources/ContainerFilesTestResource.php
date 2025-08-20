@@ -12,15 +12,13 @@ it('records a container files create request', function () {
     ]);
 
     $fake->containers()->files()->create('container_abc123', [
-        'path' => '/mnt/data/example.txt',
-        'source' => 'user',
+        'file_id' => 'file_abc123',
     ]);
 
     $fake->assertSent(ContainerFile::class, function ($method, $containerId, $parameters) {
         return $method === 'create' &&
             $containerId === 'container_abc123' &&
-            $parameters['path'] === '/mnt/data/example.txt' &&
-            $parameters['source'] === 'user';
+            $parameters['file_id'] === 'file_abc123';
     });
 });
 
