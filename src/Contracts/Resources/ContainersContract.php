@@ -42,4 +42,11 @@ interface ContainersContract
      * @param  array<string, mixed>  $parameters
      */
     public function list(array $parameters = []): ListContainers;
+
+    /**
+     * Manage the files related to the container
+     *
+     * @see https://platform.openai.com/docs/api-reference/container-files
+     */
+    public function files(): ContainerFileContract;
 }

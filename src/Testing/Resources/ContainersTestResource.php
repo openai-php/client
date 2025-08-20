@@ -2,6 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\ContainerFileContract;
 use OpenAI\Contracts\Resources\ContainersContract;
 use OpenAI\Resources\Containers;
 use OpenAI\Responses\Containers\CreateContainer;
@@ -37,5 +38,10 @@ final class ContainersTestResource implements ContainersContract
     public function delete(string $id): DeleteContainer
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function files(): ContainerFileContract
+    {
+        return new ContainerFileTestResource($this->fake);
     }
 }
