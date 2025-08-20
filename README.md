@@ -29,6 +29,8 @@ If you or your business relies on this package, it's important to support the de
 - [Usage](#usage)
   - [Models Resource](#models-resource)
   - [Responses Resource](#responses-resource)
+  - [Containers Resource](#containers-resource)
+  - [Containers Files Resource](#container-files-resource)
   - [Chat Resource](#chat-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
@@ -76,14 +78,12 @@ Then, interact with OpenAI's API:
 $yourApiKey = getenv('YOUR_API_KEY');
 $client = OpenAI::client($yourApiKey);
 
-$result = $client->chat()->create([
+$response = $client->responses()->create([
     'model' => 'gpt-4o',
-    'messages' => [
-        ['role' => 'user', 'content' => 'Hello!'],
-    ],
+    'input' => 'Hello!',
 ]);
 
-echo $result->choices[0]->message->content; // Hello! How can I assist you today?
+echo $response->outputText; // Hello! How can I assist you today?
 ```
 
 If necessary, it is possible to configure and create a separate client.
@@ -187,6 +187,7 @@ $response->object; // 'response'
 $response->createdAt; // 1741476542
 $response->status; // 'completed'
 $response->model; // 'gpt-4o-mini'
+$response->outputText; // 'The combined response text of any `output_text` content.'
 
 foreach ($response->output as $output) {
     $output->type; // 'message'
@@ -308,59 +309,27 @@ $response->hasMore; // false
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
 
-### `Completions` Resource
+### `Containers` Resource
 
 #### `create`
 
-Creates a completion for the provided prompt and parameters.
+#### `list`
 
-```php
-$response = $client->completions()->create([
-    'model' => 'gpt-3.5-turbo-instruct',
-    'prompt' => 'Say this is a test',
-    'max_tokens' => 6,
-    'temperature' => 0
-]);
+#### `retrieve`
 
-$response->id; // 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7'
-$response->object; // 'text_completion'
-$response->created; // 1589478378
-$response->model; // 'gpt-3.5-turbo-instruct'
+#### `delete`
 
-foreach ($response->choices as $choice) {
-    $choice->text; // '\n\nThis is a test'
-    $choice->index; // 0
-    $choice->logprobs; // null
-    $choice->finishReason; // 'length' or null
-}
+### `Containers Files` Resource
 
-$response->usage->promptTokens; // 5,
-$response->usage->completionTokens; // 6,
-$response->usage->totalTokens; // 11
+#### `create`
 
-$response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
-```
+#### `list`
 
-#### `create streamed`
+#### `retrieve`
 
-Creates a streamed completion for the provided prompt and parameters.
+#### `retrieve content`
 
-```php
-$stream = $client->completions()->createStreamed([
-        'model' => 'gpt-3.5-turbo-instruct',
-        'prompt' => 'Hi',
-        'max_tokens' => 10,
-    ]);
-
-foreach($stream as $response){
-    $response->choices[0]->text;
-}
-// 1. iteration => 'I'
-// 2. iteration => ' am'
-// 3. iteration => ' very'
-// 4. iteration => ' excited'
-// ...
-```
+#### `delete`
 
 ### `Chat` Resource
 
