@@ -47,6 +47,16 @@ test('from retrieve response', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from retrieve response with missing hyperparameters', function () {
+    $payload = fineTuningJobRetrieveResource();
+    unset($payload['hyperparameters']);
+    $result = RetrieveJobResponse::from($payload, meta());
+
+    expect($result)
+        ->toBeInstanceOf(RetrieveJobResponse::class)
+        ->hyperparameters->toBeNull();
+});
+
 test('as array accessible', function () {
     $result = RetrieveJobResponse::from(fineTuningJobCreateResource(), meta());
 
