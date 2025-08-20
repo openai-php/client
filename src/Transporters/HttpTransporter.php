@@ -143,18 +143,16 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
-        $statusCode = $response->getStatusCode();
-
         if ($contents instanceof ResponseInterface) {
             $contents = (string) $contents->getBody();
         }
 
         try {
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
-            $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $data */
+            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
-            if (isset($response['error'])) {
-                throw new ErrorException($response['error'], $statusCode);
+            if (isset($data['error'])) {
+                throw new ErrorException($data['error'], $response);
             }
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException, $response);

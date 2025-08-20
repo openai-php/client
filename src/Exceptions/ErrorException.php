@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace OpenAI\Exceptions;
 
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 
 final class ErrorException extends Exception
 {
+    private readonly int $statusCode;
+
     /**
      * Creates a new Exception instance.
      *
      * @param  array{message: string|array<int, string>, type: ?string, code: string|int|null}  $contents
      */
-    public function __construct(private readonly array $contents, private readonly int $statusCode)
+    public function __construct(private readonly array $contents, public readonly ResponseInterface $response)
     {
+        $this->statusCode = $response->getStatusCode();
         $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
 
         if (is_array($message)) {
