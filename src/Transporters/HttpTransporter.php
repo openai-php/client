@@ -10,6 +10,7 @@ use JsonException;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\RateLimitException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\ValueObjects\Transporter\AdaptableResponse;
@@ -51,6 +52,7 @@ final class HttpTransporter implements TransporterContract
 
         $contents = (string) $response->getBody();
 
+        $this->throwIfRateLimit($response);
         $this->throwIfJsonError($response, $contents);
 
         try {
@@ -78,6 +80,7 @@ final class HttpTransporter implements TransporterContract
             return AdaptableResponse::from($contents, $response->getHeaders());
         }
 
+        $this->throwIfRateLimit($response);
         $this->throwIfJsonError($response, $contents);
 
         try {
@@ -101,6 +104,7 @@ final class HttpTransporter implements TransporterContract
 
         $contents = (string) $response->getBody();
 
+        $this->throwIfRateLimit($response);
         $this->throwIfJsonError($response, $contents);
 
         return $contents;
@@ -115,6 +119,7 @@ final class HttpTransporter implements TransporterContract
 
         $response = $this->sendRequest(fn () => ($this->streamHandler)($request));
 
+        $this->throwIfRateLimit($response);
         $this->throwIfJsonError($response, $response);
 
         return $response;
@@ -131,6 +136,15 @@ final class HttpTransporter implements TransporterContract
 
             throw new TransporterException($clientException);
         }
+    }
+
+    private function throwIfRateLimit(ResponseInterface $response): void
+    {
+        if ($response->getStatusCode() !== 429) {
+            return;
+        }
+
+        throw new RateLimitException($response);
     }
 
     private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void

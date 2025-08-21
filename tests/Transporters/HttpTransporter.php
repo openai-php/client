@@ -5,6 +5,7 @@ use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
+use OpenAI\Exceptions\RateLimitException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Responses\Models\ListResponse;
@@ -189,7 +190,7 @@ test('error code may be integer', function (string $requestMethod) {
         });
 })->with('request methods');
 
-test('error type may be null', function (string $requestMethod) {
+test('error type may be null on 429', function (string $requestMethod) {
     $payload = Payload::list('models');
 
     $response = new Response(429, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
@@ -207,12 +208,23 @@ test('error type may be null', function (string $requestMethod) {
         ->andReturn($response);
 
     expect(fn () => $this->http->$requestMethod($payload))
-        ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('You exceeded your current quota, please check')
-                ->and($e->getErrorMessage())->toBe('You exceeded your current quota, please check')
-                ->and($e->getErrorCode())->toBe('quota_exceeded')
-                ->and($e->getErrorType())->toBeNull();
-        });
+        ->toThrow(RateLimitException::class);
+})->with('request methods');
+
+test('429 may not follow OpenAI structure', function (string $requestMethod) {
+    $payload = Payload::list('models');
+
+    $response = new Response(429, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'message' => 'Requests rate limit exceeded',
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(RateLimitException::class);
 })->with('request methods');
 
 test('error message may be an array', function (string $requestMethod) {
