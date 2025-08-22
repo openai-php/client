@@ -48,7 +48,10 @@ final class OutputMcpCall implements ResponseContract
             arguments: $attributes['arguments'],
             name: $attributes['name'],
             approvalRequestId: $attributes['approval_request_id'],
-            error: $attributes['error'],
+            // TODO - Why is this coming back as an array?
+            error: is_array($attributes['error'])
+            ? json_encode($attributes['error'])
+            : $attributes['error'],
             output: $attributes['output'],
         );
     }
