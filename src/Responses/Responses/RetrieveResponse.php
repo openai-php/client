@@ -53,7 +53,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FunctionToolType from FunctionTool
  * @phpstan-import-type WebSearchToolType from WebSearchTool
  * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
- * @phpstan-import-type ErrorType from CreateResponseError
+ * @phpstan-import-type ErrorType from GenericResponseError
  * @phpstan-import-type IncompleteDetailsType from CreateResponseIncompleteDetails
  * @phpstan-import-type UsageType from CreateResponseUsage
  * @phpstan-import-type FunctionToolChoiceType from FunctionToolChoice
@@ -94,7 +94,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly string $object,
         public readonly int $createdAt,
         public readonly string $status,
-        public readonly ?CreateResponseError $error,
+        public readonly ?GenericResponseError $error,
         public readonly ?CreateResponseIncompleteDetails $incompleteDetails,
         public readonly array|string|null $instructions,
         public readonly ?int $maxToolCalls,
@@ -185,7 +185,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             createdAt: $attributes['created_at'],
             status: $attributes['status'],
             error: isset($attributes['error'])
-                ? CreateResponseError::from($attributes['error'])
+                ? GenericResponseError::from($attributes['error'])
                 : null,
             incompleteDetails: isset($attributes['incomplete_details'])
                 ? CreateResponseIncompleteDetails::from($attributes['incomplete_details'])

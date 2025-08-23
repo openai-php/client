@@ -50,6 +50,7 @@ function createResponseResource(): array
             toolFileSearch(),
             toolImageGeneration(),
             toolRemoteMcp(),
+            toolConnectorMcp(),
         ],
         'top_logprobs' => null,
         'top_p' => 1.0,
@@ -186,6 +187,7 @@ function retrieveResponseResource(): array
             toolFileSearch(),
             toolImageGeneration(),
             toolRemoteMcp(),
+            toolConnectorMcp(),
         ],
         'top_logprobs' => null,
         'top_p' => 1.0,
@@ -308,6 +310,44 @@ function outputMcpCall(): array
         'approval_request_id' => null,
         'error' => null,
         'output' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMcpErrorCallObject(): array
+{
+    return [
+        'id' => 'mcp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'type' => 'mcp_call',
+        'approval_request_id' => null,
+        'arguments' => json_encode(['topk' => 50]),
+        'error' => [
+            'type' => 'http_error',
+            'code' => 401,
+            'message' => 'Unauthorized',
+        ],
+        'name' => 'list_recent_files',
+        'output' => null,
+        'server_label' => 'Dropbox',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputMcpErrorCallString(): array
+{
+    return [
+        'id' => 'mcp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'type' => 'mcp_call',
+        'approval_request_id' => null,
+        'arguments' => json_encode(['topk' => 50]),
+        'error' => 'Missing or invalid authorization token.',
+        'name' => 'list_recent_files',
+        'output' => null,
+        'server_label' => 'Dropbox',
     ];
 }
 
@@ -544,6 +584,27 @@ function toolRemoteMcp(): array
         'require_approval' => null,
         'allowed_tools' => null,
         'headers' => null,
+        'connector_id' => null,
+        'authorization' => null,
+        'server_description' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolConnectorMcp(): array
+{
+    return [
+        'type' => 'mcp',
+        'server_label' => 'Dropbox',
+        'server_url' => null,
+        'require_approval' => 'never',
+        'allowed_tools' => null,
+        'headers' => null,
+        'connector_id' => 'connector_dropbox',
+        'authorization' => '<redacted>',
+        'server_description' => null,
     ];
 }
 
