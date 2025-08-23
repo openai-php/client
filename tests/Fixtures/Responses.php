@@ -544,6 +544,9 @@ function toolRemoteMcp(): array
         'require_approval' => null,
         'allowed_tools' => null,
         'headers' => null,
+        'connector_id' => null,
+        'authorization' => null,
+        'server_description' => null,
     ];
 }
 
