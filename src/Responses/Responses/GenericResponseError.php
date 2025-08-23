@@ -33,7 +33,7 @@ final class GenericResponseError implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            code: (string)$attributes['code'],
+            code: (string) $attributes['code'],
             message: $attributes['message'],
         );
     }
