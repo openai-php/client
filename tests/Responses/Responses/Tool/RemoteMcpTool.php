@@ -21,6 +21,16 @@ test('from results', function () {
         ->type->toBe('mcp');
 });
 
+test('from connector results', function () {
+    $response = RemoteMcpTool::from(toolConnectorMcp());
+
+    expect($response)
+        ->toBeInstanceOf(RemoteMcpTool::class)
+        ->connectorId->toBe('connector_dropbox')
+        ->serverUrl->toBeNull()
+        ->serverLabel->toBe('Dropbox');
+});
+
 test('from object as require_approval', function () {
     $payload = toolRemoteMcp();
     $payload['require_approval'] = [

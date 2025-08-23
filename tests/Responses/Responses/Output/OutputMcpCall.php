@@ -1,5 +1,6 @@
 <?php
 
+use OpenAI\Responses\Responses\GenericResponseError;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 
 test('from', function () {
@@ -15,6 +16,29 @@ test('from', function () {
         ->approvalRequestId->toBeNull()
         ->error->toBeNull()
         ->output->toBeNull();
+});
+
+test('from error as http object', function () {
+    $response = OutputMcpCall::from(outputMcpErrorCallObject());
+
+    expect($response)
+        ->toBeInstanceOf(OutputMcpCall::class)
+        ->error->toBeInstanceOf(GenericResponseError::class)
+        ->and($response->error)
+        ->code->toBe('401')
+        ->message->toBe('Unauthorized');
+});
+
+test('from error as string', function () {
+    $response = OutputMcpCall::from(outputMcpErrorCallString());
+
+    expect($response)
+        ->toBeInstanceOf(OutputMcpCall::class)
+        ->error->toBeInstanceOf(GenericResponseError::class)
+        ->and($response->error)
+        ->code->toBe('unknown_error')
+        ->message->toBe('Missing or invalid authorization token.');
+
 });
 
 test('as array accessible', function () {
