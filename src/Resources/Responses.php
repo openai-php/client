@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ResponsesContract;
+use OpenAI\Contracts\Resources\ResponsesConversationsContract;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
@@ -125,5 +126,15 @@ final class Responses implements ResponsesContract
         $response = $this->transporter->requestObject($payload);
 
         return ListInputItems::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the Conversations API under Responses.
+     *
+     * @see https://platform.openai.com/docs/api-reference/conversations
+     */
+    public function conversations(): ResponsesConversationsContract
+    {
+        return new ResponsesConversations($this->transporter);
     }
 }
