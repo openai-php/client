@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.16.0 (2025-08-26)
+### Added
+
+* Add GPT-5 support ([#639](https://github.com/openai-php/client/pull/639))
+* Add support for `reasoning.summary` field ([#642](https://github.com/openai-php/client/pull/642))
+* Add Container File API ([#648](https://github.com/openai-php/client/pull/648))
+* Added raw response to Exceptions ([#643](https://github.com/openai-php/client/pull/643))
+* Add `OverrideStrategy` enum for fakeable trait to support merge/replace ([#646](https://github.com/openai-php/client/pull/646))
+
+### Fixed
+
+* Fix support for fine-tuning with failed tuning job ([#651](https://github.com/openai-php/client/pull/651))
+* Fix Response API support for MCP Connectors ([#654](https://github.com/openai-php/client/pull/654))
+
+### Changed
+
+* Rework exception handling to catch unhandled string/array crashes. ([#643](https://github.com/openai-php/client/pull/643))
+* Detect HTTP 429 and throw RateLimitException ([#652](https://github.com/openai-php/client/pull/652))
+
 ## v0.15.0 (2025-08-04)
 ### Added
 
