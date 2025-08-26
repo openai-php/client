@@ -30,6 +30,8 @@ If you or your business relies on this package, it's important to support the de
 - [Usage](#usage)
   - [Models Resource](#models-resource)
   - [Responses Resource](#responses-resource)
+  - [Responses Conversations Resource](#responses-conversations-resource)
+  - [Responses Conversations Items Resource](#responses-conversations-items-resource)
   - [Containers Resource](#containers-resource)
   - [Containers Files Resource](#containers-files-resource)
   - [Chat Resource](#chat-resource)
@@ -308,6 +310,148 @@ $response->lastId; // 'msg_680bf4e8c1948192b64abf0bad54b30806e0834f49400fc3'
 $response->hasMore; // false
 
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
+
+### `Responses Conversations` Resource
+
+#### `create`
+
+Create a conversation.
+
+```php
+$response = $client->responses()->conversations()->create([
+    'metadata' => ['topic' => 'demo'],
+    'items' => [
+        [
+            'type' => 'message',
+            'role' => 'user',
+            'content' => 'Hello!'
+        ],
+    ],
+]);
+
+$response->id; // 'conv_123'
+$response->object; // 'conversation'
+$response->createdAt; // 1741900000
+$response->metadata; // ['topic' => 'demo']
+
+$response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation', ...]
+```
+
+#### `retrieve`
+
+Retrieve a conversation by ID.
+
+```php
+$response = $client->responses()->conversations()->retrieve('conv_123');
+
+$response->id; // 'conv_123'
+$response->object; // 'conversation'
+$response->createdAt; // 1741900000
+
+$response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation', ...]
+```
+
+#### `update`
+
+Update a conversation by ID.
+
+```php
+$response = $client->responses()->conversations()->update('conv_123', [
+    'metadata' => ['foo' => 'bar'],
+]);
+
+$response->id; // 'conv_123'
+$response->metadata; // ['foo' => 'bar']
+```
+
+#### `delete`
+
+Delete a conversation by ID.
+
+```php
+$response = $client->responses()->conversations()->delete('conv_123');
+
+$response->id; // 'conv_123'
+$response->object; // 'conversation.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation.deleted', 'deleted' => true]
+```
+
+### `Responses Conversations Items` Resource
+
+#### `create`
+
+Create items for a conversation.
+
+```php
+$response = $client->responses()->conversations()->items()->create('conv_123', [
+    'items' => [
+        [
+            'type' => 'message',
+            'role' => 'user',
+            'content' => [['type' => 'input_text', 'text' => 'Hello!']],
+        ],
+        [
+            'type' => 'message',
+            'role' => 'user',
+            'content' => [['type' => 'input_text', 'text' => 'How are you?']],
+        ],
+    ],
+]);
+
+$response->object; // 'list'
+
+foreach ($response->data as $item) {
+    $item->type; // 'message'
+    $item->id; // 'msg_abc'
+    $item->status; // 'completed'
+    $item->role; // 'user'
+}
+
+$response->firstId; // 'msg_abc'
+$response->lastId; // 'msg_abc'
+$response->hasMore; // false
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
+
+#### `list`
+
+List items for a conversation.
+
+```php
+$response = $client->responses()->conversations()->items()->list('conv_123', [
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+```
+
+#### `retrieve`
+
+Retrieve a specific item from a conversation.
+
+```php
+$response = $client->responses()->conversations()->items()->retrieve('conv_123', 'msg_abc', [
+    'include' => ['step_details'],
+]);
+
+$response->id; // 'msg_abc'
+$response->type; // 'message'
+$response->status; // 'completed'
+```
+
+#### `delete`
+
+Delete a specific item from a conversation. Returns the updated conversation.
+
+```php
+$response = $client->responses()->conversations()->items()->delete('conv_123', 'msg_abc');
+
+$response->id; // 'conv_123'
+$response->object; // 'conversation'
 ```
 
 ### `Containers` Resource
