@@ -110,7 +110,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly ?CreateResponseReasoning $reasoning,
         public readonly bool $store,
         public readonly ?float $temperature,
-        public readonly CreateResponseFormat $text,
+        public readonly ?CreateResponseFormat $text,
         public readonly string|FunctionToolChoice|HostedToolChoice $toolChoice,
         public readonly array $tools,
         public readonly ?int $topLogProbs,
