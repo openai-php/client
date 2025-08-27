@@ -133,3 +133,53 @@ test('fake with override', function () {
         ->type->toBe('output_text')
         ->text->toBe('This is a basic message.');
 });
+
+test('from with missing store field defaults to true', function () {
+    $response = CreateResponse::fake();
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->store->toBeTrue();
+});
+
+test('from with null store field defaults to true', function () {
+    $response = CreateResponse::fake(['store' => null]);
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->store->toBeTrue();
+});
+
+test('from with false store field', function () {
+    $response = CreateResponse::fake(['store' => false]);
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->store->toBeFalse();
+});
+
+test('from with missing text field', function () {
+    $response = CreateResponse::fake(['text' => null]);
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->text->toBeNull();
+});
+
+test('from with null text field', function () {
+    $response = CreateResponse::fake(['text' => null]);
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->text->toBeNull();
+});
+
+test('to array with null text field', function () {
+    $response = CreateResponse::fake(['text' => null]);
+
+    $array = $response->toArray();
+
+    expect($array)
+        ->toBeArray()
+        ->text->toBeNull();
+});
