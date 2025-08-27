@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__.'/../../../Fixtures/Responses.php';
-
 use OpenAI\Responses\Responses\GenericResponseError;
 use OpenAI\Responses\Responses\McpGenericResponseError;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
