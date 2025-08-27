@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/../../../Fixtures/Responses.php';
+
 use OpenAI\Responses\Responses\GenericResponseError;
 use OpenAI\Responses\Responses\McpGenericResponseError;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
@@ -56,7 +58,8 @@ test('from error as mcp tool execution error', function () {
         ->serverLabel->toBe('deploy-html')
         ->error->toBeInstanceOf(McpGenericResponseError::class)
         ->and($response->error)
-        ->code->toBe('mcp_tool_execution_error');
+        ->type->toBe('mcp_tool_execution_error')
+        ->content->toBeArray();
 });
 
 test('as array accessible', function () {

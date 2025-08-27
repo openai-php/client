@@ -53,7 +53,7 @@ final class OutputMcpCall implements ResponseContract
         if (isset($attributes['error'])) {
             if (is_array($attributes['error']) && isset($attributes['error']['content'])) {
                 $errorType = McpGenericResponseError::from($attributes['error']);
-            } elseif (is_array($attributes['error'])) {
+            } elseif (is_array($attributes['error']) && isset($attributes['error']['message'])) {
                 $errorType = GenericResponseError::from($attributes['error']);
             } elseif (is_string($attributes['error'])) {
                 $errorType = GenericResponseError::from([
@@ -87,7 +87,7 @@ final class OutputMcpCall implements ResponseContract
             'arguments' => $this->arguments,
             'name' => $this->name,
             'approval_request_id' => $this->approvalRequestId,
-            'error' => $this->error instanceof GenericResponseError
+            'error' => $this->error instanceof GenericResponseError || $this->error instanceof McpGenericResponseError
                 ? $this->error->toArray()
                 : $this->error,
             'output' => $this->output,
