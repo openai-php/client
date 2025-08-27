@@ -367,6 +367,33 @@ function outputMcpListTools(): array
 /**
  * @return array<string, mixed>
  */
+function outputMcpErrorCallToolExecution(): array
+{
+    return [
+        'id' => 'mcp_68ae0539ede081a096e9cc4526aadc8200b5e200d643ebad',
+        'type' => 'mcp_call',
+        'approval_request_id' => null,
+        'arguments' => '{"value":"test"}',
+        'error' => [
+            'type' => 'mcp_tool_execution_error',
+            'content' => [
+                [
+                    'type' => 'text',
+                    'text' => '[POST] "undefined": <no response> Invalid URL: undefined',
+                    'annotations' => null,
+                    'meta' => null,
+                ],
+            ],
+        ],
+        'name' => 'deploy-html',
+        'output' => null,
+        'server_label' => 'deploy-html',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputComputerToolCall(): array
 {
     return [

@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Responses\GenericResponseError;
+use OpenAI\Responses\Responses\McpGenericResponseError;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 
 test('from', function () {
@@ -39,6 +40,23 @@ test('from error as string', function () {
         ->code->toBe('unknown_error')
         ->message->toBe('Missing or invalid authorization token.');
 
+});
+
+test('from error as mcp tool execution error', function () {
+    $response = OutputMcpCall::from(outputMcpErrorCallToolExecution());
+
+    expect($response)
+        ->toBeInstanceOf(OutputMcpCall::class)
+        ->id->toBe('mcp_68ae0539ede081a096e9cc4526aadc8200b5e200d643ebad')
+        ->type->toBe('mcp_call')
+        ->approvalRequestId->toBeNull()
+        ->arguments->toBe('{"value":"test"}')
+        ->name->toBe('deploy-html')
+        ->output->toBeNull()
+        ->serverLabel->toBe('deploy-html')
+        ->error->toBeInstanceOf(McpGenericResponseError::class)
+        ->and($response->error)
+        ->code->toBe('mcp_tool_execution_error');
 });
 
 test('as array accessible', function () {

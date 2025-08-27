@@ -9,11 +9,11 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ErrorType array{code: string|int, message: string}
+ * @phpstan-type ErrorType array{code?: string|int, message?: string}
  *
  * @implements ResponseContract<ErrorType>
  */
-final class GenericResponseError implements ResponseContract
+class GenericResponseError implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ErrorType>
@@ -22,7 +22,7 @@ final class GenericResponseError implements ResponseContract
 
     use Fakeable;
 
-    private function __construct(
+    protected function __construct(
         public readonly string $code,
         public readonly string $message
     ) {}
@@ -33,8 +33,8 @@ final class GenericResponseError implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            code: (string) $attributes['code'],
-            message: $attributes['message'],
+            code: (string) ($attributes['code'] ?? 'unknown_error'),
+            message: $attributes['message'] ?? 'An unknown error occurred.',
         );
     }
 
