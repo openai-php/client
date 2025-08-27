@@ -206,9 +206,11 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             reasoning: isset($attributes['reasoning'])
                 ? CreateResponseReasoning::from($attributes['reasoning'])
                 : null,
-            store: $attributes['store'],
+            store: $attributes['store'] ?? true,
             temperature: $attributes['temperature'],
-            text: CreateResponseFormat::from($attributes['text']),
+            text: isset($attributes['text'])
+                ? CreateResponseFormat::from($attributes['text'])
+                : null,
             toolChoice: $toolChoice,
             tools: $tools,
             topLogProbs: $attributes['top_logprobs'] ?? null,
@@ -257,7 +259,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'reasoning' => $this->reasoning?->toArray(),
             'store' => $this->store,
             'temperature' => $this->temperature,
-            'text' => $this->text->toArray(),
+            'text' => $this->text?->toArray(),
             'tool_choice' => is_string($this->toolChoice)
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
