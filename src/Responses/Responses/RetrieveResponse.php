@@ -148,7 +148,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
 
         $toolChoice = is_array($attributes['tool_choice'])
             ? match ($attributes['tool_choice']['type']) {
-                'file_search', 'web_search_preview', 'computer_use_preview' => HostedToolChoice::from($attributes['tool_choice']),
+                'file_search', 'web_search', 'web_search_preview', 'computer_use_preview' => HostedToolChoice::from($attributes['tool_choice']),
                 'function' => FunctionToolChoice::from($attributes['tool_choice']),
             }
         : $attributes['tool_choice'];
@@ -156,7 +156,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         $tools = array_map(
             fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
-                'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
+                'web_search', 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
                 'computer_use_preview' => ComputerUseTool::from($tool),
                 'image_generation' => ImageGenerationTool::from($tool),
