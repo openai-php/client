@@ -45,6 +45,14 @@ test('from object as require_approval', function () {
         ->requireApproval->toBeArray();
 });
 
+test('from object as specific approved tools', function () {
+    $response = RemoteMcpTool::from(toolRemoveMcpRequireApproval());
+
+    expect($response)
+        ->toBeInstanceOf(RemoteMcpTool::class)
+        ->requireApproval->toBeArray();
+});
+
 test('from object as allowed_tools', function () {
     $payload = toolRemoteMcp();
     $payload['allowed_tools'] = [
