@@ -629,6 +629,28 @@ function toolRemoteMcp(): array
 /**
  * @return array<string, mixed>
  */
+function toolRemoveMcpRequireApproval(): array
+{
+    return [
+        'type' => 'mcp',
+        'server_label' => 'My test MCP server',
+        'server_url' => 'https://server.example.com/mcp',
+        'require_approval' => [
+            'never' => [
+                'read_only' => null,
+                'tool_names' => ['ask_question', 'read_wiki_structure'],
+            ],
+            'always' => null,
+        ],
+        'allowed_tools' => null,
+        'headers' => null,
+        'server_description' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolConnectorMcp(): array
 {
     return [

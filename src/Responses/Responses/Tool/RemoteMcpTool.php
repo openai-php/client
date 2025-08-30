@@ -49,9 +49,12 @@ final class RemoteMcpTool implements ResponseContract
     {
         $requireApproval = $attributes['require_approval'] ?? null;
         if (is_array($requireApproval)) {
-            $requireApproval = array_map(function (array $approvalAttributes): McpToolNamesFilter {
-                return McpToolNamesFilter::from($approvalAttributes);
-            }, $requireApproval);
+            $requireApproval = array_map(
+                function (array $approvalAttributes): McpToolNamesFilter {
+                    return McpToolNamesFilter::from($approvalAttributes);
+                },
+                array_filter($requireApproval, fn (?array $item) => $item !== null)
+            );
         }
 
         $allowedTools = $attributes['allowed_tools'] ?? null;
