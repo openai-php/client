@@ -53,7 +53,7 @@ final class RemoteMcpTool implements ResponseContract
                 function (array $approvalAttributes): McpToolNamesFilter {
                     return McpToolNamesFilter::from($approvalAttributes);
                 },
-                array_filter($requireApproval, fn ($item) => $item !== null)
+                array_filter($requireApproval, fn (array|null $item) => $item !== null)
             );
         }
 
