@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
+use OpenAI\Actions\Responses\OutputObjects;
+use OpenAI\Actions\Responses\OutputText;
+use OpenAI\Actions\Responses\ToolChoiceObjects;
+use OpenAI\Actions\Responses\ToolObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
@@ -18,7 +22,6 @@ use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputMessage;
-use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
@@ -129,54 +132,9 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $output = array_map(
-            fn (array $output): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($output['type']) {
-                'message' => OutputMessage::from($output),
-                'file_search_call' => OutputFileSearchToolCall::from($output),
-                'function_call' => OutputFunctionToolCall::from($output),
-                'web_search_call' => OutputWebSearchToolCall::from($output),
-                'computer_call' => OutputComputerToolCall::from($output),
-                'reasoning' => OutputReasoning::from($output),
-                'mcp_list_tools' => OutputMcpListTools::from($output),
-                'mcp_approval_request' => OutputMcpApprovalRequest::from($output),
-                'mcp_call' => OutputMcpCall::from($output),
-                'image_generation_call' => OutputImageGenerationToolCall::from($output),
-                'code_interpreter_call' => OutputCodeInterpreterToolCall::from($output),
-            },
-            $attributes['output'],
-        );
-
-        $toolChoice = is_array($attributes['tool_choice'])
-            ? match ($attributes['tool_choice']['type']) {
-                'file_search', 'web_search', 'web_search_preview', 'computer_use_preview' => HostedToolChoice::from($attributes['tool_choice']),
-                'function' => FunctionToolChoice::from($attributes['tool_choice']),
-            }
-        : $attributes['tool_choice'];
-
-        $tools = array_map(
-            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool => match ($tool['type']) {
-                'file_search' => FileSearchTool::from($tool),
-                'web_search', 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
-                'function' => FunctionTool::from($tool),
-                'computer_use_preview' => ComputerUseTool::from($tool),
-                'image_generation' => ImageGenerationTool::from($tool),
-                'mcp' => RemoteMcpTool::from($tool),
-                'code_interpreter' => CodeInterpreterTool::from($tool),
-            },
-            $attributes['tools'],
-        );
-
-        // Remake the sdk only property output_text.
-        $texts = [];
-        foreach ($output as $item) {
-            if ($item instanceof OutputMessage) {
-                foreach ($item->content as $content) {
-                    if ($content instanceof OutputMessageContentOutputText) {
-                        $texts[] = $content->text;
-                    }
-                }
-            }
-        }
+        $output = OutputObjects::parse($attributes['output']);
+        $toolChoice = ToolChoiceObjects::parse($attributes['tool_choice']);
+        $tools = ToolObjects::parse($attributes['tools']);
 
         return new self(
             id: $attributes['id'],
@@ -195,7 +153,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
-            outputText: empty($texts) ? null : implode(' ', $texts),
+            outputText: OutputText::parse($output),
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
             prompt: isset($attributes['prompt'])

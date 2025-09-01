@@ -31,6 +31,7 @@ test('resources')->expect('OpenAI\Resources')->toOnlyUse([
 
 test('responses')->expect('OpenAI\Responses')->toOnlyUse([
     'Http\Discovery\Psr17Factory',
+    'OpenAI\Actions',
     'OpenAI\Enums',
     'OpenAI\Exceptions\ErrorException',
     'OpenAI\Exceptions\UnknownEventException',
