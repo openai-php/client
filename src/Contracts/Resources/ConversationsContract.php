@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Responses\Conversations\ConversationDeletedResponse;
-use OpenAI\Responses\Responses\Conversations\ConversationResponse;
+use OpenAI\Responses\Conversations\ConversationDeletedResponse;
+use OpenAI\Responses\Conversations\ConversationResponse;
 
-interface ResponsesConversationsContract
+interface ConversationsContract
 {
     /**
      * Create a conversation
@@ -46,5 +46,5 @@ interface ResponsesConversationsContract
      *
      * @see https://platform.openai.com/docs/api-reference/conversations/list-items
      */
-    public function items(): ResponsesConversationsItemsContract;
+    public function items(): ConversationsItemsContract;
 }

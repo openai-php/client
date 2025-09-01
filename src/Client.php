@@ -15,6 +15,7 @@ use OpenAI\Resources\Batches;
 use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
 use OpenAI\Resources\Containers;
+use OpenAI\Resources\Conversations;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
@@ -46,6 +47,16 @@ final class Client implements ClientContract
     public function responses(): Responses
     {
         return new Responses($this->transporter);
+    }
+
+    /**
+     * Create and manage conversations to store and retrieve conversation state across Response API calls.
+     *
+     * @see https://platform.openai.com/docs/api-reference/conversations
+     */
+    public function conversations(): Conversations
+    {
+        return new Conversations($this->transporter);
     }
 
     /**

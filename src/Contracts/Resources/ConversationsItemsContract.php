@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
-use OpenAI\Responses\Responses\Conversations\ConversationItem;
-use OpenAI\Responses\Responses\Conversations\ConversationItemList;
-use OpenAI\Responses\Responses\Conversations\ConversationResponse;
+use OpenAI\Responses\Conversations\ConversationItem;
+use OpenAI\Responses\Conversations\ConversationItemList;
+use OpenAI\Responses\Conversations\ConversationResponse;
 
-interface ResponsesConversationsItemsContract
+interface ConversationsItemsContract
 {
     /**
      * Create items for a conversation

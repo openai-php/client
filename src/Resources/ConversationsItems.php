@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
-use OpenAI\Contracts\Resources\ResponsesConversationsItemsContract;
-use OpenAI\Responses\Responses\Conversations\ConversationItem;
-use OpenAI\Responses\Responses\Conversations\ConversationItemList;
-use OpenAI\Responses\Responses\Conversations\ConversationResponse;
+use OpenAI\Contracts\Resources\ConversationsItemsContract;
+use OpenAI\Responses\Conversations\ConversationItem;
+use OpenAI\Responses\Conversations\ConversationItemList;
+use OpenAI\Responses\Conversations\ConversationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -16,7 +16,7 @@ use OpenAI\ValueObjects\Transporter\Response;
  * @phpstan-import-type ConversationItemListType from ConversationItemList
  * @phpstan-import-type ConversationType from ConversationResponse
  */
-final class ResponsesConversationsItems implements ResponsesConversationsItemsContract
+final class ConversationsItems implements ConversationsItemsContract
 {
     use Concerns\Transportable;
 

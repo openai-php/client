@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\Conversations;
+namespace OpenAI\Responses\Conversations;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
@@ -12,14 +12,14 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ConversationType array{id: string, object: 'conversation', created_at: int, metadata?: array<string, mixed>}
+ * @phpstan-type ConversationDeletedType array{id: string, object: 'conversation.deleted', deleted: bool}
  *
- * @implements ResponseContract<ConversationType>
+ * @implements ResponseContract<ConversationDeletedType>
  */
-final class ConversationResponse implements ResponseContract, ResponseHasMetaInformationContract
+final class ConversationDeletedResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<ConversationType>
+     * @use ArrayAccessible<ConversationDeletedType>
      */
     use ArrayAccessible;
 
@@ -27,29 +27,26 @@ final class ConversationResponse implements ResponseContract, ResponseHasMetaInf
     use HasMetaInformation;
 
     /**
-     * @param  'conversation'  $object
-     * @param  array<string, mixed>  $metadata
+     * @param  'conversation.deleted'  $object
      */
     private function __construct(
         public readonly string $id,
         public readonly string $object,
-        public readonly int $createdAt,
-        public readonly array $metadata,
+        public readonly bool $deleted,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  ConversationType  $attributes
+     * @param  ConversationDeletedType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             id: $attributes['id'],
             object: $attributes['object'],
-            createdAt: $attributes['created_at'],
-            metadata: $attributes['metadata'] ?? [],
+            deleted: $attributes['deleted'],
             meta: $meta,
         );
     }
@@ -62,8 +59,7 @@ final class ConversationResponse implements ResponseContract, ResponseHasMetaInf
         return [
             'id' => $this->id,
             'object' => $this->object,
-            'created_at' => $this->createdAt,
-            'metadata' => $this->metadata,
+            'deleted' => $this->deleted,
         ];
     }
 }

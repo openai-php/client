@@ -1,10 +1,10 @@
 <?php
 
+use OpenAI\Responses\Conversations\ConversationDeletedResponse;
+use OpenAI\Responses\Conversations\ConversationItem;
+use OpenAI\Responses\Conversations\ConversationItemList;
+use OpenAI\Responses\Conversations\ConversationResponse;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Responses\Conversations\ConversationDeletedResponse;
-use OpenAI\Responses\Responses\Conversations\ConversationItem;
-use OpenAI\Responses\Responses\Conversations\ConversationItemList;
-use OpenAI\Responses\Responses\Conversations\ConversationResponse;
 use OpenAI\ValueObjects\Transporter\Response;
 
 // Create conversation
