@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Responses\Tool\FileSearchComparisonFilter;
+use OpenAI\Responses\Responses\Tool\FileSearchCompoundFilter;
 use OpenAI\Responses\Responses\Tool\FileSearchRankingOption;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 
@@ -29,6 +30,22 @@ test('from null filters', function () {
     expect($response)
         ->toBeInstanceOf(FileSearchTool::class)
         ->filters->toBeNull();
+});
+
+test('from complex nested filters', function () {
+    $response = FileSearchTool::from(toolFileSearchNestedFilters());
+
+    expect($response)
+        ->toBeInstanceOf(FileSearchTool::class)
+        ->filters->toBeInstanceOf(FileSearchCompoundFilter::class)
+        ->filters->filters->toBeArray()
+        ->and($response->filters->filters[0])
+        ->toBeInstanceOf(FileSearchCompoundFilter::class)
+        ->filters->toBeArray()
+        ->and($response->filters->filters[0]->filters[0])
+        ->toBeInstanceOf(FileSearchComparisonFilter::class)
+        ->and($response->filters->filters[0]->filters[1])
+        ->toBeInstanceOf(FileSearchComparisonFilter::class);
 });
 
 test('from results', function () {

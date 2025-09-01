@@ -691,6 +691,45 @@ function toolFileSearch(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function toolFileSearchNestedFilters(): array
+{
+    return [
+        'type' => 'file_search',
+        'filters' => [
+            'type' => 'and',
+            'filters' => [
+                [
+                    'type' => 'and',
+                    'filters' => [
+                        [
+                            'type' => 'ne',
+                            'key' => 'state',
+                            'value' => 'ks',
+                        ],
+                        [
+                            'type' => 'ne',
+                            'key' => 'state',
+                            'value' => 'mo',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'max_num_results' => 5,
+        'ranking_options' => [
+            'ranker' => 'auto',
+            'score_threshold' => 0.1,
+        ],
+        'vector_store_ids' => [
+            'vector_store_id_1',
+            'vector_store_id_2',
+        ],
+    ];
+}
+
+/**
  * @return resource
  */
 function responseCompletionStream()
