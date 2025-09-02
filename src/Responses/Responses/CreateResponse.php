@@ -37,28 +37,17 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type ResponseFormatType from CreateResponseFormat
- * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
- * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
- * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
- * @phpstan-import-type OutputMessageType from OutputMessage
- * @phpstan-import-type OutputReasoningType from OutputReasoning
- * @phpstan-import-type OutputWebSearchToolCallType from OutputWebSearchToolCall
- * @phpstan-import-type OutputMcpListToolsType from OutputMcpListTools
- * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
- * @phpstan-import-type OutputMcpCallType from OutputMcpCall
- * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
- * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type ErrorType from GenericResponseError
  * @phpstan-import-type IncompleteDetailsType from CreateResponseIncompleteDetails
  * @phpstan-import-type UsageType from CreateResponseUsage
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
  * @phpstan-import-type ReferencePromptObjectType from ReferencePromptObject
+ * @phpstan-import-type ResponseOutputObjectTypes from OutputObjects
  * @phpstan-import-type ResponseToolChoiceTypes from ToolChoiceObjects
  * @phpstan-import-type ResponseToolObjectTypes from ToolObjects
  *
  * @phpstan-type InstructionsType array<int, mixed>|string|null
- * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type CreateResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store?: bool|null, temperature: float|null, text?: ResponseFormatType|null, tool_choice: ResponseToolChoiceTypes, tools: ResponseToolObjectTypes, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: ResponseOutputObjectTypes, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store?: bool|null, temperature: float|null, text?: ResponseFormatType|null, tool_choice: ResponseToolChoiceTypes, tools: ResponseToolObjectTypes, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
