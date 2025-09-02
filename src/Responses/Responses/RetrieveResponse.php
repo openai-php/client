@@ -59,16 +59,14 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ErrorType from GenericResponseError
  * @phpstan-import-type IncompleteDetailsType from CreateResponseIncompleteDetails
  * @phpstan-import-type UsageType from CreateResponseUsage
- * @phpstan-import-type FunctionToolChoiceType from FunctionToolChoice
- * @phpstan-import-type HostedToolChoiceType from HostedToolChoice
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
  * @phpstan-import-type ReferencePromptObjectType from ReferencePromptObject
+ * @phpstan-import-type ResponseToolChoiceTypes from ToolChoiceObjects
  *
  * @phpstan-type InstructionsType array<int, mixed>|string|null
- * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
  * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType>
  * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type RetrieveResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ToolChoiceType, tools: ToolsType, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
+ * @phpstan-type RetrieveResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ResponseToolChoiceTypes, tools: ToolsType, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<RetrieveResponseType>
  */
