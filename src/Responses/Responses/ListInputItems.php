@@ -43,7 +43,7 @@ final class ListInputItems implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     /**
-     * @param  ResponseItemObjectReturnType  $data
+     * @param  array<int, InputMessage|OutputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $data
      * @param  'list'  $object
      */
     private function __construct(
