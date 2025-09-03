@@ -760,3 +760,13 @@ function responseCompletionSteamCreatedEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseCreatedResponse.txt', 'r');
 }
+
+function responseReasoningTextDeltaEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseReasoningTextDelta.txt', 'r');
+}
+
+function responseReasoningTextDoneEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseReasoningTextDone.txt', 'r');
+}

@@ -1,0 +1,1 @@
+data: {"type":"response.reasoning_text.done","content_index":0,"item_id":"item_123","output_index":0,"sequence_number":10,"text":"Let me analyze this problem step by step to provide the best solution."}

@@ -29,6 +29,8 @@ use OpenAI\Responses\Responses\Streaming\OutputTextDone;
 use OpenAI\Responses\Responses\Streaming\ReasoningSummaryPart;
 use OpenAI\Responses\Responses\Streaming\ReasoningSummaryTextDelta;
 use OpenAI\Responses\Responses\Streaming\ReasoningSummaryTextDone;
+use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
+use OpenAI\Responses\Responses\Streaming\ReasoningTextDone;
 use OpenAI\Responses\Responses\Streaming\RefusalDelta;
 use OpenAI\Responses\Responses\Streaming\RefusalDone;
 use OpenAI\Responses\Responses\Streaming\WebSearchCall;
@@ -50,7 +52,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|Error $response,
+        public readonly CreateResponse|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|Error $response,
     ) {}
 
     /**
@@ -95,6 +97,8 @@ final class CreateStreamedResponse implements ResponseContract
             'response.reasoning_summary_part.done' => ReasoningSummaryPart::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_text.delta' => ReasoningSummaryTextDelta::from($attributes, $meta), // @phpstan-ignore-line
             'response.reasoning_summary_text.done' => ReasoningSummaryTextDone::from($attributes, $meta), // @phpstan-ignore-line
+            'response.reasoning_text.delta' => ReasoningTextDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.reasoning_text.done' => ReasoningTextDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.mcp_list_tools.in_progress' => McpListToolsInProgress::from($attributes, $meta), // @phpstan-ignore-line
             'response.mcp_list_tools.failed',
             'response.mcp_list_tools.completed' => McpListTools::from($attributes, $meta), // @phpstan-ignore-line
