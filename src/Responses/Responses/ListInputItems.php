@@ -28,7 +28,6 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type ResponseItemObjectTypes from ItemObjects
- * @phpstan-import-type ResponseItemObjectReturnType from ItemObjects
  *
  * @phpstan-type ListInputItemsType array{data: ResponseItemObjectTypes, first_id: string, has_more: bool, last_id: string, object: 'list'}
  *
