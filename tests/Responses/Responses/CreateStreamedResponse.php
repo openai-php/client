@@ -34,8 +34,7 @@ test('reasoning text delta event', function () {
         ->response->itemId->toBe('item_123')
         ->response->outputIndex->toBe(0)
         ->response->contentIndex->toBe(0)
-        ->response->sequenceNumber->toBe(5)
-        ->response->type->toBe('response.reasoning_text.delta');
+        ->response->sequenceNumber->toBe(5);
 });
 
 test('reasoning text done event', function () {
@@ -49,6 +48,5 @@ test('reasoning text done event', function () {
         ->response->itemId->toBe('item_123')
         ->response->outputIndex->toBe(0)
         ->response->contentIndex->toBe(0)
-        ->response->sequenceNumber->toBe(10)
-        ->response->type->toBe('response.reasoning_text.done');
+        ->response->sequenceNumber->toBe(10);
 });

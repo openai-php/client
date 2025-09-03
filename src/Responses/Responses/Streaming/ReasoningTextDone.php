@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningTextDoneType array{content_index: int, item_id: string, output_index: int, sequence_number: int, text: string, type: string}
+ * @phpstan-type ReasoningTextDoneType array{content_index: int, item_id: string, output_index: int, sequence_number: int, text: string}
  *
  * @implements ResponseContract<ReasoningTextDoneType>
  */
@@ -32,7 +32,6 @@ final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInform
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
         public readonly string $text,
-        public readonly string $type,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -47,7 +46,6 @@ final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInform
             outputIndex: $attributes['output_index'],
             sequenceNumber: $attributes['sequence_number'],
             text: $attributes['text'],
-            type: $attributes['type'],
             meta: $meta,
         );
     }
@@ -63,7 +61,6 @@ final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInform
             'output_index' => $this->outputIndex,
             'sequence_number' => $this->sequenceNumber,
             'text' => $this->text,
-            'type' => $this->type,
         ];
     }
 }

@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningTextDeltaType array{content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int, type: string}
+ * @phpstan-type ReasoningTextDeltaType array{content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int}
  *
  * @implements ResponseContract<ReasoningTextDeltaType>
  */
@@ -32,7 +32,6 @@ final class ReasoningTextDelta implements ResponseContract, ResponseHasMetaInfor
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
-        public readonly string $type,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -47,7 +46,6 @@ final class ReasoningTextDelta implements ResponseContract, ResponseHasMetaInfor
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             sequenceNumber: $attributes['sequence_number'],
-            type: $attributes['type'],
             meta: $meta,
         );
     }
@@ -63,7 +61,6 @@ final class ReasoningTextDelta implements ResponseContract, ResponseHasMetaInfor
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
             'sequence_number' => $this->sequenceNumber,
-            'type' => $this->type,
         ];
     }
 }
