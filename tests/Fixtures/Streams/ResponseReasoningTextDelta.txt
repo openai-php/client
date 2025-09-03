@@ -1,0 +1,1 @@
+data: {"type":"response.reasoning_text.delta","content_index":0,"delta":"Let me analyze","item_id":"item_123","output_index":0,"sequence_number":5}
