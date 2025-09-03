@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses;
 
+use OpenAI\Actions\Responses\OutputObjects;
+use OpenAI\Actions\Responses\OutputText;
+use OpenAI\Actions\Responses\ToolChoiceObjects;
+use OpenAI\Actions\Responses\ToolObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
@@ -18,7 +22,6 @@ use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputMessage;
-use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
@@ -34,37 +37,17 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type ResponseFormatType from CreateResponseFormat
- * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
- * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
- * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
- * @phpstan-import-type OutputMessageType from OutputMessage
- * @phpstan-import-type OutputReasoningType from OutputReasoning
- * @phpstan-import-type OutputWebSearchToolCallType from OutputWebSearchToolCall
- * @phpstan-import-type OutputMcpListToolsType from OutputMcpListTools
- * @phpstan-import-type OutputMcpApprovalRequestType from OutputMcpApprovalRequest
- * @phpstan-import-type OutputMcpCallType from OutputMcpCall
- * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
- * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
- * @phpstan-import-type ComputerUseToolType from ComputerUseTool
- * @phpstan-import-type FileSearchToolType from FileSearchTool
- * @phpstan-import-type ImageGenerationToolType from ImageGenerationTool
- * @phpstan-import-type RemoteMcpToolType from RemoteMcpTool
- * @phpstan-import-type FunctionToolType from FunctionTool
- * @phpstan-import-type WebSearchToolType from WebSearchTool
- * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
  * @phpstan-import-type ErrorType from GenericResponseError
  * @phpstan-import-type IncompleteDetailsType from CreateResponseIncompleteDetails
  * @phpstan-import-type UsageType from CreateResponseUsage
- * @phpstan-import-type FunctionToolChoiceType from FunctionToolChoice
- * @phpstan-import-type HostedToolChoiceType from HostedToolChoice
  * @phpstan-import-type ReasoningType from CreateResponseReasoning
  * @phpstan-import-type ReferencePromptObjectType from ReferencePromptObject
+ * @phpstan-import-type ResponseOutputObjectTypes from OutputObjects
+ * @phpstan-import-type ResponseToolChoiceTypes from ToolChoiceObjects
+ * @phpstan-import-type ResponseToolObjectTypes from ToolObjects
  *
  * @phpstan-type InstructionsType array<int, mixed>|string|null
- * @phpstan-type ToolChoiceType 'none'|'auto'|'required'|FunctionToolChoiceType|HostedToolChoiceType
- * @phpstan-type ToolsType array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType>
- * @phpstan-type OutputType array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type CreateResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: OutputType, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store?: bool|null, temperature: float|null, text?: ResponseFormatType|null, tool_choice: ToolChoiceType, tools: ToolsType, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
+ * @phpstan-type CreateResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: ResponseOutputObjectTypes, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store?: bool|null, temperature: float|null, text?: ResponseFormatType|null, tool_choice: ResponseToolChoiceTypes, tools: ResponseToolObjectTypes, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -128,54 +111,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $output = array_map(
-            fn (array $output): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($output['type']) {
-                'message' => OutputMessage::from($output),
-                'file_search_call' => OutputFileSearchToolCall::from($output),
-                'function_call' => OutputFunctionToolCall::from($output),
-                'web_search_call' => OutputWebSearchToolCall::from($output),
-                'computer_call' => OutputComputerToolCall::from($output),
-                'reasoning' => OutputReasoning::from($output),
-                'mcp_list_tools' => OutputMcpListTools::from($output),
-                'mcp_approval_request' => OutputMcpApprovalRequest::from($output),
-                'mcp_call' => OutputMcpCall::from($output),
-                'image_generation_call' => OutputImageGenerationToolCall::from($output),
-                'code_interpreter_call' => OutputCodeInterpreterToolCall::from($output),
-            },
-            $attributes['output'],
-        );
-
-        $toolChoice = is_array($attributes['tool_choice'])
-            ? match ($attributes['tool_choice']['type']) {
-                'file_search', 'web_search', 'web_search_preview', 'computer_use_preview' => HostedToolChoice::from($attributes['tool_choice']),
-                'function' => FunctionToolChoice::from($attributes['tool_choice']),
-            }
-        : $attributes['tool_choice'];
-
-        $tools = array_map(
-            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool => match ($tool['type']) {
-                'file_search' => FileSearchTool::from($tool),
-                'web_search', 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
-                'function' => FunctionTool::from($tool),
-                'computer_use_preview' => ComputerUseTool::from($tool),
-                'image_generation' => ImageGenerationTool::from($tool),
-                'mcp' => RemoteMcpTool::from($tool),
-                'code_interpreter' => CodeInterpreterTool::from($tool),
-            },
-            $attributes['tools'],
-        );
-
-        // Remake the sdk only property output_text.
-        $texts = [];
-        foreach ($output as $item) {
-            if ($item instanceof OutputMessage) {
-                foreach ($item->content as $content) {
-                    if ($content instanceof OutputMessageContentOutputText) {
-                        $texts[] = $content->text;
-                    }
-                }
-            }
-        }
+        $output = OutputObjects::parse($attributes['output']);
+        $toolChoice = ToolChoiceObjects::parse($attributes['tool_choice']);
+        $tools = ToolObjects::parse($attributes['tools']);
 
         return new self(
             id: $attributes['id'],
@@ -194,7 +132,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
-            outputText: empty($texts) ? null : implode(' ', $texts),
+            outputText: OutputText::parse($output),
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
             prompt: isset($attributes['prompt'])
