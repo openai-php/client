@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.16.1 (2025-09-04)
+### Added
+
+* Add `sequence_number` support to `OutputTextDelta` ([#664](https://github.com/openai-php/client/pull/664))
+* Add `web-search` tool option ([#665](https://github.com/openai-php/client/pull/665))
+* Add support for reasoning text streaming events ([#673](https://github.com/openai-php/client/pull/673))
+
+### Fixed
+
+* Handle optional attributes in CreateResponse ([#662](https://github.com/openai-php/client/pull/662))
+* Handle null require_approval in Response API ([#669](https://github.com/openai-php/client/pull/669))
+* Support mcp error objects in response api ([#661](https://github.com/openai-php/client/pull/661))
+* Support nested file search properties ([#670](https://github.com/openai-php/client/pull/670))
+* Add missing properties to ListInputItems call ([#668](https://github.com/openai-php/client/pull/668))
+* Remove extra spaces from json keys in ThreadRunStreamResponseFixture.txt ([#674](https://github.com/openai-php/client/pull/674))
+
 # v0.16.0 (2025-08-26)
 ### Added
 
