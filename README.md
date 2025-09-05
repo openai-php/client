@@ -30,7 +30,7 @@ If you or your business relies on this package, it's important to support the de
   - [Models Resource](#models-resource)
   - [Responses Resource](#responses-resource)
   - [Containers Resource](#containers-resource)
-  - [Containers Files Resource](#container-files-resource)
+  - [Containers Files Resource](#containers-files-resource)
   - [Chat Resource](#chat-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
@@ -1723,7 +1723,7 @@ foreach($stream as $response){
 ### `Assistants` Resource (deprecated)
 
 > [!WARNING]
-> OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+> OpenAI has deprecated the Assistants API and will stop working by August 26, 2026. https://platform.openai.com/docs/guides/migrate-to-responses#assistants-api
 
 <details>
 <summary>Assistants API Information</summary>
@@ -1857,7 +1857,7 @@ $response->toArray(); // ['object' => 'list', ...]]
 ### `Threads` Resource (deprecated)
 
 > [!WARNING]
-> OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+> OpenAI has deprecated the Assistants API and will stop working by August 26, 2026. https://platform.openai.com/docs/guides/migrate-to-responses#assistants-api
 
 <details>
 <summary>Threads API Information</summary>
@@ -1984,7 +1984,7 @@ $response->toArray(); // ['id' => 'thread_tKFLqzRN9n7MnyKKvc1Q7868', ...]
 ### `Thread Messages` Resource (deprecated)
 
 > [!WARNING]
-> OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+> OpenAI has deprecated the Assistants API and will stop working by August 26, 2026. https://platform.openai.com/docs/guides/migrate-to-responses#assistants-api
 
 <details>
 <summary>Thread Messages API Information</summary>
@@ -2128,7 +2128,7 @@ $response->toArray(); // ['object' => 'list', ...]]
 ### `Thread Runs` Resource (deprecated)
 
 > [!WARNING]
-> OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+> OpenAI has deprecated the Assistants API and will stop working by August 26, 2026. https://platform.openai.com/docs/guides/migrate-to-responses#assistants-api
 
 <details>
 <summary>Thread Runs API Information</summary>
@@ -2451,7 +2451,7 @@ $response->toArray(); // ['object' => 'list', ...]]
 ### `Thread Run Steps` Resource (deprecated)
 
 > [!WARNING]
-> OpenAI has deprecated the Assistants API and will stop working by first half of 2026. https://platform.openai.com/docs/guides/responses-vs-chat-completions#assistants
+> OpenAI has deprecated the Assistants API and will stop working by August 26, 2026. https://platform.openai.com/docs/guides/migrate-to-responses#assistants-api
 
 <details>
 <summary>Thread Run Steps API Information</summary>
