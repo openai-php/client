@@ -72,6 +72,9 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toArray(): array
     {
         return [
