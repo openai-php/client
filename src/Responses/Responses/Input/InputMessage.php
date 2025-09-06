@@ -13,7 +13,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ContentInputImageType from InputMessageContentInputImage
  * @phpstan-import-type ContentInputFileType from InputMessageContentInputFile
  *
- * @phpstan-type InputMessageType array{content: array<int, ContentInputTextType|ContentInputImageType|ContentInputFileType>, id: string, role: 'user'|'system'|'developer', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
+ * @phpstan-type InputMessageType array{content: array<int, ContentInputTextType|ContentInputImageType|ContentInputFileType>, id: string, role: 'unknown'|'user'|'assistant'|'system'|'critic'|'discriminator'|'developer'|'tool', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
  *
  * @implements ResponseContract<InputMessageType>
  */
@@ -28,7 +28,7 @@ final class InputMessage implements ResponseContract
 
     /**
      * @param  array<int, InputMessageContentInputText|InputMessageContentInputImage|InputMessageContentInputFile>  $content
-     * @param  'user'|'system'|'developer'  $role
+     * @param  'unknown'|'user'|'assistant'|'system'|'critic'|'discriminator'|'developer'|'tool'  $role
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'message'  $type
      */

@@ -7,6 +7,7 @@ use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Contracts\Resources\BatchesContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
+use OpenAI\Contracts\Resources\ConversationsContract;
 use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Contracts\Resources\FilesContract;
@@ -36,6 +37,13 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/responses
      */
     public function responses(): ResponsesContract;
+
+    /**
+     * Create and manage conversations to store and retrieve conversation state across Response API calls.
+     *
+     * @see https://platform.openai.com/docs/api-reference/conversations
+     */
+    public function conversations(): ConversationsContract;
 
     /**
      * Communicate with a GPT-4o class model in real time using WebRTC or WebSockets. Supports text and audio inputs and outputs, along with audio transcriptions.
