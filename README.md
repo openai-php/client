@@ -23,6 +23,7 @@ If you or your business relies on this package, it's important to support the de
 
 - Nuno Maduro: **[github.com/sponsors/nunomaduro](https://github.com/sponsors/nunomaduro)**
 - Sandro Gehri: **[github.com/sponsors/gehrisandro](https://github.com/sponsors/gehrisandro)**
+- Connor Tumbleson: **[github.com/sponsors/iBotPeaches](https://github.com/sponsors/iBotPeaches)**
 
 ## Table of Contents
 - [Get Started](#get-started)
