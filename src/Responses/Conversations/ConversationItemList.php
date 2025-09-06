@@ -4,17 +4,31 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Conversations;
 
+use OpenAI\Actions\Conversations\ItemObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
+use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
+use OpenAI\Responses\Responses\Input\InputMessage;
+use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
+use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
+use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
+use OpenAI\Responses\Responses\Output\OutputMcpCall;
+use OpenAI\Responses\Responses\Output\OutputMcpListTools;
+use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-import-type ConversationItemType from ConversationItem
+ * @phpstan-import-type ConversationItemObjectTypes from ItemObjects
  *
- * @phpstan-type ConversationItemListType array{object: 'list', data: array<int, ConversationItemType>, first_id: ?string, last_id: ?string, has_more: bool}
+ * @phpstan-type ConversationItemListType array{object: 'list', data: ConversationItemObjectTypes, first_id: ?string, last_id: ?string, has_more: bool}
  *
  * @implements ResponseContract<ConversationItemListType>
  */
@@ -30,7 +44,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
 
     /**
      * @param  'list'  $object
-     * @param  array<int, ConversationItem>  $data
+     * @param  array<int, InputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $data
      */
     private function __construct(
         public readonly string $object,
@@ -46,10 +60,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $items = array_map(
-            static fn (array $item): ConversationItem => ConversationItem::from($item),
-            $attributes['data'],
-        );
+        $items = ItemObjects::parse($attributes['data']);
 
         return new self(
             object: $attributes['object'],
@@ -65,7 +76,10 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
     {
         return [
             'object' => $this->object,
-            'data' => array_map(static fn (ConversationItem $i): array => $i->toArray(), $this->data),
+            'data' => array_map(
+                fn (InputMessage|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item): array => $item->toArray(),
+                $this->data,
+            ),
             'first_id' => $this->firstId,
             'last_id' => $this->lastId,
             'has_more' => $this->hasMore,

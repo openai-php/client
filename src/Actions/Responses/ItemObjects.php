@@ -61,6 +61,10 @@ final class ItemObjects
                 'mcp_call' => OutputMcpCall::from($item),
                 'image_generation_call' => OutputImageGenerationToolCall::from($item),
                 'code_interpreter_call' => OutputCodeInterpreterToolCall::from($item),
+                // todo
+                // local_shell_call
+                // local_shell_call_output
+                // mcp_approval_response
             },
             $outputItems,
         );
