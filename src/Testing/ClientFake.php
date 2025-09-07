@@ -14,6 +14,7 @@ use OpenAI\Testing\Resources\BatchesTestResource;
 use OpenAI\Testing\Resources\ChatTestResource;
 use OpenAI\Testing\Resources\CompletionsTestResource;
 use OpenAI\Testing\Resources\ContainersTestResource;
+use OpenAI\Testing\Resources\ConversationsTestResource;
 use OpenAI\Testing\Resources\EditsTestResource;
 use OpenAI\Testing\Resources\EmbeddingsTestResource;
 use OpenAI\Testing\Resources\FilesTestResource;
@@ -138,6 +139,11 @@ class ClientFake implements ClientContract
     public function responses(): ResponsesTestResource
     {
         return new ResponsesTestResource($this);
+    }
+
+    public function conversations(): ConversationsTestResource
+    {
+        return new ConversationsTestResource($this);
     }
 
     public function realtime(): RealtimeTestResource

@@ -20,6 +20,11 @@ final class ResponsesTestResource implements ResponsesContract
         return Responses::class;
     }
 
+    public function conversations(): ConversationsTestResource
+    {
+        return new ConversationsTestResource($this->fake);
+    }
+
     public function create(array $parameters): CreateResponse
     {
         return $this->record(__FUNCTION__, func_get_args());

@@ -126,4 +126,12 @@ final class Responses implements ResponsesContract
 
         return ListInputItems::from($response->data(), $response->meta());
     }
+
+    /**
+     * Manage conversations to store and retrieve conversation state across Response API calls.
+     */
+    public function conversations(): Conversations
+    {
+        return new Conversations($this->transporter);
+    }
 }
