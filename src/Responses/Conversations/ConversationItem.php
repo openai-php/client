@@ -7,9 +7,9 @@ namespace OpenAI\Responses\Conversations;
 use OpenAI\Actions\Conversations\ItemObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Conversations\Objects\Message;
 use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
-use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
@@ -39,7 +39,7 @@ final class ConversationItem implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public readonly InputMessage|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item
+        public readonly Message|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item
     ) {}
 
     /**

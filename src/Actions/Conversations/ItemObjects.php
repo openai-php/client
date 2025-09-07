@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace OpenAI\Actions\Conversations;
 
+use OpenAI\Responses\Conversations\Objects\Message;
 use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
-use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
@@ -19,7 +19,7 @@ use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 
 /**
- * @phpstan-import-type InputMessageType from InputMessage
+ * @phpstan-import-type MessageType from Message
  * @phpstan-import-type ComputerToolCallOutputType from ComputerToolCallOutput
  * @phpstan-import-type FunctionToolCallOutputType from FunctionToolCallOutput
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
@@ -33,9 +33,9 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  *
- * @phpstan-type ItemObjectTypes InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType
+ * @phpstan-type ItemObjectTypes MessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType
  * @phpstan-type ConversationItemObjectTypes array<int, ItemObjectTypes>
- * @phpstan-type ConversationItemObjectReturnType array<int, InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>
+ * @phpstan-type ConversationItemObjectReturnType array<int, Message|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>
  */
 final class ItemObjects
 {
@@ -46,8 +46,8 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($item['type']) {
-                'message' => InputMessage::from($item),
+            fn (array $item): Message|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($item['type']) {
+                'message' => Message::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
                 'function_call_output' => FunctionToolCallOutput::from($item),

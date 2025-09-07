@@ -9,10 +9,10 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Conversations\Objects\Message;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
-use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
@@ -44,7 +44,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
 
     /**
      * @param  'list'  $object
-     * @param  array<int, InputMessage|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $data
+     * @param  array<int, Message|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $data
      */
     private function __construct(
         public readonly string $object,
@@ -80,7 +80,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
         return [
             'object' => $this->object,
             'data' => array_map(
-                fn (InputMessage|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item): array => $item->toArray(),
+                fn (Message|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item): array => $item->toArray(),
                 $this->data,
             ),
             'first_id' => $this->firstId,
