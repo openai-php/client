@@ -48,7 +48,7 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): Message|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($item['type']) {
+            fn (array $item): Message|ComputerToolCallOutput|FunctionToolCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall => match ($item['type']) {
                 'message' => Message::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
