@@ -9,20 +9,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
-use OpenAI\Responses\Conversations\Objects\Message;
 use OpenAI\Responses\Meta\MetaInformation;
-use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
-use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
-use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
-use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
-use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
-use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
-use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
-use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
-use OpenAI\Responses\Responses\Output\OutputMcpCall;
-use OpenAI\Responses\Responses\Output\OutputMcpListTools;
-use OpenAI\Responses\Responses\Output\OutputReasoning;
-use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -44,7 +31,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
 
     /**
      * @param  'list'  $object
-     * @param  array<int, Message|OutputFileSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputWebSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>  $data
+     * @param  array<int, ConversationItem>  $data
      */
     private function __construct(
         public readonly string $object,
@@ -60,7 +47,10 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        $items = ItemObjects::parse($attributes['data']);
+        $items = array_map(
+            fn (array $item): ConversationItem => ConversationItem::from($item),
+            $attributes['data'],
+        );
 
         return new self(
             object: $attributes['object'],
@@ -80,7 +70,7 @@ final class ConversationItemList implements ResponseContract, ResponseHasMetaInf
         return [
             'object' => $this->object,
             'data' => array_map(
-                fn (Message|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall $item): array => $item->toArray(),
+                fn (ConversationItem $item): array => $item->toArray(),
                 $this->data,
             ),
             'first_id' => $this->firstId,

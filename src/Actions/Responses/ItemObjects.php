@@ -12,6 +12,7 @@ use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
+use OpenAI\Responses\Responses\Output\OutputLocalShellCall;
 use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\Output\OutputMcpListTools;
@@ -34,9 +35,10 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
+ * @phpstan-import-type OutputLocalShellCallType from OutputLocalShellCall
  *
- * @phpstan-type ResponseItemObjectTypes array<int, InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType>
- * @phpstan-type ResponseItemObjectReturnType array<int, InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall>
+ * @phpstan-type ResponseItemObjectTypes array<int, InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType>
+ * @phpstan-type ResponseItemObjectReturnType array<int, InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall>
  */
 final class ItemObjects
 {
@@ -47,7 +49,7 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall => match ($item['type']) {
+            fn (array $item): InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall => match ($item['type']) {
                 'message' => $item['role'] === 'assistant' ? OutputMessage::from($item) : InputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -61,8 +63,8 @@ final class ItemObjects
                 'mcp_call' => OutputMcpCall::from($item),
                 'image_generation_call' => OutputImageGenerationToolCall::from($item),
                 'code_interpreter_call' => OutputCodeInterpreterToolCall::from($item),
+                'local_shell_call' => OutputLocalShellCall::from($item),
                 // todo
-                // local_shell_call
                 // local_shell_call_output
                 // mcp_approval_response
             },

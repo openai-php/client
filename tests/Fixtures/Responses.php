@@ -226,6 +226,7 @@ function listInputItemsResource(): array
             outputComputerToolCall(),
             outputReasoning(),
             outputCodeInterpreterToolCall(),
+            outputLocalShellCall(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -568,6 +569,27 @@ function outputMessageOnlyRefusal(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputLocalShellCall(): array
+{
+    return [
+        'type' => 'local_shell_call',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'lc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'action' => [
+            'command' => ['echo', 'hello'],
+            'env' => ['FOO=bar'],
+            'type' => 'exec',
+            'timeout_ms' => 1000,
+            'user' => 'www-data',
+            'working_directory' => '/var/www',
+        ],
+        'status' => 'completed',
     ];
 }
 

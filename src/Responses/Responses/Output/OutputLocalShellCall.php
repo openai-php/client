@@ -55,11 +55,11 @@ final class OutputLocalShellCall implements ResponseContract
     public function toArray(): array
     {
         return [
-            'action' => $this->action->toArray(),
+            'type' => $this->type,
             'call_id' => $this->callId,
             'id' => $this->id,
+            'action' => $this->action->toArray(),
             'status' => $this->status,
-            'type' => $this->type,
         ];
     }
 }
