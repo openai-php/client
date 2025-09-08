@@ -163,7 +163,7 @@ test('responses.conversations.items retrieve', function () {
 
     expect($result)
         ->toBeInstanceOf(ConversationItem::class)
-        ->id->toBe('msg_abc');
+        ->item->id->toBe('msg_abc');
 });
 
 // Delete item returns updated conversation
