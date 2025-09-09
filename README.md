@@ -312,14 +312,14 @@ $response->hasMore; // false
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
 
-### `Responses Conversations` Resource
+### `Conversations` Resource
 
 #### `create`
 
 Create a conversation.
 
 ```php
-$response = $client->responses()->conversations()->create([
+$response = $client->conversations()->create([
     'metadata' => ['topic' => 'demo'],
     'items' => [
         [
@@ -343,7 +343,7 @@ $response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation', ...]
 Retrieve a conversation by ID.
 
 ```php
-$response = $client->responses()->conversations()->retrieve('conv_123');
+$response = $client->conversations()->retrieve('conv_123');
 
 $response->id; // 'conv_123'
 $response->object; // 'conversation'
@@ -357,7 +357,7 @@ $response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation', ...]
 Update a conversation by ID.
 
 ```php
-$response = $client->responses()->conversations()->update('conv_123', [
+$response = $client->conversations()->update('conv_123', [
     'metadata' => ['foo' => 'bar'],
 ]);
 
@@ -370,7 +370,7 @@ $response->metadata; // ['foo' => 'bar']
 Delete a conversation by ID.
 
 ```php
-$response = $client->responses()->conversations()->delete('conv_123');
+$response = $client->conversations()->delete('conv_123');
 
 $response->id; // 'conv_123'
 $response->object; // 'conversation.deleted'
@@ -386,7 +386,7 @@ $response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation.deleted'
 Create items for a conversation.
 
 ```php
-$response = $client->responses()->conversations()->items()->create('conv_123', [
+$response = $client->conversations()->items()->create('conv_123', [
     'items' => [
         [
             'type' => 'message',
@@ -422,7 +422,7 @@ $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 List items for a conversation.
 
 ```php
-$response = $client->responses()->conversations()->items()->list('conv_123', [
+$response = $client->conversations()->items()->list('conv_123', [
     'limit' => 10,
 ]);
 
@@ -434,7 +434,7 @@ $response->object; // 'list'
 Retrieve a specific item from a conversation.
 
 ```php
-$response = $client->responses()->conversations()->items()->retrieve('conv_123', 'msg_abc', [
+$response = $client->conversations()->items()->retrieve('conv_123', 'msg_abc', [
     'include' => ['step_details'],
 ]);
 
@@ -448,7 +448,7 @@ $response->status; // 'completed'
 Delete a specific item from a conversation. Returns the updated conversation.
 
 ```php
-$response = $client->responses()->conversations()->items()->delete('conv_123', 'msg_abc');
+$response = $client->conversations()->items()->delete('conv_123', 'msg_abc');
 
 $response->id; // 'conv_123'
 $response->object; // 'conversation'
