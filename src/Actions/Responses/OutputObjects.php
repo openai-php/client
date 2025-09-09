@@ -6,6 +6,7 @@ namespace OpenAI\Actions\Responses;
 
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputCustomToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
@@ -30,9 +31,10 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputLocalShellCallType from OutputLocalShellCall
+ * @phpstan-import-type OutputCustomToolCallType from OutputCustomToolCall
  *
- * @phpstan-type ResponseOutputObjectTypes array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType>
- * @phpstan-type ResponseOutputObjectReturnType array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall>
+ * @phpstan-type ResponseOutputObjectTypes array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType>
+ * @phpstan-type ResponseOutputObjectReturnType array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall>
  */
 final class OutputObjects
 {
@@ -43,7 +45,7 @@ final class OutputObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall => match ($item['type']) {
+            fn (array $item): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall => match ($item['type']) {
                 'message' => OutputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -56,8 +58,7 @@ final class OutputObjects
                 'image_generation_call' => OutputImageGenerationToolCall::from($item),
                 'code_interpreter_call' => OutputCodeInterpreterToolCall::from($item),
                 'local_shell_call' => OutputLocalShellCall::from($item),
-                // todo
-                // custom_tool_call
+                'custom_tool_call' => OutputCustomToolCall::from($item),
             },
             $outputItems,
         );

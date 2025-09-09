@@ -10,7 +10,7 @@ test('from', function () {
         ->toBeInstanceOf(ListInputItems::class)
         ->object->toBe('list')
         ->data->toBeArray()
-        ->data->toHaveCount(11)
+        ->data->toHaveCount(12)
         ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->lastId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->hasMore->toBeFalse()

@@ -9,6 +9,7 @@ use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
 use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
+use OpenAI\Responses\Responses\Output\OutputCustomToolCall;
 use OpenAI\Responses\Responses\Output\OutputFileSearchToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputImageGenerationToolCall;
@@ -36,9 +37,10 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputImageGenerationToolCallType from OutputImageGenerationToolCall
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputLocalShellCallType from OutputLocalShellCall
+ * @phpstan-import-type OutputCustomToolCallType from OutputCustomToolCall
  *
- * @phpstan-type ResponseItemObjectTypes array<int, InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType>
- * @phpstan-type ResponseItemObjectReturnType array<int, InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall>
+ * @phpstan-type ResponseItemObjectTypes array<int, InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType>
+ * @phpstan-type ResponseItemObjectReturnType array<int, InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall>
  */
 final class ItemObjects
 {
@@ -49,7 +51,7 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall => match ($item['type']) {
+            fn (array $item): InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall => match ($item['type']) {
                 'message' => $item['role'] === 'assistant' ? OutputMessage::from($item) : InputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -64,6 +66,7 @@ final class ItemObjects
                 'image_generation_call' => OutputImageGenerationToolCall::from($item),
                 'code_interpreter_call' => OutputCodeInterpreterToolCall::from($item),
                 'local_shell_call' => OutputLocalShellCall::from($item),
+                'custom_tool_call' => OutputCustomToolCall::from($item),
                 // todo
                 // local_shell_call_output
                 // mcp_approval_response

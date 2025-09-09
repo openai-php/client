@@ -227,6 +227,7 @@ function listInputItemsResource(): array
             outputReasoning(),
             outputCodeInterpreterToolCall(),
             outputLocalShellCall(),
+            outputCustomToolCall(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -590,6 +591,20 @@ function outputLocalShellCall(): array
             'working_directory' => '/var/www',
         ],
         'status' => 'completed',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputCustomToolCall(): array
+{
+    return [
+        'type' => 'custom_tool_call',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'input' => 'ls -l',
+        'name' => 'my_custom_tool',
+        'id' => 'ct_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
     ];
 }
 
