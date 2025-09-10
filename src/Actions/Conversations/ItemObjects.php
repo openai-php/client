@@ -6,6 +6,7 @@ namespace OpenAI\Actions\Conversations;
 
 use OpenAI\Responses\Conversations\Objects\Message;
 use OpenAI\Responses\Responses\Input\ComputerToolCallOutput;
+use OpenAI\Responses\Responses\Input\CustomToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
 use OpenAI\Responses\Responses\Input\LocalShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
@@ -26,6 +27,7 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type ComputerToolCallOutputType from ComputerToolCallOutput
  * @phpstan-import-type FunctionToolCallOutputType from FunctionToolCallOutput
  * @phpstan-import-type LocalShellCallOutputType from LocalShellCallOutput
+ * @phpstan-import-type CustomToolCallOutputType from CustomToolCallOutput
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
@@ -39,9 +41,9 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputLocalShellCallType from OutputLocalShellCall
  * @phpstan-import-type OutputCustomToolCallType from OutputCustomToolCall
  *
- * @phpstan-type ItemObjectTypes MessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|LocalShellCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType
+ * @phpstan-type ItemObjectTypes MessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|LocalShellCallOutputType|CustomToolCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType
  * @phpstan-type ConversationItemObjectTypes array<int, ItemObjectTypes>
- * @phpstan-type ConversationItemObjectReturnType array<int, Message|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall>
+ * @phpstan-type ConversationItemObjectReturnType array<int, Message|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|CustomToolCallOutput>
  */
 final class ItemObjects
 {
@@ -52,7 +54,7 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): Message|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall => match ($item['type']) {
+            fn (array $item): Message|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|CustomToolCallOutput => match ($item['type']) {
                 'message' => Message::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -69,9 +71,9 @@ final class ItemObjects
                 'local_shell_call' => OutputLocalShellCall::from($item),
                 'custom_tool_call' => OutputCustomToolCall::from($item),
                 'local_shell_call_output' => LocalShellCallOutput::from($item),
+                'custom_tool_call_output' => CustomToolCallOutput::from($item),
                 // todo
                 // mcp_approval_response
-                // custom_tool_call_output
             },
             $outputItems,
         );

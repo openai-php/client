@@ -283,6 +283,19 @@ function localShellCallOutputItem(): array
 /**
  * @return array<string, mixed>
  */
+function customToolCallOutputItem(): array
+{
+    return [
+        'type' => 'custom_tool_call_output',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'cto_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => 'custom-output',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputFileSearchToolCall(): array
 {
     return [
