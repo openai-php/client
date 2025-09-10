@@ -217,6 +217,7 @@ function listInputItemsResource(): array
         'object' => 'list',
         'data' => [
             inputMessage(),
+            localShellCallOutputItem(),
             outputBasicMessage(),
             outputAnnotationMessage(),
             outputMessageOnlyRefusal(),
@@ -263,6 +264,19 @@ function inputMessage(): array
         'role' => 'user',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function localShellCallOutputItem(): array
+{
+    return [
+        'type' => 'local_shell_call_output',
+        'id' => 'lco_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => 'hello',
+        'status' => 'completed',
     ];
 }
 
