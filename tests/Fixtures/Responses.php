@@ -296,6 +296,20 @@ function customToolCallOutputItem(): array
 /**
  * @return array<string, mixed>
  */
+function mcpApprovalResponseItem(): array
+{
+    return [
+        'type' => 'mcp_approval_response',
+        'id' => 'mar_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'approval_request_id' => 'apr_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'approve' => true,
+        'reason' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputFileSearchToolCall(): array
 {
     return [
