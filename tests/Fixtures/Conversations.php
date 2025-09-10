@@ -22,13 +22,16 @@ function conversationDeletedResource(): array
 function conversationItemResource(): array
 {
     return [
-        'type' => 'message',
-        'id' => 'msg_abc',
-        'status' => 'completed',
-        'role' => 'user',
         'content' => [
-            ['type' => 'input_text', 'text' => 'Hello!'],
+            [
+                'text' => 'Hello!',
+                'type' => 'input_text',
+            ],
         ],
+        'id' => 'msg_abc',
+        'role' => 'user',
+        'status' => 'completed',
+        'type' => 'message',
     ];
 }
 

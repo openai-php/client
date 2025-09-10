@@ -7,8 +7,6 @@ use OpenAI\Responses\Conversations\ConversationResponse;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\ValueObjects\Transporter\Response;
 
-// Create conversation
-
 test('responses.conversations create', function () {
     $client = mockClient('POST', 'conversations', [
         'metadata' => ['topic' => 'demo'],
@@ -43,8 +41,6 @@ test('responses.conversations create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-// Retrieve conversation
-
 test('responses.conversations retrieve', function () {
     $client = mockClient('GET', 'conversations/conv_123', [], Response::from(conversationResource(), metaHeaders()));
 
@@ -54,8 +50,6 @@ test('responses.conversations retrieve', function () {
         ->toBeInstanceOf(ConversationResponse::class)
         ->id->toBe('conv_123');
 });
-
-// Update conversation
 
 test('responses.conversations update', function () {
     $client = mockClient('POST', 'conversations/conv_123', [
@@ -71,8 +65,6 @@ test('responses.conversations update', function () {
         ->id->toBe('conv_123');
 });
 
-// Delete conversation
-
 test('responses.conversations delete', function () {
     $client = mockClient('DELETE', 'conversations/conv_123', [], Response::from(conversationDeletedResource(), metaHeaders()));
 
@@ -87,8 +79,6 @@ test('responses.conversations delete', function () {
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
 });
-
-// Create items
 
 test('responses.conversations.items create', function () {
     $client = mockClient('POST', 'conversations/conv_123/items', [
@@ -134,8 +124,6 @@ test('responses.conversations.items create', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
-// List items with params
-
 test('responses.conversations.items list', function () {
     $client = mockClient('GET', 'conversations/conv_123/items', [
         'limit' => 10,
@@ -150,8 +138,6 @@ test('responses.conversations.items list', function () {
         ->object->toBe('list');
 });
 
-// Retrieve item with include
-
 test('responses.conversations.items retrieve', function () {
     $client = mockClient('GET', 'conversations/conv_123/items/msg_abc', [
         'include' => ['step_details'],
@@ -165,8 +151,6 @@ test('responses.conversations.items retrieve', function () {
         ->toBeInstanceOf(ConversationItem::class)
         ->item->id->toBe('msg_abc');
 });
-
-// Delete item returns updated conversation
 
 test('responses.conversations.items delete', function () {
     $client = mockClient('DELETE', 'conversations/conv_123/items/msg_abc', [], Response::from(conversationResource(), metaHeaders()));
