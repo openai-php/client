@@ -30,8 +30,8 @@ If you or your business relies on this package, it's important to support the de
 - [Usage](#usage)
   - [Models Resource](#models-resource)
   - [Responses Resource](#responses-resource)
-  - [Responses Conversations Resource](#responses-conversations-resource)
-  - [Responses Conversations Items Resource](#responses-conversations-items-resource)
+  - [Conversations Resource](#conversations-resource)
+  - [Conversations Items Resource](#conversations-items-resource)
   - [Containers Resource](#containers-resource)
   - [Containers Files Resource](#containers-files-resource)
   - [Chat Resource](#chat-resource)
@@ -379,7 +379,7 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'conv_123', 'object' => 'conversation.deleted', 'deleted' => true]
 ```
 
-### `Responses Conversations Items` Resource
+### `Conversations Items` Resource
 
 #### `create`
 
@@ -389,25 +389,14 @@ Create items for a conversation.
 $response = $client->conversations()->items()->create('conv_123', [
     'items' => [
         [
-            'type' => 'message',
-            'role' => 'user',
-            'content' => [['type' => 'input_text', 'text' => 'Hello!']],
-        ],
-        [
-            'type' => 'message',
-            'role' => 'user',
-            'content' => [['type' => 'input_text', 'text' => 'How are you?']],
+            'role' => 'system',
+            'content' => 'Refer to me as PHPBot.',
         ],
     ],
 ]);
 
-$response->object; // 'list'
-
-foreach ($response->data as $item) {
-    $item->type; // 'message'
-    $item->id; // 'msg_abc'
-    $item->status; // 'completed'
-    $item->role; // 'user'
+foreach ($response->data as $listItem) {
+    $listItem->item; // The created item (e.g., message)
 }
 
 $response->firstId; // 'msg_abc'
