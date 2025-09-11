@@ -162,11 +162,13 @@ final class HttpTransporter implements TransporterContract
         }
 
         try {
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $data */
+            /** @var array{error?: string|array{message: string|array<int, string>, type: string, code: string}} $data */
             $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
+            // As shown in #681 - we can have a double nested error object of data.error.error or data.error.
             if (isset($data['error'])) {
-                throw new ErrorException($data['error'], $response);
+                $errorPayload = is_string($data['error']) ? ['message' => $data['error']] : $data['error'];
+                throw new ErrorException($errorPayload, $response);
             }
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException, $response);
