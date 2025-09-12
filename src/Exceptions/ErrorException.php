@@ -22,7 +22,7 @@ final class ErrorException extends Exception
 
         // Errors can be a string or an object with message, type, and code
         $contents = is_string($contents) ? ['message' => $contents] : $contents;
-        $message = ($contents['message'] ?? null) ?: (string) ($this->contents['code'] ?? null) ?: 'Unknown error';
+        $message = ($contents['message'] ?? null) ?: (string) ($contents['code'] ?? null) ?: 'Unknown error';
 
         if (is_array($message)) {
             $message = implode(PHP_EOL, $message);
