@@ -64,4 +64,9 @@ interface ResponsesContract
      * @param  array<string, mixed>  $parameters
      */
     public function list(string $id, array $parameters = []): ListInputItems;
+
+    /**
+     * Manage conversations as a sub-resource of Responses namespace for convenience in tests.
+     */
+    public function conversations(): ConversationsContract;
 }

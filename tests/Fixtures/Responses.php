@@ -217,6 +217,7 @@ function listInputItemsResource(): array
         'object' => 'list',
         'data' => [
             inputMessage(),
+            localShellCallOutputItem(),
             outputBasicMessage(),
             outputAnnotationMessage(),
             outputMessageOnlyRefusal(),
@@ -226,6 +227,8 @@ function listInputItemsResource(): array
             outputComputerToolCall(),
             outputReasoning(),
             outputCodeInterpreterToolCall(),
+            outputLocalShellCall(),
+            outputCustomToolCall(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -261,6 +264,46 @@ function inputMessage(): array
         'role' => 'user',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function localShellCallOutputItem(): array
+{
+    return [
+        'type' => 'local_shell_call_output',
+        'id' => 'lco_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => 'hello',
+        'status' => 'completed',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function customToolCallOutputItem(): array
+{
+    return [
+        'type' => 'custom_tool_call_output',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'cto_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => 'custom-output',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function mcpApprovalResponseItem(): array
+{
+    return [
+        'type' => 'mcp_approval_response',
+        'id' => 'mar_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'approval_request_id' => 'apr_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'approve' => true,
+        'reason' => null,
     ];
 }
 
@@ -568,6 +611,41 @@ function outputMessageOnlyRefusal(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputLocalShellCall(): array
+{
+    return [
+        'type' => 'local_shell_call',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'lc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'action' => [
+            'command' => ['echo', 'hello'],
+            'env' => ['FOO=bar'],
+            'type' => 'exec',
+            'timeout_ms' => 1000,
+            'user' => 'www-data',
+            'working_directory' => '/var/www',
+        ],
+        'status' => 'completed',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputCustomToolCall(): array
+{
+    return [
+        'type' => 'custom_tool_call',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'input' => 'ls -l',
+        'name' => 'my_custom_tool',
+        'id' => 'ct_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
     ];
 }
 
