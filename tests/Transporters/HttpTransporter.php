@@ -190,6 +190,50 @@ test('error code may be integer', function (string $requestMethod) {
         });
 })->with('request methods');
 
+test('error code may be string for no permission', function (string $requestMethod) {
+    $payload = Payload::create('completions', ['model' => 'gpt-42']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => 'You have insufficient permissions for this operation. Missing scopes: api.model.read',
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('You have insufficient permissions for this operation. Missing scopes: api.model.read')
+                ->and($e->getErrorMessage())->toBe('You have insufficient permissions for this operation. Missing scopes: api.model.read')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBeNull();
+        });
+})->with('request methods');
+
+test('error code may have only message', function (string $requestMethod) {
+    $payload = Payload::create('completions', ['model' => 'gpt-42']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'The engine is currently overloaded, please try again later',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('The engine is currently overloaded, please try again later')
+                ->and($e->getErrorMessage())->toBe('The engine is currently overloaded, please try again later')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBeNull();
+        });
+})->with('request methods');
+
 test('error type may be null on 429', function (string $requestMethod) {
     $payload = Payload::list('models');
 
