@@ -76,6 +76,22 @@ test('from with usage', function () {
         ->usage->inputTokensDetails->imageTokens->toBe(40);
 });
 
+test('from with doubao subset usage', function () {
+    $response = CreateResponse::from(imageCreateWithDoubaoUsage(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->created->toBe(1664136088)
+        ->data->toBeArray()->toHaveCount(1)
+        ->data->each->toBeInstanceOf(CreateResponseData::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeInstanceOf(ImageResponseUsage::class)
+        ->usage->totalTokens->toBe(100)
+        ->usage->inputTokens->toBeNull()
+        ->usage->outputTokens->toBe(50)
+        ->usage->inputTokensDetails->toBeNull();
+});
+
 test('to array with usage', function () {
     $response = CreateResponse::from(imageCreateWithUsage(), meta());
 

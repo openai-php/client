@@ -76,6 +76,21 @@ test('from with usage', function () {
         ->usage->inputTokensDetails->imageTokens->toBe(40);
 });
 
+test('from with doubao usage', function () {
+    $response = EditResponse::from(imageEditWithDoubaoUsage(), meta());
+
+    expect($response)
+        ->toBeInstanceOf(EditResponse::class)
+        ->created->toBe(1664136088)
+        ->data->toBeArray()->toHaveCount(1)
+        ->data->each->toBeInstanceOf(EditResponseData::class)
+        ->meta()->toBeInstanceOf(MetaInformation::class)
+        ->usage->toBeInstanceOf(ImageResponseUsage::class)
+        ->usage->totalTokens->toBe(100)
+        ->usage->outputTokens->toBe(50)
+        ->usage->inputTokensDetails->toBeNull();
+});
+
 test('to array with usage', function () {
     $response = EditResponse::from(imageEditWithUsage(), meta());
 
