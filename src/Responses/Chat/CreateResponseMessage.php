@@ -20,6 +20,7 @@ final class CreateResponseMessage
         public readonly array $toolCalls,
         public readonly ?CreateResponseFunctionCall $functionCall,
         public readonly ?CreateResponseChoiceAudio $audio = null,
+        public readonly ?array $image = null,
     ) {}
 
     /**
@@ -42,6 +43,7 @@ final class CreateResponseMessage
             $toolCalls,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
             isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
+            $attributes['image'] ?? null,
         );
     }
 
