@@ -10,8 +10,9 @@ namespace OpenAI\Responses\Chat;
 final class CreateResponseMessage
 {
     /**
-     * @param  array<int, CreateResponseToolCall>  $toolCalls
-     * @param  array<int, CreateResponseChoiceAnnotations>  $annotations
+     * @param array<int, CreateResponseToolCall> $toolCalls
+     * @param array<int, CreateResponseChoiceAnnotations> $annotations
+     * @param array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>|null $images
      */
     private function __construct(
         public readonly string $role,
@@ -19,12 +20,12 @@ final class CreateResponseMessage
         public readonly array $annotations,
         public readonly array $toolCalls,
         public readonly ?CreateResponseFunctionCall $functionCall,
-        public readonly ?CreateResponseChoiceAudio $audio = null,
-        public readonly ?array $image = null,
+        public readonly ?CreateResponseChoiceAudio  $audio = null,
+        public readonly ?array $images = null,
     ) {}
 
     /**
-     * @param  array{role: string, content: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call: ?array{name: string, arguments: string}, tool_calls: ?array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType}  $attributes
+     * @param array{role: string, content: ?string,annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>,function_call?: array{name: string, arguments: string},tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>,audio?: array{id: string, data: string, expires_at: int, transcript: string},images?: array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>,} $attributes
      */
     public static function from(array $attributes): self
     {
@@ -43,7 +44,7 @@ final class CreateResponseMessage
             $toolCalls,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
             isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
-            $attributes['image'] ?? null,
+            $attributes['images'] ?? null,
         );
     }
 
