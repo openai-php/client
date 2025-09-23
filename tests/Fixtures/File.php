@@ -45,6 +45,9 @@ function fileListResource(): array
             fileResource(),
             fileResource(),
         ],
+        'first_id' => 'file-XjGxS3KTG0uNmNOK362iJua3',
+        'last_id' => 'file-XjGxS3KTG0uNmNOK362iJua3',
+        'has_more' => false,
     ];
 }
 

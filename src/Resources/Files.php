@@ -25,7 +25,7 @@ final class Files implements FilesContract
     {
         $payload = Payload::list('files', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: ?bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListResponse::from($response->data(), $response->meta());
