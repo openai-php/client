@@ -18,6 +18,11 @@ use Psr\Http\Message\ResponseInterface;
 interface TransporterContract
 {
     /**
+     * Adds a custom header that will be included in all subsequent requests.
+     */
+    public function addHeader(string $name, string $value): self;
+
+    /**
      * Sends a request to a server expecting an object back.
      *
      * @return Response<array<array-key, mixed>>

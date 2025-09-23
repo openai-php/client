@@ -16,6 +16,11 @@ function mockClient(string $method, string $resource, array $params, Response|Ad
     $transporter = Mockery::mock(TransporterContract::class);
 
     $transporter
+        ->shouldReceive('addHeader')
+        ->zeroOrMoreTimes()
+        ->andReturnSelf();
+
+    $transporter
         ->shouldReceive($methodName)
         ->once()
         ->withArgs(function (Payload $payload) use ($validateParams, $method, $resource, $params) {

@@ -34,11 +34,21 @@ final class HttpTransporter implements TransporterContract
     public function __construct(
         private readonly ClientInterface $client,
         private readonly BaseUri $baseUri,
-        private readonly Headers $headers,
+        private Headers $headers,
         private readonly QueryParams $queryParams,
         private readonly Closure $streamHandler,
     ) {
         // ..
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addHeader(string $name, string $value): self
+    {
+        $this->headers = $this->headers->withCustomHeader($name, $value);
+
+        return $this;
     }
 
     /**

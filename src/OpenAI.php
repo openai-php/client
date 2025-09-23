@@ -16,7 +16,6 @@ final class OpenAI
             ->withApiKey($apiKey)
             ->withOrganization($organization)
             ->withProject($project)
-            ->withHttpHeader('OpenAI-Beta', 'assistants=v2')
             ->make();
     }
 
