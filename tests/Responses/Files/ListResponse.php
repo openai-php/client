@@ -12,6 +12,9 @@ test('from', function () {
         ->object->toBe('list')
         ->data->toBeArray()->toHaveCount(2)
         ->data->each->toBeInstanceOf(RetrieveResponse::class)
+        ->firstId->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->lastId->toBe('file-XjGxS3KTG0uNmNOK362iJua3')
+        ->hasMore->toBeFalse()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
