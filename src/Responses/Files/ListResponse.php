@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: ?bool}>
  */
 final class ListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: bool}>
      */
     use ArrayAccessible;
 
@@ -30,13 +30,16 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
     private function __construct(
         public readonly string $object,
         public readonly array $data,
+        public readonly ?string $firstId,
+        public readonly ?string $lastId,
+        public readonly bool $hasMore,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: ?bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -46,9 +49,12 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
         ), $attributes['data']);
 
         return new self(
-            $attributes['object'],
-            $data,
-            $meta,
+            object: $attributes['object'],
+            data: $data,
+            firstId: $attributes['first_id'] ?? null,
+            lastId: $attributes['last_id'] ?? null,
+            hasMore: $attributes['has_more'] ?? false,
+            meta: $meta,
         );
     }
 
@@ -63,6 +69,9 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
                 static fn (RetrieveResponse $response): array => $response->toArray(),
                 $this->data,
             ),
+            'first_id' => $this->firstId,
+            'last_id' => $this->lastId,
+            'has_more' => $this->hasMore,
         ];
     }
 }
