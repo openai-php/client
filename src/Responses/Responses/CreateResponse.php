@@ -129,12 +129,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             incompleteDetails: isset($attributes['incomplete_details'])
                 ? CreateResponseIncompleteDetails::from($attributes['incomplete_details'])
                 : null,
-            instructions: $attributes['instructions'],
+            instructions: $attributes['instructions'] ?? null,
             maxToolCalls: $attributes['max_tool_calls'] ?? null,
             maxOutputTokens: $attributes['max_output_tokens'],
             model: $attributes['model'],
             output: $output,
-            outputText: OutputText::parse($output),
+            outputText: isset($output)
+                ? OutputText::parse($output)
+                : null,
             parallelToolCalls: $attributes['parallel_tool_calls'],
             previousResponseId: $attributes['previous_response_id'],
             prompt: isset($attributes['prompt'])
@@ -155,7 +157,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             tools: $tools,
             topLogProbs: $attributes['top_logprobs'] ?? null,
             topP: $attributes['top_p'],
-            truncation: $attributes['truncation'],
+            truncation: $attributes['truncation'] ?? null,
             usage: isset($attributes['usage'])
                 ? CreateResponseUsage::from($attributes['usage'])
                 : null,
