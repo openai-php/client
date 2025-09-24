@@ -602,3 +602,25 @@ test('request stream server errors', function () {
                 ->and($e->getErrorType())->toBe('invalid_request_error');
         });
 });
+
+test('addHeader does not blow out headers when adding one', function () {
+    $payload = Payload::list('models');
+
+    $this->http->addHeader('X-Test', '1');
+
+    $response = new Response(200, ['Content-Type' => 'application/json; charset=utf-8', ...metaHeaders()], json_encode(['ok' => true]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->withArgs(function (Psr7Request $request) {
+            expect($request->getHeaderLine('Authorization'))->toBe('Bearer foo')
+                ->and($request->getHeaderLine('Content-Type'))->toBe('application/json')
+                ->and($request->getHeaderLine('X-Test'))->toBe('1');
+
+            return true;
+        })
+        ->andReturn($response);
+
+    $this->http->requestObject($payload);
+});
