@@ -12,7 +12,7 @@ final class CreateResponseMessage
     /**
      * @param  array<int, CreateResponseToolCall>  $toolCalls
      * @param  array<int, CreateResponseChoiceAnnotations>  $annotations
-     * @param  array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>|null  $images
+     * @param  array<int, CreateResponseChoiceImage>|null  $images
      */
     private function __construct(
         public readonly string $role,
@@ -37,6 +37,10 @@ final class CreateResponseMessage
             $result,
         ), $attributes['annotations'] ?? []);
 
+        $images = isset($attributes['images']) ? array_map(fn (array $result): CreateResponseChoiceImage => CreateResponseChoiceImage::from(
+            $result
+        ), $attributes['images']) : null;
+
         return new self(
             $attributes['role'],
             $attributes['content'] ?? null,
@@ -44,12 +48,12 @@ final class CreateResponseMessage
             $toolCalls,
             isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
             isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
-            $attributes['images'] ?? null,
+            $images,
         );
     }
 
     /**
-     * @return array{role: string, content: string|null, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType}
+     * @return array{role: string, content: string|null, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>}
      */
     public function toArray(): array
     {
@@ -72,6 +76,10 @@ final class CreateResponseMessage
 
         if ($this->audio instanceof CreateResponseChoiceAudio) {
             $data['audio'] = $this->audio->toArray();
+        }
+
+        if ($this->images !== null && $this->images !== []) {
+            $data['images'] = array_map(fn (CreateResponseChoiceImage $image): array => $image->toArray(), $this->images);
         }
 
         return $data;
