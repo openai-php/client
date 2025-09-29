@@ -23,7 +23,7 @@ final class CreateResponseChoiceImage implements ResponseContract
     use Fakeable;
 
     /**
-     * @param array{url: string, detail: string} $imageUrl
+     * @param  array{url: string, detail: string}  $imageUrl
      */
     private function __construct(
         public readonly array $imageUrl,
