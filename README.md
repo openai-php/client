@@ -212,6 +212,50 @@ $response->usage->totalTokens; // 123
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 ```
 
+Create a model response with a function tool.
+
+```php
+$response = $client->responses()->create([
+    'model' => 'gpt-4o-mini',
+    'tools' => [
+        [
+            'type' => 'function',
+            'name' => 'get_temperature',
+            'description' => 'Get the current temperature in a given location',
+            'parameters' => [
+                'type' => 'object',
+                'properties' => [
+                    'location' => [
+                        'type' => 'string',
+                        'description' => 'The city and state, e.g. San Francisco, CA',
+                    ],
+                    'unit' => [
+                        'type' => 'string',
+                        'enum' => ['celsius', 'fahrenheit'],
+                    ],
+                ],
+                'required' => ['location'],
+            ],
+        ]
+    ],
+    'input' => "What is the temperature in Rio Grande do Norte, Brazil?",
+]);
+
+foreach ($response->output as $item) {
+    if ($item->type === 'function_call') {
+        $name = $item->name ?? null;
+        $args = json_decode($item->arguments ?? '{}', true) ?: [];
+
+        if ($name === 'get_temperature') {
+            // ✅ Call your custom function here with the extracted arguments
+            // Example:
+            // $temperature = get_temperature($args['location'], $args['unit'] ?? 'celsius');
+            // Then, send the result back to the model if needed.
+        }
+    }
+}
+```
+
 #### `create streamed`
 
 When you create a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses-streaming).
@@ -310,55 +354,6 @@ $response->lastId; // 'msg_680bf4e8c1948192b64abf0bad54b30806e0834f49400fc3'
 $response->hasMore; // false
 
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
-```
-
-#### `function tool`
-
-The Function Tool allows you to extend the model’s capabilities by defining custom functions it can call when needed.
-This is useful when you want the model to fetch data, trigger actions, or integrate with your own APIs.
-
-Below is a simple example of how to define and use a function tool in PHP:
-
-```php
-$response = $client->responses()->create([
-    'model' => 'gpt-4o-mini',
-    'tools' => [
-        [
-            'type' => 'function',
-            'name' => 'get_temperature',
-            'description' => 'Get the current temperature in a given location',
-            'parameters' => [
-                'type' => 'object',
-                'properties' => [
-                    'location' => [
-                        'type' => 'string',
-                        'description' => 'The city and state, e.g. San Francisco, CA',
-                    ],
-                    'unit' => [
-                        'type' => 'string',
-                        'enum' => ['celsius', 'fahrenheit'],
-                    ],
-                ],
-                'required' => ['location'],
-            ],
-        ]
-    ],
-    'input' => "What is the temperature in Rio Grande do Norte, Brazil?",
-]);
-
-foreach ($response->output as $item) {
-    if ($item->type === 'function_call') {
-        $name = $item->name ?? null;
-        $args = json_decode($item->arguments ?? '{}', true) ?: [];
-
-        if ($name === 'get_temperature') {
-            // ✅ Call your custom function here with the extracted arguments
-            // Example:
-            // $temperature = get_temperature($args['location'], $args['unit'] ?? 'celsius');
-            // Then, send the result back to the model if needed.
-        }
-    }
-}
 ```
 
 ### `Conversations` Resource
