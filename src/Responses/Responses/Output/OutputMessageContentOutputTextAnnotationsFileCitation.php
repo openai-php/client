@@ -9,14 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FileCitationType array{file_id: string, index: int, type: 'file_citation'}
+ * @phpstan-type FileCitationType array{file_id: string, filename: string, index: int, type: 'file_citation'}
  *
  * @implements ResponseContract<FileCitationType>
  */
 final class OutputMessageContentOutputTextAnnotationsFileCitation implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{file_id: string, index: int, type: 'file_citation'}>
+     * @use ArrayAccessible<array{file_id: string, filename: string, index: int, type: 'file_citation'}>
      */
     use ArrayAccessible;
 
@@ -27,17 +27,19 @@ final class OutputMessageContentOutputTextAnnotationsFileCitation implements Res
      */
     private function __construct(
         public readonly string $fileId,
+        public readonly string $filename,
         public readonly int $index,
         public readonly string $type,
     ) {}
 
     /**
-     * @param  array{file_id: string, index: int, type: 'file_citation'}  $attributes
+     * @param  array{file_id: string, filename: string, index: int, type: 'file_citation'}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             fileId: $attributes['file_id'],
+            filename: $attributes['filename'],
             index: $attributes['index'],
             type: $attributes['type'],
         );
@@ -50,6 +52,7 @@ final class OutputMessageContentOutputTextAnnotationsFileCitation implements Res
     {
         return [
             'file_id' => $this->fileId,
+            'filename' => $this->filename,
             'index' => $this->index,
             'type' => $this->type,
         ];
