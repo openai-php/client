@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.17.0 (2025-10-02)
+### Added
+
+* Add Conversation API ([#658](https://github.com/openai-php/client/pull/658))
+
+### Fixed
+
+* Handle object/string error responses with robust `ErrorException` ([#682](https://github.com/openai-php/client/pull/682))
+* Increase nullability on Doubao image usage types ([#684](https://github.com/openai-php/client/pull/684))
+* Add missing pagination fields to `files.list` ([#687](https://github.com/openai-php/client/pull/687))
+* Fix undefined array key errors for xAI Responses API ([#689](https://github.com/openai-php/client/pull/689))
+* Prevent registration of beta headers on all requests ([#688](https://github.com/openai-php/client/pull/688))
+
+### Changed
+
+* Deprecate Assistants API officially ([#679](https://github.com/openai-php/client/pull/679))
+
 # v0.16.1 (2025-09-04)
 ### Added
 
