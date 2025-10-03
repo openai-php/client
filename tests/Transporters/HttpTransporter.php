@@ -624,3 +624,53 @@ test('addHeader does not blow out headers when adding one', function () {
 
     $this->http->requestObject($payload);
 });
+
+test('error for gemini with invalid parameter', function (string $requestMethod) {
+    $payload = Payload::create('completions', [
+        'model' => 'gemini-2.5-flash',
+        'messages' => [
+            [
+                'role' => 'system',
+                'content' => 'You can use tools if needed.',
+            ],
+            [
+                'role' => 'user',
+                'content' => 'Yo',
+            ],
+        ],
+        'ddd' => 'auto',
+    ]);
+
+    $response = new Response(400, ['Content-Type' => 'application/json; charset=utf-8'], json_encode(
+        [[
+            'error' => [
+                'code' => 400,
+                'message' => 'Invalid JSON payload received. Unknown name "ddd": Cannot find field.',
+                'status' => 'INVALID_ARGUMENT',
+                'details' => [
+                    [
+                        '@type' => 'type.googleapis.com/google.rpc.BadRequest',
+                        'fieldViolations' => [
+                            [
+                                'description' => 'Invalid JSON payload received. Unknown name "ddd": Cannot find field.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]]
+    ));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Invalid JSON payload received. Unknown name "ddd": Cannot find field.')
+                ->and($e->getErrorMessage())->toBe('Invalid JSON payload received. Unknown name "ddd": Cannot find field.')
+                ->and($e->getErrorCode())->toBe(400)
+                ->and($e->getErrorType())->toBe('INVALID_ARGUMENT');
+        });
+})->with('request methods');
