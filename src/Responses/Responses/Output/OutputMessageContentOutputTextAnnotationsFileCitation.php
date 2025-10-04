@@ -16,7 +16,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 final class OutputMessageContentOutputTextAnnotationsFileCitation implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{file_id: string, filename: string, index: int, type: 'file_citation'}>
+     * @use ArrayAccessible<FileCitationType>
      */
     use ArrayAccessible;
 
@@ -33,7 +33,7 @@ final class OutputMessageContentOutputTextAnnotationsFileCitation implements Res
     ) {}
 
     /**
-     * @param  array{file_id: string, filename: string, index: int, type: 'file_citation'}  $attributes
+     * @param  FileCitationType  $attributes
      */
     public static function from(array $attributes): self
     {
