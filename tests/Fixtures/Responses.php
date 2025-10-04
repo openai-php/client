@@ -579,6 +579,18 @@ function outputAnnotationMessage(): array
                         'type' => 'url_citation',
                         'url' => 'https://.../?utm_source=chatgpt.com',
                     ],
+                    [
+                        'file_id' => 'file-8aTRXYAhp5PbDF5R5P9Rky',
+                        'filename' => 'document.pdf',
+                        'index' => 138,
+                        'type' => 'file_citation',
+                    ],
+                    [
+                        'file_id' => 'file-9cPRXMKyn1BmDT1K9J8Xxa',
+                        'filename' => 'example-file.md',
+                        'index' => 294,
+                        'type' => 'file_citation',
+                    ],
                 ],
                 'text' => 'As of today, March 9, 2025, one notable positive news story...',
                 'type' => 'output_text',
