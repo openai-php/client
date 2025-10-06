@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FunctionToolCallOutputType array{call_id: string, id: string, output: string, type: 'function_call_output', status: 'in_progress'|'completed'|'incompleted'}
+ * @phpstan-type FunctionToolCallOutputType array{call_id: string, id: string, output: string|array, type: 'function_call_output', status: 'in_progress'|'completed'|'incompleted'}
  *
  * @implements ResponseContract<FunctionToolCallOutputType>
  */
@@ -25,11 +25,12 @@ final class FunctionToolCallOutput implements ResponseContract
     /**
      * @param  'function_call_output'  $type
      * @param  'in_progress'|'completed'|'incompleted'  $status
+     * @param  string|array  $output  Output can be a string (for text/JSON) or array (for structured content like files/images)
      */
     private function __construct(
         public readonly string $callId,
         public readonly string $id,
-        public readonly string $output,
+        public readonly string|array $output,
         public readonly string $type,
         public readonly string $status,
     ) {}
