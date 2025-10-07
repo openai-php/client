@@ -69,6 +69,47 @@ function chatCompletionOpenRouter(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionLiteLlmImage(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'created' => 1700000000,
+        'model' => 'litellm/gpt-4o-vision-preview',
+        'object' => 'chat.completion',
+        'choices' => [
+            [
+                'finish_reason' => 'stop',
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'images' => [
+                        [
+                            'image_url' => [
+                                'url' => 'data:image/png;base64,xxx',
+                                'detail' => 'auto',
+                            ],
+                            'index' => 0,
+                            'type' => 'image_url',
+                        ],
+                    ],
+                ],
+                'thinking_blocks' => [],
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 21,
+            'completion_tokens' => 36,
+            'total_tokens' => 57,
+            'prompt_tokens_details' => [
+                'cached_tokens' => 0,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionOpenRouterOpenAI(): array
 {
     return [
