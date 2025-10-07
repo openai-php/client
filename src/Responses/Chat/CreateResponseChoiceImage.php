@@ -37,9 +37,9 @@ final class CreateResponseChoiceImage implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['image_url'],
-            $attributes['index'],
-            $attributes['type'],
+            imageUrl: $attributes['image_url'],
+            index: $attributes['index'],
+            type: $attributes['type'],
         );
     }
 

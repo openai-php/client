@@ -6,6 +6,7 @@ namespace OpenAI\Responses\Chat;
 
 /**
  * @phpstan-import-type CreateResponseChoiceAudioType from CreateResponseChoiceAudio
+ * @phpstan-import-type CreateResponseChoiceImageType from CreateResponseChoiceImage
  */
 final class CreateResponseMessage
 {
@@ -25,7 +26,7 @@ final class CreateResponseMessage
     ) {}
 
     /**
-     * @param  array{role: string, content: ?string,annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>,function_call?: array{name: string, arguments: string},tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>,audio?: array{id: string, data: string, expires_at: int, transcript: string},images?: array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>,}  $attributes
+     * @param  array{role: string, content: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -37,23 +38,23 @@ final class CreateResponseMessage
             $result,
         ), $attributes['annotations'] ?? []);
 
-        $images = isset($attributes['images']) ? array_map(fn (array $result): CreateResponseChoiceImage => CreateResponseChoiceImage::from(
-            $result
-        ), $attributes['images']) : null;
+        $images = isset($attributes['images'])
+            ? array_map(fn (array $result): CreateResponseChoiceImage => CreateResponseChoiceImage::from($result), $attributes['images'])
+            : null;
 
         return new self(
-            $attributes['role'],
-            $attributes['content'] ?? null,
-            $annotations,
-            $toolCalls,
-            isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
-            isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
-            $images,
+            role: $attributes['role'],
+            content: $attributes['content'] ?? null,
+            annotations: $annotations,
+            toolCalls: $toolCalls,
+            functionCall: isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
+            audio: isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
+            images: $images,
         );
     }
 
     /**
-     * @return array{role: string, content: string|null, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, array{image_url: array{url: string, detail: string}, index: int, type: string}>}
+     * @return array{role: string, content: string|null, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}
      */
     public function toArray(): array
     {
