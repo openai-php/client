@@ -26,6 +26,17 @@ test('from (OpenRouter)', function () {
         ->completionTokensDetails->toBeNull();
 });
 
+test('from (LiteLLM)', function () {
+    $result = CreateResponseUsage::from(chatCompletionLiteLlmImage()['usage']);
+
+    expect($result)
+        ->promptTokens->toBe(21)
+        ->completionTokens->toBe(36)
+        ->totalTokens->toBe(57)
+        ->promptTokensDetails->toBeInstanceOf(CreateResponseUsagePromptTokensDetails::class)
+        ->completionTokensDetails->toBeNull();
+});
+
 test('from (OpenRouter OpenAI)', function () {
     $result = CreateResponseUsage::from(chatCompletionOpenRouterOpenAI()['usage']);
 

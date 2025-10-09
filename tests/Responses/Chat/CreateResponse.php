@@ -228,6 +228,21 @@ test('from (OpenRouter)', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from (LitemLLM)', function () {
+    $completion = CreateResponse::from(chatCompletionLiteLlmImage(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('chatcmpl-123')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1700000000)
+        ->model->toBe('litellm/gpt-4o-vision-preview')
+        ->systemFingerprint->toBeNull()
+        ->choices->toBeArray()->toHaveCount(1)
+        ->choices->each->toBeInstanceOf(CreateResponseChoice::class)
+        ->usage->toBeInstanceOf(CreateResponseUsage::class);
+});
+
 test('from (OpenRouter OpenAI)', function () {
     $completion = CreateResponse::from(chatCompletionOpenRouterOpenAI(), meta());
 
