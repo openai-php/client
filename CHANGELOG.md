@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.17.1 (2025-10-09)
+### Fixed
+* Fix missing `Open-AI-Beta` header on all Assistant related requests. ([#701](https://github.com/openai-php/client/pull/701))
+* Fix missing `filename` property on text annotation file. ([#696](https://github.com/openai-php/client/pull/701))
+
 # v0.17.0 (2025-10-02)
 ### Added
 
