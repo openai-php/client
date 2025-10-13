@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ContainerFileType array{file_id: string, type: 'container_file_citation', text?: string, start_index?: int, end_index?: int}
+ * @phpstan-type ContainerFileType array{file_id: string, filename: string, type: 'container_file_citation', text?: string, start_index?: int, end_index?: int}
  *
  * @implements ResponseContract<ContainerFileType>
  */
@@ -27,6 +27,7 @@ final class OutputMessageContentOutputTextAnnotationsContainerFile implements Re
      */
     private function __construct(
         public readonly string $fileId,
+        public readonly string $filename,
         public readonly string $type,
         public readonly ?string $text,
         public readonly ?int $startIndex,
@@ -40,6 +41,7 @@ final class OutputMessageContentOutputTextAnnotationsContainerFile implements Re
     {
         return new self(
             fileId: $attributes['file_id'],
+            filename: $attributes['filename'],
             type: $attributes['type'],
             text: $attributes['text'] ?? null,
             startIndex: $attributes['start_index'] ?? null,
@@ -54,6 +56,7 @@ final class OutputMessageContentOutputTextAnnotationsContainerFile implements Re
     {
         $result = [
             'file_id' => $this->fileId,
+            'filename' => $this->filename,
             'type' => $this->type,
         ];
 
