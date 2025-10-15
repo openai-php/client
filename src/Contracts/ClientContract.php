@@ -7,6 +7,7 @@ use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Contracts\Resources\BatchesContract;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
+use OpenAI\Contracts\Resources\ContainersContract;
 use OpenAI\Contracts\Resources\ConversationsContract;
 use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
@@ -58,6 +59,13 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/chat
      */
     public function chat(): ChatContract;
+
+    /**
+     * Create and manage containers for use with the Code Interpreter tool.
+     *
+     * @see https://platform.openai.com/docs/api-reference/containers
+     */
+    public function containers(): ContainersContract;
 
     /**
      * Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
