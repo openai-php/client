@@ -19,6 +19,22 @@ function containerFileResource(): array
 /**
  * @return array<string, mixed>
  */
+function containerFileResourceAssistant(): array
+{
+    return [
+        'id' => 'cfile_68efad3233308191ae2aea6fdc172940',
+        'object' => 'container.file',
+        'created_at' => 1760537906,
+        'bytes' => null,
+        'container_id' => 'cntr_68efad24888881938f8d8a661b5036450ac07bb92e293373',
+        'path' => '/mnt/data/dummy_risk_priority_bar_chart.png',
+        'source' => 'assistant',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function containerFileListResource(): array
 {
     return [

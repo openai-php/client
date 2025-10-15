@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ContainerFileType array{id: string, object: 'container.file', created_at: int, bytes: int, container_id: string, path: string, source: 'user'|'assistant'}
+ * @phpstan-type ContainerFileType array{id: string, object: 'container.file', created_at: int, bytes: int|null, container_id: string, path: string, source: 'user'|'assistant'}
  *
  * @implements ResponseContract<ContainerFileType>
  */
@@ -34,7 +34,7 @@ final class ContainerFileResponse implements ResponseContract, ResponseHasMetaIn
         public readonly string $id,
         public readonly string $object,
         public readonly int $createdAt,
-        public readonly int $bytes,
+        public readonly ?int $bytes,
         public readonly string $containerId,
         public readonly string $path,
         public readonly string $source,

@@ -15,6 +15,19 @@ test('from', function () {
         ->source->toBe('user');
 });
 
+test('from response with null bytes', function () {
+    $result = ContainerFileResponse::from(containerFileResourceAssistant(), meta());
+
+    expect($result)
+        ->id->toBe('cfile_68efad3233308191ae2aea6fdc172940')
+        ->object->toBe('container.file')
+        ->createdAt->toBe(1760537906)
+        ->bytes->toBeNull()
+        ->containerId->toBe('cntr_68efad24888881938f8d8a661b5036450ac07bb92e293373')
+        ->path->toBe('/mnt/data/dummy_risk_priority_bar_chart.png')
+        ->source->toBe('assistant');
+});
+
 test('as array accessible', function () {
     $result = ContainerFileResponse::from(containerFileResource(), meta());
 
