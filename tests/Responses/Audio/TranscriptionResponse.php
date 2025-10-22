@@ -37,6 +37,23 @@ test('from verbose json', function () {
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
+test('from diarized json', function () {
+    $transcription = TranscriptionResponse::from(audioTranscriptionDiarizedJson(), meta());
+
+    expect($transcription)
+        ->toBeInstanceOf(TranscriptionResponse::class)
+        ->task->toBe('transcribe')
+        ->language->toBe('english')
+        ->duration->toBe(2.95)
+        ->segments->toBeArray()
+        ->segments->toHaveCount(1)
+        ->segments->each->toBeInstanceOf(TranscriptionResponseSegment::class)
+        ->words->toBeArray()
+        ->words->toHaveCount(0)
+        ->text->toBe('Hello, how are you?')
+        ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
 test('from text', function () {
     $transcription = TranscriptionResponse::from(audioTranscriptionText(), meta());
 

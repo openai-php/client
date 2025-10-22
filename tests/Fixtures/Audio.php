@@ -12,10 +12,10 @@ function audioTranscriptionVerboseJson(): array
         'segments' => [
             [
                 'id' => 0,
-                'seek' => 0,
                 'start' => 0.0,
                 'end' => 4.0,
                 'text' => ' Hello, how are you?',
+                'seek' => 0,
                 'tokens' => [
                     50364,
                     2425,
@@ -53,6 +53,29 @@ function audioTranscriptionVerboseJson(): array
                 'word' => 'you',
                 'start' => 1.8799999952316,
                 'end' => 2.1600000858307,
+            ],
+        ],
+        'text' => 'Hello, how are you?',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function audioTranscriptionDiarizedJson(): array
+{
+    return [
+        'task' => 'transcribe',
+        'language' => 'english',
+        'duration' => 2.95,
+        'segments' => [
+            [
+                'id' => 'seg_0',
+                'start' => 0.0,
+                'end' => 4.0,
+                'text' => ' Hello, how are you?',
+                'speaker' => 'A',
+                'type' => 'transcript.text.segment',
             ],
         ],
         'text' => 'Hello, how are you?',
