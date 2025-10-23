@@ -19,6 +19,14 @@ final class RetrieveResponseFixture
                 'type' => 'web_search_call',
                 'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
                 'status' => 'completed',
+                'action' => [
+                    'type' => 'search',
+                    'query' => 'what was a positive news story from today?',
+                    'sources' => [
+                        ['type' => 'url', 'url' => 'https://example.com/news/positive-story'],
+                        ['type' => 'url', 'url' => 'https://another.example.com/related-article'],
+                    ],
+                ],
             ],
             [
                 'type' => 'message',

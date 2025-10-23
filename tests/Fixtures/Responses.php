@@ -478,6 +478,14 @@ function outputWebSearchToolCall(): array
         'id' => 'ws_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'status' => 'completed',
         'type' => 'web_search_call',
+        'action' => [
+            'type' => 'search',
+            'sources' => [
+                ['type' => 'url', 'url' => 'https://example.com/news/positive-story'],
+                ['type' => 'url', 'url' => 'https://another.example.com/related-article'],
+            ],
+            'query' => 'what was a positive news story from today?',
+        ],
     ];
 }
 
