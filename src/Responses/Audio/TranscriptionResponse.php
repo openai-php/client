@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, words: array<int, array{word: string, start: float, end: float}>, text: string}>
+ * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int|string, start: float, end: float, text: string, seek?: int, tokens?: array<int, int>, temperature?: float, avg_logprob?: float, compression_ratio?: float, no_speech_prob?: float, transient?: bool, speaker?: string, type?: string}>, words: array<int, array{word: string, start: float, end: float}>, text: string}>
  */
 final class TranscriptionResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, words: array<int, array{word: string, start: float, end: float}>, text: string}>
+     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int|string, start: float, end: float, text: string, seek?: int, tokens?: array<int, int>, temperature?: float, avg_logprob?: float, compression_ratio?: float, no_speech_prob?: float, transient?: bool, speaker?: string, type?: string}>, words: array<int, array{word: string, start: float, end: float}>, text: string}>
      */
     use ArrayAccessible;
 
@@ -41,7 +41,7 @@ final class TranscriptionResponse implements ResponseContract, ResponseHasMetaIn
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, words: array<int, array{word: string, start: float, end: float}>, text: string}|string  $attributes
+     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int|string, start: float, end: float, text: string, seek?: int, tokens?: array<int, int>, temperature?: float, avg_logprob?: float, compression_ratio?: float, no_speech_prob?: float, transient?: bool, speaker?: string, type?: string}>, words: array<int, array{word: string, start: float, end: float}>, text: string}|string  $attributes
      */
     public static function from(array|string $attributes, MetaInformation $meta): self
     {

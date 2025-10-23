@@ -19,7 +19,31 @@ test('from', function () {
         ->avgLogprob->toBe(-0.45045216878255206)
         ->compressionRatio->toBe(0.7037037037037037)
         ->noSpeechProb->toBe(0.1076972484588623)
-        ->transient->toBeFalse();
+        ->transient->toBeFalse()
+        // Test that diarization-specific properties are null
+        ->type->toBeNull()
+        ->speaker->toBeNull();
+});
+
+test('from diarized', function () {
+    $result = TranscriptionResponseSegment::from(audioTranscriptionDiarizedJson()['segments'][0]);
+
+    expect($result)
+        ->toBeInstanceOf(TranscriptionResponseSegment::class)
+        ->id->toBe('seg_0')
+        ->start->toBe(0.0)
+        ->end->toBe(4.0)
+        ->text->toBe(' Hello, how are you?')
+        ->speaker->toBe('A')
+        ->type->toBe('transcript.text.segment')
+        // Test that non-diarization-specific properties are null
+        ->tokens->toBeNull()
+        ->seek->toBeNull()
+        ->temperature->toBeNull()
+        ->avgLogprob->toBeNull()
+        ->compressionRatio->toBeNull()
+        ->noSpeechProb->toBeNull()
+        ->transient->toBeNull();
 });
 
 test('to array', function () {
