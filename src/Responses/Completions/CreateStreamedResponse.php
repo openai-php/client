@@ -28,7 +28,7 @@ final class CreateStreamedResponse implements ResponseContract
         public readonly string $object,
         public readonly int $created,
         public readonly string $model,
-        public readonly? CreateResponseUsage $usage,
+        public readonly ?CreateResponseUsage $usage,
         public readonly array $choices,
     ) {}
 
