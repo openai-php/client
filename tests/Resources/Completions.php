@@ -94,6 +94,11 @@ test('create streamed', function () {
         ->logprobs->toBe(null)
         ->finishReason->toBeNull();
 
+    $iterator = iterator_to_array($result->getIterator());
+    $last = end($iterator);
+    expect($last->usage)
+        ->toBeInstanceOf(CreateResponseUsage::class);
+
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
 });
