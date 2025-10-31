@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.18.0 (2025-10-31)
+### Added
+
+* Add support for Gemini Flash (2.5 - Nano Banana) ([#685](https://github.com/openai-php/client/pull/685))
+* Add diarized JSON response in TranscriptionResponseSegment ([#706](https://github.com/openai-php/client/pull/706))
+* Add support for actions on web_search_call ([#707](https://github.com/openai-php/client/pull/707))
+* Add usage to streamed completions ([#708](https://github.com/openai-php/client/pull/708))
+
+### Fixed
+
+* Fix missing properties on container file annotation ([#703](https://github.com/openai-php/client/pull/703))
+* Fix missing containers interface on client ([#704](https://github.com/openai-php/client/pull/704))
+* Allow bytes to be nullable on ContainerFileResponse ([#705](https://github.com/openai-php/client/pull/705))
+
 # v0.17.1 (2025-10-09)
 ### Fixed
 * Fix missing `Open-AI-Beta` header on all Assistant related requests. ([#701](https://github.com/openai-php/client/pull/701))
