@@ -27,6 +27,7 @@ final class CodeInterpreterCodeDone implements ResponseContract, ResponseHasMeta
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $code,
         public readonly string $itemId,
         public readonly int $outputIndex,
@@ -39,6 +40,7 @@ final class CodeInterpreterCodeDone implements ResponseContract, ResponseHasMeta
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             code: $attributes['code'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
@@ -52,6 +54,7 @@ final class CodeInterpreterCodeDone implements ResponseContract, ResponseHasMeta
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'code' => $this->code,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,

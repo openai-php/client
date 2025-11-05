@@ -27,6 +27,7 @@ final class WebSearchCall implements ResponseContract, ResponseHasMetaInformatio
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $itemId,
         public readonly int $outputIndex,
         private readonly MetaInformation $meta,
@@ -38,6 +39,7 @@ final class WebSearchCall implements ResponseContract, ResponseHasMetaInformatio
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             meta: $meta,
@@ -50,6 +52,7 @@ final class WebSearchCall implements ResponseContract, ResponseHasMetaInformatio
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
         ];

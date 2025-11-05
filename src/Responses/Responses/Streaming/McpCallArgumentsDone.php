@@ -27,6 +27,7 @@ final class McpCallArgumentsDone implements ResponseContract, ResponseHasMetaInf
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $sequenceNumber,
         public readonly int $outputIndex,
         public readonly string $itemId,
@@ -40,6 +41,7 @@ final class McpCallArgumentsDone implements ResponseContract, ResponseHasMetaInf
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             sequenceNumber: $attributes['sequence_number'],
             outputIndex: $attributes['output_index'],
             itemId: $attributes['item_id'],
@@ -54,6 +56,7 @@ final class McpCallArgumentsDone implements ResponseContract, ResponseHasMetaInf
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'sequence_number' => $this->sequenceNumber,
             'output_index' => $this->outputIndex,
             'item_id' => $this->itemId,

@@ -30,6 +30,7 @@ final class ReasoningSummaryPart implements ResponseContract, ResponseHasMetaInf
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly OutputReasoningSummary $part,
@@ -43,6 +44,7 @@ final class ReasoningSummaryPart implements ResponseContract, ResponseHasMetaInf
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             part: OutputReasoningSummary::from($attributes['part']),
@@ -57,6 +59,7 @@ final class ReasoningSummaryPart implements ResponseContract, ResponseHasMetaInf
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
             'part' => $this->part->toArray(),

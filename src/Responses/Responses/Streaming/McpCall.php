@@ -27,6 +27,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $sequenceNumber,
         private readonly MetaInformation $meta,
     ) {}
@@ -37,6 +38,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             sequenceNumber: $attributes['sequence_number'],
             meta: $meta,
         );
@@ -48,6 +50,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'sequence_number' => $this->sequenceNumber,
         ];
     }

@@ -27,6 +27,7 @@ final class Error implements ResponseContract, ResponseHasMetaInformationContrac
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly ?string $code,
         public readonly string $message,
         public readonly ?string $param,
@@ -39,6 +40,7 @@ final class Error implements ResponseContract, ResponseHasMetaInformationContrac
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             code: $attributes['code'],
             message: $attributes['message'],
             param: $attributes['param'],
@@ -52,6 +54,7 @@ final class Error implements ResponseContract, ResponseHasMetaInformationContrac
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'code' => $this->code,
             'message' => $this->message,
             'param' => $this->param,

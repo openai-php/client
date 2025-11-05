@@ -36,6 +36,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly OutputMessageContentOutputTextAnnotationsContainerFile|OutputMessageContentOutputTextAnnotationsFileCitation|OutputMessageContentOutputTextAnnotationsFilePath|OutputMessageContentOutputTextAnnotationsUrlCitation $annotation,
         public readonly int $annotationIndex,
         public readonly int $contentIndex,
@@ -57,6 +58,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
         };
 
         return new self(
+            type: $attributes['type'],
             annotation: $annotation,
             annotationIndex: $attributes['annotation_index'],
             contentIndex: $attributes['content_index'],
@@ -72,6 +74,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'annotation' => $this->annotation->toArray(),
             'annotation_index' => $this->annotationIndex,
             'content_index' => $this->contentIndex,

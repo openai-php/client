@@ -9,17 +9,18 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type CodeInterpreterCodeDeltaType array{delta: string, item_id: string, output_index: int}
+ * @phpstan-type ResponseType array{type: string, sequence_number: int} & CreateResponseType
  *
- * @implements ResponseContract<CodeInterpreterCodeDeltaType>
+ * @implements ResponseContract<ResponseType>
  */
-final class CodeInterpreterCodeDelta implements ResponseContract, ResponseHasMetaInformationContract
+final class Response implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<CodeInterpreterCodeDeltaType>
+     * @use ArrayAccessible<ResponseType>
      */
     use ArrayAccessible;
 
@@ -28,22 +29,20 @@ final class CodeInterpreterCodeDelta implements ResponseContract, ResponseHasMet
 
     private function __construct(
         public readonly string $type,
-        public readonly string $delta,
-        public readonly string $itemId,
-        public readonly int $outputIndex,
+        public readonly CreateResponse $response,
+        public readonly int $sequenceNumber,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * @param  CodeInterpreterCodeDeltaType  $attributes
+     * @param  ResponseType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             type: $attributes['type'],
-            delta: $attributes['delta'],
-            itemId: $attributes['item_id'],
-            outputIndex: $attributes['output_index'],
+            response: CreateResponse::from($attributes['response'], $meta),
+            sequenceNumber: $attributes['sequence_number'],
             meta: $meta,
         );
     }
@@ -55,9 +54,8 @@ final class CodeInterpreterCodeDelta implements ResponseContract, ResponseHasMet
     {
         return [
             'type' => $this->type,
-            'delta' => $this->delta,
-            'item_id' => $this->itemId,
-            'output_index' => $this->outputIndex,
+            'response' => $this->response->toArray(),
+            'sequence_number' => $this->sequenceNumber,
         ];
     }
 }

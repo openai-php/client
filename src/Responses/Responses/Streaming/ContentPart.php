@@ -32,6 +32,7 @@ final class ContentPart implements ResponseContract, ResponseHasMetaInformationC
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $contentIndex,
         public readonly string $itemId,
         public readonly int $outputIndex,
@@ -50,6 +51,7 @@ final class ContentPart implements ResponseContract, ResponseHasMetaInformationC
         };
 
         return new self(
+            type: $attributes['type'],
             contentIndex: $attributes['content_index'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
@@ -64,6 +66,7 @@ final class ContentPart implements ResponseContract, ResponseHasMetaInformationC
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'content_index' => $this->contentIndex,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,

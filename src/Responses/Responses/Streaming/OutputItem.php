@@ -50,6 +50,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $outputIndex,
         public readonly OutputMessage|OutputCodeInterpreterToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $item,
         private readonly MetaInformation $meta,
@@ -75,6 +76,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
         };
 
         return new self(
+            type: $attributes['type'],
             outputIndex: $attributes['output_index'],
             item: $item,
             meta: $meta,
@@ -87,6 +89,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'output_index' => $this->outputIndex,
             'item' => $this->item->toArray(),
         ];

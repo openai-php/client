@@ -27,6 +27,7 @@ final class ReasoningSummaryTextDelta implements ResponseContract, ResponseHasMe
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $delta,
         public readonly string $itemId,
         public readonly int $outputIndex,
@@ -40,6 +41,7 @@ final class ReasoningSummaryTextDelta implements ResponseContract, ResponseHasMe
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             delta: $attributes['delta'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
@@ -54,6 +56,7 @@ final class ReasoningSummaryTextDelta implements ResponseContract, ResponseHasMe
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'delta' => $this->delta,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,

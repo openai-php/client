@@ -27,6 +27,7 @@ final class FunctionCallArgumentsDone implements ResponseContract, ResponseHasMe
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $arguments,
         public readonly string $itemId,
         public readonly int $outputIndex,
@@ -39,6 +40,7 @@ final class FunctionCallArgumentsDone implements ResponseContract, ResponseHasMe
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             arguments: $attributes['arguments'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
@@ -52,6 +54,7 @@ final class FunctionCallArgumentsDone implements ResponseContract, ResponseHasMe
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'arguments' => $this->arguments,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
