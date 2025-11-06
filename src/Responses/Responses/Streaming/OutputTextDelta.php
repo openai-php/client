@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputTextType array{content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int}
+ * @phpstan-type OutputTextType array{type: string, content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int}
  *
  * @implements ResponseContract<OutputTextType>
  */
@@ -27,6 +27,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $contentIndex,
         public readonly string $delta,
         public readonly string $itemId,
@@ -41,6 +42,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             contentIndex: $attributes['content_index'],
             delta: $attributes['delta'],
             itemId: $attributes['item_id'],
@@ -56,6 +58,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'content_index' => $this->contentIndex,
             'delta' => $this->delta,
             'item_id' => $this->itemId,

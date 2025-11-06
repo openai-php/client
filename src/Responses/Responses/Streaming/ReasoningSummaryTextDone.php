@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningSummaryTextDoneType array{item_id: string, output_index: int, summary_index: int, text: string}
+ * @phpstan-type ReasoningSummaryTextDoneType array{type: string, item_id: string, output_index: int, summary_index: int, text: string}
  *
  * @implements ResponseContract<ReasoningSummaryTextDoneType>
  */
@@ -27,6 +27,7 @@ final class ReasoningSummaryTextDone implements ResponseContract, ResponseHasMet
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly int $summaryIndex,
@@ -40,6 +41,7 @@ final class ReasoningSummaryTextDone implements ResponseContract, ResponseHasMet
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             summaryIndex: $attributes['summary_index'],
@@ -54,6 +56,7 @@ final class ReasoningSummaryTextDone implements ResponseContract, ResponseHasMet
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
             'summary_index' => $this->summaryIndex,

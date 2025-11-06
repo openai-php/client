@@ -9,17 +9,20 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningTextDoneType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, text: string}
+ * @phpstan-import-type CreateResponseType from CreateResponse
  *
- * @implements ResponseContract<ReasoningTextDoneType>
+ * @phpstan-type ResponseType array{type: string, response: CreateResponseType, sequence_number: int}
+ *
+ * @implements ResponseContract<ResponseType>
  */
-final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInformationContract
+final class Response implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<ReasoningTextDoneType>
+     * @use ArrayAccessible<ResponseType>
      */
     use ArrayAccessible;
 
@@ -28,26 +31,20 @@ final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInform
 
     private function __construct(
         public readonly string $type,
-        public readonly int $contentIndex,
-        public readonly string $itemId,
-        public readonly int $outputIndex,
+        public readonly CreateResponse $response,
         public readonly int $sequenceNumber,
-        public readonly string $text,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * @param  ReasoningTextDoneType  $attributes
+     * @param  ResponseType  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
             type: $attributes['type'],
-            contentIndex: $attributes['content_index'],
-            itemId: $attributes['item_id'],
-            outputIndex: $attributes['output_index'],
+            response: CreateResponse::from($attributes['response'], $meta),
             sequenceNumber: $attributes['sequence_number'],
-            text: $attributes['text'],
             meta: $meta,
         );
     }
@@ -59,11 +56,8 @@ final class ReasoningTextDone implements ResponseContract, ResponseHasMetaInform
     {
         return [
             'type' => $this->type,
-            'content_index' => $this->contentIndex,
-            'item_id' => $this->itemId,
-            'output_index' => $this->outputIndex,
+            'response' => $this->response->toArray(),
             'sequence_number' => $this->sequenceNumber,
-            'text' => $this->text,
         ];
     }
 }

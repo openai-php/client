@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type McpListToolsType array{sequence_number: int, output_index: int, item_id: string}
+ * @phpstan-type McpListToolsType array{type: string, sequence_number: int, output_index: int, item_id: string}
  *
  * @implements ResponseContract<McpListToolsType>
  */
@@ -27,6 +27,7 @@ final class McpListToolsInProgress implements ResponseContract, ResponseHasMetaI
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $sequenceNumber,
         public readonly int $outputIndex,
         public readonly string $itemId,
@@ -39,6 +40,7 @@ final class McpListToolsInProgress implements ResponseContract, ResponseHasMetaI
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             sequenceNumber: $attributes['sequence_number'],
             outputIndex: $attributes['output_index'],
             itemId: $attributes['item_id'],
@@ -52,6 +54,7 @@ final class McpListToolsInProgress implements ResponseContract, ResponseHasMetaI
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'sequence_number' => $this->sequenceNumber,
             'output_index' => $this->outputIndex,
             'item_id' => $this->itemId,

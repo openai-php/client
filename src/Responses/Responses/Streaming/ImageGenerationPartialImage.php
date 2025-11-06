@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ImageGenerationPartialImageType array{output_index: int, item_id: string, sequence_number: int, partial_image_index: int, partial_image_b64: string}
+ * @phpstan-type ImageGenerationPartialImageType array{type: string, output_index: int, item_id: string, sequence_number: int, partial_image_index: int, partial_image_b64: string}
  *
  * @implements ResponseContract<ImageGenerationPartialImageType>
  */
@@ -27,6 +27,7 @@ final class ImageGenerationPartialImage implements ResponseContract, ResponseHas
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $outputIndex,
         public readonly string $itemId,
         public readonly int $sequenceNumber,
@@ -41,6 +42,7 @@ final class ImageGenerationPartialImage implements ResponseContract, ResponseHas
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             outputIndex: $attributes['output_index'],
             itemId: $attributes['item_id'],
             sequenceNumber: $attributes['sequence_number'],
@@ -56,6 +58,7 @@ final class ImageGenerationPartialImage implements ResponseContract, ResponseHas
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'output_index' => $this->outputIndex,
             'item_id' => $this->itemId,
             'sequence_number' => $this->sequenceNumber,

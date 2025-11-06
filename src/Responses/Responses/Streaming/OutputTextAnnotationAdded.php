@@ -21,7 +21,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
  * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
  *
- * @phpstan-type OutputTextAnnotationAddedType array{annotation: ContainerFileType|FileCitationType|FilePathType|UrlCitationType, annotation_index: int, content_index: int, item_id: string, output_index: int}
+ * @phpstan-type OutputTextAnnotationAddedType array{type: string, annotation: ContainerFileType|FileCitationType|FilePathType|UrlCitationType, annotation_index: int, content_index: int, item_id: string, output_index: int}
  *
  * @implements ResponseContract<OutputTextAnnotationAddedType>
  */
@@ -36,6 +36,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly OutputMessageContentOutputTextAnnotationsContainerFile|OutputMessageContentOutputTextAnnotationsFileCitation|OutputMessageContentOutputTextAnnotationsFilePath|OutputMessageContentOutputTextAnnotationsUrlCitation $annotation,
         public readonly int $annotationIndex,
         public readonly int $contentIndex,
@@ -57,6 +58,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
         };
 
         return new self(
+            type: $attributes['type'],
             annotation: $annotation,
             annotationIndex: $attributes['annotation_index'],
             contentIndex: $attributes['content_index'],
@@ -72,6 +74,7 @@ final class OutputTextAnnotationAdded implements ResponseContract, ResponseHasMe
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'annotation' => $this->annotation->toArray(),
             'annotation_index' => $this->annotationIndex,
             'content_index' => $this->contentIndex,

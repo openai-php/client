@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FileSearchCallType array{item_id: string, output_index: int}
+ * @phpstan-type FileSearchCallType array{type: string, item_id: string, output_index: int}
  *
  * @implements ResponseContract<FileSearchCallType>
  */
@@ -27,6 +27,7 @@ final class FileSearchCall implements ResponseContract, ResponseHasMetaInformati
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly string $itemId,
         public readonly int $outputIndex,
         private readonly MetaInformation $meta,
@@ -38,6 +39,7 @@ final class FileSearchCall implements ResponseContract, ResponseHasMetaInformati
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             meta: $meta,
@@ -50,6 +52,7 @@ final class FileSearchCall implements ResponseContract, ResponseHasMetaInformati
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
         ];

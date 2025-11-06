@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type McpCallType array{sequence_number: int}
+ * @phpstan-type McpCallType array{type: string, sequence_number: int}
  *
  * @implements ResponseContract<McpCallType>
  */
@@ -27,6 +27,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     use HasMetaInformation;
 
     private function __construct(
+        public readonly string $type,
         public readonly int $sequenceNumber,
         private readonly MetaInformation $meta,
     ) {}
@@ -37,6 +38,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
+            type: $attributes['type'],
             sequenceNumber: $attributes['sequence_number'],
             meta: $meta,
         );
@@ -48,6 +50,7 @@ final class McpCall implements ResponseContract, ResponseHasMetaInformationContr
     public function toArray(): array
     {
         return [
+            'type' => $this->type,
             'sequence_number' => $this->sequenceNumber,
         ];
     }

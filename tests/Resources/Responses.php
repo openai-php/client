@@ -9,6 +9,7 @@ use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
+use OpenAI\Responses\Responses\Streaming\Response as StreamedResponse;
 use OpenAI\Responses\StreamResponse;
 
 test('create', function () {
@@ -131,38 +132,40 @@ test('create streamed', function () {
     expect($current->event)
         ->toBe('response.created');
     expect($current->response)
+        ->toBeInstanceOf(StreamedResponse::class);
+    expect($current->response->response)
         ->toBeInstanceOf(CreateResponse::class);
-    expect($current->response->id)
+    expect($current->response->response->id)
         ->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
-    expect($current->response->object)
+    expect($current->response->response->object)
         ->toBe('response');
-    expect($current->response->createdAt)
+    expect($current->response->response->createdAt)
         ->toBe(1741484430);
-    expect($current->response->status)
+    expect($current->response->response->status)
         ->toBe('in_progress');
-    expect($current->response->error)
+    expect($current->response->response->error)
         ->toBeNull();
-    expect($current->response->incompleteDetails)
+    expect($current->response->response->incompleteDetails)
         ->toBeNull();
-    expect($current->response->instructions)
+    expect($current->response->response->instructions)
         ->toBeNull();
-    expect($current->response->maxOutputTokens)
+    expect($current->response->response->maxOutputTokens)
         ->toBeNull();
-    expect($current->response->model)
+    expect($current->response->response->model)
         ->toBe('gpt-4o-2024-08-06');
-    expect($current->response->output)
+    expect($current->response->response->output)
         ->toBeArray();
-    expect($current->response->output)
+    expect($current->response->response->output)
         ->toHaveCount(0);
-    expect($current->response->parallelToolCalls)
+    expect($current->response->response->parallelToolCalls)
         ->toBeTrue();
-    expect($current->response->previousResponseId)
+    expect($current->response->response->previousResponseId)
         ->toBeNull();
-    expect($current->response->temperature)
+    expect($current->response->response->temperature)
         ->toBe(1.0);
-    expect($current->response->toolChoice)
+    expect($current->response->response->toolChoice)
         ->toBe('auto');
-    expect($current->response->topP)
+    expect($current->response->response->topP)
         ->toBe(1.0);
 
     expect($result->meta())
