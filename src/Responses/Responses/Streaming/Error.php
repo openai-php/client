@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ErrorType array{code: string|null, message: string, param: string|null}
+ * @phpstan-type ErrorType array{type: string, code: string|null, message: string, param: string|null}
  *
  * @implements ResponseContract<ErrorType>
  */

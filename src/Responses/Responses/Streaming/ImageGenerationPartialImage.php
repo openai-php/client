@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ImageGenerationPartialImageType array{output_index: int, item_id: string, sequence_number: int, partial_image_index: int, partial_image_b64: string}
+ * @phpstan-type ImageGenerationPartialImageType array{type: string, output_index: int, item_id: string, sequence_number: int, partial_image_index: int, partial_image_b64: string}
  *
  * @implements ResponseContract<ImageGenerationPartialImageType>
  */

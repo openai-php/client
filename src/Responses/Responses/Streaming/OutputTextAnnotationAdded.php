@@ -21,7 +21,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
  * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
  *
- * @phpstan-type OutputTextAnnotationAddedType array{annotation: ContainerFileType|FileCitationType|FilePathType|UrlCitationType, annotation_index: int, content_index: int, item_id: string, output_index: int}
+ * @phpstan-type OutputTextAnnotationAddedType array{type: string, annotation: ContainerFileType|FileCitationType|FilePathType|UrlCitationType, annotation_index: int, content_index: int, item_id: string, output_index: int}
  *
  * @implements ResponseContract<OutputTextAnnotationAddedType>
  */

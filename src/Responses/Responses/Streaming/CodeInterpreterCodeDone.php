@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type CodeInterpreterCodeDoneType array{code: string, item_id: string, output_index: int}
+ * @phpstan-type CodeInterpreterCodeDoneType array{type: string, code: string, item_id: string, output_index: int}
  *
  * @implements ResponseContract<CodeInterpreterCodeDoneType>
  */

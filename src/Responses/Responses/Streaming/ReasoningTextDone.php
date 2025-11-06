@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ReasoningTextDoneType array{content_index: int, item_id: string, output_index: int, sequence_number: int, text: string}
+ * @phpstan-type ReasoningTextDoneType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, text: string}
  *
  * @implements ResponseContract<ReasoningTextDoneType>
  */

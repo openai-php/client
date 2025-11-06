@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type RefusalDoneType array{content_index: int, item_id: string, output_index: int, refusal: string}
+ * @phpstan-type RefusalDoneType array{type: string, content_index: int, item_id: string, output_index: int, refusal: string}
  *
  * @implements ResponseContract<RefusalDoneType>
  */

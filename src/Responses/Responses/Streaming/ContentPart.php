@@ -17,7 +17,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputTextType from OutputMessageContentOutputText
  * @phpstan-import-type ContentRefusalType from OutputMessageContentRefusal
  *
- * @phpstan-type ContentPartType array{content_index: int, item_id: string, output_index: int, part: OutputTextType|ContentRefusalType}
+ * @phpstan-type ContentPartType array{type: string, content_index: int, item_id: string, output_index: int, part: OutputTextType|ContentRefusalType}
  *
  * @implements ResponseContract<ContentPartType>
  */

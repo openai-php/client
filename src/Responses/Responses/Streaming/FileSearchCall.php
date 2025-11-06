@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FileSearchCallType array{item_id: string, output_index: int}
+ * @phpstan-type FileSearchCallType array{type: string, item_id: string, output_index: int}
  *
  * @implements ResponseContract<FileSearchCallType>
  */

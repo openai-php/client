@@ -15,7 +15,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type ReasoningSummaryType from OutputReasoningSummary
  *
- * @phpstan-type ReasoningSummaryPartType array{item_id: string, output_index: int, part: ReasoningSummaryType, summary_index: int}
+ * @phpstan-type ReasoningSummaryPartType array{type: string, item_id: string, output_index: int, part: ReasoningSummaryType, summary_index: int}
  *
  * @implements ResponseContract<ReasoningSummaryPartType>
  */

@@ -13,7 +13,9 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ResponseType array{type: string, sequence_number: int} & CreateResponseType
+ * @phpstan-import-type CreateResponseType from CreateResponse
+ *
+ * @phpstan-type ResponseType array{type: string, response: CreateResponseType, sequence_number: int}
  *
  * @implements ResponseContract<ResponseType>
  */

@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type McpListToolsType array{sequence_number: int}
+ * @phpstan-type McpListToolsType array{type: string, sequence_number: int}
  *
  * @implements ResponseContract<McpListToolsType>
  */

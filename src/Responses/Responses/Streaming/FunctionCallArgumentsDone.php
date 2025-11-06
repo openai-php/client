@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FunctionCallArgumentsDoneType array{arguments: string, item_id: string, output_index: int}
+ * @phpstan-type FunctionCallArgumentsDoneType array{type: string, arguments: string, item_id: string, output_index: int}
  *
  * @implements ResponseContract<FunctionCallArgumentsDoneType>
  */
