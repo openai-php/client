@@ -93,6 +93,9 @@ final class Responses implements ResponsesContract
     public function retrieveStreamed(string $id, array $parameters = []): StreamResponse
     {
         $parameters = $this->setStreamParameter($parameters);
+        if ($parameters['stream']) {
+            $parameters['stream'] = 'true'; // Ensure the parameter is a string for retrieval
+        }
 
         $payload = Payload::retrieve('responses', $id, parameters: $parameters);
 
