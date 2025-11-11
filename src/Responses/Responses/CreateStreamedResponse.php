@@ -67,6 +67,7 @@ final class CreateStreamedResponse implements ResponseContract
 
         $response = match ($event) {
             'response.created',
+            'response.queued',
             'response.in_progress',
             'response.completed',
             'response.failed',
