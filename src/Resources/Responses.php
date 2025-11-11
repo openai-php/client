@@ -81,6 +81,27 @@ final class Responses implements ResponsesContract
     }
 
     /**
+     * When you retrieve a Response with stream set to true,
+     * the server will emit server-sent events to the client as the Response is resumed.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses-streaming
+     *
+     * @param string $id
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<CreateStreamedResponse>
+     */
+    public function retrieveStreamed(string $id, array $parameters = []): StreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::retrieve('responses', $id, parameters: $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new StreamResponse(CreateStreamedResponse::class, $response);
+    }
+
+    /**
      * Cancels a model response with the given ID. Must be marked as 'background' to be cancellable.
      *
      * @see https://platform.openai.com/docs/api-reference/responses/cancel
