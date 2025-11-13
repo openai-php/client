@@ -316,6 +316,73 @@ test('retrieve', function () {
         ->toBeInstanceOf(MetaInformation::class);
 });
 
+test('retrieve streamed', function () {
+    $response = new Response(
+        headers: metaHeaders(),
+        body: new Stream(responseCompletionStream()),
+    );
+
+    $client = mockStreamClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
+        'stream' => true,
+    ], $response);
+
+    $result = $client->responses()->retrieveStreamed('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
+        'starting_after' => '2',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(StreamResponse::class)
+        ->toBeInstanceOf(IteratorAggregate::class);
+
+    expect($result->getIterator())
+        ->toBeInstanceOf(Iterator::class);
+
+    $current = $result->getIterator()->current();
+    expect($current)
+        ->toBeInstanceOf(CreateStreamedResponse::class);
+    expect($current->event)
+        ->toBe('response.created');
+    expect($current->response)
+        ->toBeInstanceOf(StreamedResponse::class);
+    expect($current->response->response)
+        ->toBeInstanceOf(CreateResponse::class);
+    expect($current->response->response->id)
+        ->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+    expect($current->response->response->object)
+        ->toBe('response');
+    expect($current->response->response->createdAt)
+        ->toBe(1741484430);
+    expect($current->response->response->status)
+        ->toBe('in_progress');
+    expect($current->response->response->error)
+        ->toBeNull();
+    expect($current->response->response->incompleteDetails)
+        ->toBeNull();
+    expect($current->response->response->instructions)
+        ->toBeNull();
+    expect($current->response->response->maxOutputTokens)
+        ->toBeNull();
+    expect($current->response->response->model)
+        ->toBe('gpt-4o-2024-08-06');
+    expect($current->response->response->output)
+        ->toBeArray();
+    expect($current->response->response->output)
+        ->toHaveCount(0);
+    expect($current->response->response->parallelToolCalls)
+        ->toBeTrue();
+    expect($current->response->response->previousResponseId)
+        ->toBeNull();
+    expect($current->response->response->temperature)
+        ->toBe(1.0);
+    expect($current->response->response->toolChoice)
+        ->toBe('auto');
+    expect($current->response->response->topP)
+        ->toBe(1.0);
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
 test('cancel', function () {
     $client = mockClient('POST', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/cancel', [
     ], \OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
