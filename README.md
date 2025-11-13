@@ -303,6 +303,20 @@ $response->truncation; // 'disabled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 ```
 
+#### `retrieve streamed`
+
+When you retrieve a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses-streaming).
+
+```php
+$stream = $client->responses()->retrieveStreamed('resp_67ccd2bed1ec8190b14f964abc054267', [
+    'starting_after' => '2',
+]);
+
+foreach ($stream as $response) {
+    $response->event; // 'response.created'
+}
+```
+
 #### `cancel`
 
 Cancel a model response (background request) with the given ID.
