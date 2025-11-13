@@ -38,13 +38,26 @@ interface ResponsesContract
     /**
      * Retrieves a model response with the given ID.
      *
+     * @param string $id
      * @see https://platform.openai.com/docs/api-reference/responses/retrieve
      */
     public function retrieve(string $id): RetrieveResponse;
 
     /**
+     * Retrieves a streamed response.
+     *
+     * @see https://platform.openai.com/docs/api-reference/responses/retrieve
+     *
+     * @param string                 $id
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<CreateStreamedResponse>
+     */
+    public function retrieveStreamed(string $id, array $parameters = []): StreamResponse;
+
+    /**
      * Cancels a model response with the given ID. Must be marked as 'background' to be cancellable.
      *
+     * @param string $id
      * @see https://platform.openai.com/docs/api-reference/responses/cancel
      */
     public function cancel(string $id): RetrieveResponse;
@@ -52,6 +65,7 @@ interface ResponsesContract
     /**
      * Deletes a model response with the given ID.
      *
+     * @param string $id
      * @see https://platform.openai.com/docs/api-reference/responses/delete
      */
     public function delete(string $id): DeleteResponse;
@@ -61,6 +75,7 @@ interface ResponsesContract
      *
      * @see https://platform.openai.com/docs/api-reference/responses/input-items
      *
+     * @param string                 $id
      * @param  array<string, mixed>  $parameters
      */
     public function list(string $id, array $parameters = []): ListInputItems;
