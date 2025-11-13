@@ -323,6 +323,7 @@ test('retrieve streamed', function () {
     );
 
     $client = mockStreamClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
+        'starting_after' => '2',
         'stream' => 'true',
     ], $response);
 
