@@ -8,8 +8,6 @@ trait Streamable
 {
     /**
      * @param  array<string, mixed>  $parameters
-     * @param  string                $fallbackFunction
-     * @param  mixed                 $streamValue
      */
     private function ensureNotStreamed(array $parameters, string $fallbackFunction = 'createStreamed', mixed $streamValue = true): void
     {
@@ -28,7 +26,6 @@ trait Streamable
      * Set the stream parameter to true.
      *
      * @param  array<string, mixed>  $parameters
-     * @param  mixed           $streamValue
      * @return array<string, mixed>
      */
     private function setStreamParameter(array $parameters, mixed $streamValue = true): array

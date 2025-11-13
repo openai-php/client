@@ -86,7 +86,6 @@ final class Responses implements ResponsesContract
      *
      * @see https://platform.openai.com/docs/api-reference/responses-streaming
      *
-     * @param string $id
      * @param  array<string, mixed>  $parameters
      * @return StreamResponse<CreateStreamedResponse>
      */
