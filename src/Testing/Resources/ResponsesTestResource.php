@@ -40,6 +40,11 @@ final class ResponsesTestResource implements ResponsesContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
+    public function retrieveStreamed(string $id, array $parameters = []): StreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
     public function list(string $id, array $parameters = []): ListInputItems
     {
         return $this->record(__FUNCTION__, func_get_args());
