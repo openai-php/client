@@ -39,8 +39,8 @@ final class InputMessageContentInputFile implements ResponseContract
     {
         return new self(
             type: $attributes['type'],
-            fileData: $attributes['file_data'],
-            fileId: $attributes['file_id'],
+            fileData: $attributes['file_data'] ?? '',
+            fileId: $attributes['file_id'] ?? '',
             filename: $attributes['filename'],
         );
     }
