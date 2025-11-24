@@ -310,6 +310,31 @@ function mcpApprovalResponseItem(): array
 /**
  * @return array<string, mixed>
  */
+function InputMessageContentInputFileItem(): array
+{
+    return [
+        'type' => 'input_file',
+        'file_data' => 'data:application/pdf;base64,JVBERi0xLjUKJY8KMTgxIDAgb2JqCjw8IC9GaWx0ZXIgL0ZsYXRlRGVjb2RlIC9MZW5ndGggMT...',
+        'file_id' => 'file_0d1b41da7cb4903a0069235a5089408196a847a8f3e7b4fb1c',
+        'filename' => 'file.pdf',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function InputMessageContentInputFileItemMissingOrNull(): array
+{
+    return [
+        'type' => 'input_file',
+        'file_id' => null,
+        'filename' => 'file.pdf',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputFileSearchToolCall(): array
 {
     return [
