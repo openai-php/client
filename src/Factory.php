@@ -5,6 +5,7 @@ namespace OpenAI;
 use Closure;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
+use Http\Discovery\Psr18Client;
 use Http\Discovery\Psr18ClientDiscovery;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
@@ -14,7 +15,6 @@ use OpenAI\ValueObjects\Transporter\QueryParams;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\HttpClient\Psr18Client;
 
 final class Factory
 {
@@ -193,12 +193,12 @@ final class Factory
             return fn (RequestInterface $request): ResponseInterface => $client->send($request, ['stream' => true]);
         }
 
-        if ($client instanceof Psr18Client) { // @phpstan-ignore-line
-            return fn (RequestInterface $request): ResponseInterface => $client->sendRequest($request); // @phpstan-ignore-line
+        if ($client instanceof Psr18Client) {
+            return fn (RequestInterface $request): ResponseInterface => $client->sendRequest($request);
         }
 
         return function (RequestInterface $_): never {
-            throw new Exception('To use stream requests you must provide an stream handler closure via the OpenAI factory.');
+            throw new Exception('To use stream requests you must provide a stream handler closure via the OpenAI factory.');
         };
     }
 }
