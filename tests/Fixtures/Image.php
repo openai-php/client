@@ -220,6 +220,22 @@ function imageVariationWithUsage(): array
 }
 
 /**
+ * @return resource
+ */
+function imageCreateStream()
+{
+    return fopen(__DIR__.'/Streams/ImageCreate.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
+function imageEditStream()
+{
+    return fopen(__DIR__.'/Streams/ImageEdit.txt', 'r');
+}
+
+/**
  * @return array<string, mixed>
  */
 function imageVariationWithDoubaoUsage(): array

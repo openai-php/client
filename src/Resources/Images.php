@@ -6,13 +6,17 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Responses\Images\CreateResponse;
+use OpenAI\Responses\Images\CreateStreamedResponse;
 use OpenAI\Responses\Images\EditResponse;
+use OpenAI\Responses\Images\EditStreamedResponse;
 use OpenAI\Responses\Images\VariationResponse;
+use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
 
 final class Images implements ImagesContract
 {
+    use Concerns\Streamable;
     use Concerns\Transportable;
 
     /**
@@ -24,12 +28,33 @@ final class Images implements ImagesContract
      */
     public function create(array $parameters): CreateResponse
     {
+        $this->ensureNotStreamed($parameters);
+
         $payload = Payload::create('images/generations', $parameters);
 
         /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>, usage?: array{total_tokens: int, input_tokens: int, output_tokens: int, input_tokens_details: array{text_tokens: int, image_tokens: int}}}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return CreateResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Creates a streamed image given a prompt.
+     *
+     * @see https://platform.openai.com/docs/api-reference/images/create
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<CreateStreamedResponse>
+     */
+    public function createStreamed(array $parameters): StreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters);
+
+        $payload = Payload::create('images/generations', $parameters);
+
+        $response = $this->transporter->requestStream($payload);
+
+        return new StreamResponse(CreateStreamedResponse::class, $response);
     }
 
     /**
@@ -47,6 +72,24 @@ final class Images implements ImagesContract
         $response = $this->transporter->requestObject($payload);
 
         return EditResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Creates a streamed image edit given a prompt.
+     *
+     * @see https://platform.openai.com/docs/api-reference/images/create
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return StreamResponse<EditStreamedResponse>
+     */
+    public function editStreamed(array $parameters): StreamResponse
+    {
+        $parameters = $this->setStreamParameter($parameters, 'true'); // Ensure the parameter is a string for upload
+
+        $payload = Payload::upload('images/edits', $parameters);
+        $response = $this->transporter->requestStream($payload);
+
+        return new StreamResponse(EditStreamedResponse::class, $response);
     }
 
     /**
