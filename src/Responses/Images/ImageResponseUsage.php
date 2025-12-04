@@ -14,7 +14,7 @@ final class ImageResponseUsage
     ) {}
 
     /**
-     * @param  array{total_tokens: int, input_tokens?: int, output_tokens?: int, input_tokens_details?: array{text_tokens: int, image_tokens: int}}  $attributes
+     * @param  array{total_tokens: int, input_tokens?: int|null, output_tokens?: int|null, input_tokens_details?: array{text_tokens: int, image_tokens: int}|null}  $attributes
      */
     public static function from(array $attributes): self
     {
