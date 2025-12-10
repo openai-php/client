@@ -57,6 +57,7 @@ If you or your business relies on this package, it's important to support the de
 - [Meta Information](#meta-information)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
+- [Webhooks][#webhooks]
 - [Services](#services)
   - [Azure](#azure)
 
@@ -3112,6 +3113,25 @@ $completion = $client->completions()->create([
     'model' => 'gpt-3.5-turbo-instruct',
     'prompt' => 'PHP is ',
 ]);
+```
+
+## Webhooks
+
+The package includes a signature verifier for OpenAI webhooks. To verify the signature of incoming webhook requests, you can use the `OpenAI\Webhooks\SignatureVerifier` class.
+
+```php
+use OpenAI\Webhooks\SignatureVerifier;
+use OpenAI\Exceptions\WebhookVerificationException;
+
+$verifier = new SignatureVerifier('whsec_{your-webhook-signing-secret}');
+
+try {
+    $verifier->verify($incomingRequest);
+    
+    // The request is verified
+} catch (WebhookVerificationException $exception) {
+    // The request could not be verified
+}
 ```
 
 ## Services
