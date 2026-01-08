@@ -131,12 +131,12 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 : null,
             instructions: $attributes['instructions'] ?? null,
             maxToolCalls: $attributes['max_tool_calls'] ?? null,
-            maxOutputTokens: $attributes['max_output_tokens'],
+            maxOutputTokens: $attributes['max_output_tokens'] ?? null,
             model: $attributes['model'],
             output: $output,
             outputText: OutputText::parse($output),
             parallelToolCalls: $attributes['parallel_tool_calls'],
-            previousResponseId: $attributes['previous_response_id'],
+            previousResponseId: $attributes['previous_response_id'] ?? null,
             prompt: isset($attributes['prompt'])
                 ? ReferencePromptObject::from($attributes['prompt'])
                 : null,
@@ -147,14 +147,14 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 ? CreateResponseReasoning::from($attributes['reasoning'])
                 : null,
             store: $attributes['store'] ?? true,
-            temperature: $attributes['temperature'],
+            temperature: $attributes['temperature'] ?? null,
             text: isset($attributes['text'])
                 ? CreateResponseFormat::from($attributes['text'])
                 : null,
             toolChoice: $toolChoice,
             tools: $tools,
             topLogProbs: $attributes['top_logprobs'] ?? null,
-            topP: $attributes['top_p'],
+            topP: $attributes['top_p'] ?? null,
             truncation: $attributes['truncation'] ?? null,
             usage: isset($attributes['usage'])
                 ? CreateResponseUsage::from($attributes['usage'])
