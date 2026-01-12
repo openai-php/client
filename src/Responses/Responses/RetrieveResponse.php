@@ -49,7 +49,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ResponseToolObjectTypes from ToolObjects
  *
  * @phpstan-type InstructionsType array<int, mixed>|string|null
- * @phpstan-type RetrieveResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens: int|null, max_tool_calls?: int|null, model: string, output: ResponseOutputObjectTypes, output_text: string|null, parallel_tool_calls: bool, previous_response_id: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store: bool, temperature: float|null, text: ResponseFormatType, tool_choice: ResponseToolChoiceTypes, tools: ResponseToolObjectTypes, top_logprobs?: int|null, top_p: float|null, truncation: 'auto'|'disabled'|null, usage: UsageType|null, user: string|null, verbosity: string|null, metadata: array<string, string>|null}
+ * @phpstan-type RetrieveResponseType array{id: string, background?: bool|null, object: 'response', created_at: int, status: 'completed'|'failed'|'in_progress'|'incomplete', error: ErrorType|null, incomplete_details?: IncompleteDetailsType|null, instructions: InstructionsType, max_output_tokens?: int|null, max_tool_calls?: int|null, model: string, output: ResponseOutputObjectTypes, output_text: string|null, parallel_tool_calls: bool, previous_response_id?: string|null, prompt: ReferencePromptObjectType|null, prompt_cache_key?: string|null, reasoning?: ReasoningType|null, safety_identifier?: string|null, service_tier?: string|null, store?: bool|null, temperature?: float|null, text?: ResponseFormatType|null, tool_choice: ResponseToolChoiceTypes, tools: ResponseToolObjectTypes, top_logprobs?: int|null, top_p?: float|null, truncation?: 'auto'|'disabled'|null, usage?: UsageType|null, user?: string|null, verbosity?: string|null, metadata?: array<string, string>|null}
  *
  * @implements ResponseContract<RetrieveResponseType>
  */
@@ -68,7 +68,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
      * @param  'completed'|'failed'|'in_progress'|'incomplete'  $status
      * @param  array<int, mixed>|string|null  $instructions
      * @param  array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall>  $output
-     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool>  $tools
+     * @param  array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|ImageGenerationTool|CodeInterpreterTool>  $tools
      * @param  'auto'|'disabled'|null  $truncation
      * @param  array<string, string>  $metadata
      */
@@ -95,7 +95,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly ?CreateResponseReasoning $reasoning,
         public readonly bool $store,
         public readonly ?float $temperature,
-        public readonly CreateResponseFormat $text,
+        public readonly ?CreateResponseFormat $text,
         public readonly string|FunctionToolChoice|HostedToolChoice $toolChoice,
         public readonly array $tools,
         public readonly ?int $topLogProbs,
@@ -129,14 +129,14 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             incompleteDetails: isset($attributes['incomplete_details'])
                 ? CreateResponseIncompleteDetails::from($attributes['incomplete_details'])
                 : null,
-            instructions: $attributes['instructions'],
+            instructions: $attributes['instructions'] ?? null,
             maxToolCalls: $attributes['max_tool_calls'] ?? null,
-            maxOutputTokens: $attributes['max_output_tokens'],
+            maxOutputTokens: $attributes['max_output_tokens'] ?? null,
             model: $attributes['model'],
             output: $output,
             outputText: OutputText::parse($output),
             parallelToolCalls: $attributes['parallel_tool_calls'],
-            previousResponseId: $attributes['previous_response_id'],
+            previousResponseId: $attributes['previous_response_id'] ?? null,
             prompt: isset($attributes['prompt'])
                 ? ReferencePromptObject::from($attributes['prompt'])
                 : null,
@@ -146,14 +146,16 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             reasoning: isset($attributes['reasoning'])
                 ? CreateResponseReasoning::from($attributes['reasoning'])
                 : null,
-            store: $attributes['store'],
-            temperature: $attributes['temperature'],
-            text: CreateResponseFormat::from($attributes['text']),
+            store: $attributes['store'] ?? true,
+            temperature: $attributes['temperature'] ?? null,
+            text: isset($attributes['text'])
+                ? CreateResponseFormat::from($attributes['text'])
+                : null,
             toolChoice: $toolChoice,
             tools: $tools,
             topLogProbs: $attributes['top_logprobs'] ?? null,
-            topP: $attributes['top_p'],
-            truncation: $attributes['truncation'],
+            topP: $attributes['top_p'] ?? null,
+            truncation: $attributes['truncation'] ?? null,
             usage: isset($attributes['usage'])
                 ? CreateResponseUsage::from($attributes['usage'])
                 : null,
@@ -198,7 +200,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             'reasoning' => $this->reasoning?->toArray(),
             'store' => $this->store,
             'temperature' => $this->temperature,
-            'text' => $this->text->toArray(),
+            'text' => $this->text?->toArray(),
             'tool_choice' => is_string($this->toolChoice)
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
