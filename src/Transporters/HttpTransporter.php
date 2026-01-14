@@ -163,7 +163,13 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
-        if (! str_contains($response->getHeaderLine('Content-Type'), ContentType::JSON->value)) {
+        $contentType = $response->getHeaderLine('Content-Type');
+
+        // Allow JSON or plain text containing JSON (OpenAI often sends text/plain for errors)
+        if (
+            ! str_contains($contentType, ContentType::JSON->value) &&
+            ! str_contains($contentType, ContentType::TEXT_PLAIN->value)
+        ) {
             return;
         }
 
