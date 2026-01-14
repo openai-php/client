@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type WebSearchActionSourcesType array{type: 'url', url: string}
+ * @phpstan-type WebSearchActionSourcesType array{type: 'url', url: string|null}
  *
  * @implements ResponseContract<WebSearchActionSourcesType>
  */
@@ -27,7 +27,7 @@ final class OutputWebSearchActionSources implements ResponseContract
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $url
+        public readonly ?string $url
     ) {}
 
     /**
@@ -37,7 +37,7 @@ final class OutputWebSearchActionSources implements ResponseContract
     {
         return new self(
             type: $attributes['type'],
-            url: $attributes['url'],
+            url: $attributes['url'] ?? null,
         );
     }
 
