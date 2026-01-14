@@ -100,3 +100,20 @@ test('from with action but without query & sources', function () {
         ->not->toHaveKey('query')
         ->not->toHaveKey('sources');
 });
+
+test('from with source without url', function () {
+    $payload = outputWebSearchToolCall();
+    $payload['action']['sources'] = [
+        ['type' => 'url'],
+    ];
+
+    $response = OutputWebSearchToolCall::from($payload);
+
+    expect($response)
+        ->toBeInstanceOf(OutputWebSearchToolCall::class)
+        ->action->sources->toHaveCount(1);
+
+    expect($response->action->sources[0])
+        ->type->toBe('url')
+        ->url->toBeNull();
+});
