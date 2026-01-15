@@ -128,6 +128,29 @@ test('handles ping messages in stream', function () {
     }
 });
 
+test('handles keepalive messages in stream', function () {
+    $response = new Response(
+        headers: metaHeaders(),
+        body: new Stream(chatCompletionStreamKeepAlive()),
+    );
+
+    $client = mockStreamClient('POST', 'chat/completions', [
+        'model' => 'gpt-3.5-turbo',
+        'messages' => ['role' => 'user', 'content' => 'Hello!'],
+        'stream' => true,
+    ], $response);
+
+    $stream = $client->chat()->createStreamed([
+        'model' => 'gpt-3.5-turbo',
+        'messages' => ['role' => 'user', 'content' => 'Hello!'],
+    ]);
+
+    foreach ($stream as $response) {
+        expect($response)
+            ->toBeInstanceOf(CreateStreamedResponse::class);
+    }
+});
+
 test('handles error messages in stream', function () {
     $response = new Response(
         body: new Stream(chatCompletionStreamError())

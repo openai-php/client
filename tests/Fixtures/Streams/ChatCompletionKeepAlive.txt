@@ -1,0 +1,4 @@
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"role":"assistant"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: {"type": "keepalive"}
+data: {"id":"msg_0111RgCFCqN68mJbev6Rq1cz","choices":[{"index":0,"delta":{"content":"Hello!"}}],"created":1744469024,"model":"claude-3-7-sonnet-20250219","object":"chat.completion.chunk"}
+data: [DONE]

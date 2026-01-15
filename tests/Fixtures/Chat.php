@@ -741,6 +741,14 @@ function chatCompletionStreamPing()
 /**
  * @return resource
  */
+function chatCompletionStreamKeepAlive()
+{
+    return fopen(__DIR__.'/Streams/ChatCompletionKeepAlive.txt', 'r');
+}
+
+/**
+ * @return resource
+ */
 function chatCompletionStreamError()
 {
     return fopen(__DIR__.'/Streams/ChatCompletionCreateError.txt', 'r');
