@@ -112,6 +112,34 @@ test('request object server user errors', function (string $requestMethod) {
         });
 })->with('request methods');
 
+test('request object mismatched project error', function (string $requestMethod) {
+    $payload = Payload::list('models');
+
+    $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'OpenAI-Project header should match project for API key',
+            'type' => 'invalid_request_error',
+            'code' => 'mismatched_project',
+            'param' => null,
+        ],
+        'status' => 401,
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('OpenAI-Project header should match project for API key')
+                ->and($e->getErrorMessage())->toBe('OpenAI-Project header should match project for API key')
+                ->and($e->getErrorCode())->toBe('mismatched_project')
+                ->and($e->getErrorType())->toBe('invalid_request_error')
+                ->and($e->getStatusCode())->toBe(401);
+        });
+})->with('request methods');
+
 test('request object server errors', function () {
     $payload = Payload::create('completions', ['model' => 'gpt-4']);
 
