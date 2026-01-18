@@ -115,7 +115,7 @@ test('request object server user errors', function (string $requestMethod) {
 test('request object mismatched project error', function (string $requestMethod) {
     $payload = Payload::list('models');
 
-    $response = new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+    $response = new Response(401, ['Content-Type' => 'text/plain; charset=utf-8'], json_encode([
         'error' => [
             'message' => 'OpenAI-Project header should match project for API key',
             'type' => 'invalid_request_error',
