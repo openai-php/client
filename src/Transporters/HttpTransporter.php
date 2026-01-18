@@ -86,12 +86,12 @@ final class HttpTransporter implements TransporterContract
 
         $contents = (string) $response->getBody();
 
+        $this->throwIfRateLimit($response);
+        $this->throwIfJsonError($response, $contents);
+
         if (str_contains($response->getHeaderLine('Content-Type'), ContentType::TEXT_PLAIN->value)) {
             return AdaptableResponse::from($contents, $response->getHeaders());
         }
-
-        $this->throwIfRateLimit($response);
-        $this->throwIfJsonError($response, $contents);
 
         try {
             /** @var array{error?: array{message: string, type: string, code: string}} $data */
@@ -163,10 +163,6 @@ final class HttpTransporter implements TransporterContract
             return;
         }
 
-        if (! str_contains($response->getHeaderLine('Content-Type'), ContentType::JSON->value)) {
-            return;
-        }
-
         if ($contents instanceof ResponseInterface) {
             $contents = (string) $contents->getBody();
         }
@@ -179,6 +175,11 @@ final class HttpTransporter implements TransporterContract
                 throw new ErrorException($data['error'], $response);
             }
         } catch (JsonException $jsonException) {
+            // Due to some JSON coming back from OpenAI as text/plain, we need to avoid an early return from purely content-type checks.
+            if (! str_contains($response->getHeaderLine('Content-Type'), ContentType::JSON->value)) {
+                return;
+            }
+
             throw new UnserializableResponse($jsonException, $response);
         }
     }
