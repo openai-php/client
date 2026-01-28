@@ -56,7 +56,24 @@ test('from function response without content', function () {
         ->functionCall->toBeInstanceOf(CreateResponseFunctionCall::class);
 });
 
+test('from reasoning', function () {
+    $result = CreateResponseMessage::from(chatCompletionReasoningContent()['choices'][0]['message']);
+
+    expect($result)
+        ->role->toBe('assistant')
+        ->reasoningContent->toBe("Hello world")
+        ->annotations->toBeArray()
+        ->functionCall->toBeNull();
+});
+
 test('to array', function () {
+    $result = CreateResponseMessage::from(chatCompletionReasoningContent()['choices'][0]['message']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionReasoningContent()['choices'][0]['message']);
+});
+
+test('to array from reasoning', function () {
     $result = CreateResponseMessage::from(chatCompletion()['choices'][0]['message']);
 
     expect($result->toArray())
