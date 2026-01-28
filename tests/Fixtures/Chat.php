@@ -738,7 +738,7 @@ function chatCompletionReasoningContent(): array
                 'message' => [
                     'role' => 'assistant',
                     'content' => null,
-                    'reasoning_content' => "Hello world",
+                    'reasoning_content' => 'Hello world',
                 ],
                 'logprobs' => null,
                 'finish_reason' => 'stop',

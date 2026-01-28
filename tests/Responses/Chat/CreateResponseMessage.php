@@ -61,7 +61,7 @@ test('from reasoning', function () {
 
     expect($result)
         ->role->toBe('assistant')
-        ->reasoningContent->toBe("Hello world")
+        ->reasoningContent->toBe('Hello world')
         ->annotations->toBeArray()
         ->functionCall->toBeNull();
 });
