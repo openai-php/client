@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.19.0 (2026-02-09)
+### Added
+
+* Add response streaming types ([#711](https://github.com/openai-php/client/pull/711))
+* Add `response.queued` event to streamed responses ([#712](https://github.com/openai-php/client/pull/712))
+* Add streamed response retrieval ([#713](https://github.com/openai-php/client/pull/713))
+* Add image streaming support ([#720](https://github.com/openai-php/client/pull/720))
+* Add webhook signature verification ([#722](https://github.com/openai-php/client/pull/722))
+* Add `reasoning_content` field to `CreateResponseMessage` ([#737](https://github.com/openai-php/client/pull/737))
+
+### Fixed
+
+* Fix list items for conversation when `file_id` is null and `file_data` is missing ([#715](https://github.com/openai-php/client/pull/715))
+* Handle optional values correctly in `Responses\CreateResponseType` ([#728](https://github.com/openai-php/client/pull/728))
+* Add support for missing `url` on web search output ([#733](https://github.com/openai-php/client/pull/733))
+* Add support for empty `keepalive` stream events ([#734](https://github.com/openai-php/client/pull/734))
+* Do not bail early on `text/plain` responses unless JSON parsing fails ([#736](https://github.com/openai-php/client/pull/736))
+
+### Build
+
+* Test against PHP 8.5 ([#714](https://github.com/openai-php/client/pull/714))
+* Bump `actions/checkout` from 5 to 6 ([#716](https://github.com/openai-php/client/pull/716))
+* Bump `actions/cache` from 4 to 5 ([#724](https://github.com/openai-php/client/pull/724))
+
 # v0.18.0 (2025-10-31)
 ### Added
 
