@@ -705,6 +705,25 @@ function outputCustomToolCall(): array
 /**
  * @return array<string, mixed>
  */
+function outputImageGenerationToolCall(): array
+{
+    return [
+        'id' => 'ig_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'result' => 'iVBORw0KGgoAAAAN...',
+        'status' => 'completed',
+        'type' => 'image_generation_call',
+        'action' => 'generate',
+        'background' => 'opaque',
+        'output_format' => 'webp',
+        'quality' => 'high',
+        'revised_prompt' => 'This is a revised prompt.',
+        'size' => '1536x1024',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolWebSearchPreview(): array
 {
     return [
