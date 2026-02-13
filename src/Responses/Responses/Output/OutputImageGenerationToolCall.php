@@ -30,6 +30,12 @@ final class OutputImageGenerationToolCall implements ResponseContract
         public readonly ?string $result,
         public readonly string $status,
         public readonly string $type,
+        public readonly string $action,
+        public readonly string $background,
+        public readonly string $outputFormat,
+        public readonly string $quality,
+        public readonly ?string $revisedPrompt,
+        public readonly string $size,
     ) {}
 
     /**
@@ -42,6 +48,12 @@ final class OutputImageGenerationToolCall implements ResponseContract
             result: $attributes['result'] ?? null,
             status: $attributes['status'],
             type: $attributes['type'],
+            action: $attributes['action'],
+            background: $attributes['background'],
+            outputFormat: $attributes['output_format'],
+            quality: $attributes['quality'],
+            revisedPrompt: $attributes['revised_prompt'] ?? null,
+            size: $attributes['size'],
         );
     }
 
@@ -55,6 +67,12 @@ final class OutputImageGenerationToolCall implements ResponseContract
             'result' => $this->result,
             'status' => $this->status,
             'type' => $this->type,
+            'action' => $this->action,
+            'background' => $this->background,
+            'output_format' => $this->outputFormat,
+            'quality' => $this->quality,
+            'revised_prompt' => $this->revisedPrompt,
+            'size' => $this->size,
         ];
     }
 }
