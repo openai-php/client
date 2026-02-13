@@ -3057,18 +3057,18 @@ use OpenAI\Testing\ClientFake;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 
 $client = new ClientFake([
-    CreateStreamedResponse::fake(fopen('file.txt', 'r'););
+    CreateStreamedResponse::fake(fopen('file.txt', 'r'))
 ]);
 
 $completion = $client->chat()->createStreamed([
-        'model' => 'gpt-3.5-turbo',
-        'messages' => [
-            ['role' => 'user', 'content' => 'Hello!'],
-        ],
+    'model' => 'gpt-3.5-turbo',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
 ]);
 
 expect($response->getIterator()->current())
-        ->id->toBe('chatcmpl-6yo21W6LVo8Tw2yBf7aGf2g17IeIl');
+    ->id->toBe('chatcmpl-6yo21W6LVo8Tw2yBf7aGf2g17IeIl');
 ```
 
 After the requests have been sent there are various methods to ensure that the expected requests were sent:
