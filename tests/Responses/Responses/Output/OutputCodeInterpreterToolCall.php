@@ -27,5 +27,5 @@ test('to array', function () {
 
     expect($response->toArray())
         ->toBeArray()
-        ->toBe(OutputCodeInterpreterToolCall());
+        ->toBe(outputCodeInterpreterToolCall());
 });
