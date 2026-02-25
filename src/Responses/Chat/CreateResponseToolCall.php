@@ -13,13 +13,13 @@ final class CreateResponseToolCall
     ) {}
 
     /**
-     * @param  array{id: string, type: string, function: array{name: string, arguments: string}}  $attributes
+     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['id'],
-            $attributes['type'],
+            $attributes['type'] ?? 'function',
             CreateResponseToolCallFunction::from($attributes['function']),
         );
     }
