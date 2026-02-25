@@ -12,6 +12,7 @@ final class CreateStreamedResponseDelta
     private function __construct(
         public readonly ?string $role,
         public readonly ?string $content,
+        public readonly ?string $reasoningContent,  
         public readonly array $toolCalls,
         public readonly ?CreateStreamedResponseFunctionCall $functionCall,
     ) {}
@@ -28,6 +29,7 @@ final class CreateStreamedResponseDelta
         return new self(
             $attributes['role'] ?? null,
             $attributes['content'] ?? null,
+            $attributes['reasoning_content'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateStreamedResponseFunctionCall::from($attributes['function_call']) : null,
         );
