@@ -722,6 +722,25 @@ function chatCompletionStreamVisionContentChunk(): array
     ];
 }
 
+function chatCompletionStreamReasoningChunk(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion.chunk',
+        'created' => 1677652288,
+        'model' => 'deepseek-reasoner',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'reasoning' => 'Hello world',
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
 /**
  * @return array<string, mixed>
  */
