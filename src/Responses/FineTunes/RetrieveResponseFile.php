@@ -25,7 +25,7 @@ final class RetrieveResponseFile implements ResponseContract
         public readonly string $object,
         public readonly int $bytes,
         public readonly int $createdAt,
-        public readonly int|null $expiresAt,
+        public readonly ?int $expiresAt,
         public readonly string $filename,
         public readonly string $purpose,
         public readonly string $status,
