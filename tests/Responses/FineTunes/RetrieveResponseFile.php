@@ -11,6 +11,7 @@ test('from', function () {
         ->object->toBe('file')
         ->bytes->toBe(140)
         ->createdAt->toBe(1613779121)
+        ->expiresAt->toBe(null)
         ->filename->toBe('mydata.jsonl')
         ->purpose->toBe('fine-tune')
         ->status->toBe('succeeded')
