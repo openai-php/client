@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, expires_at: int|null, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
  */
 final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, expires_at: int|null, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
      */
     use ArrayAccessible;
 
@@ -32,6 +32,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $object,
         public readonly int $bytes,
         public readonly int $createdAt,
+        public readonly ?int $expiresAt,
         public readonly string $filename,
         public readonly string $purpose,
         public readonly string $status,
@@ -42,7 +43,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}  $attributes
+     * @param  array{id: string, object: string, created_at: int, expires_at: int|null, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -51,6 +52,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['object'],
             $attributes['bytes'],
             $attributes['created_at'],
+            $attributes['expires_at'] ?? null,
             $attributes['filename'],
             $attributes['purpose'],
             $attributes['status'],
@@ -69,6 +71,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'object' => $this->object,
             'bytes' => $this->bytes,
             'created_at' => $this->createdAt,
+            'expires_at' => $this->expiresAt,
             'filename' => $this->filename,
             'purpose' => $this->purpose,
             'status' => $this->status,

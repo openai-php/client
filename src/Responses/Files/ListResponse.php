@@ -39,7 +39,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: ?bool}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, expires_at: int|null, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>, first_id: ?string, last_id: ?string, has_more: ?bool}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
