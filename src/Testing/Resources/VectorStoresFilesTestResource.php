@@ -33,6 +33,11 @@ final class VectorStoresFilesTestResource implements VectorStoresFilesContract
         return $this->record(__FUNCTION__, func_get_args());
     }
 
+    public function updateAttributes(string $vectorStoreId, string $fileId, array $parameters): VectorStoreFileResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
     public function list(string $vectorStoreId, array $parameters = []): VectorStoreFileListResponse
     {
         return $this->record(__FUNCTION__, func_get_args());

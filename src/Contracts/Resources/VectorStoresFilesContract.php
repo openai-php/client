@@ -34,6 +34,15 @@ interface VectorStoresFilesContract
     public function retrieve(string $vectorStoreId, string $fileId): VectorStoreFileResponse;
 
     /**
+     * Update attributes on a vector store file.
+     *
+     * @see https://platform.openai.com/docs/api-reference/vector-stores-files/updateAttributes
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function updateAttributes(string $vectorStoreId, string $fileId, array $parameters): VectorStoreFileResponse;
+
+    /**
      * Delete a file within a vector store.
      *
      * https://platform.openai.com/docs/api-reference/vector-stores/delete
