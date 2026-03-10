@@ -8,6 +8,7 @@ final class VectorStoreResponseFixture
         'id' => 'vs_8VE2cQq1jTFlH7FizhYCzUz0',
         'object' => 'vector_store',
         'name' => 'Product Knowledge Base',
+        'description' => 'A knowledge base for product information.',
         'status' => 'in_progress',
         'usage_bytes' => 0,
         'created_at' => 1_715_953_317,
