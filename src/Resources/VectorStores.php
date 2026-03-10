@@ -29,7 +29,7 @@ final class VectorStores implements VectorStoresContract
     {
         $payload = Payload::create('vector_stores', $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreResponse::from($response->data(), $response->meta());
@@ -46,7 +46,7 @@ final class VectorStores implements VectorStoresContract
     {
         $payload = Payload::list('vector_stores', $parameters);
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreListResponse::from($response->data(), $response->meta());
@@ -61,7 +61,7 @@ final class VectorStores implements VectorStoresContract
     {
         $payload = Payload::retrieve('vector_stores', $vectorStoreId);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreResponse::from($response->data(), $response->meta());
@@ -78,7 +78,7 @@ final class VectorStores implements VectorStoresContract
     {
         $payload = Payload::modify('vector_stores', $vectorStoreId, $parameters);
 
-        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
+        /** @var Response<array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreResponse::from($response->data(), $response->meta());

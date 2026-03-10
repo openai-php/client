@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
  */
 final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}>
      */
     use ArrayAccessible;
 
@@ -32,6 +32,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
         public readonly string $object,
         public readonly int $createdAt,
         public readonly ?string $name,
+        public readonly ?string $description,
         public readonly int $usageBytes,
         public readonly VectorStoreResponseFileCounts $fileCounts,
         public readonly string $status,
@@ -45,7 +46,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, name: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, name: ?string, description: ?string, usage_bytes: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, status: string, expires_after: ?array{anchor: string, days: int}, expires_at: ?int, last_active_at: ?int, metadata: array<string, string>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -54,6 +55,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['object'],
             $attributes['created_at'],
             $attributes['name'],
+            $attributes['description'],
             $attributes['usage_bytes'],
             VectorStoreResponseFileCounts::from($attributes['file_counts']),
             $attributes['status'],
@@ -68,7 +70,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
     /**
      * {@inheritDoc}
      *
-     * @return array{id: string, object: string, name: string|null, status: string, usage_bytes: int, created_at: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, metadata: mixed[], expires_after: array{anchor: string, days: int}|null, expires_at: int|null, last_active_at: int|null}
+     * @return array{id: string, object: string, name: string|null, description: string|null, status: string, usage_bytes: int, created_at: int, file_counts: array{in_progress: int, completed: int, failed: int, cancelled: int, total: int}, metadata: mixed[], expires_after: array{anchor: string, days: int}|null, expires_at: int|null, last_active_at: int|null}
      */
     public function toArray(): array
     {
@@ -76,6 +78,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
             'id' => $this->id,
             'object' => $this->object,
             'name' => $this->name,
+            'description' => $this->description,
             'status' => $this->status,
             'usage_bytes' => $this->usageBytes,
             'created_at' => $this->createdAt,
