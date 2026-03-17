@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Batches\BatchResponseErrors;
+use OpenAI\Responses\Batches\BatchResponseErrorsData;
 
 test('from', function () {
     $response = BatchResponseErrors::from(batchResourceWithErrors()['errors']);
@@ -9,7 +10,7 @@ test('from', function () {
         ->toBeInstanceOf(BatchResponseErrors::class)
         ->object->toBe('list')
         ->data->toBeArray()
-        ->data->each->toBeInstanceOf(\OpenAI\Responses\Batches\BatchResponseErrorsData::class)
+        ->data->each->toBeInstanceOf(BatchResponseErrorsData::class)
         ->data->{0}->code->toBe('123');
 });
 

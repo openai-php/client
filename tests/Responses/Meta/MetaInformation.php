@@ -1,12 +1,13 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Meta\MetaInformationCustom;
 use OpenAI\Responses\Meta\MetaInformationOpenAI;
 use OpenAI\Responses\Meta\MetaInformationRateLimit;
 
 test('from response headers', function () {
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeaders()))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: metaHeaders()))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
@@ -31,7 +32,7 @@ test('includes custom headers', function () {
     $headers['x-custom-foo'] = ['bar'];
     $headers['Another-Header'] = ['baz'];
 
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: $headers))->getHeaders());
 
     $array = $meta->toArray();
 
@@ -55,7 +56,7 @@ test('from response headers without "x-request-id"', function () {
 });
 
 test('from azure response headers', function () {
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersFromAzure()))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: metaHeadersFromAzure()))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
@@ -80,7 +81,7 @@ test('from azure response headers without rate limit headers ', function () {
     unset($headers['x-ratelimit-remaining-requests']);
     unset($headers['x-ratelimit-remaining-tokens']);
 
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: $headers))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
@@ -92,7 +93,7 @@ test('from azure response headers without processing time', function () {
     $headers = metaHeadersFromAzure();
     unset($headers['openai-processing-ms']);
 
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: $headers))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: $headers))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
@@ -101,7 +102,7 @@ test('from azure response headers without processing time', function () {
 });
 
 test('from response headers in different cases', function () {
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersWithDifferentCases()))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: metaHeadersWithDifferentCases()))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)
@@ -116,7 +117,7 @@ test('from response headers in different cases', function () {
 });
 
 test('from response headers with custom headers', function () {
-    $meta = MetaInformation::from((new \GuzzleHttp\Psr7\Response(headers: metaHeadersWithCustomCases()))->getHeaders());
+    $meta = MetaInformation::from((new Response(headers: metaHeadersWithCustomCases()))->getHeaders());
 
     expect($meta)
         ->toBeInstanceOf(MetaInformation::class)

@@ -4,13 +4,14 @@ use OpenAI\Responses\Edits\CreateResponse;
 use OpenAI\Responses\Edits\CreateResponseChoice;
 use OpenAI\Responses\Edits\CreateResponseUsage;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\ValueObjects\Transporter\Response;
 
 test('create', function () {
     $client = mockClient('POST', 'edits', [
         'model' => 'text-davinci-edit-001',
         'input' => 'What day of the wek is it?',
         'instruction' => 'Fix the spelling mistakes',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(edit(), metaHeaders()));
+    ], Response::from(edit(), metaHeaders()));
 
     $result = $client->edits()->create([
         'model' => 'text-davinci-edit-001',

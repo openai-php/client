@@ -23,7 +23,7 @@ test('create', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUrl(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUrl(), metaHeaders()));
 
     $result = $client->images()->create([
         'prompt' => 'A cute baby sea otter',
@@ -52,7 +52,7 @@ test('create with usage', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUsage(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageCreateWithUsage(), metaHeaders()));
 
     $result = $client->images()->create([
         'prompt' => 'A cute baby sea otter',
@@ -143,7 +143,7 @@ test('edit', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUrl(), metaHeaders()), validateParams: false);
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUrl(), metaHeaders()), validateParams: false);
 
     $result = $client->images()->edit([
         'image' => fileResourceResource(),
@@ -176,7 +176,7 @@ test('edit with usage', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUsage(), metaHeaders()), validateParams: false);
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageEditWithUsage(), metaHeaders()), validateParams: false);
 
     $result = $client->images()->edit([
         'image' => fileResourceResource(),
@@ -271,7 +271,7 @@ test('variation', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUrl(), metaHeaders()), validateParams: false);
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUrl(), metaHeaders()), validateParams: false);
 
     $result = $client->images()->variation([
         'image' => fileResourceResource(),
@@ -300,7 +300,7 @@ test('variation with usage', function () {
         'n' => 1,
         'size' => '256x256',
         'response_format' => 'url',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUsage(), metaHeaders()), validateParams: false);
+    ], OpenAI\ValueObjects\Transporter\Response::from(imageVariationWithUsage(), metaHeaders()), validateParams: false);
 
     $result = $client->images()->variation([
         'image' => fileResourceResource(),

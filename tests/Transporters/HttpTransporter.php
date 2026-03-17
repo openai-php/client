@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
@@ -435,7 +436,7 @@ test('request object client error in response', function (string $requestMethod)
     $this->client
         ->shouldReceive('sendRequest')
         ->once()
-        ->andThrow(new \GuzzleHttp\Exception\ClientException(
+        ->andThrow(new ClientException(
             message: 'Could not resolve host.',
             request: $payload->toRequest($baseUri, $headers, $queryParams),
             response: new Response(401, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([

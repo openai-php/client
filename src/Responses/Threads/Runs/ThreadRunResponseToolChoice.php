@@ -47,7 +47,7 @@ final class ThreadRunResponseToolChoice implements ResponseContract
             'type' => $this->type,
         ];
 
-        if ($this->function instanceof \OpenAI\Responses\Threads\Runs\ThreadRunResponseToolChoiceFunction) {
+        if ($this->function instanceof ThreadRunResponseToolChoiceFunction) {
             $response['function'] = $this->function->toArray();
         }
 

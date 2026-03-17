@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
+use OpenAI\Exceptions\InvalidArgumentException;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
@@ -17,7 +18,7 @@ test('create', function () {
         'model' => 'gpt-4o',
         'tools' => [['type' => 'web_search_preview']],
         'input' => 'what was a positive news story from today?',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(createResponseResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(createResponseResource(), metaHeaders()));
 
     $result = $client->responses()->create([
         'model' => 'gpt-4o',
@@ -79,7 +80,7 @@ test('create with stored prompt.', function () {
     $client = mockClient('POST', 'responses', [
         'model' => 'gpt-4o',
         'input' => 'what was a positive news story from today?',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(createResponseStoredPromptResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(createResponseStoredPromptResource(), metaHeaders()));
 
     $result = $client->responses()->create([
         'model' => 'gpt-4o',
@@ -98,7 +99,7 @@ test('create throws an exception if stream option is true', function () {
         'messages' => ['role' => 'user', 'content' => 'Hello!'],
         'stream' => true,
     ]);
-})->throws(OpenAI\Exceptions\InvalidArgumentException::class, 'Stream option is not supported. Please use the createStreamed() method instead.');
+})->throws(InvalidArgumentException::class, 'Stream option is not supported. Please use the createStreamed() method instead.');
 
 test('create streamed', function () {
     $response = new Response(
@@ -267,7 +268,7 @@ test('create streamed code interpreter', function () {
 
 test('delete', function () {
     $client = mockClient('DELETE', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
-    ], \OpenAI\ValueObjects\Transporter\Response::from(deleteResponseResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(deleteResponseResource(), metaHeaders()));
 
     $result = $client->responses()->delete('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
 
@@ -283,7 +284,7 @@ test('delete', function () {
 
 test('list', function () {
     $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/input_items', [
-    ], \OpenAI\ValueObjects\Transporter\Response::from(listInputItemsResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(listInputItemsResource(), metaHeaders()));
 
     $result = $client->responses()->list('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
 
@@ -301,7 +302,7 @@ test('list', function () {
 
 test('retrieve', function () {
     $client = mockClient('GET', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c', [
-    ], \OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
 
     $result = $client->responses()->retrieve('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
 
@@ -386,7 +387,7 @@ test('retrieve streamed', function () {
 
 test('cancel', function () {
     $client = mockClient('POST', 'responses/resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c/cancel', [
-    ], \OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
+    ], OpenAI\ValueObjects\Transporter\Response::from(retrieveResponseResource(), metaHeaders()));
 
     $result = $client->responses()->cancel('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
 

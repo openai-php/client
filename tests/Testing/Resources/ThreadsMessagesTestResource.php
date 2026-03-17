@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Resources\ThreadsMessages;
+use OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageListResponse;
 use OpenAI\Responses\Threads\Messages\ThreadMessageResponse;
 use OpenAI\Testing\ClientFake;
@@ -67,7 +68,7 @@ it('records a thread message modify request', function () {
 
 it('records a thread message delete request', function () {
     $fake = new ClientFake([
-        \OpenAI\Responses\Threads\Messages\ThreadMessageDeleteResponse::fake(),
+        ThreadMessageDeleteResponse::fake(),
     ]);
 
     $fake->threads()->messages()->delete('thread_tKFLqzRN9n7MnyKKvc1Q7868', 'msg_KNsDDwE41BUAHhcPNpDkdHWZ');

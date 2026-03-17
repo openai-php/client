@@ -21,7 +21,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs[]|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage[]|null  $outputs
+     * @param  ThreadRunStepResponseCodeInterpreterOutputLogs[]|ThreadRunStepResponseCodeInterpreterOutputImage[]|null  $outputs
      */
     private function __construct(
         public ?string $input,
@@ -36,7 +36,7 @@ final class ThreadRunStepResponseCodeInterpreter implements ResponseContract
     public static function from(array $attributes): self
     {
         $outputs = array_map(
-            fn (array $output): \OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputImage|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs => match ($output['type']) {
+            fn (array $output): ThreadRunStepResponseCodeInterpreterOutputImage|\OpenAI\Responses\Threads\Runs\Steps\ThreadRunStepResponseCodeInterpreterOutputLogs => match ($output['type']) {
                 'image' => ThreadRunStepResponseCodeInterpreterOutputImage::from($output),
                 'logs' => ThreadRunStepResponseCodeInterpreterOutputLogs::from($output),
             },

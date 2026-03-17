@@ -4,12 +4,13 @@ use OpenAI\Responses\Embeddings\CreateResponse;
 use OpenAI\Responses\Embeddings\CreateResponseEmbedding;
 use OpenAI\Responses\Embeddings\CreateResponseUsage;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\ValueObjects\Transporter\Response;
 
 test('create', function () {
     $client = mockClient('POST', 'embeddings', [
         'model' => 'text-similarity-babbage-001',
         'input' => 'The food was delicious and the waiter...',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(embeddingList(), metaHeaders()));
+    ], Response::from(embeddingList(), metaHeaders()));
 
     $result = $client->embeddings()->create([
         'model' => 'text-similarity-babbage-001',

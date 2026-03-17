@@ -2,9 +2,10 @@
 
 use OpenAI\Responses\Realtime\SessionResponse;
 use OpenAI\Responses\Realtime\TranscriptionSessionResponse;
+use OpenAI\ValueObjects\Transporter\Response;
 
 test('token', function () {
-    $client = mockClient('POST', 'realtime/sessions', [], \OpenAI\ValueObjects\Transporter\Response::from(sessionResponseResource(), metaHeaders()));
+    $client = mockClient('POST', 'realtime/sessions', [], Response::from(sessionResponseResource(), metaHeaders()));
 
     $result = $client->realtime()->token();
 
@@ -14,7 +15,7 @@ test('token', function () {
 });
 
 test('transcription token', function () {
-    $client = mockClient('POST', 'realtime/transcription_sessions', [], \OpenAI\ValueObjects\Transporter\Response::from(transcriptionSessionResponseResource(), metaHeaders()));
+    $client = mockClient('POST', 'realtime/transcription_sessions', [], Response::from(transcriptionSessionResponseResource(), metaHeaders()));
 
     $result = $client->realtime()->transcribeToken();
 

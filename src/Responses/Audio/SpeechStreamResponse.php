@@ -41,7 +41,7 @@ final class SpeechStreamResponse implements ResponseHasMetaInformationContract, 
         $response = $psr17Factory->createResponse()
             ->withBody($psr17Factory->createStream($content ?? (string) file_get_contents(__DIR__.'/../../Testing/Responses/Fixtures/Audio/speech-streamed.mp3')));
 
-        if ($meta instanceof \OpenAI\Responses\Meta\MetaInformation) {
+        if ($meta instanceof MetaInformation) {
             foreach ($meta->toArray() as $key => $value) {
                 if (is_scalar($value)) {
                     $response = $response->withHeader($key, (string) $value);
