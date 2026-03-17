@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.19.1 (2026-03-17)
+### Added
+ * Add missing fields for output image generation. ([#742](https://github.com/openai-php/client/pull/742))
+ * Add missing fields for file properties. ([#746](https://github.com/openai-php/client/pull/746))
+ * Add missing vector store description. ([#747](https://github.com/openai-php/client/pull/747))
+ * Add missing contract definition for `updateAttributes`. ([#748](https://github.com/openai-php/client/pull/748))
+
+### Fixed
+ * Add default call type for functions for Mistral compatibility. ([#744](https://github.com/openai-php/client/pull/744))
+
 # v0.19.0 (2026-02-09)
 ### Added
 
