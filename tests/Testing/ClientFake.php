@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
+use OpenAI\Exceptions\ErrorException;
 use OpenAI\Resources\Completions;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Testing\ClientFake;
@@ -50,18 +52,18 @@ it('returns fake meta data', function () {
 
 it('throws fake exceptions', function () {
     $fake = new ClientFake([
-        new \OpenAI\Exceptions\ErrorException([
+        new ErrorException([
             'message' => 'The model `gpt-1` does not exist',
             'type' => 'invalid_request_error',
             'code' => null,
-        ], new \GuzzleHttp\Psr7\Response(404)),
+        ], new Response(404)),
     ]);
 
     $fake->completions()->create([
         'model' => 'gpt-3.5-turbo-instruct',
         'prompt' => 'PHP is ',
     ]);
-})->throws(\OpenAI\Exceptions\ErrorException::class, 'The model `gpt-1` does not exist');
+})->throws(ErrorException::class, 'The model `gpt-1` does not exist');
 
 it('throws an exception if there is no more fake response', function () {
     $fake = new ClientFake([

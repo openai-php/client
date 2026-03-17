@@ -6,11 +6,12 @@ use OpenAI\Responses\Containers\ListContainers;
 use OpenAI\Responses\Containers\Objects\ExpiresAfter;
 use OpenAI\Responses\Containers\RetrieveContainer;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\ValueObjects\Transporter\Response;
 
 test('create', function () {
     $client = mockClient('POST', 'containers', [
         'name' => 'Test Container',
-    ], \OpenAI\ValueObjects\Transporter\Response::from(createContainerResource(), metaHeaders()));
+    ], Response::from(createContainerResource(), metaHeaders()));
 
     $result = $client->containers()->create([
         'name' => 'Test Container',
@@ -36,7 +37,7 @@ test('create', function () {
 
 test('retrieve', function () {
     $client = mockClient('GET', 'containers/container_abc123', [],
-        \OpenAI\ValueObjects\Transporter\Response::from(retrieveContainerResource(), metaHeaders()));
+        Response::from(retrieveContainerResource(), metaHeaders()));
 
     $result = $client->containers()->retrieve('container_abc123');
 
@@ -60,7 +61,7 @@ test('retrieve', function () {
 
 test('delete', function () {
     $client = mockClient('DELETE', 'containers/container_abc123', [],
-        \OpenAI\ValueObjects\Transporter\Response::from(deleteContainerResource(), metaHeaders()));
+        Response::from(deleteContainerResource(), metaHeaders()));
 
     $result = $client->containers()->delete('container_abc123');
 
@@ -76,7 +77,7 @@ test('delete', function () {
 
 test('list', function () {
     $client = mockClient('GET', 'containers', [],
-        \OpenAI\ValueObjects\Transporter\Response::from(listContainersResource(), metaHeaders()));
+        Response::from(listContainersResource(), metaHeaders()));
 
     $result = $client->containers()->list();
 
@@ -104,7 +105,7 @@ test('list', function () {
 
 test('list with parameters', function () {
     $client = mockClient('GET', 'containers', ['limit' => 2],
-        \OpenAI\ValueObjects\Transporter\Response::from(listContainersResource(), metaHeaders()));
+        Response::from(listContainersResource(), metaHeaders()));
 
     $result = $client->containers()->list([
         'limit' => 2,

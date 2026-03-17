@@ -4,9 +4,10 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Models\DeleteResponse;
 use OpenAI\Responses\Models\ListResponse;
 use OpenAI\Responses\Models\RetrieveResponse;
+use OpenAI\ValueObjects\Transporter\Response;
 
 test('list', function () {
-    $client = mockClient('GET', 'models', [], \OpenAI\ValueObjects\Transporter\Response::from(modelList(), metaHeaders()));
+    $client = mockClient('GET', 'models', [], Response::from(modelList(), metaHeaders()));
 
     $result = $client->models()->list();
 
@@ -24,7 +25,7 @@ test('list', function () {
 });
 
 test('retrieve', function () {
-    $client = mockClient('GET', 'models/da-vince', [], \OpenAI\ValueObjects\Transporter\Response::from(model(), metaHeaders()));
+    $client = mockClient('GET', 'models/da-vince', [], Response::from(model(), metaHeaders()));
 
     $result = $client->models()->retrieve('da-vince');
 
@@ -40,7 +41,7 @@ test('retrieve', function () {
 });
 
 test('delete fine tuned model', function () {
-    $client = mockClient('DELETE', 'models/curie:ft-acmeco-2021-03-03-21-44-20', [], \OpenAI\ValueObjects\Transporter\Response::from(fineTunedModelDeleteResource(), metaHeaders()));
+    $client = mockClient('DELETE', 'models/curie:ft-acmeco-2021-03-03-21-44-20', [], Response::from(fineTunedModelDeleteResource(), metaHeaders()));
 
     $result = $client->models()->delete('curie:ft-acmeco-2021-03-03-21-44-20');
 

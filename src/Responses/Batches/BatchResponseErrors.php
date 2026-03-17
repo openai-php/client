@@ -35,7 +35,7 @@ final class BatchResponseErrors implements ResponseContract
         return new self(
             $attributes['object'],
             array_map(
-                fn (array $data): \OpenAI\Responses\Batches\BatchResponseErrorsData => BatchResponseErrorsData::from($data),
+                fn (array $data): BatchResponseErrorsData => BatchResponseErrorsData::from($data),
                 $attributes['data']
             )
         );

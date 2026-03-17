@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Batches\BatchListResponse;
 use OpenAI\Responses\Batches\BatchResponse;
+use OpenAI\Responses\Batches\BatchResponseRequestCounts;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\ValueObjects\Transporter\Response;
 
@@ -44,7 +45,7 @@ test('create', function () {
         ->errors->toBeNull()
         ->status->toBe('completed')
         ->completionWindow->toBe('24h')
-        ->requestCounts->toBeInstanceOf(\OpenAI\Responses\Batches\BatchResponseRequestCounts::class)
+        ->requestCounts->toBeInstanceOf(BatchResponseRequestCounts::class)
         ->requestCounts->total->toBe(100)
         ->metadata->toBeArray()->toHaveCount(2);
 
@@ -65,7 +66,7 @@ test('retrieve', function () {
         ->errors->toBeNull()
         ->status->toBe('completed')
         ->completionWindow->toBe('24h')
-        ->requestCounts->toBeInstanceOf(\OpenAI\Responses\Batches\BatchResponseRequestCounts::class)
+        ->requestCounts->toBeInstanceOf(BatchResponseRequestCounts::class)
         ->requestCounts->total->toBe(100)
         ->metadata->toBeArray()->toHaveCount(2);
 
@@ -86,7 +87,7 @@ test('cancel', function () {
         ->errors->toBeNull()
         ->status->toBe('completed')
         ->completionWindow->toBe('24h')
-        ->requestCounts->toBeInstanceOf(\OpenAI\Responses\Batches\BatchResponseRequestCounts::class)
+        ->requestCounts->toBeInstanceOf(BatchResponseRequestCounts::class)
         ->requestCounts->total->toBe(100)
         ->metadata->toBeArray()->toHaveCount(2);
 
