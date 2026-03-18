@@ -18,6 +18,20 @@ test('from content chunk', function () {
     expect($result)
         ->role->toBeNull()
         ->content->toBe('Hello')
+        ->reasoningContent->toBeNull()
+        ->functionCall->toBeNull();
+});
+
+test('from reasoning content chunk', function () {
+    $delta = [
+        'reasoning_content' => 'Let me think about this...',
+    ];
+    $result = CreateStreamedResponseDelta::from($delta);
+
+    expect($result)
+        ->role->toBeNull()
+        ->content->toBeNull()
+        ->reasoningContent->toBe('Let me think about this...')
         ->functionCall->toBeNull();
 });
 
