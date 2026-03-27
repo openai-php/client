@@ -12,12 +12,13 @@ final class CreateStreamedResponseDelta
     private function __construct(
         public readonly ?string $role,
         public readonly ?string $content,
+        public readonly ?string $reasoningContent,
         public readonly array $toolCalls,
         public readonly ?CreateStreamedResponseFunctionCall $functionCall,
     ) {}
 
     /**
-     * @param  array{role?: string, content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
+     * @param  array{role?: string, content?: string, reasoning?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -28,19 +29,21 @@ final class CreateStreamedResponseDelta
         return new self(
             $attributes['role'] ?? null,
             $attributes['content'] ?? null,
+            $attributes['reasoning'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateStreamedResponseFunctionCall::from($attributes['function_call']) : null,
         );
     }
 
     /**
-     * @return array{role?: string, content?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}
+     * @return array{role?: string, content?: string, reasoning?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}
      */
     public function toArray(): array
     {
         $data = array_filter([
             'role' => $this->role,
             'content' => $this->content,
+            'reasoning' => $this->reasoningContent,
         ], fn (?string $value): bool => ! is_null($value));
 
         if ($this->functionCall instanceof CreateStreamedResponseFunctionCall) {

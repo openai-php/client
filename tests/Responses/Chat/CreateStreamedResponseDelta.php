@@ -88,3 +88,19 @@ test('to array for a tool calls chunk without function name', function () {
     expect($result->toArray())
         ->toBe($data);
 });
+
+test('from reasoning chunk', function () {
+    $result = CreateStreamedResponseDelta::from(chatCompletionStreamReasoningChunk()['choices'][0]['delta']);
+
+    expect($result)
+        ->role->toBeNull()
+        ->content->toBeNull()
+        ->reasoningContent->toBe('Hello world');
+});
+
+test('to array for a reasoning chunk', function () {
+    $result = CreateStreamedResponseDelta::from(chatCompletionStreamReasoningChunk()['choices'][0]['delta']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionStreamReasoningChunk()['choices'][0]['delta']);
+});
