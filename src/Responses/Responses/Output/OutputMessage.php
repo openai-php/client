@@ -12,7 +12,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputTextType from OutputMessageContentOutputText
  * @phpstan-import-type ContentRefusalType from OutputMessageContentRefusal
  *
- * @phpstan-type OutputMessageType array{content: array<int, OutputTextType|ContentRefusalType>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
+ * @phpstan-type OutputMessageType array{content: array<int, OutputTextType|ContentRefusalType>, id: string, role: 'assistant', status: 'in_progress'|'completed'|'incomplete', type: 'message', phase?: 'commentary'|'final_answer'|null}
  *
  * @implements ResponseContract<OutputMessageType>
  */
@@ -30,6 +30,7 @@ final class OutputMessage implements ResponseContract
      * @param  'assistant'  $role
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'message'  $type
+     * @param  'commentary'|'final_answer'|null  $phase
      */
     private function __construct(
         public readonly array $content,
@@ -37,6 +38,7 @@ final class OutputMessage implements ResponseContract
         public readonly string $role,
         public readonly string $status,
         public readonly string $type,
+        public readonly ?string $phase,
     ) {}
 
     /**
@@ -58,6 +60,7 @@ final class OutputMessage implements ResponseContract
             role: $attributes['role'],
             status: $attributes['status'],
             type: $attributes['type'],
+            phase: $attributes['phase'] ?? null,
         );
     }
 
@@ -75,6 +78,7 @@ final class OutputMessage implements ResponseContract
             'role' => $this->role,
             'status' => $this->status,
             'type' => $this->type,
+            'phase' => $this->phase,
         ];
     }
 }
