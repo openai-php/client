@@ -550,6 +550,28 @@ function outputBasicMessage(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+        'phase' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputBasicMessageWithPhase(): array
+{
+    return [
+        'content' => [
+            [
+                'annotations' => [],
+                'text' => 'This is the final answer.',
+                'type' => 'output_text',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'assistant',
+        'status' => 'completed',
+        'type' => 'message',
+        'phase' => 'final_answer',
     ];
 }
 
@@ -645,6 +667,7 @@ function outputAnnotationMessage(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+        'phase' => null,
     ];
 }
 
@@ -664,6 +687,7 @@ function outputMessageOnlyRefusal(): array
         'role' => 'assistant',
         'status' => 'completed',
         'type' => 'message',
+        'phase' => null,
     ];
 }
 
