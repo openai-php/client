@@ -10,10 +10,11 @@ final class CreateResponseToolCall
         public readonly string $id,
         public readonly string $type,
         public readonly CreateResponseToolCallFunction $function,
+        public readonly ?CreateResponseToolCallExtraContent $extra_content,
     ) {}
 
     /**
-     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}}  $attributes
+     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}, extra_content?: array{google?: array{thought_signature: string}}}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -21,18 +22,22 @@ final class CreateResponseToolCall
             $attributes['id'],
             $attributes['type'] ?? 'function',
             CreateResponseToolCallFunction::from($attributes['function']),
+            isset($attributes['extra_content']) ? CreateResponseToolCallExtraContent::from($attributes['extra_content']) : null,
         );
     }
 
     /**
-     * @return array{id: string, type: string, function: array{name: string, arguments: string}}
+     * @return array{id: string, type: string, function: array{name: string, arguments: string}, extra_content?: array{google?: array{thought_signature: string}|null}}
      */
     public function toArray(): array
     {
-        return [
+        $extraContentArray = $this->extra_content?->toArray();
+
+        return array_filter([
             'id' => $this->id,
             'type' => $this->type,
             'function' => $this->function->toArray(),
-        ];
+            'extra_content' => empty($extraContentArray) ? null : $extraContentArray,
+        ], fn ($value) => $value !== null);
     }
 }
