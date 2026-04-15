@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
 use OpenAI\Exceptions\ErrorException;
 use OpenAI\Exceptions\RateLimitException;
+use OpenAI\Exceptions\ServerException;
 use OpenAI\Exceptions\TransporterException;
 use OpenAI\Exceptions\UnserializableResponse;
 use OpenAI\Responses\Models\ListResponse;
@@ -329,6 +330,34 @@ test('error message may be an array', function (string $requestMethod) {
         });
 })->with('request methods');
 
+test('error may be an nested array', function (string $requestMethod) {
+    $payload = Payload::create('completions', ['model' => 'gpt-4']);
+
+    $response = new Response(404, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        [
+            'error' => [
+                'message' => 'The engine is currently overloaded, please try again later',
+                'type' => 'invalid_request_error',
+                'param' => null,
+                'code' => null,
+            ],
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('The engine is currently overloaded, please try again later')
+                ->and($e->getErrorMessage())->toBe('The engine is currently overloaded, please try again later')
+                ->and($e->getErrorCode())->toBeNull()
+                ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+})->with('request methods');
+
 test('error message may be empty', function (string $requestMethod) {
     $payload = Payload::create('completions', ['model' => 'gpt-4']);
 
@@ -577,6 +606,28 @@ test('request content server errors', function () {
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('request server errors', function () {
+    $payload = Payload::list('models');
+
+    $response = new Response(503, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'code' => 503,
+            'message' => 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.',
+            'status' => 'UNAVAILABLE',
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->requestContent($payload))
+        ->toThrow(function (ServerException $e) {
+            expect($e->getMessage())->toBe('Server error (HTTP 503) occurred.');
         });
 });
 
