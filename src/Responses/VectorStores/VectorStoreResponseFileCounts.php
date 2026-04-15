@@ -38,8 +38,8 @@ final class VectorStoreResponseFileCounts implements ResponseContract
         return new self(
             $attributes['in_progress'],
             $attributes['completed'],
-            $attributes['cancelled'],
             $attributes['failed'],
+            $attributes['cancelled'],
             $attributes['total'],
         );
     }
