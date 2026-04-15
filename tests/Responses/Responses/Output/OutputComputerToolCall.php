@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionClick;
+use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionScreenshot;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 
 test('from', function () {
@@ -27,4 +28,29 @@ test('to array', function () {
     expect($response->toArray())
         ->toBeArray()
         ->toBe(outputComputerToolCall());
+});
+
+test('from with actions and without pending safety checks', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['action'], $payload['pending_safety_checks']);
+    $payload['actions'] = [
+        ['type' => 'screenshot'],
+    ];
+
+    $response = OutputComputerToolCall::from($payload);
+
+    expect($response)
+        ->toBeInstanceOf(OutputComputerToolCall::class)
+        ->action->toBeInstanceOf(OutputComputerActionScreenshot::class)
+        ->pendingSafetyChecks->toBeArray()->toHaveCount(0)
+        ->status->toBe('completed')
+        ->type->toBe('computer_call');
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toMatchArray([
+            'action' => ['type' => 'screenshot'],
+            'pending_safety_checks' => [],
+        ])
+        ->not->toHaveKey('actions');
 });

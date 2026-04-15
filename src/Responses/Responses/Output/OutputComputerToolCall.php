@@ -30,7 +30,8 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type WaitType from Wait
  * @phpstan-import-type PendingSafetyCheckType from OutputComputerPendingSafetyCheck
  *
- * @phpstan-type OutputComputerToolCallType array{action: ClickType|DoubleClickType|DragType|KeyPressType|MoveType|ScreenshotType|ScrollType|TypeType|WaitType, call_id: string, id: string, pending_safety_checks: array<int, PendingSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}
+ * @phpstan-type ActionType ClickType|DoubleClickType|DragType|KeyPressType|MoveType|ScreenshotType|ScrollType|TypeType|WaitType
+ * @phpstan-type OutputComputerToolCallType array{action?: ActionType, actions?: array<int, ActionType>, call_id: string, id: string, pending_safety_checks?: array<int, PendingSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}
  *
  * @implements ResponseContract<OutputComputerToolCallType>
  */
@@ -62,21 +63,23 @@ final class OutputComputerToolCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $action = match ($attributes['action']['type']) {
-            'click' => Click::from($attributes['action']),
-            'double_click' => DoubleClick::from($attributes['action']),
-            'drag' => Drag::from($attributes['action']),
-            'keypress' => KeyPress::from($attributes['action']),
-            'move' => Move::from($attributes['action']),
-            'screenshot' => Screenshot::from($attributes['action']),
-            'scroll' => Scroll::from($attributes['action']),
-            'type' => Type::from($attributes['action']),
-            'wait' => Wait::from($attributes['action']),
+        $actionAttributes = $attributes['action'] ?? ($attributes['actions'][0] ?? []);
+
+        $action = match ($actionAttributes['type']) {
+            'click' => Click::from($actionAttributes),
+            'double_click' => DoubleClick::from($actionAttributes),
+            'drag' => Drag::from($actionAttributes),
+            'keypress' => KeyPress::from($actionAttributes),
+            'move' => Move::from($actionAttributes),
+            'screenshot' => Screenshot::from($actionAttributes),
+            'scroll' => Scroll::from($actionAttributes),
+            'type' => Type::from($actionAttributes),
+            'wait' => Wait::from($actionAttributes),
         };
 
         $pendingSafetyChecks = array_map(
             fn (array $safetyCheck): OutputComputerPendingSafetyCheck => OutputComputerPendingSafetyCheck::from($safetyCheck),
-            $attributes['pending_safety_checks']
+            $attributes['pending_safety_checks'] ?? []
         );
 
         return new self(
