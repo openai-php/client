@@ -63,7 +63,16 @@ final class OutputComputerToolCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $actionAttributes = $attributes['action'] ?? ($attributes['actions'][0] ?? []);
+        $actionAttributes = [];
+        if (isset($attributes['action'])) {
+            $actionAttributes = $attributes['action'];
+        } elseif (isset($attributes['actions']) && isset($attributes['actions'][0])) {
+            $actionAttributes = $attributes['actions'][0];
+        }
+
+        if (! isset($actionAttributes['type'])) {
+            throw new \InvalidArgumentException('Missing required computer action payload.');
+        }
 
         $action = match ($actionAttributes['type']) {
             'click' => Click::from($actionAttributes),

@@ -54,3 +54,45 @@ test('from with actions and without pending safety checks', function () {
         ])
         ->not->toHaveKey('actions');
 });
+
+test('from with multiple actions uses the first action', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['action']);
+    $payload['actions'] = [
+        ['type' => 'screenshot'],
+        ['type' => 'wait'],
+    ];
+
+    $response = OutputComputerToolCall::from($payload);
+
+    expect($response->action)
+        ->toBeInstanceOf(OutputComputerActionScreenshot::class);
+});
+
+test('from without action payload throws exception', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['action']);
+    $payload['actions'] = [];
+
+    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
+        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+});
+
+test('from without action and actions keys throws exception', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['action'], $payload['actions']);
+
+    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
+        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+});
+
+test('from with malformed actions payload throws exception', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['action']);
+    $payload['actions'] = [
+        ['x' => 1],
+    ];
+
+    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
+        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+});
