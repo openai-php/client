@@ -341,7 +341,7 @@ test('error may be an nested array', function (string $requestMethod) {
                 'param' => null,
                 'code' => null,
             ],
-        ]
+        ],
     ]));
 
     $this->client
