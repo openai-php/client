@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
+use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDone;
 use OpenAI\Responses\Responses\Streaming\Response;
@@ -54,4 +55,16 @@ test('reasoning text done event', function () {
         ->response->outputIndex->toBe(0)
         ->response->contentIndex->toBe(0)
         ->response->sequenceNumber->toBe(10);
+});
+
+test('rate limits updated event', function () {
+    $response = CreateStreamedResponse::fake(responseRateLimitsUpdatedEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.rate_limits.updated')
+        ->response->toBeInstanceOf(RateLimits::class)
+        ->response->toArray()->toBe([
+            'type' => 'response.rate_limits.updated',
+        ]);
 });
