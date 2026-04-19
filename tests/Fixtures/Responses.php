@@ -944,3 +944,8 @@ function responseReasoningTextDoneEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseReasoningTextDone.txt', 'r');
 }
+
+function responseRateLimitsUpdatedEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseRateLimitsUpdated.txt', 'r');
+}
