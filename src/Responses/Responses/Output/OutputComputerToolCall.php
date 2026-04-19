@@ -45,12 +45,13 @@ final class OutputComputerToolCall implements ResponseContract
     use Fakeable;
 
     /**
+     * @param  array<int, Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait>  $actions
      * @param  array<int, OutputComputerPendingSafetyCheck>  $pendingSafetyChecks
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'computer_call'  $type
      */
     private function __construct(
-        public readonly Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait $action,
+        public readonly array $actions,
         public readonly string $callId,
         public readonly string $id,
         public readonly array $pendingSafetyChecks,
@@ -64,27 +65,31 @@ final class OutputComputerToolCall implements ResponseContract
     public static function from(array $attributes): self
     {
         $actionAttributes = [];
-        if (isset($attributes['action'])) {
-            $actionAttributes = $attributes['action'];
-        } elseif (isset($attributes['actions']) && isset($attributes['actions'][0])) {
-            $actionAttributes = $attributes['actions'][0];
+        if (isset($attributes['actions'])) {
+            $actionAttributes = $attributes['actions'];
+        } elseif (isset($attributes['action'])) {
+            $actionAttributes = [$attributes['action']];
         }
 
-        if (! isset($actionAttributes['type'])) {
+        if ($actionAttributes === []) {
             throw new \InvalidArgumentException('Missing required computer action payload.');
         }
 
-        $action = match ($actionAttributes['type']) {
-            'click' => Click::from($actionAttributes),
-            'double_click' => DoubleClick::from($actionAttributes),
-            'drag' => Drag::from($actionAttributes),
-            'keypress' => KeyPress::from($actionAttributes),
-            'move' => Move::from($actionAttributes),
-            'screenshot' => Screenshot::from($actionAttributes),
-            'scroll' => Scroll::from($actionAttributes),
-            'type' => Type::from($actionAttributes),
-            'wait' => Wait::from($actionAttributes),
-        };
+        $actions = array_map(
+            fn (array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait => match ($action['type'] ?? null) {
+                'click' => Click::from($action),
+                'double_click' => DoubleClick::from($action),
+                'drag' => Drag::from($action),
+                'keypress' => KeyPress::from($action),
+                'move' => Move::from($action),
+                'screenshot' => Screenshot::from($action),
+                'scroll' => Scroll::from($action),
+                'type' => Type::from($action),
+                'wait' => Wait::from($action),
+                default => throw new \InvalidArgumentException('Missing required computer action payload.'),
+            },
+            $actionAttributes
+        );
 
         $pendingSafetyChecks = array_map(
             fn (array $safetyCheck): OutputComputerPendingSafetyCheck => OutputComputerPendingSafetyCheck::from($safetyCheck),
@@ -92,7 +97,7 @@ final class OutputComputerToolCall implements ResponseContract
         );
 
         return new self(
-            action: $action,
+            actions: $actions,
             callId: $attributes['call_id'],
             id: $attributes['id'],
             pendingSafetyChecks: $pendingSafetyChecks,
@@ -110,7 +115,10 @@ final class OutputComputerToolCall implements ResponseContract
             'type' => $this->type,
             'call_id' => $this->callId,
             'id' => $this->id,
-            'action' => $this->action->toArray(),
+            'actions' => array_map(
+                fn (Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait $action): array => $action->toArray(),
+                $this->actions,
+            ),
             'pending_safety_checks' => array_map(
                 fn (OutputComputerPendingSafetyCheck $safetyCheck): array => $safetyCheck->toArray(),
                 $this->pendingSafetyChecks,

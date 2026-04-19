@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionClick;
 use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionScreenshot;
+use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionWait;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 
 test('from', function () {
@@ -9,7 +10,12 @@ test('from', function () {
 
     expect($response)
         ->toBeInstanceOf(OutputComputerToolCall::class)
-        ->action->toBeInstanceOf(OutputComputerActionClick::class)
+        ->actions->toBeArray()->toHaveCount(1);
+
+    expect($response->actions[0])
+        ->toBeInstanceOf(OutputComputerActionClick::class);
+
+    expect($response)
         ->callId->toBe('call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->id->toBe('cu_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->status->toBe('completed')
@@ -32,7 +38,7 @@ test('to array', function () {
 
 test('from with actions and without pending safety checks', function () {
     $payload = outputComputerToolCall();
-    unset($payload['action'], $payload['pending_safety_checks']);
+    unset($payload['pending_safety_checks']);
     $payload['actions'] = [
         ['type' => 'screenshot'],
     ];
@@ -41,23 +47,23 @@ test('from with actions and without pending safety checks', function () {
 
     expect($response)
         ->toBeInstanceOf(OutputComputerToolCall::class)
-        ->action->toBeInstanceOf(OutputComputerActionScreenshot::class)
+        ->actions->toBeArray()->toHaveCount(1)
         ->pendingSafetyChecks->toBeArray()->toHaveCount(0)
         ->status->toBe('completed')
         ->type->toBe('computer_call');
 
+    expect($response->actions[0])->toBeInstanceOf(OutputComputerActionScreenshot::class);
+
     expect($response->toArray())
         ->toBeArray()
         ->toMatchArray([
-            'action' => ['type' => 'screenshot'],
+            'actions' => [['type' => 'screenshot']],
             'pending_safety_checks' => [],
-        ])
-        ->not->toHaveKey('actions');
+        ]);
 });
 
-test('from with multiple actions uses the first action', function () {
+test('from with multiple actions maps all actions', function () {
     $payload = outputComputerToolCall();
-    unset($payload['action']);
     $payload['actions'] = [
         ['type' => 'screenshot'],
         ['type' => 'wait'],
@@ -65,8 +71,11 @@ test('from with multiple actions uses the first action', function () {
 
     $response = OutputComputerToolCall::from($payload);
 
-    expect($response->action)
-        ->toBeInstanceOf(OutputComputerActionScreenshot::class);
+    expect($response->actions)
+        ->toHaveCount(2);
+
+    expect($response->actions[0])->toBeInstanceOf(OutputComputerActionScreenshot::class);
+    expect($response->actions[1])->toBeInstanceOf(OutputComputerActionWait::class);
 });
 
 test('from without action payload throws exception', function () {
