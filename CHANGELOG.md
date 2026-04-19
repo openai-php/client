@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.19.2 (2026-04-19)
+### Added
+ * Add `phase` property to `OutputMessage`. ([#754](https://github.com/openai-php/client/pull/754))
+ * Add streaming Ratelimit event. ([#761](https://github.com/openai-php/client/pull/761))
+
+### Fixed
+ * Fix reasoning content streaming. ([#751](https://github.com/openai-php/client/pull/751))
+ * Fix `VectorStoreResponseFileCounts` attribute order. ([#756](https://github.com/openai-php/client/pull/756))
+ * React properly to server and 'high demand' errors. ([#757](https://github.com/openai-php/client/pull/757))
+
 # v0.19.1 (2026-03-17)
 ### Added
  * Add missing fields for output image generation. ([#742](https://github.com/openai-php/client/pull/742))
