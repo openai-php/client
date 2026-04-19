@@ -64,6 +64,7 @@ final class OutputComputerToolCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
+        /** @var array<int, ActionType> $actionAttributes */
         $actionAttributes = [];
         if (isset($attributes['actions'])) {
             $actionAttributes = $attributes['actions'];
@@ -113,7 +114,7 @@ final class OutputComputerToolCall implements ResponseContract
     }
 
     /**
-     * @param  array<string, mixed>  $action
+     * @param  ActionType  $action
      */
     private static function mapAction(array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait
     {
