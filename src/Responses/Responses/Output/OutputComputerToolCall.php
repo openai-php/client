@@ -118,7 +118,10 @@ final class OutputComputerToolCall implements ResponseContract
      */
     private static function mapAction(array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait
     {
-        return match ($action['type'] ?? null) {
+        /** @var array<string, mixed> $untypedAction */
+        $untypedAction = $action;
+
+        return match ($untypedAction['type'] ?? null) {
             'click' => Click::from($action),
             'double_click' => DoubleClick::from($action),
             'drag' => Drag::from($action),
