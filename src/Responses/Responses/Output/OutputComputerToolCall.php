@@ -72,7 +72,7 @@ final class OutputComputerToolCall implements ResponseContract
         }
 
         if ($actionAttributes === []) {
-            throw new \InvalidArgumentException('Missing required computer action payload.');
+            throw new \InvalidArgumentException('No computer actions provided in payload.');
         }
 
         $actions = array_map(
@@ -86,7 +86,7 @@ final class OutputComputerToolCall implements ResponseContract
                 'scroll' => Scroll::from($action),
                 'type' => Type::from($action),
                 'wait' => Wait::from($action),
-                default => throw new \InvalidArgumentException('Missing required computer action payload.'),
+                default => throw new \InvalidArgumentException('Invalid or missing action type in computer action payload.'),
             },
             $actionAttributes
         );

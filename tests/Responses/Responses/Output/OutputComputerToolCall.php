@@ -65,7 +65,12 @@ test('from with actions and without pending safety checks', function () {
 test('from with multiple actions maps all actions', function () {
     $payload = outputComputerToolCall();
     $payload['actions'] = [
-        ['type' => 'screenshot'],
+        [
+            'button' => 'left',
+            'type' => 'click',
+            'x' => 117,
+            'y' => 123,
+        ],
         ['type' => 'wait'],
     ];
 
@@ -74,7 +79,7 @@ test('from with multiple actions maps all actions', function () {
     expect($response->actions)
         ->toHaveCount(2);
 
-    expect($response->actions[0])->toBeInstanceOf(OutputComputerActionScreenshot::class);
+    expect($response->actions[0])->toBeInstanceOf(OutputComputerActionClick::class);
     expect($response->actions[1])->toBeInstanceOf(OutputComputerActionWait::class);
 });
 
@@ -84,7 +89,7 @@ test('from without action payload throws exception', function () {
     $payload['actions'] = [];
 
     expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
-        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+        ->toThrow(InvalidArgumentException::class, 'No computer actions provided in payload.');
 });
 
 test('from without action and actions keys throws exception', function () {
@@ -92,7 +97,7 @@ test('from without action and actions keys throws exception', function () {
     unset($payload['action'], $payload['actions']);
 
     expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
-        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+        ->toThrow(InvalidArgumentException::class, 'No computer actions provided in payload.');
 });
 
 test('from with malformed actions payload throws exception', function () {
@@ -103,5 +108,5 @@ test('from with malformed actions payload throws exception', function () {
     ];
 
     expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
-        ->toThrow(InvalidArgumentException::class, 'Missing required computer action payload.');
+        ->toThrow(InvalidArgumentException::class, 'Invalid or missing action type in computer action payload.');
 });
