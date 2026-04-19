@@ -83,26 +83,28 @@ test('from with multiple actions maps all actions', function () {
     expect($response->actions[1])->toBeInstanceOf(OutputComputerActionWait::class);
 });
 
-test('from without action payload throws exception', function () {
+test('from with empty actions returns empty actions array', function () {
     $payload = outputComputerToolCall();
-    unset($payload['action']);
     $payload['actions'] = [];
 
-    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
-        ->toThrow(InvalidArgumentException::class, 'No computer actions provided in payload.');
+    $response = OutputComputerToolCall::from($payload);
+
+    expect($response->actions)->toBeArray()->toHaveCount(0);
+    expect($response->toArray()['actions'])->toBeArray()->toHaveCount(0);
 });
 
-test('from without action and actions keys throws exception', function () {
+test('from without action and actions keys returns empty actions array', function () {
     $payload = outputComputerToolCall();
-    unset($payload['action'], $payload['actions']);
+    unset($payload['actions']);
 
-    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
-        ->toThrow(InvalidArgumentException::class, 'No computer actions provided in payload.');
+    $response = OutputComputerToolCall::from($payload);
+
+    expect($response->actions)->toBeArray()->toHaveCount(0);
+    expect($response->toArray()['actions'])->toBeArray()->toHaveCount(0);
 });
 
 test('from with malformed actions payload throws exception', function () {
     $payload = outputComputerToolCall();
-    unset($payload['action']);
     $payload['actions'] = [
         ['x' => 1],
     ];

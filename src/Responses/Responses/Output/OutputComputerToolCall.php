@@ -71,23 +71,8 @@ final class OutputComputerToolCall implements ResponseContract
             $actionAttributes = [$attributes['action']];
         }
 
-        if ($actionAttributes === []) {
-            throw new \InvalidArgumentException('No computer actions provided in payload.');
-        }
-
         $actions = array_map(
-            fn (array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait => match ($action['type'] ?? null) {
-                'click' => Click::from($action),
-                'double_click' => DoubleClick::from($action),
-                'drag' => Drag::from($action),
-                'keypress' => KeyPress::from($action),
-                'move' => Move::from($action),
-                'screenshot' => Screenshot::from($action),
-                'scroll' => Scroll::from($action),
-                'type' => Type::from($action),
-                'wait' => Wait::from($action),
-                default => throw new \InvalidArgumentException('Invalid or missing action type in computer action payload.'),
-            },
+            static fn (array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait => self::mapAction($action),
             $actionAttributes
         );
 
@@ -125,5 +110,24 @@ final class OutputComputerToolCall implements ResponseContract
             ),
             'status' => $this->status,
         ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $action
+     */
+    private static function mapAction(array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait
+    {
+        return match ($action['type'] ?? null) {
+            'click' => Click::from($action),
+            'double_click' => DoubleClick::from($action),
+            'drag' => Drag::from($action),
+            'keypress' => KeyPress::from($action),
+            'move' => Move::from($action),
+            'screenshot' => Screenshot::from($action),
+            'scroll' => Scroll::from($action),
+            'type' => Type::from($action),
+            'wait' => Wait::from($action),
+            default => throw new \InvalidArgumentException('Invalid or missing action type in computer action payload.'),
+        };
     }
 }
