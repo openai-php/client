@@ -114,24 +114,40 @@ final class OutputComputerToolCall implements ResponseContract
     }
 
     /**
-     * @param  ActionType  $action
+     * @param  array<string, mixed>  $action
      */
     private static function mapAction(array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait
     {
-        /** @var array<string, mixed> $untypedAction */
-        $untypedAction = $action;
-
-        return match ($untypedAction['type'] ?? null) {
-            'click' => Click::from($action),
-            'double_click' => DoubleClick::from($action),
-            'drag' => Drag::from($action),
-            'keypress' => KeyPress::from($action),
-            'move' => Move::from($action),
-            'screenshot' => Screenshot::from($action),
-            'scroll' => Scroll::from($action),
-            'type' => Type::from($action),
-            'wait' => Wait::from($action),
-            default => throw new \InvalidArgumentException('Invalid or missing action type in computer action payload.'),
-        };
+        switch ($action['type'] ?? null) {
+            case 'click':
+                /** @var ClickType $action */
+                return Click::from($action);
+            case 'double_click':
+                /** @var DoubleClickType $action */
+                return DoubleClick::from($action);
+            case 'drag':
+                /** @var DragType $action */
+                return Drag::from($action);
+            case 'keypress':
+                /** @var KeyPressType $action */
+                return KeyPress::from($action);
+            case 'move':
+                /** @var MoveType $action */
+                return Move::from($action);
+            case 'screenshot':
+                /** @var ScreenshotType $action */
+                return Screenshot::from($action);
+            case 'scroll':
+                /** @var ScrollType $action */
+                return Scroll::from($action);
+            case 'type':
+                /** @var TypeType $action */
+                return Type::from($action);
+            case 'wait':
+                /** @var WaitType $action */
+                return Wait::from($action);
+            default:
+                throw new \InvalidArgumentException('Invalid or missing action type in computer action payload.');
+        }
     }
 }
