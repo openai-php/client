@@ -95,7 +95,7 @@ test('from with empty actions returns empty actions array', function () {
 
 test('from without action and actions keys returns empty actions array', function () {
     $payload = outputComputerToolCall();
-    unset($payload['actions']);
+    unset($payload['action'], $payload['actions']);
 
     $response = OutputComputerToolCall::from($payload);
 
@@ -108,6 +108,15 @@ test('from with malformed actions payload throws exception', function () {
     $payload['actions'] = [
         ['x' => 1],
     ];
+
+    expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
+        ->toThrow(InvalidArgumentException::class, 'Invalid or missing action type in computer action payload.');
+});
+
+test('from with malformed legacy action payload throws exception', function () {
+    $payload = outputComputerToolCall();
+    unset($payload['actions']);
+    $payload['action'] = ['x' => 1];
 
     expect(fn (): OutputComputerToolCall => OutputComputerToolCall::from($payload))
         ->toThrow(InvalidArgumentException::class, 'Invalid or missing action type in computer action payload.');
