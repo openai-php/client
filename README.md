@@ -59,6 +59,7 @@ If you or your business relies on this package, it's important to support the de
 - [Testing](#testing)
 - [Webhooks][#webhooks]
 - [Services](#services)
+  - [Astraflow](#astraflow)
   - [Azure](#azure)
 
 ## Get Started
@@ -3135,6 +3136,57 @@ try {
 ```
 
 ## Services
+
+### Astraflow
+
+[Astraflow](https://astraflow.ucloud.cn/) (by UCloud / 优刻得) is an OpenAI-compatible AI model aggregation platform that supports **200+ models** through two regional endpoints. Sign up for an API key at **https://astraflow.ucloud.cn/**.
+
+| Endpoint | Base URI | Environment variable |
+|----------|----------|---------------------|
+| Global   | `https://api-us-ca.umodelverse.ai/v1` | `ASTRAFLOW_API_KEY` |
+| China    | `https://api.modelverse.cn/v1`        | `ASTRAFLOW_CN_API_KEY` |
+
+#### Global endpoint
+
+```php
+$client = Astraflow::client(getenv('ASTRAFLOW_API_KEY'));
+
+$response = $client->chat()->create([
+    'model' => 'deepseek-r1', // any of 200+ supported models
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
+]);
+
+echo $response->choices[0]->message->content;
+```
+
+#### China endpoint
+
+```php
+$client = Astraflow::clientCn(getenv('ASTRAFLOW_CN_API_KEY'));
+
+$response = $client->chat()->create([
+    'model' => 'deepseek-r1',
+    'messages' => [
+        ['role' => 'user', 'content' => '你好！'],
+    ],
+]);
+
+echo $response->choices[0]->message->content;
+```
+
+#### Full factory customisation
+
+```php
+$client = Astraflow::factory()
+    ->withApiKey(getenv('ASTRAFLOW_API_KEY'))
+    ->withBaseUri(Astraflow::BASE_URI)           // or Astraflow::BASE_URI_CN
+    ->withHttpClient(new \GuzzleHttp\Client([]))
+    ->withHttpHeader('X-Custom-Header', 'value')
+    ->withQueryParam('my-param', 'bar')
+    ->make();
+```
 
 ### Azure
 

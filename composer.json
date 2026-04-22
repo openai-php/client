@@ -38,7 +38,8 @@
             "OpenAI\\": "src/"
         },
         "files": [
-            "src/OpenAI.php"
+            "src/OpenAI.php",
+            "src/Astraflow.php"
         ]
     },
     "autoload-dev": {
