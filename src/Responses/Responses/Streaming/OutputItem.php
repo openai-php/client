@@ -35,7 +35,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputMcpCallType from OutputMcpCall
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  *
- * @phpstan-type OutputItemType array{type: string, output_index: int, item: OutputCodeInterpreterToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType}
+ * @phpstan-type OutputItemType array{type: string, output_index: int, sequence_number: int, item: OutputCodeInterpreterToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType}
  *
  * @implements ResponseContract<OutputItemType>
  */
@@ -52,6 +52,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
     private function __construct(
         public readonly string $type,
         public readonly int $outputIndex,
+        public readonly int $sequenceNumber,
         public readonly OutputMessage|OutputCodeInterpreterToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall $item,
         private readonly MetaInformation $meta,
     ) {}
@@ -78,6 +79,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
         return new self(
             type: $attributes['type'],
             outputIndex: $attributes['output_index'],
+            sequenceNumber: $attributes['sequence_number'],
             item: $item,
             meta: $meta,
         );
@@ -91,6 +93,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
         return [
             'type' => $this->type,
             'output_index' => $this->outputIndex,
+            'sequence_number' => $this->sequenceNumber,
             'item' => $this->item->toArray(),
         ];
     }
