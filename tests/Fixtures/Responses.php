@@ -477,11 +477,13 @@ function outputComputerToolCall(): array
         'type' => 'computer_call',
         'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'id' => 'cu_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
-        'action' => [
-            'button' => 'left',
-            'type' => 'click',
-            'x' => 117,
-            'y' => 123,
+        'actions' => [
+            [
+                'button' => 'left',
+                'type' => 'click',
+                'x' => 117,
+                'y' => 123,
+            ],
         ],
         'pending_safety_checks' => [
             [
