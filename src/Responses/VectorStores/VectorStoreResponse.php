@@ -55,7 +55,7 @@ final class VectorStoreResponse implements ResponseContract, ResponseHasMetaInfo
             $attributes['object'],
             $attributes['created_at'],
             $attributes['name'],
-            $attributes['description'],
+            $attributes['description'] ?? null,
             $attributes['usage_bytes'],
             VectorStoreResponseFileCounts::from($attributes['file_counts']),
             $attributes['status'],
