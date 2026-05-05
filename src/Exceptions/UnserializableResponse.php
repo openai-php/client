@@ -12,6 +12,6 @@ final class UnserializableResponse extends Exception
 {
     public function __construct(JsonException $exception, public ResponseInterface $response)
     {
-        parent::__construct($exception->getMessage(), 0, $exception);
+        parent::__construct($exception->getMessage() . ' or the server returned an invalid response.', 0, $exception);
     }
 }
