@@ -7,7 +7,7 @@ namespace OpenAI\Responses\Chat;
 final class CreateResponseToolCall
 {
     /**
-     * @param array<string, array<string,string>>|null $extraContent
+     * @param  array<string, array<string,string>>|null  $extraContent
      */
     private function __construct(
         public readonly string $id,
