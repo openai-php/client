@@ -14,7 +14,7 @@ final class CreateResponseToolCall
     ) {}
 
     /**
-     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}, extra_content: array{name: string, arguments: string}|null}  $attributes
+     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}, extra_content: array<string, array<string,string>>|null}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -27,7 +27,7 @@ final class CreateResponseToolCall
     }
 
     /**
-     * @return array{id: string, type: string, function: array{name: string, arguments: string}, extra_content: array{name: string, arguments: string}|null}
+     * @return array{id: string, type: string, function: array{name: string, arguments: string}, extra_content: array<string, array<string,string>>|null}
      */
     public function toArray(): array
     {
