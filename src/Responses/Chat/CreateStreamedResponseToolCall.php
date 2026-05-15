@@ -6,6 +6,13 @@ namespace OpenAI\Responses\Chat;
 
 final class CreateStreamedResponseToolCall
 {
+    /**
+     * @param int|null $index
+     * @param string|null $id
+     * @param string|null $type
+     * @param CreateStreamedResponseToolCallFunction $function
+     * @param array<string, array<string,string>>|null $extraContent
+     */
     private function __construct(
         public readonly ?int $index,
         public readonly ?string $id,

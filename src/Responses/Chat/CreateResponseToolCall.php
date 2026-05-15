@@ -6,15 +6,21 @@ namespace OpenAI\Responses\Chat;
 
 final class CreateResponseToolCall
 {
+    /**
+     * @param string $id
+     * @param string $type
+     * @param CreateResponseToolCallFunction $function
+     * @param array<string, array<string,string>>|null $extraContent
+     */
     private function __construct(
         public readonly string $id,
         public readonly string $type,
         public readonly CreateResponseToolCallFunction $function,
-        public readonly ?array $extraContent,
+        public readonly ?array $extraContent = null,
     ) {}
 
     /**
-     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}, extra_content: array<string, array<string,string>>|null}  $attributes
+     * @param  array{id: string, type?: string, function: array{name: string, arguments: string}, extra_content?: array<string, array<string,string>>|null}  $attributes
      */
     public static function from(array $attributes): self
     {
