@@ -18,7 +18,7 @@ final class CreateStreamedResponseToolCall
     ) {}
 
     /**
-     * @param  array{index?: int, id?: string, type?: string, function: array{name?: string, arguments: string}, extra_content: array<string, array<string,string>>|null}  $attributes
+     * @param  array{index?: int, id?: string, type?: string, function: array{name?: string, arguments: string}, extra_content?: array<string, array<string,string>>|null}  $attributes
      */
     public static function from(array $attributes): self
     {
