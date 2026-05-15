@@ -29,7 +29,7 @@ final class CreateStreamedResponseToolCall
     }
 
     /**
-     * @return array{index?: int, id?: string, type?: string, function?: array{name?: string, arguments: string}, extra_content: array<string, array<string,string>>|null}
+     * @return array{index?: int, id?: string, type?: string, function?: array{name?: string, arguments: string}, extra_content?: array<string, array<string,string>>}
      */
     public function toArray(): array
     {
