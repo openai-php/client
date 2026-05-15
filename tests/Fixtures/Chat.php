@@ -518,7 +518,7 @@ function chatCompletionWithToolCallsAndExtraContent(): array
                             ],
                             'extra_content' => [
                                 'google' => [
-                                    'thought_signature' => 'trlgKnhMpYSC7CFXKw3CceUZ'
+                                    'thought_signature' => 'trlgKnhMpYSC7CFXKw3CceUZ',
                                 ]
                             ],
                         ],
