@@ -33,7 +33,26 @@ test('from tool calls response', function () {
         ->content->toBeNull()
         ->toolCalls->toBeArray()
         ->toolCalls->toHaveCount(1)
-        ->toolCalls->each->toBeInstanceOf(CreateResponseToolCall::class);
+        ->toolCalls->each->toBeInstanceOf(CreateResponseToolCall::class)
+        ->and($result->toolCalls[0])
+        ->extraContent->toBeNull();
+});
+
+test('from tool calls response with extra content', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithToolCallsAndExtraContent()['choices'][0]['message']);
+
+    expect($result)
+        ->role->toBe('assistant')
+        ->content->toBeNull()
+        ->toolCalls->toBeArray()
+        ->toolCalls->toHaveCount(1)
+        ->toolCalls->each->toBeInstanceOf(CreateResponseToolCall::class)
+        ->and($result->toolCalls[0])
+        ->extraContent->toBeArray()
+        ->extraContent->toHaveCount(1)
+        ->extraContent->toHaveKey('google')
+        ->extraContent->google->toHaveKey('thought_signature')
+        ->extraContent->google->thought_signature->toBe('trlgKnhMpYSC7CFXKw3CceUZ');
 });
 
 test('from annotations response', function () {
@@ -92,6 +111,13 @@ test('to array from tool calls response', function () {
 
     expect($result->toArray())
         ->toBe(chatCompletionWithToolCalls()['choices'][0]['message']);
+});
+
+test('to array from tool calls response with extra content', function () {
+    $result = CreateResponseMessage::from(chatCompletionWithToolCallsAndExtraContent()['choices'][0]['message']);
+
+    expect($result->toArray())
+        ->toBe(chatCompletionWithToolCallsAndExtraContent()['choices'][0]['message']);
 });
 
 test('to array from annotations response', function () {
