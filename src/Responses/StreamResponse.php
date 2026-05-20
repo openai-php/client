@@ -60,7 +60,7 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
                 throw new ErrorException($response['error'], $this->response);
             }
 
-            $skippableTypes = ['ping', 'keepalive'];
+            $skippableTypes = ['ping', 'keepalive', 'response.keep_alive'];
             if (isset($response['type']) && in_array($response['type'], $skippableTypes, true)) {
                 continue;
             }
