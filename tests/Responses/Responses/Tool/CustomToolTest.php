@@ -3,6 +3,7 @@
 use OpenAI\Responses\Responses\Tool\CustomTool;
 use OpenAI\Responses\Responses\Tool\CustomToolInputs\TextInput;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
+use OpenAI\Responses\Responses\Tool\NamespaceTools\CustomTool as NamespaceCustomTool;
 
 test('from with custom tool', function () {
     $response = CustomTool::from(toolCustom());
@@ -36,7 +37,7 @@ test('namespace tool with custom tool', function () {
     expect($response)
         ->toBeInstanceOf(NamespaceTool::class)
         ->tools->toHaveCount(1)
-        ->tools->{0}->toBeInstanceOf(CustomTool::class);
+        ->tools->{0}->toBeInstanceOf(NamespaceCustomTool::class);
 
     expect($response->toArray())
         ->toBe($data);
