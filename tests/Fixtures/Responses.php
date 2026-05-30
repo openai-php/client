@@ -906,6 +906,22 @@ function toolFileSearchNestedFilters(): array
 /**
  * @return array<string, mixed>
  */
+function toolCustom(): array
+{
+    return [
+        'name' => 'my_custom_tool',
+        'type' => 'custom',
+        'defer_loading' => false,
+        'description' => 'A custom tool.',
+        'format' => [
+            'type' => 'text',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolNamespace(): array
 {
     return [

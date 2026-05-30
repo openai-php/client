@@ -6,6 +6,7 @@ namespace OpenAI\Actions\Responses;
 
 use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
 use OpenAI\Responses\Responses\Tool\ComputerUseTool;
+use OpenAI\Responses\Responses\Tool\CustomTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
@@ -24,9 +25,10 @@ use OpenAI\Responses\Responses\Tool\WebSearchTool;
  * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
  * @phpstan-import-type ToolSearchToolType from ToolSearchTool
  * @phpstan-import-type NamespaceToolType from NamespaceTool
+ * @phpstan-import-type CustomToolType from CustomTool
  *
- * @phpstan-type ResponseToolObjectTypes array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType|ToolSearchToolType|NamespaceToolType>
- * @phpstan-type ResponseToolObjectReturnType array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool>
+ * @phpstan-type ResponseToolObjectTypes array<int, ComputerUseToolType|FileSearchToolType|FunctionToolType|WebSearchToolType|ImageGenerationToolType|RemoteMcpToolType|CodeInterpreterToolType|ToolSearchToolType|NamespaceToolType|CustomToolType>
+ * @phpstan-type ResponseToolObjectReturnType array<int, ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomToolType>
  */
 final class ToolObjects
 {
@@ -37,7 +39,7 @@ final class ToolObjects
     public static function parse(array $toolItems): array
     {
         return array_map(
-            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool => match ($tool['type']) {
+            fn (array $tool): ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
                 'web_search', 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
@@ -47,6 +49,7 @@ final class ToolObjects
                 'code_interpreter' => CodeInterpreterTool::from($tool),
                 'tool_search' => ToolSearchTool::from($tool),
                 'namespace' => NamespaceTool::from($tool),
+                'custom' => CustomTool::from($tool),
             },
             $toolItems,
         );
