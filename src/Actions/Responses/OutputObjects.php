@@ -65,7 +65,7 @@ final class OutputObjects
                 'custom_tool_call' => OutputCustomToolCall::from($item),
                 'tool_search_call' => OutputToolSearchCall::from($item),
                 'tool_search_output' => OutputToolSearchOutput::from($item),
-                default => throw new \UnexpectedValueException('Unknown output item type.'),
+                default => throw new \UnexpectedValueException('Uh oh! We do not recognize this type. Please submit a bug to openai-php/client on GitHub!'),
             },
             $outputItems,
         );
