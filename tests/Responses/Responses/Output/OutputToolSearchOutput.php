@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
+use OpenAI\Responses\Responses\Tool\WebSearchTool;
 
 test('from', function () {
     $response = OutputToolSearchOutput::from(outputToolSearchOutput());
@@ -12,6 +13,8 @@ test('from', function () {
         ->execution->toBe('server')
         ->status->toBe('completed')
         ->tools->toBeArray()
+        ->tools->toHaveCount(1)
+        ->tools->{0}->toBeInstanceOf(WebSearchTool::class)
         ->type->toBe('tool_search_output')
         ->createdBy->toBe('user_123');
 });

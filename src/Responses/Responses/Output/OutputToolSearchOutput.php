@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Responses\Output;
 
+use OpenAI\Actions\Responses\ToolObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
+use OpenAI\Responses\Responses\Tool\ComputerUseTool;
+use OpenAI\Responses\Responses\Tool\CustomTool;
+use OpenAI\Responses\Responses\Tool\FileSearchTool;
+use OpenAI\Responses\Responses\Tool\FunctionTool;
+use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
+use OpenAI\Responses\Responses\Tool\NamespaceTool;
+use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
+use OpenAI\Responses\Responses\Tool\ToolSearchTool;
+use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputToolSearchOutputType array{id: string, call_id: ?string, execution: 'server'|'client', status: 'in_progress'|'completed'|'incomplete', tools: mixed, type: 'tool_search_output', created_by?: ?string}
+ * @phpstan-import-type ResponseToolObjectTypes from ToolObjects
+ * @phpstan-import-type ResponseToolObjectReturnType from ToolObjects
+ *
+ * @phpstan-type OutputToolSearchOutputType array{id: string, call_id: ?string, execution: 'server'|'client', status: 'in_progress'|'completed'|'incomplete', tools: ResponseToolObjectTypes, type: 'tool_search_output', created_by?: ?string}
  *
  * @implements ResponseContract<OutputToolSearchOutputType>
  */
@@ -25,6 +39,7 @@ final class OutputToolSearchOutput implements ResponseContract
     /**
      * @param  'server'|'client'  $execution
      * @param  'in_progress'|'completed'|'incomplete'  $status
+     * @param  ResponseToolObjectReturnType  $tools
      * @param  'tool_search_output'  $type
      */
     private function __construct(
@@ -32,7 +47,7 @@ final class OutputToolSearchOutput implements ResponseContract
         public readonly ?string $callId,
         public readonly string $execution,
         public readonly string $status,
-        public readonly mixed $tools,
+        public readonly array $tools,
         public readonly string $type,
         public readonly ?string $createdBy,
     ) {}
@@ -47,7 +62,7 @@ final class OutputToolSearchOutput implements ResponseContract
             callId: $attributes['call_id'] ?? null,
             execution: $attributes['execution'],
             status: $attributes['status'],
-            tools: $attributes['tools'],
+            tools: ToolObjects::parse($attributes['tools']),
             type: $attributes['type'],
             createdBy: $attributes['created_by'] ?? null,
         );
@@ -63,7 +78,10 @@ final class OutputToolSearchOutput implements ResponseContract
             'call_id' => $this->callId,
             'execution' => $this->execution,
             'status' => $this->status,
-            'tools' => $this->tools,
+            'tools' => array_map(
+                fn (CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|RemoteMcpTool|ToolSearchTool|WebSearchTool $tool): array => $tool->toArray(),
+                $this->tools,
+            ),
             'type' => $this->type,
             'created_by' => $this->createdBy,
         ];

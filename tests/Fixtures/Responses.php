@@ -971,7 +971,13 @@ function outputToolSearchOutput(): array
         'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'execution' => 'server',
         'status' => 'completed',
-        'tools' => [],
+        'tools' => [
+            [
+                'type' => 'web_search',
+                'search_context_size' => 'low',
+                'user_location' => null,
+            ],
+        ],
         'type' => 'tool_search_output',
         'created_by' => 'user_123',
     ];
