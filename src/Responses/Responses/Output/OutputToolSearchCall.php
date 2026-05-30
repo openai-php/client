@@ -65,7 +65,7 @@ final class OutputToolSearchCall implements ResponseContract
             'execution' => $this->execution,
             'status' => $this->status,
             'type' => $this->type,
-            'createdBy' => $this->createdBy,
+            'created_by' => $this->createdBy,
         ];
     }
 }

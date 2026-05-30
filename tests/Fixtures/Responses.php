@@ -904,6 +904,64 @@ function toolFileSearchNestedFilters(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function toolNamespace(): array
+{
+    return [
+        'description' => 'A namespace of tools.',
+        'name' => 'my_namespace',
+        'tools' => [],
+        'type' => 'namespace',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolToolSearch(): array
+{
+    return [
+        'type' => 'tool_search',
+        'description' => 'A tool for searching tools.',
+        'execution' => 'server',
+        'parameters' => [],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputToolSearchCall(): array
+{
+    return [
+        'id' => 'tsc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'arguments' => [],
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'execution' => 'server',
+        'status' => 'completed',
+        'type' => 'tool_search_call',
+        'created_by' => 'user_123',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputToolSearchOutput(): array
+{
+    return [
+        'id' => 'tso_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'execution' => 'server',
+        'status' => 'completed',
+        'tools' => [],
+        'type' => 'tool_search_output',
+        'created_by' => 'user_123',
+    ];
+}
+
+/**
  * @return resource
  */
 function responseCompletionStream()
