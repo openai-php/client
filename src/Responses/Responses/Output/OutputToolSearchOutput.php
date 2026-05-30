@@ -1,0 +1,71 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OpenAI\Responses\Responses\Output;
+
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
+
+/**
+ * @phpstan-type OutputToolSearchOutputType array{id: string, call_id: ?string, execution: 'server'|'client', status: 'in_progress'|'completed'|'incomplete', tools: mixed, type: 'tool_search_output', created_by?: ?string}
+ *
+ * @implements ResponseContract<OutputToolSearchOutputType>
+ */
+final class OutputToolSearchOutput implements ResponseContract
+{
+    /**
+     * @use ArrayAccessible<OutputToolSearchOutputType>
+     */
+    use ArrayAccessible;
+
+    use Fakeable;
+
+    /**
+     * @param  'server'|'client'  $execution
+     * @param  'in_progress'|'completed'|'incomplete'  $status
+     * @param  'tool_search_output'  $type
+     */
+    private function __construct(
+        public readonly string $id,
+        public readonly ?string $callId,
+        public readonly string $execution,
+        public readonly string $status,
+        public readonly mixed $tools,
+        public readonly string $type,
+        public readonly ?string $createdBy,
+    ) {}
+
+    /**
+     * @param  OutputToolSearchOutputType  $attributes
+     */
+    public static function from(array $attributes): self
+    {
+        return new self(
+            id: $attributes['id'],
+            callId: $attributes['call_id'] ?? null,
+            execution: $attributes['execution'],
+            status: $attributes['status'],
+            tools: $attributes['tools'],
+            type: $attributes['type'],
+            createdBy: $attributes['created_by'] ?? null,
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'call_id' => $this->callId,
+            'execution' => $this->execution,
+            'status' => $this->status,
+            'tools' => $this->tools,
+            'type' => $this->type,
+            'created_by' => $this->createdBy,
+        ];
+    }
+}
