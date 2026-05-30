@@ -26,8 +26,6 @@ final class NamespaceToolObjects
             fn (array $tool): FunctionTool|CustomTool => match ($tool['type']) {
                 'function' => FunctionTool::from($tool),
                 'custom' => CustomTool::from($tool),
-                /** @phpstan-ignore-next-line */
-                default => throw new \InvalidArgumentException("Unknown tool type: {$tool['type']}"),
             },
             $toolItems,
         );
