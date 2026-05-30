@@ -109,6 +109,18 @@ $client = OpenAI::factory()
     ->make();
 ```
 
+The same factory pattern can be used with OpenAI-compatible gateways. For
+example, Tuning Engines exposes an OpenAI-compatible API for teams that want
+centralized model access, policy checks, audit logs, traces, and usage/cost
+reporting while keeping their PHP application code on this client:
+
+```php
+$client = OpenAI::factory()
+    ->withApiKey(getenv('TUNING_ENGINES_API_KEY'))
+    ->withBaseUri('https://api.tuningengines.com/v1')
+    ->make();
+```
+
 ## Usage
 
 ### `Models` Resource
