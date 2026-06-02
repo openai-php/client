@@ -16,6 +16,8 @@ use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputMessage;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
+use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 
 /**
@@ -32,9 +34,11 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputCodeInterpreterToolCallType from OutputCodeInterpreterToolCall
  * @phpstan-import-type OutputLocalShellCallType from OutputLocalShellCall
  * @phpstan-import-type OutputCustomToolCallType from OutputCustomToolCall
+ * @phpstan-import-type OutputToolSearchCallType from OutputToolSearchCall
+ * @phpstan-import-type OutputToolSearchOutputType from OutputToolSearchOutput
  *
- * @phpstan-type ResponseOutputObjectTypes array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType>
- * @phpstan-type ResponseOutputObjectReturnType array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall>
+ * @phpstan-type ResponseOutputObjectTypes array<int, OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType|OutputToolSearchCallType|OutputToolSearchOutputType>
+ * @phpstan-type ResponseOutputObjectReturnType array<int, OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput>
  */
 final class OutputObjects
 {
@@ -45,7 +49,7 @@ final class OutputObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall => match ($item['type']) {
+            fn (array $item): OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput => match ($item['type']) {
                 'message' => OutputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),
@@ -59,6 +63,9 @@ final class OutputObjects
                 'code_interpreter_call' => OutputCodeInterpreterToolCall::from($item),
                 'local_shell_call' => OutputLocalShellCall::from($item),
                 'custom_tool_call' => OutputCustomToolCall::from($item),
+                'tool_search_call' => OutputToolSearchCall::from($item),
+                'tool_search_output' => OutputToolSearchOutput::from($item),
+                default => throw new \UnexpectedValueException('Uh oh! We do not recognize this type. Please submit a bug to openai-php/client on GitHub!'),
             },
             $outputItems,
         );
