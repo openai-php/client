@@ -109,6 +109,17 @@ $client = OpenAI::factory()
     ->make();
 ```
 
+For applications that need to switch between OpenAI and another
+OpenAI-compatible endpoint in different environments, the base URI can be read
+from an environment variable:
+
+```php
+$client = OpenAI::factory()
+    ->withApiKey(getenv('OPENAI_API_KEY'))
+    ->withBaseUri(getenv('OPENAI_BASE_URI') ?: 'api.openai.com/v1')
+    ->make();
+```
+
 ## Usage
 
 ### `Models` Resource
