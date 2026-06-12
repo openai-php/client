@@ -984,6 +984,19 @@ function outputToolSearchOutput(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function outputCompaction(): array
+{
+    return [
+        'id' => 'cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'encrypted_content' => 'encrypted_string_value',
+        'type' => 'compaction',
+        'created_by' => 'user_123',
+    ];
+}
+
+/**
  * @return resource
  */
 function responseCompletionStream()
