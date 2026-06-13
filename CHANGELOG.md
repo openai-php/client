@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.20.0 (2026-06-12)
+### Added
+ * Add support for `compaction` to Responses. ([#778](https://github.com/openai-php/client/pull/778))
+ * Add support for `tool_search` to Responses. ([#772](https://github.com/openai-php/client/pull/772))
+ * Add support for `extra_content` on Chat. ([#768](https://github.com/openai-php/client/pull/768))
+
+### Fixed
+ * Fix missing support for sequence numbers. ([#764](https://github.com/openai-php/client/pull/764))
+ * Fix crash when missing vector store description. ([#765](https://github.com/openai-php/client/pull/765))
+ * Fix crash for new `keep_alive` streaming type. ([#770](https://github.com/openai-php/client/pull/770))
+
 # v0.19.2 (2026-04-19)
 ### Added
  * Add `phase` property to `OutputMessage`. ([#754](https://github.com/openai-php/client/pull/754))
