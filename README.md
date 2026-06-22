@@ -2988,7 +2988,7 @@ $meta->toArray();
 // ]
 ```
 
-On streaming responses you can access the meta information on the reponse stream object.
+On streaming responses you can access the meta information on the response stream object.
 
 ```php
 $stream = $client->completions()->createStreamed([
