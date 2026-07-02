@@ -19,6 +19,25 @@ test('from', function () {
         ->output->toBeNull();
 });
 
+test('from without optional keys', function () {
+    $attributes = outputMcpCall();
+
+    unset($attributes['approval_request_id'], $attributes['output']);
+
+    set_error_handler(static fn (int $errno, string $errstr): bool => throw new ErrorException($errstr), E_WARNING);
+
+    try {
+        $response = OutputMcpCall::from($attributes);
+    } finally {
+        restore_error_handler();
+    }
+
+    expect($response)
+        ->toBeInstanceOf(OutputMcpCall::class)
+        ->approvalRequestId->toBeNull()
+        ->output->toBeNull();
+});
+
 test('from error as http object', function () {
     $response = OutputMcpCall::from(outputMcpErrorCallObject());
 

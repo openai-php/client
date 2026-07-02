@@ -69,9 +69,9 @@ final class OutputMcpCall implements ResponseContract
             type: $attributes['type'],
             arguments: $attributes['arguments'],
             name: $attributes['name'],
-            approvalRequestId: $attributes['approval_request_id'],
+            approvalRequestId: $attributes['approval_request_id'] ?? null,
             error: $errorType,
-            output: $attributes['output'],
+            output: $attributes['output'] ?? null,
         );
     }
 

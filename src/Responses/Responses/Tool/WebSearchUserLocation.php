@@ -40,10 +40,10 @@ final class WebSearchUserLocation implements ResponseContract
     {
         return new self(
             type: $attributes['type'],
-            city: $attributes['city'],
+            city: $attributes['city'] ?? null,
             country: $attributes['country'],
-            region: $attributes['region'],
-            timezone: $attributes['timezone'],
+            region: $attributes['region'] ?? null,
+            timezone: $attributes['timezone'] ?? null,
         );
     }
 
