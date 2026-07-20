@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.20.1 (2026-07-20)
+### Fixed
+ * Fix `tool_search` missing from streaming. ([#789](https://github.com/openai-php/client/pull/789))
+ * Fix missing namespaces from function tool call object. ([#788](https://github.com/openai-php/client/pull/788))
+ * Fix nullable properties on mcp call & web search user location objects. ([#786](https://github.com/openai-php/client/pull/786))
+ * Fix `compaction` missing from streaming. ([#787](https://github.com/openai-php/client/pull/787))
+
 # v0.20.0 (2026-06-12)
 ### Added
  * Add support for `compaction` to Responses. ([#778](https://github.com/openai-php/client/pull/778))
