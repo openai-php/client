@@ -25,6 +25,8 @@ use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
 use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputMessage;
+use OpenAI\Responses\Responses\Output\OutputProgram;
+use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
@@ -36,6 +38,7 @@ use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
+use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\Responses\Tool\ToolSearchTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
@@ -196,7 +199,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'metadata' => $this->metadata ?? [],
             'model' => $this->model,
             'output' => array_map(
-                fn (OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput|OutputCompaction $output): array => $output->toArray(),
+                fn (OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputProgram|OutputProgramOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput|OutputCompaction $output): array => $output->toArray(),
                 $this->output
             ),
             'parallel_tool_calls' => $this->parallelToolCalls,
@@ -213,7 +216,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
             'tools' => array_map(
-                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool $tool): array => $tool->toArray(),
+                fn (ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool|ProgrammaticToolCallingTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
             'top_logprobs' => $this->topLogProbs,

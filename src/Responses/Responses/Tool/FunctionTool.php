@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type FunctionToolType array{name: string, parameters: array<string, mixed>, strict: bool, type: 'function', description: ?string}
+ * @phpstan-type FunctionToolType array{name: string, parameters: array<string, mixed>, strict: bool, type: 'function', description: ?string, allowed_callers?: array<int, 'direct'|'programmatic'>|null, output_schema?: array<string, mixed>|null}
  *
  * @implements ResponseContract<FunctionToolType>
  */
@@ -25,6 +25,8 @@ final class FunctionTool implements ResponseContract
     /**
      * @param  array<string, mixed>  $parameters
      * @param  'function'  $type
+     * @param  array<int, 'direct'|'programmatic'>|null  $allowedCallers
+     * @param  array<string, mixed>|null  $outputSchema
      */
     private function __construct(
         public readonly string $name,
@@ -32,6 +34,8 @@ final class FunctionTool implements ResponseContract
         public readonly bool $strict,
         public readonly string $type,
         public readonly ?string $description = null,
+        public readonly ?array $allowedCallers = null,
+        public readonly ?array $outputSchema = null,
     ) {}
 
     /**
@@ -45,6 +49,8 @@ final class FunctionTool implements ResponseContract
             strict: $attributes['strict'],
             type: $attributes['type'],
             description: $attributes['description'] ?? null,
+            allowedCallers: $attributes['allowed_callers'] ?? null,
+            outputSchema: $attributes['output_schema'] ?? null,
         );
     }
 
@@ -53,12 +59,22 @@ final class FunctionTool implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'name' => $this->name,
             'parameters' => $this->parameters,
             'strict' => $this->strict,
             'type' => $this->type,
             'description' => $this->description,
         ];
+
+        if ($this->allowedCallers !== null) {
+            $attributes['allowed_callers'] = $this->allowedCallers;
+        }
+
+        if ($this->outputSchema !== null) {
+            $attributes['output_schema'] = $this->outputSchema;
+        }
+
+        return $attributes;
     }
 }

@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type CodeInterpreterContainerAutoType from CodeInterpreterContainerAuto
  *
- * @phpstan-type CodeInterpreterToolType array{container: string|CodeInterpreterContainerAutoType, type: 'code_interpreter'}
+ * @phpstan-type CodeInterpreterToolType array{container: string|CodeInterpreterContainerAutoType, type: 'code_interpreter', allowed_callers?: array<int, 'direct'|'programmatic'>|null}
  *
  * @implements ResponseContract<CodeInterpreterToolType>
  */
@@ -26,10 +26,12 @@ final class CodeInterpreterTool implements ResponseContract
 
     /**
      * @param  'code_interpreter'  $type
+     * @param  array<int, 'direct'|'programmatic'>|null  $allowedCallers
      */
     private function __construct(
         public readonly string|CodeInterpreterContainerAuto $container,
         public readonly string $type,
+        public readonly ?array $allowedCallers = null,
     ) {}
 
     /**
@@ -42,6 +44,7 @@ final class CodeInterpreterTool implements ResponseContract
                 ? $attributes['container']
                 : CodeInterpreterContainerAuto::from($attributes['container']),
             type: $attributes['type'],
+            allowedCallers: $attributes['allowed_callers'] ?? null,
         );
     }
 
@@ -50,11 +53,12 @@ final class CodeInterpreterTool implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'container' => $this->container instanceof CodeInterpreterContainerAuto
                 ? $this->container->toArray()
                 : $this->container,
             'type' => $this->type,
-        ];
+            'allowed_callers' => $this->allowedCallers,
+        ], fn (mixed $value): bool => $value !== null);
     }
 }

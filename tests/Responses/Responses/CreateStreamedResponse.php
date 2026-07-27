@@ -3,6 +3,9 @@
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputProgram;
+use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
@@ -87,6 +90,52 @@ test('output item done event with compaction item', function () {
         ->response->item->id->toBe('cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->response->item->encryptedContent->toBe('encrypted_string_value')
         ->response->item->createdBy->toBe('user_123');
+});
+
+test('output item added event with program item', function () {
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.added',
+        'output_index' => 0,
+        'sequence_number' => 1,
+        'item' => outputProgram(),
+        '__meta' => meta(),
+    ]);
+
+    expect($response)
+        ->event->toBe('response.output_item.added')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->item->toBeInstanceOf(OutputProgram::class);
+});
+
+test('output item done event with program function call', function () {
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.done',
+        'output_index' => 1,
+        'sequence_number' => 2,
+        'item' => outputFunctionToolCallFromProgram(),
+        '__meta' => meta(),
+    ]);
+
+    expect($response)
+        ->event->toBe('response.output_item.done')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->item->toBeInstanceOf(OutputFunctionToolCall::class)
+        ->response->item->caller->callerId->toBe('call_prog_123');
+});
+
+test('output item done event with program output item', function () {
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.done',
+        'output_index' => 2,
+        'sequence_number' => 3,
+        'item' => outputProgramOutput(),
+        '__meta' => meta(),
+    ]);
+
+    expect($response)
+        ->event->toBe('response.output_item.done')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->item->toBeInstanceOf(OutputProgramOutput::class);
 });
 
 test('output item added event with tool search call item', function () {

@@ -14,7 +14,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type CustomToolInputTypes from CustomToolInputObjects
  *
- * @phpstan-type CustomToolType array{name: string, type: 'custom', defer_loading?: bool, description?: string, format?: CustomToolInputTypes}
+ * @phpstan-type CustomToolType array{name: string, type: 'custom', defer_loading?: bool, description?: string, format?: CustomToolInputTypes, allowed_callers?: array<int, 'direct'|'programmatic'>|null}
  *
  * @implements ResponseContract<CustomToolType>
  */
@@ -29,6 +29,7 @@ final class CustomTool implements ResponseContract
 
     /**
      * @param  'custom'  $type
+     * @param  array<int, 'direct'|'programmatic'>|null  $allowedCallers
      */
     private function __construct(
         public readonly string $name,
@@ -36,6 +37,7 @@ final class CustomTool implements ResponseContract
         public readonly ?bool $deferLoading = null,
         public readonly ?string $description = null,
         public readonly TextInput|GrammarInput|null $format = null,
+        public readonly ?array $allowedCallers = null,
     ) {}
 
     /**
@@ -51,6 +53,7 @@ final class CustomTool implements ResponseContract
             format: isset($attributes['format'])
                 ? CustomToolInputObjects::parse($attributes['format'])
                 : null,
+            allowedCallers: $attributes['allowed_callers'] ?? null,
         );
     }
 
@@ -65,6 +68,7 @@ final class CustomTool implements ResponseContract
             'defer_loading' => $this->deferLoading,
             'description' => $this->description,
             'format' => $this->format?->toArray(),
+            'allowed_callers' => $this->allowedCallers,
         ], fn (mixed $value): bool => $value !== null);
     }
 }

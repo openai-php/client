@@ -2,35 +2,35 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\ToolChoice;
+namespace OpenAI\Responses\Responses\Tool;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type HostedToolChoiceType array{type: 'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'}
+ * @phpstan-type ProgrammaticToolCallingToolType array{type: 'programmatic_tool_calling'}
  *
- * @implements ResponseContract<HostedToolChoiceType>
+ * @implements ResponseContract<ProgrammaticToolCallingToolType>
  */
-final class HostedToolChoice implements ResponseContract
+final class ProgrammaticToolCallingTool implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<HostedToolChoiceType>
+     * @use ArrayAccessible<ProgrammaticToolCallingToolType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'  $type
+     * @param  'programmatic_tool_calling'  $type
      */
     private function __construct(
         public readonly string $type,
     ) {}
 
     /**
-     * @param  HostedToolChoiceType  $attributes
+     * @param  ProgrammaticToolCallingToolType  $attributes
      */
     public static function from(array $attributes): self
     {

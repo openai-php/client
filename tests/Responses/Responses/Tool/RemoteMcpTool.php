@@ -10,7 +10,8 @@ test('from', function () {
         ->toBeInstanceOf(RemoteMcpTool::class)
         ->type->toBe('mcp')
         ->serverLabel->toBe('My test MCP server')
-        ->serverUrl->toBe('https://server.example.com/mcp');
+        ->serverUrl->toBe('https://server.example.com/mcp')
+        ->allowedCallers->toBe(['direct', 'programmatic']);
 });
 
 test('from results', function () {
