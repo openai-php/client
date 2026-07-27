@@ -7,6 +7,7 @@ namespace OpenAI\Responses\Responses\Output;
 use OpenAI\Actions\Responses\ToolObjects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Tool\ApplyPatchTool;
 use OpenAI\Responses\Responses\Tool\CodeInterpreterTool;
 use OpenAI\Responses\Responses\Tool\ComputerUseTool;
 use OpenAI\Responses\Responses\Tool\CustomTool;
@@ -80,7 +81,7 @@ final class OutputToolSearchOutput implements ResponseContract
             'execution' => $this->execution,
             'status' => $this->status,
             'tools' => array_map(
-                fn (CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool $tool): array => $tool->toArray(),
+                fn (ApplyPatchTool|CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool $tool): array => $tool->toArray(),
                 $this->tools,
             ),
             'type' => $this->type,

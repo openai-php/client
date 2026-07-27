@@ -9,6 +9,7 @@ use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
@@ -28,6 +29,7 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
+ * @phpstan-import-type OutputApplyPatchToolCallType from OutputApplyPatchToolCall
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
@@ -45,7 +47,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputToolSearchCallType from OutputToolSearchCall
  * @phpstan-import-type OutputToolSearchOutputType from OutputToolSearchOutput
  *
- * @phpstan-type OutputItemType array{type: string, output_index: int, sequence_number: int, item: OutputCodeInterpreterToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputProgramType|OutputProgramOutputType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCompactionType|OutputToolSearchCallType|OutputToolSearchOutputType}
+ * @phpstan-type OutputItemType array{type: string, output_index: int, sequence_number: int, item: OutputApplyPatchToolCallType|OutputCodeInterpreterToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputProgramType|OutputProgramOutputType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCompactionType|OutputToolSearchCallType|OutputToolSearchOutputType}
  *
  * @implements ResponseContract<OutputItemType>
  */
@@ -63,7 +65,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
         public readonly string $type,
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
-        public readonly OutputMessage|OutputCodeInterpreterToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|OutputProgram|OutputProgramOutput|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCompaction|OutputToolSearchCall|OutputToolSearchOutput $item,
+        public readonly OutputApplyPatchToolCall|OutputMessage|OutputCodeInterpreterToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|OutputProgram|OutputProgramOutput|OutputWebSearchToolCall|OutputComputerToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCompaction|OutputToolSearchCall|OutputToolSearchOutput $item,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -72,7 +74,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
-        /** @var 'message'|'file_search_call'|'function_call'|'program'|'program_output'|'web_search_call'|'computer_call'|'reasoning'|'image_generation_call'|'mcp_list_tools'|'mcp_approval_request'|'mcp_call'|'code_interpreter_call'|'compaction'|'tool_search_call'|'tool_search_output' $itemType */
+        /** @var 'message'|'file_search_call'|'function_call'|'program'|'program_output'|'web_search_call'|'computer_call'|'reasoning'|'image_generation_call'|'mcp_list_tools'|'mcp_approval_request'|'mcp_call'|'code_interpreter_call'|'compaction'|'tool_search_call'|'tool_search_output'|'apply_patch_call' $itemType */
         $itemType = $attributes['item']['type'];
 
         $item = match ($itemType) {
@@ -92,6 +94,7 @@ final class OutputItem implements ResponseContract, ResponseHasMetaInformationCo
             'compaction' => OutputCompaction::from($attributes['item']),
             'tool_search_call' => OutputToolSearchCall::from($attributes['item']),
             'tool_search_output' => OutputToolSearchOutput::from($attributes['item']),
+            'apply_patch_call' => OutputApplyPatchToolCall::from($attributes['item']),
         };
 
         return new self(

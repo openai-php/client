@@ -2,6 +2,8 @@
 
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
+use OpenAI\Responses\Responses\Output\ApplyPatchOperation\OutputApplyPatchOperationCreateFile;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
@@ -167,4 +169,19 @@ test('output item done event with tool search output item', function () {
         ->response->item->tools->toHaveCount(1)
         ->response->item->tools->{0}->toBeInstanceOf(WebSearchTool::class)
         ->response->item->type->toBe('tool_search_output');
+});
+
+test('output item done event with apply patch call item', function () {
+    $response = CreateStreamedResponse::fake(responseOutputItemApplyPatchCallDoneEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.output_item.done')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->outputIndex->toBe(2)
+        ->response->sequenceNumber->toBe(14)
+        ->response->item->toBeInstanceOf(OutputApplyPatchToolCall::class)
+        ->response->item->operation->toBeInstanceOf(OutputApplyPatchOperationCreateFile::class)
+        ->response->item->operation->path->toBe('tasks.md')
+        ->response->item->type->toBe('apply_patch_call');
 });
