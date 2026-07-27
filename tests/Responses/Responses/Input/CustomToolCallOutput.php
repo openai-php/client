@@ -10,7 +10,8 @@ test('from', function () {
         ->type->toBe('custom_tool_call_output')
         ->id->toBe('cto_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->callId->toBe('call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
-        ->output->toBe('custom-output');
+        ->output->toBe('custom-output')
+        ->caller->callerId->toBe('call_prog_123');
 });
 
 it('is array accessible', function () {

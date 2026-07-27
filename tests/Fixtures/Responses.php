@@ -229,6 +229,10 @@ function listInputItemsResource(): array
             outputCodeInterpreterToolCall(),
             outputLocalShellCall(),
             outputCustomToolCall(),
+            outputProgram(),
+            outputProgramOutput(),
+            functionToolCallOutputItem(),
+            customToolCallOutputItem(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -290,6 +294,28 @@ function customToolCallOutputItem(): array
         'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'id' => 'cto_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
         'output' => 'custom-output',
+        'caller' => [
+            'type' => 'program',
+            'caller_id' => 'call_prog_123',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function functionToolCallOutputItem(): array
+{
+    return [
+        'call_id' => 'call_inventory_123',
+        'id' => 'fco_123',
+        'output' => '{"sku":"sku_123","available_units":42}',
+        'type' => 'function_call_output',
+        'status' => 'completed',
+        'caller' => [
+            'type' => 'program',
+            'caller_id' => 'call_prog_123',
+        ],
     ];
 }
 
@@ -723,6 +749,56 @@ function outputCustomToolCall(): array
         'input' => 'ls -l',
         'name' => 'my_custom_tool',
         'id' => 'ct_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'caller' => [
+            'type' => 'program',
+            'caller_id' => 'call_prog_123',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputProgram(): array
+{
+    return [
+        'type' => 'program',
+        'id' => 'prog_123',
+        'call_id' => 'call_prog_123',
+        'code' => "const [stock, demand] = await Promise.all([tools.get_inventory({ sku: 'sku_123' }), tools.get_demand({ sku: 'sku_123' })]); text(JSON.stringify({ sku: stock.sku, available_units: stock.available_units, requested_units: demand.requested_units, shortage_units: Math.max(demand.requested_units - stock.available_units, 0) }));",
+        'fingerprint' => 'opaque_replay_state',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputFunctionToolCallFromProgram(): array
+{
+    return [
+        'arguments' => '{"sku":"sku_123"}',
+        'call_id' => 'call_inventory_123',
+        'name' => 'get_inventory',
+        'type' => 'function_call',
+        'id' => 'fc_123',
+        'caller' => [
+            'type' => 'program',
+            'caller_id' => 'call_prog_123',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputProgramOutput(): array
+{
+    return [
+        'type' => 'program_output',
+        'id' => 'prog_out_123',
+        'call_id' => 'call_prog_123',
+        'result' => '{"sku":"sku_123","available_units":42,"requested_units":31,"shortage_units":0}',
+        'status' => 'completed',
     ];
 }
 
@@ -813,6 +889,7 @@ function toolRemoteMcp(): array
         'connector_id' => null,
         'authorization' => null,
         'server_description' => null,
+        'allowed_callers' => ['direct', 'programmatic'],
     ];
 }
 
@@ -932,6 +1009,47 @@ function toolCustom(): array
         'format' => [
             'type' => 'text',
         ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolFunctionProgrammatic(): array
+{
+    return [
+        'name' => 'get_inventory',
+        'parameters' => [
+            'type' => 'object',
+            'properties' => [
+                'sku' => ['type' => 'string'],
+            ],
+            'required' => ['sku'],
+            'additionalProperties' => false,
+        ],
+        'strict' => true,
+        'type' => 'function',
+        'description' => 'Return the inventory for a SKU.',
+        'allowed_callers' => ['programmatic'],
+        'output_schema' => [
+            'type' => 'object',
+            'properties' => [
+                'sku' => ['type' => 'string'],
+                'available_units' => ['type' => 'number'],
+            ],
+            'required' => ['sku', 'available_units'],
+            'additionalProperties' => false,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolProgrammaticToolCalling(): array
+{
+    return [
+        'type' => 'programmatic_tool_calling',
     ];
 }
 

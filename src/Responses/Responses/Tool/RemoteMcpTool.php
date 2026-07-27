@@ -11,7 +11,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 /**
  * @phpstan-import-type McpToolNamesFilterType from McpToolNamesFilter
  *
- * @phpstan-type RemoteMcpToolType array{type: 'mcp', server_label: string, authorization: string|null, connector_id?: string|null, server_url: string|null, require_approval: 'never'|'always'|array<'never'|'always', McpToolNamesFilterType>|null, allowed_tools: array<int, string>|McpToolNamesFilterType|null, headers: array<string, string>|null, server_description?: string|null}
+ * @phpstan-type RemoteMcpToolType array{type: 'mcp', server_label: string, authorization: string|null, connector_id?: string|null, server_url: string|null, require_approval: 'never'|'always'|array<'never'|'always', McpToolNamesFilterType>|null, allowed_tools: array<int, string>|McpToolNamesFilterType|null, headers: array<string, string>|null, server_description?: string|null, allowed_callers?: array<int, 'direct'|'programmatic'>|null}
  *
  * @implements ResponseContract<RemoteMcpToolType>
  */
@@ -29,6 +29,7 @@ final class RemoteMcpTool implements ResponseContract
      * @param  'never'|'always'|array<'never'|'always', McpToolNamesFilter>|null  $requireApproval
      * @param  array<int, string>|McpToolNamesFilter|null  $allowedTools
      * @param  array<string, string>|null  $headers
+     * @param  array<int, 'direct'|'programmatic'>|null  $allowedCallers
      */
     private function __construct(
         public readonly string $type,
@@ -40,6 +41,7 @@ final class RemoteMcpTool implements ResponseContract
         public readonly ?string $connectorId = null,
         public readonly ?string $authorization = null,
         public readonly ?string $serverDescription = null,
+        public readonly ?array $allowedCallers = null,
     ) {}
 
     /**
@@ -72,6 +74,7 @@ final class RemoteMcpTool implements ResponseContract
             connectorId: $attributes['connector_id'] ?? null,
             authorization: $attributes['authorization'] ?? null,
             serverDescription: $attributes['server_description'] ?? null,
+            allowedCallers: $attributes['allowed_callers'] ?? null,
         );
     }
 
@@ -92,7 +95,7 @@ final class RemoteMcpTool implements ResponseContract
             $allowedTools = $allowedTools->toArray();
         }
 
-        return [
+        $result = [
             'type' => $this->type,
             'server_label' => $this->serverLabel,
             'server_url' => $this->serverUrl,
@@ -103,5 +106,11 @@ final class RemoteMcpTool implements ResponseContract
             'authorization' => $this->authorization,
             'server_description' => $this->serverDescription,
         ];
+
+        if ($this->allowedCallers !== null) {
+            $result['allowed_callers'] = $this->allowedCallers;
+        }
+
+        return $result;
     }
 }

@@ -11,5 +11,8 @@ it('can parse custom tool call output', function () {
         ->callId->toBe('call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->input->toBe('ls -l')
         ->name->toBe('my_custom_tool')
-        ->id->toBe('ct_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
+        ->id->toBe('ct_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
+        ->caller->callerId->toBe('call_prog_123');
+
+    expect($response->toArray())->toBe(outputCustomToolCall());
 });

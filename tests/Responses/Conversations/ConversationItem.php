@@ -2,6 +2,8 @@
 
 use OpenAI\Responses\Conversations\ConversationItem;
 use OpenAI\Responses\Conversations\Objects\Message;
+use OpenAI\Responses\Responses\Output\OutputProgram;
+use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 
 test('from', function () {
     $response = ConversationItem::from(conversationItemResource());
@@ -24,4 +26,22 @@ test('to array', function () {
 
     expect($response->toArray())
         ->toBe(conversationItemResource());
+});
+
+test('from program item', function () {
+    $response = ConversationItem::from(outputProgram());
+
+    expect($response)
+        ->item->toBeInstanceOf(OutputProgram::class)
+        ->item->callId->toBe('call_prog_123')
+        ->toArray()->toBe(outputProgram());
+});
+
+test('from program output item', function () {
+    $response = ConversationItem::from(outputProgramOutput());
+
+    expect($response)
+        ->item->toBeInstanceOf(OutputProgramOutput::class)
+        ->item->callId->toBe('call_prog_123')
+        ->toArray()->toBe(outputProgramOutput());
 });

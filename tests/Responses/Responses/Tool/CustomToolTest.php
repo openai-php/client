@@ -42,3 +42,18 @@ test('namespace tool with custom tool', function () {
     expect($response->toArray())
         ->toBe($data);
 });
+
+test('namespace custom tool with programmatic callers', function () {
+    $data = toolNamespace();
+    $customTool = toolCustom();
+    $customTool['allowed_callers'] = ['programmatic'];
+    $data['tools'] = [$customTool];
+
+    $response = NamespaceTool::from($data);
+
+    expect($response->tools[0])
+        ->toBeInstanceOf(NamespaceCustomTool::class)
+        ->allowedCallers->toBe(['programmatic']);
+
+    expect($response->toArray())->toBe($data);
+});

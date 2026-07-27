@@ -5,6 +5,11 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateResponseFormat;
 use OpenAI\Responses\Responses\CreateResponseReasoning;
 use OpenAI\Responses\Responses\CreateResponseUsage;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputProgram;
+use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
+use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
 use OpenAI\Testing\Enums\OverrideStrategy;
 
 test('from', function () {
@@ -182,4 +187,38 @@ test('to array with null text field', function () {
     expect($array)
         ->toBeArray()
         ->text->toBeNull();
+});
+
+test('programmatic tool calling output', function () {
+    $payload = createResponseResource();
+    $payload['output'] = [
+        outputProgram(),
+        outputFunctionToolCallFromProgram(),
+        outputProgramOutput(),
+    ];
+    $payload['tools'] = [
+        toolFunctionProgrammatic(),
+        toolProgrammaticToolCalling(),
+    ];
+    $payload['tool_choice'] = toolProgrammaticToolCalling();
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response)
+        ->output->{0}->toBeInstanceOf(OutputProgram::class)
+        ->output->{1}->toBeInstanceOf(OutputFunctionToolCall::class)
+        ->output->{1}->caller->callerId->toBe('call_prog_123')
+        ->output->{2}->toBeInstanceOf(OutputProgramOutput::class)
+        ->tools->{1}->toBeInstanceOf(ProgrammaticToolCallingTool::class)
+        ->toolChoice->toBeInstanceOf(HostedToolChoice::class)
+        ->toolChoice->type->toBe('programmatic_tool_calling');
+
+    expect($response->toArray()['output'])
+        ->toBe($payload['output']);
+
+    expect($response->toArray()['tools'])
+        ->toBe($payload['tools']);
+
+    expect($response->toArray()['tool_choice'])
+        ->toBe($payload['tool_choice']);
 });

@@ -9,7 +9,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputCustomToolCallType array{call_id: string, input: string, name: string, type: 'custom_tool_call', id: string}
+ * @phpstan-import-type OutputFunctionToolCallCallerType from OutputFunctionToolCallCaller
+ *
+ * @phpstan-type OutputCustomToolCallType array{call_id: string, input: string, name: string, type: 'custom_tool_call', id: string, caller?: OutputFunctionToolCallCallerType|null}
  *
  * @implements ResponseContract<OutputCustomToolCallType>
  */
@@ -31,6 +33,7 @@ final class OutputCustomToolCall implements ResponseContract
         public readonly string $name,
         public readonly string $id,
         public readonly string $type,
+        public readonly ?OutputFunctionToolCallCaller $caller,
     ) {}
 
     /**
@@ -44,6 +47,9 @@ final class OutputCustomToolCall implements ResponseContract
             name: $attributes['name'],
             id: $attributes['id'],
             type: $attributes['type'],
+            caller: isset($attributes['caller'])
+                ? OutputFunctionToolCallCaller::from($attributes['caller'])
+                : null,
         );
     }
 
@@ -52,12 +58,13 @@ final class OutputCustomToolCall implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'type' => $this->type,
             'call_id' => $this->callId,
             'input' => $this->input,
             'name' => $this->name,
             'id' => $this->id,
-        ];
+            'caller' => $this->caller?->toArray(),
+        ], fn (mixed $value): bool => $value !== null);
     }
 }

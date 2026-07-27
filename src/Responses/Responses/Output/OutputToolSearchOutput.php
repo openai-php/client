@@ -14,6 +14,7 @@ use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
+use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\Responses\Tool\ToolSearchTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
@@ -79,7 +80,7 @@ final class OutputToolSearchOutput implements ResponseContract
             'execution' => $this->execution,
             'status' => $this->status,
             'tools' => array_map(
-                fn (CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|RemoteMcpTool|ToolSearchTool|WebSearchTool $tool): array => $tool->toArray(),
+                fn (CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool $tool): array => $tool->toArray(),
                 $this->tools,
             ),
             'type' => $this->type,
