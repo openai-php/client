@@ -10,6 +10,8 @@ use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
@@ -65,6 +67,33 @@ test('reasoning text done event', function () {
         ->response->outputIndex->toBe(0)
         ->response->contentIndex->toBe(0)
         ->response->sequenceNumber->toBe(10);
+});
+
+test('apply patch call operation diff delta event', function () {
+    $response = CreateStreamedResponse::fake(responseApplyPatchCallOperationDiffDeltaEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.apply_patch_call_operation_diff.delta')
+        ->response->toBeInstanceOf(ApplyPatchCallOperationDiffDelta::class)
+        ->response->delta->toBe("@@\n-old line\n+new line")
+        ->response->itemId->toBe('apc_123')
+        ->response->outputIndex->toBe(0)
+        ->response->sequenceNumber->toBe(2)
+        ->response->obfuscation->toBe('obfuscated_123');
+});
+
+test('apply patch call operation diff done event', function () {
+    $response = CreateStreamedResponse::fake(responseApplyPatchCallOperationDiffDoneEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.apply_patch_call_operation_diff.done')
+        ->response->toBeInstanceOf(ApplyPatchCallOperationDiffDone::class)
+        ->response->diff->toBe("@@\n-old line\n+new line")
+        ->response->itemId->toBe('apc_123')
+        ->response->outputIndex->toBe(0)
+        ->response->sequenceNumber->toBe(3);
 });
 
 test('rate limits updated event', function () {

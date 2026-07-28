@@ -1231,6 +1231,16 @@ function responseReasoningTextDoneEvent()
     return fopen(__DIR__.'/Streams/ResponseReasoningTextDone.txt', 'r');
 }
 
+function responseApplyPatchCallOperationDiffDeltaEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseApplyPatchCallOperationDiffDelta.txt', 'r');
+}
+
+function responseApplyPatchCallOperationDiffDoneEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseApplyPatchCallOperationDiffDone.txt', 'r');
+}
+
 function responseRateLimitsUpdatedEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseRateLimitsUpdated.txt', 'r');
