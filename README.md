@@ -60,6 +60,7 @@ If you or your business relies on this package, it's important to support the de
 - [Webhooks][#webhooks]
 - [Services](#services)
   - [Azure](#azure)
+  - [MiniMax](#minimax)
 
 ## Get Started
 
@@ -3156,7 +3157,39 @@ Therefore, a basic sample completion call would be:
 $result = $client->completions()->create([
     'prompt' => 'PHP is'
 ]);
-``` 
+```
+
+### MiniMax
+
+The MiniMax service exposes an OpenAI-compatible API. It is not necessary to
+construct a dedicated client; instead, point the factory at the regional
+OpenAI-compatible base URI for your account. Two regional endpoints are
+available:
+
+| Region | OpenAI-compatible base URI |
+| --- | --- |
+| `global_en` | `api.minimax.io/v1` |
+| `cn_zh` | `api.minimaxi.com/v1` |
+
+```php
+$client = OpenAI::factory()
+    ->withApiKey('{your-api-key}')
+    ->withBaseUri('api.minimax.io/v1') // use 'api.minimaxi.com/v1' for the cn_zh region
+    ->make();
+```
+
+The current MiniMax text models, such as `MiniMax-M3` and `MiniMax-M2.7`, are
+selected through the `model` parameter of each request, just like the default
+OpenAI models:
+
+```php
+$result = $client->chat()->create([
+    'model' => 'MiniMax-M3',
+    'messages' => [
+        ['role' => 'user', 'content' => 'PHP is'],
+    ],
+]);
+```
 
 ---
 
