@@ -2,12 +2,16 @@
 
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
+use OpenAI\Responses\Responses\Output\ApplyPatchOperation\OutputApplyPatchOperationCreateFile;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
@@ -63,6 +67,33 @@ test('reasoning text done event', function () {
         ->response->outputIndex->toBe(0)
         ->response->contentIndex->toBe(0)
         ->response->sequenceNumber->toBe(10);
+});
+
+test('apply patch call operation diff delta event', function () {
+    $response = CreateStreamedResponse::fake(responseApplyPatchCallOperationDiffDeltaEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.apply_patch_call_operation_diff.delta')
+        ->response->toBeInstanceOf(ApplyPatchCallOperationDiffDelta::class)
+        ->response->delta->toBe("@@\n-old line\n+new line")
+        ->response->itemId->toBe('apc_123')
+        ->response->outputIndex->toBe(0)
+        ->response->sequenceNumber->toBe(2)
+        ->response->obfuscation->toBe('obfuscated_123');
+});
+
+test('apply patch call operation diff done event', function () {
+    $response = CreateStreamedResponse::fake(responseApplyPatchCallOperationDiffDoneEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.apply_patch_call_operation_diff.done')
+        ->response->toBeInstanceOf(ApplyPatchCallOperationDiffDone::class)
+        ->response->diff->toBe("@@\n-old line\n+new line")
+        ->response->itemId->toBe('apc_123')
+        ->response->outputIndex->toBe(0)
+        ->response->sequenceNumber->toBe(3);
 });
 
 test('rate limits updated event', function () {
@@ -167,4 +198,19 @@ test('output item done event with tool search output item', function () {
         ->response->item->tools->toHaveCount(1)
         ->response->item->tools->{0}->toBeInstanceOf(WebSearchTool::class)
         ->response->item->type->toBe('tool_search_output');
+});
+
+test('output item done event with apply patch call item', function () {
+    $response = CreateStreamedResponse::fake(responseOutputItemApplyPatchCallDoneEvent());
+
+    expect($response->getIterator()->current())
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->event->toBe('response.output_item.done')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->outputIndex->toBe(2)
+        ->response->sequenceNumber->toBe(14)
+        ->response->item->toBeInstanceOf(OutputApplyPatchToolCall::class)
+        ->response->item->operation->toBeInstanceOf(OutputApplyPatchOperationCreateFile::class)
+        ->response->item->operation->path->toBe('tasks.md')
+        ->response->item->type->toBe('apply_patch_call');
 });

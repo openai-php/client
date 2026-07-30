@@ -25,6 +25,7 @@ function createResponseResource(): array
             outputComputerToolCall(),
             outputReasoning(),
             outputCodeInterpreterToolCall(),
+            outputApplyPatchToolCall(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -51,6 +52,7 @@ function createResponseResource(): array
             toolImageGeneration(),
             toolRemoteMcp(),
             toolConnectorMcp(),
+            toolApplyPatch(),
         ],
         'top_logprobs' => null,
         'top_p' => 1.0,
@@ -233,6 +235,8 @@ function listInputItemsResource(): array
             outputProgramOutput(),
             functionToolCallOutputItem(),
             customToolCallOutputItem(),
+            outputApplyPatchToolCall(),
+            applyPatchToolCallOutputItem(),
         ],
         'first_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
         'last_id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
@@ -316,6 +320,25 @@ function functionToolCallOutputItem(): array
             'type' => 'program',
             'caller_id' => 'call_prog_123',
         ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function applyPatchToolCallOutputItem(): array
+{
+    return [
+        'id' => 'apco_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'status' => 'failed',
+        'type' => 'apply_patch_call_output',
+        'caller' => [
+            'caller_id' => 'prog_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+            'type' => 'program',
+        ],
+        'created_by' => 'prog_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => 'Could not apply patch: invalid context.',
     ];
 }
 
@@ -805,6 +828,28 @@ function outputProgramOutput(): array
 /**
  * @return array<string, mixed>
  */
+function outputApplyPatchToolCall(): array
+{
+    return [
+        'id' => 'apc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'operation' => [
+            'type' => 'update_file',
+            'diff' => "@@\n-old line\n+new line",
+            'path' => 'src/Example.php',
+        ],
+        'status' => 'completed',
+        'type' => 'apply_patch_call',
+        'caller' => [
+            'type' => 'direct',
+        ],
+        'created_by' => 'user_123',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputFunctionToolCall(): array
 {
     return [
@@ -1056,6 +1101,20 @@ function toolProgrammaticToolCalling(): array
 /**
  * @return array<string, mixed>
  */
+function toolApplyPatch(): array
+{
+    return [
+        'type' => 'apply_patch',
+        'allowed_callers' => [
+            'direct',
+            'programmatic',
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolNamespace(): array
 {
     return [
@@ -1172,6 +1231,16 @@ function responseReasoningTextDoneEvent()
     return fopen(__DIR__.'/Streams/ResponseReasoningTextDone.txt', 'r');
 }
 
+function responseApplyPatchCallOperationDiffDeltaEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseApplyPatchCallOperationDiffDelta.txt', 'r');
+}
+
+function responseApplyPatchCallOperationDiffDoneEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseApplyPatchCallOperationDiffDone.txt', 'r');
+}
+
 function responseRateLimitsUpdatedEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseRateLimitsUpdated.txt', 'r');
@@ -1190,4 +1259,9 @@ function responseOutputItemToolSearchCallAddedEvent()
 function responseOutputItemToolSearchOutputDoneEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseOutputItemToolSearchOutputDone.txt', 'r');
+}
+
+function responseOutputItemApplyPatchCallDoneEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseOutputItemApplyPatchCallDone.txt', 'r');
 }
