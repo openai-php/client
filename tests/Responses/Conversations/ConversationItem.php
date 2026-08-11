@@ -2,6 +2,8 @@
 
 use OpenAI\Responses\Conversations\ConversationItem;
 use OpenAI\Responses\Conversations\Objects\Message;
+use OpenAI\Responses\Responses\Input\ApplyPatchToolCallOutput;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 
@@ -44,4 +46,20 @@ test('from program output item', function () {
         ->item->toBeInstanceOf(OutputProgramOutput::class)
         ->item->callId->toBe('call_prog_123')
         ->toArray()->toBe(outputProgramOutput());
+});
+
+test('from with apply patch call', function () {
+    $response = ConversationItem::from(outputApplyPatchToolCall());
+
+    expect($response->item)
+        ->toBeInstanceOf(OutputApplyPatchToolCall::class)
+        ->callId->toBe('call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
+});
+
+test('from with apply patch call output', function () {
+    $response = ConversationItem::from(applyPatchToolCallOutputItem());
+
+    expect($response->item)
+        ->toBeInstanceOf(ApplyPatchToolCallOutput::class)
+        ->status->toBe('failed');
 });

@@ -1,9 +1,11 @@
 <?php
 
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Input\ApplyPatchToolCallOutput;
 use OpenAI\Responses\Responses\Input\CustomToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
 use OpenAI\Responses\Responses\ListInputItems;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 
@@ -14,7 +16,7 @@ test('from', function () {
         ->toBeInstanceOf(ListInputItems::class)
         ->object->toBe('list')
         ->data->toBeArray()
-        ->data->toHaveCount(17)
+        ->data->toHaveCount(19)
         ->firstId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->lastId->toBe('msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c')
         ->hasMore->toBeFalse()
@@ -26,7 +28,9 @@ test('from', function () {
         ->{15}->toBeInstanceOf(FunctionToolCallOutput::class)
         ->{15}->caller->callerId->toBe('call_prog_123')
         ->{16}->toBeInstanceOf(CustomToolCallOutput::class)
-        ->{16}->caller->callerId->toBe('call_prog_123');
+        ->{16}->caller->callerId->toBe('call_prog_123')
+        ->{17}->toBeInstanceOf(OutputApplyPatchToolCall::class)
+        ->{18}->toBeInstanceOf(ApplyPatchToolCallOutput::class);
 });
 
 test('as array accessible', function () {

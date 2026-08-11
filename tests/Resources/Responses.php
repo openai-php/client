@@ -8,6 +8,7 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
+use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Streaming\Response as StreamedResponse;
@@ -39,7 +40,7 @@ test('create', function () {
         ->maxOutputTokens->toBeNull()
         ->model->toBe('gpt-4o-2024-08-06')
         ->output->toBeArray()
-        ->output->toHaveCount(6);
+        ->output->toHaveCount(7);
 
     expect($output[0])
         ->type->toBe('message')
@@ -60,6 +61,10 @@ test('create', function () {
 
     expect($output[4])
         ->type->toBe('reasoning');
+
+    expect($output[6])
+        ->toBeInstanceOf(OutputApplyPatchToolCall::class)
+        ->type->toBe('apply_patch_call');
 
     expect($result)
         ->parallelToolCalls->toBeTrue()

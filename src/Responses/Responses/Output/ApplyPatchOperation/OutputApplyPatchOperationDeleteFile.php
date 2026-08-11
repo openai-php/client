@@ -2,40 +2,42 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\ToolChoice;
+namespace OpenAI\Responses\Responses\Output\ApplyPatchOperation;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type HostedToolChoiceType array{type: 'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'}
+ * @phpstan-type OutputApplyPatchOperationDeleteFileType array{type: 'delete_file', path: string}
  *
- * @implements ResponseContract<HostedToolChoiceType>
+ * @implements ResponseContract<OutputApplyPatchOperationDeleteFileType>
  */
-final class HostedToolChoice implements ResponseContract
+final class OutputApplyPatchOperationDeleteFile implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<HostedToolChoiceType>
+     * @use ArrayAccessible<OutputApplyPatchOperationDeleteFileType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'  $type
+     * @param  'delete_file'  $type
      */
     private function __construct(
         public readonly string $type,
+        public readonly string $path,
     ) {}
 
     /**
-     * @param  HostedToolChoiceType  $attributes
+     * @param  OutputApplyPatchOperationDeleteFileType  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             type: $attributes['type'],
+            path: $attributes['path'],
         );
     }
 
@@ -46,6 +48,7 @@ final class HostedToolChoice implements ResponseContract
     {
         return [
             'type' => $this->type,
+            'path' => $this->path,
         ];
     }
 }

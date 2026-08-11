@@ -222,3 +222,14 @@ test('programmatic tool calling output', function () {
     expect($response->toArray()['tool_choice'])
         ->toBe($payload['tool_choice']);
 });
+
+test('from with apply patch tool choice', function () {
+    $payload = createResponseResource();
+    $payload['tool_choice'] = ['type' => 'apply_patch'];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toolChoice)
+        ->toBeInstanceOf(HostedToolChoice::class)
+        ->type->toBe('apply_patch');
+});

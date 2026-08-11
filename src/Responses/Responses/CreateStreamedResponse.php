@@ -7,6 +7,8 @@ namespace OpenAI\Responses\Responses;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
+use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCall;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDelta;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDone;
@@ -54,7 +56,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|Error $response,
+        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|ApplyPatchCallOperationDiffDelta|ApplyPatchCallOperationDiffDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|Error $response,
     ) {}
 
     /**
@@ -84,6 +86,8 @@ final class CreateStreamedResponse implements ResponseContract
             'response.refusal.done' => RefusalDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.delta' => FunctionCallArgumentsDelta::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.done' => FunctionCallArgumentsDone::from($attributes, $meta), // @phpstan-ignore-line
+            'response.apply_patch_call_operation_diff.delta' => ApplyPatchCallOperationDiffDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.apply_patch_call_operation_diff.done' => ApplyPatchCallOperationDiffDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.file_search_call.in_progress',
             'response.file_search_call.searching',
             'response.file_search_call.completed' => FileSearchCall::from($attributes, $meta), // @phpstan-ignore-line
