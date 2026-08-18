@@ -560,6 +560,15 @@ function outputWebSearchToolCall(): array
             ],
             'query' => 'what was a positive news story from today?',
         ],
+        'results' => [
+            [
+                'type' => 'image_result',
+                'image_url' => 'https://example.com/images/positive-story.jpg',
+                'thumbnail_url' => 'https://example.com/images/positive-story-thumbnail.jpg',
+                'source_website_url' => 'https://example.com/news/positive-story',
+                'caption' => 'A positive news story',
+            ],
+        ],
     ];
 }
 
