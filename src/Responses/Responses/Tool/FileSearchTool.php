@@ -13,7 +13,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ComparisonFilterType from FileSearchComparisonFilter
  * @phpstan-import-type CompoundFilterType from FileSearchCompoundFilter
  *
- * @phpstan-type FileSearchToolType array{type: 'file_search', vector_store_ids: array<int, string>, filters: ComparisonFilterType|CompoundFilterType|null, max_num_results: int, ranking_options: RankingOptionType}
+ * @phpstan-type FileSearchToolType array{type: 'file_search', vector_store_ids: array<int, string>, filters: ComparisonFilterType|CompoundFilterType|null, max_num_results: int|null, ranking_options: RankingOptionType|null}
  *
  * @implements ResponseContract<FileSearchToolType>
  */
@@ -34,8 +34,8 @@ final class FileSearchTool implements ResponseContract
         public readonly string $type,
         public readonly array $vectorStoreIds,
         public readonly FileSearchComparisonFilter|FileSearchCompoundFilter|null $filters,
-        public readonly int $maxNumResults,
-        public readonly FileSearchRankingOption $rankingOptions,
+        public readonly ?int $maxNumResults,
+        public readonly ?FileSearchRankingOption $rankingOptions,
     ) {}
 
     /**
@@ -56,8 +56,8 @@ final class FileSearchTool implements ResponseContract
             type: $attributes['type'],
             vectorStoreIds: $attributes['vector_store_ids'],
             filters: $filters,
-            maxNumResults: $attributes['max_num_results'],
-            rankingOptions: FileSearchRankingOption::from($attributes['ranking_options']),
+            maxNumResults: $attributes['max_num_results'] ?? null,
+            rankingOptions: isset($attributes['ranking_options']) ? FileSearchRankingOption::from($attributes['ranking_options']) : null,
         );
     }
 
@@ -71,7 +71,7 @@ final class FileSearchTool implements ResponseContract
             'vector_store_ids' => $this->vectorStoreIds,
             'filters' => $this->filters?->toArray(),
             'max_num_results' => $this->maxNumResults,
-            'ranking_options' => $this->rankingOptions->toArray(),
+            'ranking_options' => $this->rankingOptions?->toArray(),
         ];
     }
 }

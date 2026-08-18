@@ -32,6 +32,45 @@ test('from null filters', function () {
         ->filters->toBeNull();
 });
 
+test('from null ranking options', function () {
+    $payload = toolFileSearch();
+    $payload['ranking_options'] = null;
+    $response = FileSearchTool::from($payload);
+
+    expect($response)
+        ->toBeInstanceOf(FileSearchTool::class)
+        ->rankingOptions->toBeNull();
+});
+
+test('from null max num results', function () {
+    $payload = toolFileSearch();
+    $payload['max_num_results'] = null;
+    $response = FileSearchTool::from($payload);
+
+    expect($response)
+        ->toBeInstanceOf(FileSearchTool::class)
+        ->maxNumResults->toBeNull();
+});
+
+test('from without optional keys', function () {
+    $attributes = toolFileSearch();
+
+    unset($attributes['max_num_results'], $attributes['ranking_options']);
+
+    set_error_handler(static fn (int $errno, string $errstr): bool => throw new ErrorException($errstr), E_WARNING);
+
+    try {
+        $response = FileSearchTool::from($attributes);
+    } finally {
+        restore_error_handler();
+    }
+
+    expect($response)
+        ->toBeInstanceOf(FileSearchTool::class)
+        ->maxNumResults->toBeNull()
+        ->rankingOptions->toBeNull();
+});
+
 test('from complex nested filters', function () {
     $response = FileSearchTool::from(toolFileSearchNestedFilters());
 
