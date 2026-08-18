@@ -906,6 +906,11 @@ function toolWebSearchPreview(): array
             'region' => 'California',
             'timezone' => 'America/Los_Angeles',
         ],
+        'search_content_types' => ['image', 'text'],
+        'image_settings' => [
+            'max_results' => 3,
+            'caption' => true,
+        ],
     ];
 }
 
