@@ -60,6 +60,7 @@ If you or your business relies on this package, it's important to support the de
 - [Webhooks][#webhooks]
 - [Services](#services)
   - [Azure](#azure)
+  - [OrcaRouter](#orcarouter)
 
 ## Get Started
 
@@ -3156,7 +3157,29 @@ Therefore, a basic sample completion call would be:
 $result = $client->completions()->create([
     'prompt' => 'PHP is'
 ]);
-``` 
+```
+
+### OrcaRouter
+
+[OrcaRouter](https://www.orcarouter.ai) is an OpenAI-compatible AI gateway built for both models and agents. Like OpenRouter, it exposes a provider/model namespace across many models — but it also combines adaptive routing, automatic failover, zero-markup inference, observability, guardrails, and agent-tool governance behind the same endpoint. It also runs gateway-level, zero-trust security for AI agents on the same endpoint — screening every prompt/response and governing every tool call on a default-deny basis, with no application code changes.
+
+Since OrcaRouter exposes an OpenAI-compatible API, you can point the OpenAI PHP client at it through the factory:
+
+```php
+$client = OpenAI::factory()
+    ->withApiKey('{your-orcarouter-api-key}')
+    ->withBaseUri('https://api.orcarouter.ai/v1')
+    ->make();
+
+$result = $client->chat()->create([
+    'model' => 'openai/gpt-4o-mini',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
+]);
+```
+
+Models are addressed using the `provider/model` naming scheme (e.g. `openai/gpt-4o-mini`, `anthropic/claude-sonnet-5`). You can find your API key and the available models in the [OrcaRouter console](https://www.orcarouter.ai).
 
 ---
 
