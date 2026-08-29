@@ -140,6 +140,8 @@ final class Payload
 
     /**
      * Creates a new Psr 7 Request instance.
+     *
+     * @throws ErrorException
      */
     public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
     {
@@ -168,19 +170,34 @@ final class Payload
                 $parameters = $this->parameters;
 
                 foreach ($parameters as $key => $value) {
-                    if (is_int($value) || is_float($value) || is_bool($value)) {
-                        $value = (string) $value;
-                    }
+                    if ($key === 'file') {
+                        if (is_array($value)) {
+                            if (!isset($value['data'])) {
+                                throw new ErrorException(['An array "file" parameter was provided without the required "data" key.']);
+                            }
 
-                    if (is_array($value)) {
+                            if (!isset($value['fileName'])) {
+                                throw new ErrorException(['An array "file" parameter was provided without the required "fileName" key.']);
+                            }
+
+                            $streamBuilder->addResource(
+                                $key,
+                                $value['data'],
+                                ['filename' => $value['fileName']]
+                            );
+                        } else {
+                            throw new ErrorException(['The "file" parameter must be an array.']);
+                        }
+                    } elseif (is_int($value) || is_float($value) || is_bool($value)) {
+                        $value = (string) $value;
+                        $streamBuilder->addResource($key, $value);
+                    } elseif (is_array($value)) {
                         foreach ($value as $nestedValue) {
                             $streamBuilder->addResource($key.'[]', $nestedValue);
                         }
-
-                        continue;
+                    } else {
+                        $streamBuilder->addResource($key, $value);
                     }
-
-                    $streamBuilder->addResource($key, $value);
                 }
 
                 $body = $streamBuilder->build();
