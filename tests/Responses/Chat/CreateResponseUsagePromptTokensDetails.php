@@ -6,7 +6,8 @@ test('from', function () {
     $result = CreateResponseUsagePromptTokensDetails::from(chatCompletion()['usage']['prompt_tokens_details']);
 
     expect($result)
-        ->cachedTokens->toBe(5);
+        ->cachedTokens->toBe(5)
+        ->cacheWriteTokens->toBe(1);
 });
 
 test('to array', function () {

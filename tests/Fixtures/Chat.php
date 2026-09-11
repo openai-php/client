@@ -27,6 +27,7 @@ function chatCompletion(): array
             'total_tokens' => 21,
             'prompt_tokens_details' => [
                 'cached_tokens' => 5,
+                'cache_write_tokens' => 1,
             ],
             'completion_tokens_details' => [
                 'reasoning_tokens' => 0,
