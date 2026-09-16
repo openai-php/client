@@ -88,6 +88,7 @@ final class ItemObjects
                 'program_output' => OutputProgramOutput::from($item),
                 'apply_patch_call' => OutputApplyPatchToolCall::from($item),
                 'apply_patch_call_output' => ApplyPatchToolCallOutput::from($item),
+                default => throw new \UnexpectedValueException('Uh oh! We do not recognize this type. Please submit a bug to openai-php/client on GitHub!'),
             },
             $outputItems,
         );
