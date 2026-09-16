@@ -9,9 +9,10 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
+ * @phpstan-import-type WebSearchImageSettingsType from WebSearchImageSettings
  * @phpstan-import-type UserLocationType from WebSearchUserLocation
  *
- * @phpstan-type WebSearchToolType array{type: 'web_search'|'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?UserLocationType}
+ * @phpstan-type WebSearchToolType array{type: 'web_search'|'web_search_preview'|'web_search_preview_2025_03_11', search_context_size: 'low'|'medium'|'high', user_location: ?UserLocationType, search_content_types?: array<int, 'image'|'text'>, image_settings?: WebSearchImageSettingsType}
  *
  * @implements ResponseContract<WebSearchToolType>
  */
@@ -27,11 +28,14 @@ final class WebSearchTool implements ResponseContract
     /**
      * @param  'web_search'|'web_search_preview'|'web_search_preview_2025_03_11'  $type
      * @param  'low'|'medium'|'high'  $searchContextSize
+     * @param  ?array<int, 'image'|'text'>  $searchContentTypes
      */
     private function __construct(
         public readonly string $type,
         public readonly string $searchContextSize,
         public readonly ?WebSearchUserLocation $userLocation,
+        public readonly ?array $searchContentTypes,
+        public readonly ?WebSearchImageSettings $imageSettings,
     ) {}
 
     /**
@@ -45,6 +49,10 @@ final class WebSearchTool implements ResponseContract
             userLocation: isset($attributes['user_location'])
                 ? WebSearchUserLocation::from($attributes['user_location'])
                 : null,
+            searchContentTypes: $attributes['search_content_types'] ?? null,
+            imageSettings: isset($attributes['image_settings'])
+                ? WebSearchImageSettings::from($attributes['image_settings'])
+                : null,
         );
     }
 
@@ -53,10 +61,20 @@ final class WebSearchTool implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'type' => $this->type,
             'search_context_size' => $this->searchContextSize,
             'user_location' => $this->userLocation?->toArray(),
         ];
+
+        if ($this->searchContentTypes !== null) {
+            $data['search_content_types'] = $this->searchContentTypes;
+        }
+
+        if ($this->imageSettings !== null) {
+            $data['image_settings'] = $this->imageSettings->toArray();
+        }
+
+        return $data;
     }
 }

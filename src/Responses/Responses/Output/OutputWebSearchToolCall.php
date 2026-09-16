@@ -11,8 +11,9 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type WebSearchActionType from OutputWebSearchAction
+ * @phpstan-import-type OutputWebSearchToolCallResultType from OutputWebSearchToolCallResult
  *
- * @phpstan-type OutputWebSearchToolCallType array{id: string, status: string, type: 'web_search_call', action?: WebSearchActionType}
+ * @phpstan-type OutputWebSearchToolCallType array{id: string, status: string, type: 'web_search_call', action?: WebSearchActionType, results?: array<int, OutputWebSearchToolCallResultType>}
  *
  * @implements ResponseContract<OutputWebSearchToolCallType>
  */
@@ -27,12 +28,14 @@ final class OutputWebSearchToolCall implements ResponseContract
 
     /**
      * @param  'web_search_call'  $type
+     * @param  ?array<int, OutputWebSearchToolCallResult>  $results
      */
     private function __construct(
         public readonly string $id,
         public readonly string $status,
         public readonly string $type,
         public readonly ?OutputWebSearchAction $action,
+        public readonly ?array $results,
     ) {}
 
     /**
@@ -46,7 +49,13 @@ final class OutputWebSearchToolCall implements ResponseContract
             type: $attributes['type'],
             action: isset($attributes['action'])
                 ? OutputWebSearchAction::from($attributes['action'])
-                : null
+                : null,
+            results: isset($attributes['results'])
+                ? array_map(
+                    static fn (array $result): OutputWebSearchToolCallResult => OutputWebSearchToolCallResult::from($result),
+                    $attributes['results'],
+                )
+                : null,
         );
     }
 
@@ -63,6 +72,13 @@ final class OutputWebSearchToolCall implements ResponseContract
 
         if ($this->action !== null) {
             $data['action'] = $this->action->toArray();
+        }
+
+        if ($this->results !== null) {
+            $data['results'] = array_map(
+                static fn (OutputWebSearchToolCallResult $result): array => $result->toArray(),
+                $this->results,
+            );
         }
 
         return $data;

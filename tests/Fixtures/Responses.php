@@ -560,6 +560,15 @@ function outputWebSearchToolCall(): array
             ],
             'query' => 'what was a positive news story from today?',
         ],
+        'results' => [
+            [
+                'type' => 'image_result',
+                'image_url' => 'https://example.com/images/positive-story.jpg',
+                'thumbnail_url' => 'https://example.com/images/positive-story-thumbnail.jpg',
+                'source_website_url' => 'https://example.com/news/positive-story',
+                'caption' => 'A positive news story',
+            ],
+        ],
     ];
 }
 
@@ -896,6 +905,11 @@ function toolWebSearchPreview(): array
             'country' => 'US',
             'region' => 'California',
             'timezone' => 'America/Los_Angeles',
+        ],
+        'search_content_types' => ['image', 'text'],
+        'image_settings' => [
+            'max_results' => 3,
+            'caption' => true,
         ],
     ];
 }
