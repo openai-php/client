@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.21.0 (2026-09-17)
+### Added
+ * Add support for programmatic tool calling in Responses API. ([#790](https://github.com/openai-php/client/pull/790))
+ * Add support for `apply_patch` tool in Responses API. ([#794](https://github.com/openai-php/client/pull/794))
+
+### Fixed
+ * Optimize streamed response processing. ([#795](https://github.com/openai-php/client/pull/795))
+ * Allow null `ranking_options` and `max_num_results` in `FileSearchTool`. ([#798](https://github.com/openai-php/client/pull/798))
+ * Add `cache_write_tokens` to `CreateResponseUsagePromptTokensDetails`. ([#803](https://github.com/openai-php/client/pull/803))
+ * Support web search image results and settings. ([#799](https://github.com/openai-php/client/pull/799))
+
 # v0.20.1 (2026-07-20)
 ### Fixed
  * Fix `tool_search` missing from streaming. ([#789](https://github.com/openai-php/client/pull/789))

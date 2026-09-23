@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCallResult;
 use OpenAI\Responses\Responses\Output\WebSearch\OutputWebSearchAction;
 
 test('from with full action', function () {
@@ -14,12 +15,22 @@ test('from with full action', function () {
         ->action->toBeInstanceOf(OutputWebSearchAction::class)
         ->action->query->toBe('what was a positive news story from today?')
         ->action->sources->toBeArray()
-        ->action->sources->toHaveCount(2);
+        ->action->sources->toHaveCount(2)
+        ->results->toBeArray()
+        ->results->toHaveCount(1);
 
     // Ensure first source is parsed correctly
     expect($response->action->sources[0])
         ->type->toBe('url')
         ->url->toBe('https://example.com/news/positive-story');
+
+    expect($response->results[0])
+        ->toBeInstanceOf(OutputWebSearchToolCallResult::class)
+        ->type->toBe('image_result')
+        ->imageUrl->toBe('https://example.com/images/positive-story.jpg')
+        ->thumbnailUrl->toBe('https://example.com/images/positive-story-thumbnail.jpg')
+        ->sourceWebsiteUrl->toBe('https://example.com/news/positive-story')
+        ->caption->toBe('A positive news story');
 });
 
 test('as array accessible', function () {
@@ -53,6 +64,38 @@ test('from without action', function () {
         ->toBeArray()
         ->toBe($payload)
         ->not->toHaveKey('action');
+});
+
+test('from without results', function () {
+    $payload = outputWebSearchToolCall();
+    unset($payload['results']);
+
+    $response = OutputWebSearchToolCall::from($payload);
+
+    expect($response)
+        ->toBeInstanceOf(OutputWebSearchToolCall::class)
+        ->results->toBeNull();
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toBe($payload)
+        ->not->toHaveKey('results');
+});
+
+test('from result without optional fields', function () {
+    $payload = outputWebSearchToolCall();
+    unset($payload['results'][0]['thumbnail_url'], $payload['results'][0]['caption']);
+
+    $response = OutputWebSearchToolCall::from($payload);
+
+    expect($response->results[0])
+        ->toBeInstanceOf(OutputWebSearchToolCallResult::class)
+        ->thumbnailUrl->toBeNull()
+        ->caption->toBeNull();
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toBe($payload);
 });
 
 test('from with action but without query', function () {
