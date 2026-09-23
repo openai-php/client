@@ -11,9 +11,10 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type WebSearchActionType from OutputWebSearchAction
- * @phpstan-import-type OutputWebSearchToolCallResultType from OutputWebSearchToolCallResult
+ * @phpstan-import-type OutputWebSearchToolCallImageResultType from OutputWebSearchToolCallImageResult
+ * @phpstan-import-type OutputWebSearchToolCallTextResultType from OutputWebSearchToolCallTextResult
  *
- * @phpstan-type OutputWebSearchToolCallType array{id: string, status: string, type: 'web_search_call', action?: WebSearchActionType, results?: array<int, OutputWebSearchToolCallResultType>}
+ * @phpstan-type OutputWebSearchToolCallType array{id: string, status: string, type: 'web_search_call', action?: WebSearchActionType, results?: array<int, OutputWebSearchToolCallImageResultType|OutputWebSearchToolCallTextResultType>}
  *
  * @implements ResponseContract<OutputWebSearchToolCallType>
  */
@@ -28,7 +29,7 @@ final class OutputWebSearchToolCall implements ResponseContract
 
     /**
      * @param  'web_search_call'  $type
-     * @param  ?array<int, OutputWebSearchToolCallResult>  $results
+     * @param  ?array<int, OutputWebSearchToolCallImageResult|OutputWebSearchToolCallTextResult>  $results
      */
     private function __construct(
         public readonly string $id,
@@ -52,7 +53,10 @@ final class OutputWebSearchToolCall implements ResponseContract
                 : null,
             results: isset($attributes['results'])
                 ? array_map(
-                    static fn (array $result): OutputWebSearchToolCallResult => OutputWebSearchToolCallResult::from($result),
+                    static fn (array $result): OutputWebSearchToolCallImageResult|OutputWebSearchToolCallTextResult => match ($result['type']) {
+                        'image_result' => OutputWebSearchToolCallImageResult::from($result),
+                        'text_result' => OutputWebSearchToolCallTextResult::from($result),
+                    },
                     $attributes['results'],
                 )
                 : null,
@@ -76,7 +80,7 @@ final class OutputWebSearchToolCall implements ResponseContract
 
         if ($this->results !== null) {
             $data['results'] = array_map(
-                static fn (OutputWebSearchToolCallResult $result): array => $result->toArray(),
+                static fn (OutputWebSearchToolCallImageResult|OutputWebSearchToolCallTextResult $result): array => $result->toArray(),
                 $this->results,
             );
         }

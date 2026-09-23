@@ -9,14 +9,14 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputWebSearchToolCallResultType array{type: 'image_result', image_url: string, source_website_url: string, thumbnail_url?: string, caption?: string}
+ * @phpstan-type OutputWebSearchToolCallImageResultType array{type: 'image_result', image_url: string, source_website_url: string, thumbnail_url?: string, caption?: string}
  *
- * @implements ResponseContract<OutputWebSearchToolCallResultType>
+ * @implements ResponseContract<OutputWebSearchToolCallImageResultType>
  */
-final class OutputWebSearchToolCallResult implements ResponseContract
+final class OutputWebSearchToolCallImageResult implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<OutputWebSearchToolCallResultType>
+     * @use ArrayAccessible<OutputWebSearchToolCallImageResultType>
      */
     use ArrayAccessible;
 
@@ -34,7 +34,7 @@ final class OutputWebSearchToolCallResult implements ResponseContract
     ) {}
 
     /**
-     * @param  OutputWebSearchToolCallResultType  $attributes
+     * @param  OutputWebSearchToolCallImageResultType  $attributes
      */
     public static function from(array $attributes): self
     {

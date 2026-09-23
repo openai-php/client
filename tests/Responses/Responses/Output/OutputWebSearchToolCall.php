@@ -1,7 +1,8 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
-use OpenAI\Responses\Responses\Output\OutputWebSearchToolCallResult;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCallImageResult;
+use OpenAI\Responses\Responses\Output\OutputWebSearchToolCallTextResult;
 use OpenAI\Responses\Responses\Output\WebSearch\OutputWebSearchAction;
 
 test('from with full action', function () {
@@ -25,7 +26,7 @@ test('from with full action', function () {
         ->url->toBe('https://example.com/news/positive-story');
 
     expect($response->results[0])
-        ->toBeInstanceOf(OutputWebSearchToolCallResult::class)
+        ->toBeInstanceOf(OutputWebSearchToolCallImageResult::class)
         ->type->toBe('image_result')
         ->imageUrl->toBe('https://example.com/images/positive-story.jpg')
         ->thumbnailUrl->toBe('https://example.com/images/positive-story-thumbnail.jpg')
@@ -89,9 +90,34 @@ test('from result without optional fields', function () {
     $response = OutputWebSearchToolCall::from($payload);
 
     expect($response->results[0])
-        ->toBeInstanceOf(OutputWebSearchToolCallResult::class)
+        ->toBeInstanceOf(OutputWebSearchToolCallImageResult::class)
         ->thumbnailUrl->toBeNull()
         ->caption->toBeNull();
+
+    expect($response->toArray())
+        ->toBeArray()
+        ->toBe($payload);
+});
+
+test('from with text search result', function () {
+    $payload = outputWebSearchToolCall();
+    $payload['results'] = [
+        [
+            'type' => 'text_result',
+            'title' => 'A positive news story',
+            'url' => 'https://example.com/news/positive-story',
+            'snippet' => 'A short summary of the positive news story.',
+        ],
+    ];
+
+    $response = OutputWebSearchToolCall::from($payload);
+
+    expect($response->results[0])
+        ->toBeInstanceOf(OutputWebSearchToolCallTextResult::class)
+        ->type->toBe('text_result')
+        ->title->toBe('A positive news story')
+        ->url->toBe('https://example.com/news/positive-story')
+        ->snippet->toBe('A short summary of the positive news story.');
 
     expect($response->toArray())
         ->toBeArray()
