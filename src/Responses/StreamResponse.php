@@ -19,6 +19,8 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 {
     private const STREAM_READ_SIZE = 64 * 1024;
 
+    private const TRIM_CHARACTERS = " \n\r\t\v\0";
+
     private string $lineBuffer = '';
 
     /**
@@ -58,11 +60,11 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
                 continue;
             }
 
-            $data = substr($line, strlen('data:'));
+            $data = $this->dataFromLine($line);
 
             unset($line);
 
-            if (strlen($data) <= 16 && trim($data) === '[DONE]') {
+            if ($data === '[DONE]') {
                 unset($data);
 
                 break;
@@ -103,6 +105,25 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
             unset($streamEvent);
         }
+    }
+
+    /**
+     * Extract and trim the data field without creating an intermediate copy.
+     */
+    private function dataFromLine(string $line): string
+    {
+        $start = strlen('data:');
+        $end = strlen($line);
+
+        while ($start < $end && str_contains(self::TRIM_CHARACTERS, $line[$start])) {
+            $start++;
+        }
+
+        while ($end > $start && str_contains(self::TRIM_CHARACTERS, $line[$end - 1])) {
+            $end--;
+        }
+
+        return substr($line, $start, $end - $start);
     }
 
     /**

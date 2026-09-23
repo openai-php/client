@@ -120,3 +120,29 @@ test('retries an empty read before EOF without losing the buffered line', functi
         ->toBeInstanceOf(OutputCompaction::class)
         ->encryptedContent->toBe('complete content');
 });
+
+test('trims control characters surrounding streamed JSON data', function () {
+    $attributes = [
+        'type' => 'response.output_item.done',
+        'output_index' => 0,
+        'sequence_number' => 1,
+        'item' => [
+            'id' => 'cmp_with_trailing_null',
+            'encrypted_content' => 'complete content',
+            'type' => 'compaction',
+            'created_by' => 'user',
+        ],
+    ];
+    $body = 'data: '.json_encode($attributes, flags: JSON_THROW_ON_ERROR)."\0\n";
+
+    $response = new Response(body: Utils::streamFor($body));
+    $streamResponse = new StreamResponse(CreateStreamedResponse::class, $response);
+
+    $result = iterator_to_array($streamResponse);
+
+    expect($result)
+        ->toHaveCount(1)
+        ->and($result[0]->response->item)
+        ->toBeInstanceOf(OutputCompaction::class)
+        ->encryptedContent->toBe('complete content');
+});
