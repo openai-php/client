@@ -13,6 +13,9 @@ use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Streaming\Response as StreamedResponse;
 use OpenAI\Responses\StreamResponse;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Tool\ShellToolFixture;
 
 test('create', function () {
     $client = mockClient('POST', 'responses', [
@@ -405,4 +408,31 @@ test('cancel', function () {
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('creates responses with hosted skills and an existing remote MCP tool', function () {
+    $parameters = [
+        'model' => 'gpt-5.4',
+        'input' => 'Use sandbox-word-count to count the supplied words.',
+        'tools' => [
+            ShellToolFixture::ATTRIBUTES,
+            toolRemoteMcp(),
+        ],
+    ];
+    $attributes = createResponseResource();
+    $attributes['tools'] = [
+        ['type' => 'shell', 'environment' => ['type' => 'container_reference', 'container_id' => 'cntr_123']],
+        toolRemoteMcp(),
+    ];
+    $attributes['output'] = [
+        OutputShellCallFixture::ATTRIBUTES,
+        OutputShellCallOutputFixture::ATTRIBUTES,
+        outputMcpCall(),
+    ];
+    $client = mockClient('POST', 'responses', $parameters, OpenAI\ValueObjects\Transporter\Response::from($attributes, metaHeaders()));
+
+    $response = $client->responses()->create($parameters);
+
+    expect($response->toArray()['output'])->toEqual($attributes['output']);
+    expect($response->toArray()['tools'])->toEqual($attributes['tools']);
 });

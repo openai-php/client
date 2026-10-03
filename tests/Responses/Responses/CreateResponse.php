@@ -8,9 +8,15 @@ use OpenAI\Responses\Responses\CreateResponseUsage;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
+use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
+use OpenAI\Responses\Responses\Tool\ShellTool;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
 use OpenAI\Testing\Enums\OverrideStrategy;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
 
 test('from', function () {
     $response = CreateResponse::from(createResponseResource(), meta());
@@ -232,4 +238,37 @@ test('from with apply patch tool choice', function () {
     expect($response->toolChoice)
         ->toBeInstanceOf(HostedToolChoice::class)
         ->type->toBe('apply_patch');
+});
+
+test('parses shell tools independently of shell output', function () {
+    $attributes = createResponseResource();
+    $attributes['tools'] = [['type' => 'shell', 'environment' => ['type' => 'container_reference', 'container_id' => 'cntr_123']]];
+    $attributes['output'] = [];
+    $attributes['tool_choice'] = ['type' => 'shell'];
+
+    foreach ([CreateResponse::class, RetrieveResponse::class] as $class) {
+        $response = $class::from($attributes, meta());
+
+        expect($response->tools[0])->toBeInstanceOf(ShellTool::class);
+        expect($response->toArray()['tools'])->toEqual($attributes['tools']);
+        expect($response->toArray()['tool_choice'])->toBe(['type' => 'shell']);
+    }
+});
+
+test('parses shell output independently of shell tools', function () {
+    $attributes = createResponseResource();
+    $attributes['tools'] = [];
+    $attributes['output'] = [
+        OutputShellCallFixture::ATTRIBUTES,
+        OutputShellCallOutputFixture::ATTRIBUTES,
+    ];
+
+    foreach ([CreateResponse::class, RetrieveResponse::class] as $class) {
+        $response = $class::from($attributes, meta());
+
+        expect($response->output[0])->toBeInstanceOf(OutputShellCall::class);
+        expect($response->output[1])->toBeInstanceOf(OutputShellCallOutput::class);
+        expect($response->output[1]->output[0]->outcome->exitCode)->toBe(0);
+        expect($response->toArray()['output'])->toEqual($attributes['output']);
+    }
 });

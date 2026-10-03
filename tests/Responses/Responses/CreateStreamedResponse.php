@@ -8,6 +8,8 @@ use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
@@ -18,6 +20,8 @@ use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDone;
 use OpenAI\Responses\Responses\Streaming\Response;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
 
 test('fake', function () {
     $response = CreateStreamedResponse::fake();
@@ -213,4 +217,35 @@ test('output item done event with apply patch call item', function () {
         ->response->item->operation->toBeInstanceOf(OutputApplyPatchOperationCreateFile::class)
         ->response->item->operation->path->toBe('tasks.md')
         ->response->item->type->toBe('apply_patch_call');
+});
+
+test('streams shell commands and output through the completed response', function () {
+    $stream = CreateStreamedResponse::fake(responseShellEvents());
+    $events = iterator_to_array($stream->getIterator());
+
+    expect(array_column($events, 'event'))->toBe([
+        'response.output_item.added',
+        'response.shell_call_command.added',
+        'response.shell_call_command.delta',
+        'response.shell_call_command.done',
+        'response.output_item.done',
+        'response.output_item.added',
+        'response.shell_call_output_content.delta',
+        'response.shell_call_output_content.done',
+        'response.output_item.done',
+        'response.completed',
+    ]);
+    expect($events[0]->response->item)->toBeInstanceOf(OutputShellCall::class);
+    expect($events[2]->response->delta)->toBe('python ');
+    expect($events[6]->response->delta)->toBe(['stdout' => '{"skill":"sandbox-word-count","word_count":7}']);
+    expect($events[7]->response->output[0]->outcome->exitCode)->toBe(0);
+    expect($events[8]->response->item)->toBeInstanceOf(OutputShellCallOutput::class);
+    expect($events[9]->response->response->toArray()['output'])->toEqual([
+        OutputShellCallFixture::ATTRIBUTES,
+        OutputShellCallOutputFixture::ATTRIBUTES,
+    ]);
+
+    foreach ($events as $sequence => $event) {
+        expect($event->toArray()['data']['sequence_number'])->toBe($sequence);
+    }
 });

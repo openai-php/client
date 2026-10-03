@@ -2,40 +2,42 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\ToolChoice;
+namespace OpenAI\Responses\Responses\Output\ShellCallOutcome;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type HostedToolChoiceType array{type: 'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'}
+ * @phpstan-type OutputShellCallOutcomeExitType array{type: 'exit', exit_code: int}
  *
- * @implements ResponseContract<HostedToolChoiceType>
+ * @implements ResponseContract<OutputShellCallOutcomeExitType>
  */
-final class HostedToolChoice implements ResponseContract
+final class OutputShellCallOutcomeExit implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<HostedToolChoiceType>
+     * @use ArrayAccessible<OutputShellCallOutcomeExitType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'  $type
+     * @param  'exit'  $type
      */
     private function __construct(
         public readonly string $type,
+        public readonly int $exitCode,
     ) {}
 
     /**
-     * @param  HostedToolChoiceType  $attributes
+     * @param  OutputShellCallOutcomeExitType  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             type: $attributes['type'],
+            exitCode: $attributes['exit_code'],
         );
     }
 
@@ -46,6 +48,7 @@ final class HostedToolChoice implements ResponseContract
     {
         return [
             'type' => $this->type,
+            'exit_code' => $this->exitCode,
         ];
     }
 }

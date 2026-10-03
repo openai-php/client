@@ -259,6 +259,50 @@ foreach ($response->output as $item) {
 }
 ```
 
+Create a response with hosted shell and an uploaded skill. See [Shell](https://developers.openai.com/api/docs/guides/tools-shell) and [Skills](https://developers.openai.com/api/docs/guides/tools-skills) for the execution environments and attachment formats.
+
+```php
+$response = $client->responses()->create([
+    'model' => 'gpt-5.4',
+    'tools' => [
+        [
+            'type' => 'shell',
+            'environment' => [
+                'type' => 'container_auto',
+                'skills' => [
+                    ['type' => 'skill_reference', 'skill_id' => 'skill_abc123'],
+                ],
+            ],
+        ],
+    ],
+    'input' => 'Use the uploaded skill to count these words: one two three.',
+]);
+
+foreach ($response->output as $item) {
+    if ($item->type === 'shell_call') {
+        $item->action->commands; // Shell commands requested by the model
+        $item->action->timeoutMs; // Optional execution timeout
+        $item->environment; // Local environment or container reference
+    }
+
+    if ($item->type === 'shell_call_output') {
+        foreach ($item->output as $output) {
+            $output->stdout;
+            $output->stderr;
+            $output->outcome->type; // 'exit' or 'timeout'
+
+            if ($output->outcome->type === 'exit') {
+                $output->outcome->exitCode;
+            }
+        }
+    }
+}
+
+$response->toArray();
+```
+
+Hosted shell runs on OpenAI. An automatically provisioned container can appear as `container_reference` in the response. Attachments may also use `inline` with a base64 ZIP source. With `environment.type = local`, your application executes the commands and supplies `shell_call_output` items; the client only parses and serializes these data structures.
+
 #### `create streamed`
 
 When you create a Response with stream set to true, the server will emit server-sent events to the client as the Response is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses-streaming).

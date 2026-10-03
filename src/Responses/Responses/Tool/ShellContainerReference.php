@@ -2,40 +2,42 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\ToolChoice;
+namespace OpenAI\Responses\Responses\Tool;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type HostedToolChoiceType array{type: 'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'}
+ * @phpstan-type ShellContainerReferenceType array{type: 'container_reference', container_id: string}
  *
- * @implements ResponseContract<HostedToolChoiceType>
+ * @implements ResponseContract<ShellContainerReferenceType>
  */
-final class HostedToolChoice implements ResponseContract
+final class ShellContainerReference implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<HostedToolChoiceType>
+     * @use ArrayAccessible<ShellContainerReferenceType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'  $type
+     * @param  'container_reference'  $type
      */
     private function __construct(
         public readonly string $type,
+        public readonly string $containerId,
     ) {}
 
     /**
-     * @param  HostedToolChoiceType  $attributes
+     * @param  ShellContainerReferenceType  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             type: $attributes['type'],
+            containerId: $attributes['container_id'],
         );
     }
 
@@ -46,6 +48,7 @@ final class HostedToolChoice implements ResponseContract
     {
         return [
             'type' => $this->type,
+            'container_id' => $this->containerId,
         ];
     }
 }

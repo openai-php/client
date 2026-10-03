@@ -6,6 +6,8 @@ use OpenAI\Responses\Responses\Input\ApplyPatchToolCallOutput;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
 
 test('from', function () {
     $response = ConversationItem::from(conversationItemResource());
@@ -62,4 +64,13 @@ test('from with apply patch call output', function () {
     expect($response->item)
         ->toBeInstanceOf(ApplyPatchToolCallOutput::class)
         ->status->toBe('failed');
+});
+
+test('parses shell conversation items', function () {
+    foreach ([
+        OutputShellCallFixture::ATTRIBUTES,
+        OutputShellCallOutputFixture::ATTRIBUTES,
+    ] as $attributes) {
+        expect(ConversationItem::from($attributes)->toArray())->toEqual($attributes);
+    }
 });
