@@ -26,6 +26,8 @@ use OpenAI\Responses\Responses\Output\OutputMessage;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 
 /**
@@ -38,6 +40,8 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type CustomToolCallOutputType from CustomToolCallOutput
  * @phpstan-import-type OutputComputerToolCallType from OutputComputerToolCall
  * @phpstan-import-type OutputApplyPatchToolCallType from OutputApplyPatchToolCall
+ * @phpstan-import-type OutputShellCallType from OutputShellCall
+ * @phpstan-import-type OutputShellCallOutputType from OutputShellCallOutput
  * @phpstan-import-type OutputFileSearchToolCallType from OutputFileSearchToolCall
  * @phpstan-import-type OutputFunctionToolCallType from OutputFunctionToolCall
  * @phpstan-import-type OutputMessageType from OutputMessage
@@ -53,8 +57,8 @@ use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
  * @phpstan-import-type OutputProgramType from OutputProgram
  * @phpstan-import-type OutputProgramOutputType from OutputProgramOutput
  *
- * @phpstan-type ResponseItemObjectTypes array<int, ApplyPatchToolCallOutputType|InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|LocalShellCallOutputType|McpApprovalResponseType|CustomToolCallOutputType|OutputApplyPatchToolCallType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType|OutputProgramType|OutputProgramOutputType>
- * @phpstan-type ResponseItemObjectReturnType array<int, ApplyPatchToolCallOutput|InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputApplyPatchToolCall|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput>
+ * @phpstan-type ResponseItemObjectTypes array<int, ApplyPatchToolCallOutputType|InputMessageType|ComputerToolCallOutputType|FunctionToolCallOutputType|LocalShellCallOutputType|McpApprovalResponseType|CustomToolCallOutputType|OutputApplyPatchToolCallType|OutputShellCallType|OutputShellCallOutputType|OutputComputerToolCallType|OutputFileSearchToolCallType|OutputFunctionToolCallType|OutputMessageType|OutputReasoningType|OutputWebSearchToolCallType|OutputMcpListToolsType|OutputMcpApprovalRequestType|OutputMcpCallType|OutputImageGenerationToolCallType|OutputCodeInterpreterToolCallType|OutputLocalShellCallType|OutputCustomToolCallType|OutputProgramType|OutputProgramOutputType>
+ * @phpstan-type ResponseItemObjectReturnType array<int, ApplyPatchToolCallOutput|InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputApplyPatchToolCall|OutputShellCall|OutputShellCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput>
  */
 final class ItemObjects
 {
@@ -65,7 +69,9 @@ final class ItemObjects
     public static function parse(array $outputItems): array
     {
         return array_map(
-            fn (array $item): ApplyPatchToolCallOutput|InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputApplyPatchToolCall|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput => match ($item['type']) {
+            fn (array $item): ApplyPatchToolCallOutput|InputMessage|ComputerToolCallOutput|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputApplyPatchToolCall|OutputShellCall|OutputShellCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput => match ($item['type']) {
+                'shell_call' => OutputShellCall::from($item),
+                'shell_call_output' => OutputShellCallOutput::from($item),
                 'message' => $item['role'] === 'assistant' ? OutputMessage::from($item) : InputMessage::from($item),
                 'file_search_call' => OutputFileSearchToolCall::from($item),
                 'function_call' => OutputFunctionToolCall::from($item),

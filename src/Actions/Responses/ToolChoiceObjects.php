@@ -24,7 +24,7 @@ final class ToolChoiceObjects
     {
         return is_array($toolChoice)
             ? match ($toolChoice['type']) {
-                'apply_patch', 'file_search', 'web_search', 'web_search_preview', 'computer_use_preview', 'programmatic_tool_calling' => HostedToolChoice::from($toolChoice),
+                'shell', 'apply_patch', 'file_search', 'web_search', 'web_search_preview', 'computer_use_preview', 'programmatic_tool_calling' => HostedToolChoice::from($toolChoice),
                 'function' => FunctionToolChoice::from($toolChoice),
             }
         : $toolChoice;

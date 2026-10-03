@@ -29,6 +29,8 @@ use OpenAI\Responses\Responses\Output\OutputMessage;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
@@ -42,6 +44,7 @@ use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
+use OpenAI\Responses\Responses\Tool\ShellTool;
 use OpenAI\Responses\Responses\Tool\ToolSearchTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
@@ -201,7 +204,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             'metadata' => $this->metadata ?? [],
             'model' => $this->model,
             'output' => array_map(
-                fn (OutputApplyPatchToolCall|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputProgram|OutputProgramOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput|OutputCompaction $output): array => $output->toArray(),
+                fn (OutputApplyPatchToolCall|OutputShellCall|OutputShellCallOutput|OutputMessage|OutputComputerToolCall|OutputFileSearchToolCall|OutputWebSearchToolCall|OutputFunctionToolCall|OutputProgram|OutputProgramOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputToolSearchCall|OutputToolSearchOutput|OutputCompaction $output): array => $output->toArray(),
                 $this->output
             ),
             'output_text' => $this->outputText,
@@ -219,7 +222,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
             'tools' => array_map(
-                fn (ApplyPatchTool|ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool|ProgrammaticToolCallingTool $tool): array => $tool->toArray(),
+                fn (ApplyPatchTool|ShellTool|ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool|ProgrammaticToolCallingTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
             'top_logprobs' => $this->topLogProbs,

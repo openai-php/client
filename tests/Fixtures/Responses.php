@@ -1279,3 +1279,8 @@ function responseOutputItemApplyPatchCallDoneEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseOutputItemApplyPatchCallDone.txt', 'r');
 }
+
+function responseShellEvents()
+{
+    return fopen(__DIR__.'/Streams/ResponseShell.txt', 'r');
+}

@@ -28,6 +28,8 @@ use OpenAI\Responses\Responses\Output\OutputMcpListTools;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputWebSearchToolCall;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
@@ -48,7 +50,7 @@ final class ConversationItem implements ResponseContract
     use Fakeable;
 
     private function __construct(
-        public readonly ApplyPatchToolCallOutput|Message|OutputApplyPatchToolCall|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput $item
+        public readonly ApplyPatchToolCallOutput|Message|OutputApplyPatchToolCall|OutputShellCall|OutputShellCallOutput|OutputFileSearchToolCall|OutputFunctionToolCall|FunctionToolCallOutput|LocalShellCallOutput|McpApprovalResponse|CustomToolCallOutput|OutputWebSearchToolCall|OutputComputerToolCall|ComputerToolCallOutput|OutputReasoning|OutputMcpListTools|OutputMcpApprovalRequest|OutputMcpCall|OutputImageGenerationToolCall|OutputCodeInterpreterToolCall|OutputLocalShellCall|OutputCustomToolCall|OutputProgram|OutputProgramOutput $item
     ) {}
 
     /**

@@ -14,11 +14,13 @@ use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
+use OpenAI\Responses\Responses\Tool\ShellTool;
 use OpenAI\Responses\Responses\Tool\ToolSearchTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 
 /**
  * @phpstan-import-type ApplyPatchToolType from ApplyPatchTool
+ * @phpstan-import-type ShellToolType from ShellTool
  * @phpstan-import-type CodeInterpreterToolType from CodeInterpreterTool
  * @phpstan-import-type ComputerUseToolType from ComputerUseTool
  * @phpstan-import-type CustomToolType from CustomTool
@@ -31,8 +33,8 @@ use OpenAI\Responses\Responses\Tool\WebSearchTool;
  * @phpstan-import-type ToolSearchToolType from ToolSearchTool
  * @phpstan-import-type WebSearchToolType from WebSearchTool
  *
- * @phpstan-type ResponseToolObjectTypes array<int, ApplyPatchToolType|CodeInterpreterToolType|ComputerUseToolType|CustomToolType|FileSearchToolType|FunctionToolType|ImageGenerationToolType|NamespaceToolType|ProgrammaticToolCallingToolType|RemoteMcpToolType|ToolSearchToolType|WebSearchToolType>
- * @phpstan-type ResponseToolObjectReturnType array<int, ApplyPatchTool|CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool>
+ * @phpstan-type ResponseToolObjectTypes array<int, ApplyPatchToolType|ShellToolType|CodeInterpreterToolType|ComputerUseToolType|CustomToolType|FileSearchToolType|FunctionToolType|ImageGenerationToolType|NamespaceToolType|ProgrammaticToolCallingToolType|RemoteMcpToolType|ToolSearchToolType|WebSearchToolType>
+ * @phpstan-type ResponseToolObjectReturnType array<int, ApplyPatchTool|ShellTool|CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool>
  */
 final class ToolObjects
 {
@@ -43,7 +45,7 @@ final class ToolObjects
     public static function parse(array $toolItems): array
     {
         return array_map(
-            fn (array $tool): ApplyPatchTool|CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool => match ($tool['type']) {
+            fn (array $tool): ApplyPatchTool|ShellTool|CodeInterpreterTool|ComputerUseTool|CustomTool|FileSearchTool|FunctionTool|ImageGenerationTool|NamespaceTool|ProgrammaticToolCallingTool|RemoteMcpTool|ToolSearchTool|WebSearchTool => match ($tool['type']) {
                 'file_search' => FileSearchTool::from($tool),
                 'web_search', 'web_search_preview', 'web_search_preview_2025_03_11' => WebSearchTool::from($tool),
                 'function' => FunctionTool::from($tool),
@@ -55,6 +57,7 @@ final class ToolObjects
                 'namespace' => NamespaceTool::from($tool),
                 'custom' => CustomTool::from($tool),
                 'programmatic_tool_calling' => ProgrammaticToolCallingTool::from($tool),
+                'shell' => ShellTool::from($tool),
                 'apply_patch' => ApplyPatchTool::from($tool),
             },
             $toolItems,

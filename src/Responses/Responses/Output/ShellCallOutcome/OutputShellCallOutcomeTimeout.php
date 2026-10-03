@@ -2,35 +2,35 @@
 
 declare(strict_types=1);
 
-namespace OpenAI\Responses\Responses\ToolChoice;
+namespace OpenAI\Responses\Responses\Output\ShellCallOutcome;
 
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type HostedToolChoiceType array{type: 'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'}
+ * @phpstan-type OutputShellCallOutcomeTimeoutType array{type: 'timeout'}
  *
- * @implements ResponseContract<HostedToolChoiceType>
+ * @implements ResponseContract<OutputShellCallOutcomeTimeoutType>
  */
-final class HostedToolChoice implements ResponseContract
+final class OutputShellCallOutcomeTimeout implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<HostedToolChoiceType>
+     * @use ArrayAccessible<OutputShellCallOutcomeTimeoutType>
      */
     use ArrayAccessible;
 
     use Fakeable;
 
     /**
-     * @param  'shell'|'apply_patch'|'file_search'|'web_search'|'web_search_preview'|'computer_use_preview'|'programmatic_tool_calling'  $type
+     * @param  'timeout'  $type
      */
     private function __construct(
         public readonly string $type,
     ) {}
 
     /**
-     * @param  HostedToolChoiceType  $attributes
+     * @param  OutputShellCallOutcomeTimeoutType  $attributes
      */
     public static function from(array $attributes): self
     {

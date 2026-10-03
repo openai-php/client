@@ -1,0 +1,30 @@
+event: response.output_item.added
+data: {"type":"response.output_item.added","output_index":0,"item":{"id":"sh_123","type":"shell_call","status":"in_progress","call_id":"call_123","action":{"commands":[],"max_output_length":4096,"timeout_ms":120000},"environment":{"type":"container_reference","container_id":"cntr_123"}},"sequence_number":0}
+
+event: response.shell_call_command.added
+data: {"type":"response.shell_call_command.added","command_index":0,"output_index":0,"sequence_number":1,"command":"python /skills/sandbox-word-count/scripts/count_words.py /mnt/data/sample.txt"}
+
+event: response.shell_call_command.delta
+data: {"type":"response.shell_call_command.delta","command_index":0,"output_index":0,"sequence_number":2,"delta":"python ","obfuscation":"abc"}
+
+event: response.shell_call_command.done
+data: {"type":"response.shell_call_command.done","command_index":0,"output_index":0,"sequence_number":3,"command":"python /skills/sandbox-word-count/scripts/count_words.py /mnt/data/sample.txt"}
+
+event: response.output_item.done
+data: {"type":"response.output_item.done","output_index":0,"item":{"id":"sh_123","type":"shell_call","status":"completed","call_id":"call_123","action":{"commands":["python /skills/sandbox-word-count/scripts/count_words.py /mnt/data/sample.txt"],"max_output_length":4096,"timeout_ms":120000},"environment":{"type":"container_reference","container_id":"cntr_123"}},"sequence_number":4}
+
+event: response.output_item.added
+data: {"type":"response.output_item.added","output_index":1,"item":{"id":"sho_123","type":"shell_call_output","status":"in_progress","call_id":"call_123","output":[],"max_output_length":4096},"sequence_number":5}
+
+event: response.shell_call_output_content.delta
+data: {"type":"response.shell_call_output_content.delta","command_index":0,"output_index":1,"sequence_number":6,"item_id":"sho_123","delta":{"stdout":"{\"skill\":\"sandbox-word-count\",\"word_count\":7}"}}
+
+event: response.shell_call_output_content.done
+data: {"type":"response.shell_call_output_content.done","command_index":0,"output_index":1,"sequence_number":7,"item_id":"sho_123","output":[{"stdout":"{\"skill\":\"sandbox-word-count\",\"word_count\":7}","stderr":"","outcome":{"type":"exit","exit_code":0}}]}
+
+event: response.output_item.done
+data: {"type":"response.output_item.done","output_index":1,"item":{"id":"sho_123","type":"shell_call_output","status":"completed","call_id":"call_123","output":[{"stdout":"{\"skill\":\"sandbox-word-count\",\"word_count\":7}","stderr":"","outcome":{"type":"exit","exit_code":0}}],"max_output_length":4096},"sequence_number":8}
+
+event: response.completed
+data: {"type":"response.completed","response":{"id":"resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c","object":"response","created_at":1741484430,"status":"completed","error":null,"incomplete_details":null,"instructions":null,"max_output_tokens":null,"model":"gpt-4o-2024-08-06","output":[{"id":"sh_123","type":"shell_call","status":"completed","call_id":"call_123","action":{"commands":["python /skills/sandbox-word-count/scripts/count_words.py /mnt/data/sample.txt"],"max_output_length":4096,"timeout_ms":120000},"environment":{"type":"container_reference","container_id":"cntr_123"}},{"id":"sho_123","type":"shell_call_output","status":"completed","call_id":"call_123","output":[{"stdout":"{\"skill\":\"sandbox-word-count\",\"word_count\":7}","stderr":"","outcome":{"type":"exit","exit_code":0}}],"max_output_length":4096}],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"generate_summary":null},"store":true,"temperature":1,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[{"type":"shell","environment":{"type":"container_reference","container_id":"cntr_123"}}],"top_p":1,"truncation":"disabled","usage":{"input_tokens":328,"input_tokens_details":{"cached_tokens":0},"output_tokens":356,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":684},"user":null,"metadata":[]},"sequence_number":9}
+

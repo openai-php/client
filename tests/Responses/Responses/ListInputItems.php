@@ -8,6 +8,10 @@ use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputShellCall;
+use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
+use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
 
 test('from', function () {
     $result = ListInputItems::from(listInputItemsResource(), meta());
@@ -67,4 +71,18 @@ test('fake with override', function () {
         ->object->toBe('custom_list')
         ->firstId->toBe('msg_1234')
         ->hasMore->toBeTrue();
+});
+
+test('lists and serializes stored shell calls and outputs', function () {
+    $attributes = listInputItemsResource();
+    $attributes['data'] = [
+        OutputShellCallFixture::ATTRIBUTES,
+        OutputShellCallOutputFixture::ATTRIBUTES,
+    ];
+
+    $response = ListInputItems::from($attributes, meta());
+
+    expect($response->data[0])->toBeInstanceOf(OutputShellCall::class);
+    expect($response->data[1])->toBeInstanceOf(OutputShellCallOutput::class);
+    expect($response->toArray()['data'])->toEqual($attributes['data']);
 });
