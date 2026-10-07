@@ -41,6 +41,7 @@ If you or your business relies on this package, it's important to support the de
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
   - [FineTuning Resource](#finetuning-resource)
+  - [Decisions Resource](#decisions-resource)
   - [Moderations Resource](#moderations-resource)
   - [Images Resource](#images-resource)
   - [Vector Stores Resource](#vector-stores-resource)
@@ -1445,6 +1446,55 @@ $response = $client->fineTuning()->listJobEvents('ftjob-AF1WoRqd3aJAHsqc9NY7iL8F
     'limit' => 3, // Number of events to retrieve (Default: 20)
     'after' => 'ftevent-kLPSMIcsqshEUEJVOVBVcHlP', // Identifier for the last event from the previous pagination request.
 ]);
+```
+
+### `Decisions` Resource
+
+#### `create`
+
+Evaluates text, images, or both against a list of questions. A question has the type `predicate`, `choice`, or `score`.
+
+```php
+$response = $client->decisions()->create([
+    'model' => 'gpt-6-luna',
+    'input' => 'Please refund my order. This is the third time I ask.',
+    'questions' => [
+        [
+            'type' => 'predicate',
+            'name' => 'wants_refund',
+            'instructions' => 'The customer asks for a refund.',
+        ],
+        [
+            'type' => 'choice',
+            'name' => 'sentiment',
+            'instructions' => 'Pick the tone of the message.',
+            'choices' => [
+                ['value' => 'positive', 'description' => 'The tone is happy.'],
+                ['value' => 'negative', 'description' => 'The tone is angry or upset.'],
+            ],
+        ],
+        [
+            'type' => 'score',
+            'name' => 'urgency',
+            'instructions' => 'Rate how urgent the request is.',
+            'levels' => [
+                ['label' => 'low', 'description' => 'No time pressure.'],
+                ['label' => 'high', 'description' => 'The customer needs help now.'],
+            ],
+        ],
+    ],
+]);
+
+foreach ($response->answers as $answer) {
+    $answer->type; // 'predicate', 'choice', 'score' or 'refusal'
+    $answer->name; // 'wants_refund'
+}
+
+$response->answer('wants_refund')->probability; // 0.98
+$response->answer('sentiment')->choice; // 'negative'
+$response->answer('urgency')->score; // 1.7
+
+$response->toArray(); // ['answers' => [...]]
 ```
 
 ### `Moderations` Resource

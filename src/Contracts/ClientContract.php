@@ -9,6 +9,7 @@ use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Contracts\Resources\CompletionsContract;
 use OpenAI\Contracts\Resources\ContainersContract;
 use OpenAI\Contracts\Resources\ConversationsContract;
+use OpenAI\Contracts\Resources\DecisionsContract;
 use OpenAI\Contracts\Resources\EditsContract;
 use OpenAI\Contracts\Resources\EmbeddingsContract;
 use OpenAI\Contracts\Resources\FilesContract;
@@ -74,6 +75,13 @@ interface ClientContract
      * @see https://developers.openai.com/api/reference/resources/skills
      */
     public function skills(): SkillsContract;
+
+    /**
+     * Evaluate text, images, or both against a list of questions.
+     *
+     * @see https://developers.openai.com/api/docs/guides/decisions
+     */
+    public function decisions(): DecisionsContract;
 
     /**
      * Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.

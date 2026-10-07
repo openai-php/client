@@ -16,6 +16,7 @@ use OpenAI\Resources\Chat;
 use OpenAI\Resources\Completions;
 use OpenAI\Resources\Containers;
 use OpenAI\Resources\Conversations;
+use OpenAI\Resources\Decisions;
 use OpenAI\Resources\Edits;
 use OpenAI\Resources\Embeddings;
 use OpenAI\Resources\Files;
@@ -171,6 +172,16 @@ final class Client implements ClientContract
     public function fineTunes(): FineTunes
     {
         return new FineTunes($this->transporter);
+    }
+
+    /**
+     * Evaluate text, images, or both against a list of questions.
+     *
+     * @see https://developers.openai.com/api/docs/guides/decisions
+     */
+    public function decisions(): Decisions
+    {
+        return new Decisions($this->transporter);
     }
 
     /**
