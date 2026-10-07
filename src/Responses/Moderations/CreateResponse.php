@@ -28,8 +28,8 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  array<int, CreateResponseResult>  $results
      */
     private function __construct(
-        public readonly string $id,
-        public readonly string $model,
+        public readonly ?string $id,
+        public readonly ?string $model,
         public readonly array $results,
         private readonly MetaInformation $meta,
     ) {}
@@ -43,11 +43,11 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     {
         $results = array_map(fn (array $result): CreateResponseResult => CreateResponseResult::from(
             $result
-        ), $attributes['results']);
+        ), $attributes['results'] ?? []);
 
         return new self(
-            $attributes['id'],
-            $attributes['model'],
+            $attributes['id'] ?? null,
+            $attributes['model'] ?? null,
             $results,
             $meta,
         );
