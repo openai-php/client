@@ -15,6 +15,7 @@ use OpenAI\Testing\Resources\ChatTestResource;
 use OpenAI\Testing\Resources\CompletionsTestResource;
 use OpenAI\Testing\Resources\ContainersTestResource;
 use OpenAI\Testing\Resources\ConversationsTestResource;
+use OpenAI\Testing\Resources\DecisionsTestResource;
 use OpenAI\Testing\Resources\EditsTestResource;
 use OpenAI\Testing\Resources\EmbeddingsTestResource;
 use OpenAI\Testing\Resources\FilesTestResource;
@@ -205,6 +206,11 @@ class ClientFake implements ClientContract
     public function fineTuning(): FineTuningTestResource
     {
         return new FineTuningTestResource($this);
+    }
+
+    public function decisions(): DecisionsTestResource
+    {
+        return new DecisionsTestResource($this);
     }
 
     public function moderations(): ModerationsTestResource
