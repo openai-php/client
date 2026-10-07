@@ -41,9 +41,8 @@ test('create', function () {
         ->score->toBe(2.5)
         ->probabilities->toHaveCount(3);
 
-    expect($result->answers[2]->probabilities[0])
-        ->value->toBe(1)
-        ->label->toBe('low');
+    expect($result->answers[2]->probabilities[0]->value)->toBe(1);
+    expect($result->answers[2]->probabilities[0]->label)->toBe('low');
 
     expect($result->answers[3])
         ->toBeInstanceOf(RefusalAnswer::class)
