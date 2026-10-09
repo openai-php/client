@@ -48,6 +48,7 @@ test('value objects')->expect('OpenAI\ValueObjects')->toOnlyUse([
     'Psr\Http\Message\StreamInterface',
     'OpenAI\Enums',
     'OpenAI\Contracts',
+    'OpenAI\Exceptions',
     'OpenAI\Responses\Meta\MetaInformation',
 ]);
 

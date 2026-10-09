@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\ValueObjects;
 
 use OpenAI\Contracts\StringableContract;
+use OpenAI\Exceptions\InvalidArgumentException;
 
 /**
  * @internal
@@ -16,7 +17,11 @@ final class ResourceUri implements StringableContract
      */
     private function __construct(private readonly string $uri)
     {
-        // ..
+        foreach (explode('/', explode('?', $uri, 2)[0]) as $segment) {
+            if ($segment === '.' || $segment === '..') {
+                throw new InvalidArgumentException('Resource URI segments must not contain relative path references.');
+            }
+        }
     }
 
     /**
