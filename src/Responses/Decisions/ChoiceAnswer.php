@@ -7,7 +7,7 @@ namespace OpenAI\Responses\Decisions;
 /**
  * @phpstan-import-type ChoiceProbabilityType from ChoiceProbability
  *
- * @phpstan-type ChoiceAnswerType array{type: 'choice', name: string, choice: string, probabilities: array<int, ChoiceProbabilityType>, confidence: float}
+ * @phpstan-type ChoiceAnswerType array{type: 'choice', name: string|null, choice: string|bool, probabilities: array<int, ChoiceProbabilityType>, confidence: float}
  */
 final class ChoiceAnswer
 {
@@ -16,8 +16,8 @@ final class ChoiceAnswer
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $name,
-        public readonly string $choice,
+        public readonly ?string $name,
+        public readonly string|bool $choice,
         public readonly array $probabilities,
         public readonly float $confidence,
     ) {}

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Decisions;
 
 /**
- * @phpstan-type ChoiceProbabilityType array{value: string, probability: float}
+ * @phpstan-type ChoiceProbabilityType array{value: string|bool, probability: float}
  */
 final class ChoiceProbability
 {
     private function __construct(
-        public readonly string $value,
+        public readonly string|bool $value,
         public readonly float $probability,
     ) {}
 
