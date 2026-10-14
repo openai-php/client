@@ -17,7 +17,10 @@ final class ResourceUri implements StringableContract
      */
     private function __construct(private readonly string $uri)
     {
-        foreach (explode('/', explode('?', $uri, 2)[0]) as $segment) {
+        // Prevent percent-encoded dot segments slipping past
+        $path = rawurldecode(substr($uri, 0, strcspn($uri, '?#')));
+
+        foreach (explode('/', str_replace('\\', '/', $path)) as $segment) {
             if ($segment === '.' || $segment === '..') {
                 throw new InvalidArgumentException('Resource URI segments must not contain relative path references.');
             }

@@ -54,3 +54,27 @@ it('allows a nested resource', function () {
     expect(ResourceUri::retrieve('vector_stores/vs-123/files', 'file-456', '')->toString())
         ->toBe('vector_stores/vs-123/files/file-456');
 });
+
+it('rejects a percent-encoded traversal sequence', function (string $id) {
+    expect(fn () => ResourceUri::delete('models', $id))
+        ->toThrow(InvalidArgumentException::class);
+})->with([
+    '%2e%2e/files/file-victim',
+    '%2E%2E/files/file-victim',
+    '.%2e/files/file-victim',
+    '%2e./files/file-victim',
+    '%2e',
+    'x%2f..%2ffiles',
+    '..\\files\\file-victim',
+    '..#fragment',
+]);
+
+it('rejects a percent-encoded traversal sequence in the resource itself', function () {
+    expect(fn () => ResourceUri::list('threads/%2e%2e/models'))
+        ->toThrow(InvalidArgumentException::class);
+});
+
+it('leaves a double-encoded dot segment untouched', function () {
+    expect(ResourceUri::delete('models', '%252e%252e')->toString())
+        ->toBe('models/%252e%252e');
+});
