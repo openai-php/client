@@ -7,7 +7,7 @@ namespace OpenAI\Responses\Decisions;
 /**
  * @phpstan-import-type ScoreProbabilityType from ScoreProbability
  *
- * @phpstan-type ScoreAnswerType array{type: 'score', name: string, score: float, probabilities: array<int, ScoreProbabilityType>, confidence: float}
+ * @phpstan-type ScoreAnswerType array{type: 'score', name: string|null, score: float, probabilities: array<int, ScoreProbabilityType>, confidence: float}
  */
 final class ScoreAnswer
 {
@@ -16,7 +16,7 @@ final class ScoreAnswer
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $name,
+        public readonly ?string $name,
         public readonly float $score,
         public readonly array $probabilities,
         public readonly float $confidence,

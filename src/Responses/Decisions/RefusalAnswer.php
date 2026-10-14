@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Decisions;
 
 /**
- * @phpstan-type RefusalAnswerType array{type: 'refusal', name: string}
+ * @phpstan-type RefusalAnswerType array{type: 'refusal', name: string|null}
  */
 final class RefusalAnswer
 {
     private function __construct(
         public readonly string $type,
-        public readonly string $name,
+        public readonly ?string $name,
     ) {}
 
     /**
