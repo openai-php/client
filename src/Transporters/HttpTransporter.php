@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Transporters;
 
 use Closure;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use JsonException;
 use OpenAI\Contracts\TransporterContract;
 use OpenAI\Enums\Transporter\ContentType;
@@ -145,7 +145,9 @@ final class HttpTransporter implements TransporterContract
         try {
             return $callable();
         } catch (ClientExceptionInterface $clientException) {
-            if ($clientException instanceof ClientException) {
+            if ($clientException instanceof BadResponseException) {
+                $this->throwIfRateLimit($clientException->getResponse());
+                $this->throwIfServerError($clientException->getResponse());
                 $this->throwIfJsonError($clientException->getResponse(), (string) $clientException->getResponse()->getBody());
             }
 
