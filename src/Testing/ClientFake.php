@@ -8,6 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Contracts\ResponseStreamContract;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Requests\TestRequest;
+use OpenAI\Testing\Resources\AgentsTestResource;
 use OpenAI\Testing\Resources\AssistantsTestResource;
 use OpenAI\Testing\Resources\AudioTestResource;
 use OpenAI\Testing\Resources\BatchesTestResource;
@@ -171,6 +172,11 @@ class ClientFake implements ClientContract
     public function skills(): SkillsTestResource
     {
         return new SkillsTestResource($this);
+    }
+
+    public function agents(): AgentsTestResource
+    {
+        return new AgentsTestResource($this);
     }
 
     public function embeddings(): EmbeddingsTestResource
