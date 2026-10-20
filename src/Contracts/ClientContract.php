@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts;
 
+use OpenAI\Contracts\Resources\AgentsContract;
 use OpenAI\Contracts\Resources\AssistantsContract;
 use OpenAI\Contracts\Resources\AudioContract;
 use OpenAI\Contracts\Resources\BatchesContract;
@@ -75,6 +76,13 @@ interface ClientContract
      * @see https://developers.openai.com/api/reference/resources/skills
      */
     public function skills(): SkillsContract;
+
+    /**
+     * Create and manage reusable agents.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents
+     */
+    public function agents(): AgentsContract;
 
     /**
      * Evaluate text, images, or both against a list of questions.

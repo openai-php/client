@@ -9,6 +9,7 @@ use OpenAI\Contracts\Resources\RealtimeContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
 use OpenAI\Contracts\TransporterContract;
+use OpenAI\Resources\Agents;
 use OpenAI\Resources\Assistants;
 use OpenAI\Resources\Audio;
 use OpenAI\Resources\Batches;
@@ -100,6 +101,16 @@ final class Client implements ClientContract
     public function skills(): Skills
     {
         return new Skills($this->transporter);
+    }
+
+    /**
+     * Create and manage reusable agents.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents
+     */
+    public function agents(): Agents
+    {
+        return new Agents($this->transporter);
     }
 
     /**

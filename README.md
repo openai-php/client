@@ -36,6 +36,7 @@ If you or your business relies on this package, it's important to support the de
   - [Containers Files Resource](#containers-files-resource)
   - [Skills Resource](#skills-resource)
   - [Skills Versions Resource](#skills-versions-resource)
+  - [Agents Resource](#agents-resource)
   - [Chat Resource](#chat-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
@@ -896,6 +897,110 @@ $response = $client->skills()->versions()->delete('skill_abc123', '1');
 
 $response->object; // 'skill.version.deleted'
 $response->deleted; // true
+```
+
+### `Agents` Resource
+
+> [!NOTE]
+> The Agents API is in beta. The client sends the required `OpenAI-Beta: agents=v1` header for you.
+
+#### `create`
+
+Creates a reusable agent.
+
+```php
+$response = $client->agents()->create([
+    'model' => 'gpt-5.4',
+    'name' => 'Support Agent',
+    'instructions' => 'Answer billing questions.',
+    'tools' => [
+        [
+            'type' => 'function',
+            'name' => 'get_invoice',
+            'description' => 'Look up an invoice by its number.',
+            'parameters' => [
+                'type' => 'object',
+                'properties' => [
+                    'number' => ['type' => 'string'],
+                ],
+                'required' => ['number'],
+            ],
+        ],
+    ],
+]);
+
+$response->id; // 'agent_abc123'
+$response->object; // 'agent'
+$response->model; // 'gpt-5.4'
+$response->name; // 'Support Agent'
+$response->text->verbosity; // 'medium'
+$response->tools; // [['type' => 'function', 'name' => 'get_invoice', ...]]
+
+$response->toArray(); // ['id' => 'agent_abc123', ...]
+```
+
+#### `list`
+
+Lists the reusable agents in the current project.
+
+```php
+$response = $client->agents()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'agent_abc123'
+$response->lastId; // 'agent_abc123'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'agent_abc123'
+    $result->name; // 'Support Agent'
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
+
+#### `retrieve`
+
+Retrieves a reusable agent by its ID.
+
+```php
+$response = $client->agents()->retrieve('agent_abc123');
+
+$response->id; // 'agent_abc123'
+$response->instructions; // 'Answer billing questions.'
+
+$response->toArray(); // ['id' => 'agent_abc123', ...]
+```
+
+#### `update`
+
+Updates a reusable agent.
+
+```php
+$response = $client->agents()->update('agent_abc123', [
+    'reasoning' => [
+        'effort' => 'low',
+    ],
+]);
+
+$response->reasoning->effort; // 'low'
+$response->updatedAt; // 1760000100
+```
+
+#### `delete`
+
+Deletes a reusable agent.
+
+```php
+$response = $client->agents()->delete('agent_abc123');
+
+$response->id; // 'agent_abc123'
+$response->object; // 'agent.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'agent_abc123', ...]
 ```
 
 ### `Chat` Resource
