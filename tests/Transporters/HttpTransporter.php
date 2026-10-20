@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use OpenAI\Enums\Transporter\ContentType;
@@ -680,6 +681,62 @@ test('request stream server errors', function () {
                 ->and($e->getErrorMessage())->toBe('Incorrect API key provided: foo. You can find your API key at https://platform.openai.com.')
                 ->and($e->getErrorCode())->toBe('invalid_api_key')
                 ->and($e->getErrorType())->toBe('invalid_request_error');
+        });
+});
+
+test('request stream rate limit error in response', function () {
+    $payload = Payload::create('completions', []);
+
+    $baseUri = BaseUri::from('api.openai.com');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andThrow(new ClientException(
+            message: 'Client error: `POST https://api.openai.com/v1/completions` resulted in a `429 Too Many Requests` response',
+            request: $payload->toRequest($baseUri, $headers, $queryParams),
+            response: new Response(429, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+                'error' => [
+                    'message' => 'Rate limit reached for requests',
+                    'type' => 'requests',
+                    'param' => null,
+                    'code' => 'rate_limit_exceeded',
+                ],
+            ]))
+        ));
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(RateLimitException::class);
+});
+
+test('request stream server error in response', function () {
+    $payload = Payload::create('completions', []);
+
+    $baseUri = BaseUri::from('api.openai.com');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $this->client
+        ->shouldReceive('sendAsyncRequest')
+        ->once()
+        ->andThrow(new GuzzleServerException(
+            message: 'Server error: `POST https://api.openai.com/v1/completions` resulted in a `503 Service Unavailable` response',
+            request: $payload->toRequest($baseUri, $headers, $queryParams),
+            response: new Response(503, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+                'error' => [
+                    'message' => 'The server is overloaded or not ready yet.',
+                    'type' => 'server_error',
+                    'param' => null,
+                    'code' => null,
+                ],
+            ]))
+        ));
+
+    expect(fn () => $this->http->requestStream($payload))
+        ->toThrow(function (ServerException $e) {
+            expect($e->getMessage())->toBe('Server error (HTTP 503) occurred.');
         });
 });
 
