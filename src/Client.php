@@ -30,6 +30,7 @@ use OpenAI\Resources\Realtime;
 use OpenAI\Resources\Responses;
 use OpenAI\Resources\Skills;
 use OpenAI\Resources\Threads;
+use OpenAI\Resources\Vaults;
 use OpenAI\Resources\VectorStores;
 
 final class Client implements ClientContract
@@ -111,6 +112,16 @@ final class Client implements ClientContract
     public function agents(): Agents
     {
         return new Agents($this->transporter);
+    }
+
+    /**
+     * Store credentials for MCP servers and OpenAI-hosted environments.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/vaults
+     */
+    public function vaults(): Vaults
+    {
+        return new Vaults($this->transporter);
     }
 
     /**

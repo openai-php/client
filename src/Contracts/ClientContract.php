@@ -23,6 +23,7 @@ use OpenAI\Contracts\Resources\RealtimeContract;
 use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Contracts\Resources\SkillsContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
+use OpenAI\Contracts\Resources\VaultsContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
 
 interface ClientContract
@@ -83,6 +84,13 @@ interface ClientContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents
      */
     public function agents(): AgentsContract;
+
+    /**
+     * Store credentials for MCP servers and OpenAI-hosted environments.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/vaults
+     */
+    public function vaults(): VaultsContract;
 
     /**
      * Evaluate text, images, or both against a list of questions.
