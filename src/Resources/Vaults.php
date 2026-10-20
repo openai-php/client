@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\VaultCredentialsContract;
 use OpenAI\Contracts\Resources\VaultsContract;
 use OpenAI\Responses\Vaults\VaultDeleteResponse;
 use OpenAI\Responses\Vaults\VaultListResponse;
@@ -109,5 +110,15 @@ final class Vaults implements VaultsContract
             ->requestObject($payload);
 
         return VaultDeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the credentials stored in a vault.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/vaults/subresources/credentials
+     */
+    public function credentials(): VaultCredentialsContract
+    {
+        return new VaultCredentials($this->transporter);
     }
 }

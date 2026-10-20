@@ -50,4 +50,11 @@ interface VaultsContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/vaults/methods/delete
      */
     public function delete(string $id): VaultDeleteResponse;
+
+    /**
+     * Manage the credentials stored in a vault.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/vaults/subresources/credentials
+     */
+    public function credentials(): VaultCredentialsContract;
 }

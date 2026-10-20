@@ -2,6 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\VaultCredentialsContract;
 use OpenAI\Contracts\Resources\VaultsContract;
 use OpenAI\Resources\Vaults;
 use OpenAI\Responses\Vaults\VaultDeleteResponse;
@@ -41,5 +42,10 @@ final class VaultsTestResource implements VaultsContract
     public function delete(string $id): VaultDeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function credentials(): VaultCredentialsContract
+    {
+        return new VaultCredentialsTestResource($this->fake);
     }
 }
