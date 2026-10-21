@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\AgentEnvironmentFilesContract;
 use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentEnvironmentTemplatesContract;
 use OpenAI\Responses\Agents\Environments\AgentEnvironmentListResponse;
@@ -72,6 +73,16 @@ final class AgentEnvironments implements AgentEnvironmentsContract
             ->requestObject($payload);
 
         return AgentEnvironmentResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the files in a connected agent environment.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/subresources/files
+     */
+    public function files(): AgentEnvironmentFilesContract
+    {
+        return new AgentEnvironmentFiles($this->transporter);
     }
 
     /**

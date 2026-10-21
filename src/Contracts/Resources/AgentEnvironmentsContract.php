@@ -35,6 +35,13 @@ interface AgentEnvironmentsContract
     public function retrieve(string $id): AgentEnvironmentResponse;
 
     /**
+     * Manage the files in a connected agent environment.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/subresources/files
+     */
+    public function files(): AgentEnvironmentFilesContract;
+
+    /**
      * Manage reusable agent environment templates.
      *
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/subresources/templates

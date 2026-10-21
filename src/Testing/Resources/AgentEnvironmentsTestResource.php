@@ -2,6 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\AgentEnvironmentFilesContract;
 use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentEnvironmentTemplatesContract;
 use OpenAI\Resources\AgentEnvironments;
@@ -31,6 +32,11 @@ final class AgentEnvironmentsTestResource implements AgentEnvironmentsContract
     public function retrieve(string $id): AgentEnvironmentResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function files(): AgentEnvironmentFilesContract
+    {
+        return new AgentEnvironmentFilesTestResource($this->fake);
     }
 
     public function templates(): AgentEnvironmentTemplatesContract
