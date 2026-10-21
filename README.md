@@ -37,6 +37,8 @@ If you or your business relies on this package, it's important to support the de
   - [Skills Resource](#skills-resource)
   - [Skills Versions Resource](#skills-versions-resource)
   - [Agents Resource](#agents-resource)
+  - [Vaults Resource](#vaults-resource)
+  - [Vaults Credentials Resource](#vaults-credentials-resource)
   - [Chat Resource](#chat-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
@@ -1001,6 +1003,160 @@ $response->object; // 'agent.deleted'
 $response->deleted; // true
 
 $response->toArray(); // ['id' => 'agent_abc123', ...]
+```
+
+### `Vaults` Resource
+
+> [!NOTE]
+> The Vaults API is in beta. The client sends the required `OpenAI-Beta: agents=v1` header for you.
+
+#### `create`
+
+Creates a vault for storing credentials.
+
+```php
+$response = $client->vaults()->create([
+    'name' => 'Production',
+    'metadata' => ['team' => 'support'],
+]);
+
+$response->id; // 'vault_abc123'
+$response->object; // 'vault'
+$response->name; // 'Production'
+$response->metadata; // ['team' => 'support']
+
+$response->toArray(); // ['id' => 'vault_abc123', ...]
+```
+
+#### `list`
+
+Lists the vaults in the current project.
+
+```php
+$response = $client->vaults()->list([
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'vault_abc123'
+    $result->name; // 'Production'
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
+
+#### `retrieve`
+
+Retrieves a vault by its ID.
+
+```php
+$response = $client->vaults()->retrieve('vault_abc123');
+
+$response->id; // 'vault_abc123'
+$response->name; // 'Production'
+```
+
+#### `update`
+
+Updates a vault.
+
+```php
+$response = $client->vaults()->update('vault_abc123', [
+    'name' => 'Staging',
+]);
+
+$response->name; // 'Staging'
+```
+
+#### `delete`
+
+Deletes a vault.
+
+```php
+$response = $client->vaults()->delete('vault_abc123');
+
+$response->id; // 'vault_abc123'
+$response->object; // 'vault.deleted'
+$response->deleted; // true
+```
+
+### `Vaults Credentials` Resource
+
+#### `create`
+
+Stores a credential in a vault. Secret values are write-only and are never returned.
+
+```php
+$response = $client->vaults()->credentials()->create('vault_abc123', [
+    'name' => 'Docs MCP token',
+    'auth' => [
+        'type' => 'static_bearer',
+        'mcp_server_url' => 'https://example.com/mcp',
+        'token' => 'your-token',
+    ],
+]);
+
+$response->id; // 'credential_abc123'
+$response->object; // 'vault.credential'
+$response->vaultId; // 'vault_abc123'
+$response->auth; // ['type' => 'static_bearer', 'mcp_server_url' => 'https://example.com/mcp']
+
+$response->toArray(); // ['id' => 'credential_abc123', ...]
+```
+
+#### `list`
+
+Lists the credentials in a vault.
+
+```php
+$response = $client->vaults()->credentials()->list('vault_abc123', [
+    'status' => 'active',
+]);
+
+foreach ($response->data as $result) {
+    $result->id; // 'credential_abc123'
+    $result->name; // 'Docs MCP token'
+}
+```
+
+#### `retrieve`
+
+Retrieves a credential from a vault.
+
+```php
+$response = $client->vaults()->credentials()->retrieve('vault_abc123', 'credential_abc123');
+
+$response->name; // 'Docs MCP token'
+$response->auth['type']; // 'static_bearer'
+```
+
+#### `update`
+
+Updates a credential, for example to rotate its secret.
+
+```php
+$response = $client->vaults()->credentials()->update('vault_abc123', 'credential_abc123', [
+    'auth' => [
+        'type' => 'static_bearer',
+        'token' => 'your-new-token',
+    ],
+]);
+
+$response->updatedAt; // 1760000100
+```
+
+#### `delete`
+
+Deletes a credential from a vault.
+
+```php
+$response = $client->vaults()->credentials()->delete('vault_abc123', 'credential_abc123');
+
+$response->object; // 'vault.credential.deleted'
+$response->deleted; // true
 ```
 
 ### `Chat` Resource
