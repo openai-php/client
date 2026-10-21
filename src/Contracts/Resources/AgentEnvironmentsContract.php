@@ -33,4 +33,11 @@ interface AgentEnvironmentsContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/methods/retrieve
      */
     public function retrieve(string $id): AgentEnvironmentResponse;
+
+    /**
+     * Manage reusable agent environment templates.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/subresources/templates
+     */
+    public function templates(): AgentEnvironmentTemplatesContract;
 }

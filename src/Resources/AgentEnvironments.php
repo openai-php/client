@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
+use OpenAI\Contracts\Resources\AgentEnvironmentTemplatesContract;
 use OpenAI\Responses\Agents\Environments\AgentEnvironmentListResponse;
 use OpenAI\Responses\Agents\Environments\AgentEnvironmentResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
@@ -71,5 +72,15 @@ final class AgentEnvironments implements AgentEnvironmentsContract
             ->requestObject($payload);
 
         return AgentEnvironmentResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage reusable agent environment templates.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments/subresources/templates
+     */
+    public function templates(): AgentEnvironmentTemplatesContract
+    {
+        return new AgentEnvironmentTemplates($this->transporter);
     }
 }
