@@ -50,4 +50,11 @@ interface AgentSessionsContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/sessions/methods/delete
      */
     public function delete(string $id): AgentSessionDeleteResponse;
+
+    /**
+     * Send input events to an agent session.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/sessions/subresources/events
+     */
+    public function events(): AgentSessionEventsContract;
 }

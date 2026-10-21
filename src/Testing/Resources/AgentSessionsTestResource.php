@@ -2,6 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\AgentSessionEventsContract;
 use OpenAI\Contracts\Resources\AgentSessionsContract;
 use OpenAI\Resources\AgentSessions;
 use OpenAI\Responses\Agents\Sessions\AgentSessionDeleteResponse;
@@ -41,5 +42,10 @@ final class AgentSessionsTestResource implements AgentSessionsContract
     public function delete(string $id): AgentSessionDeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function events(): AgentSessionEventsContract
+    {
+        return new AgentSessionEventsTestResource($this->fake);
     }
 }

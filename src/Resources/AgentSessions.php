@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\AgentSessionEventsContract;
 use OpenAI\Contracts\Resources\AgentSessionsContract;
 use OpenAI\Responses\Agents\Sessions\AgentSessionDeleteResponse;
 use OpenAI\Responses\Agents\Sessions\AgentSessionListResponse;
@@ -109,5 +110,15 @@ final class AgentSessions implements AgentSessionsContract
             ->requestObject($payload);
 
         return AgentSessionDeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Send input events to an agent session.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/sessions/subresources/events
+     */
+    public function events(): AgentSessionEventsContract
+    {
+        return new AgentSessionEvents($this->transporter);
     }
 }
