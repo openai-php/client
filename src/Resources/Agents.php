@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentsContract;
 use OpenAI\Responses\Agents\AgentDeleteResponse;
 use OpenAI\Responses\Agents\AgentListResponse;
@@ -109,5 +110,15 @@ final class Agents implements AgentsContract
             ->requestObject($payload);
 
         return AgentDeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manage the OpenAI-hosted environments that agents run in.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments
+     */
+    public function environments(): AgentEnvironmentsContract
+    {
+        return new AgentEnvironments($this->transporter);
     }
 }

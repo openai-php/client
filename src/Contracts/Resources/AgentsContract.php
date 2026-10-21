@@ -50,4 +50,11 @@ interface AgentsContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/methods/delete
      */
     public function delete(string $id): AgentDeleteResponse;
+
+    /**
+     * Manage the OpenAI-hosted environments that agents run in.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments
+     */
+    public function environments(): AgentEnvironmentsContract;
 }

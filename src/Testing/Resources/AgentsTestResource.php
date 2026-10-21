@@ -2,6 +2,7 @@
 
 namespace OpenAI\Testing\Resources;
 
+use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentsContract;
 use OpenAI\Resources\Agents;
 use OpenAI\Responses\Agents\AgentDeleteResponse;
@@ -41,5 +42,10 @@ final class AgentsTestResource implements AgentsContract
     public function delete(string $id): AgentDeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function environments(): AgentEnvironmentsContract
+    {
+        return new AgentEnvironmentsTestResource($this->fake);
     }
 }
