@@ -57,4 +57,11 @@ interface AgentsContract
      * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/environments
      */
     public function environments(): AgentEnvironmentsContract;
+
+    /**
+     * Run agents in managed sessions.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/sessions
+     */
+    public function sessions(): AgentSessionsContract;
 }

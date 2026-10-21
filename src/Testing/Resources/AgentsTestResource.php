@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentsContract;
+use OpenAI\Contracts\Resources\AgentSessionsContract;
 use OpenAI\Resources\Agents;
 use OpenAI\Responses\Agents\AgentDeleteResponse;
 use OpenAI\Responses\Agents\AgentListResponse;
@@ -47,5 +48,10 @@ final class AgentsTestResource implements AgentsContract
     public function environments(): AgentEnvironmentsContract
     {
         return new AgentEnvironmentsTestResource($this->fake);
+    }
+
+    public function sessions(): AgentSessionsContract
+    {
+        return new AgentSessionsTestResource($this->fake);
     }
 }

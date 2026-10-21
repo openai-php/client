@@ -6,6 +6,7 @@ namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\AgentEnvironmentsContract;
 use OpenAI\Contracts\Resources\AgentsContract;
+use OpenAI\Contracts\Resources\AgentSessionsContract;
 use OpenAI\Responses\Agents\AgentDeleteResponse;
 use OpenAI\Responses\Agents\AgentListResponse;
 use OpenAI\Responses\Agents\AgentResponse;
@@ -120,5 +121,15 @@ final class Agents implements AgentsContract
     public function environments(): AgentEnvironmentsContract
     {
         return new AgentEnvironments($this->transporter);
+    }
+
+    /**
+     * Run agents in managed sessions.
+     *
+     * @see https://developers.openai.com/api/reference/resources/beta/subresources/agents/subresources/sessions
+     */
+    public function sessions(): AgentSessionsContract
+    {
+        return new AgentSessions($this->transporter);
     }
 }
