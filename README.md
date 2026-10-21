@@ -40,6 +40,8 @@ If you or your business relies on this package, it's important to support the de
   - [Agents Environments Resource](#agents-environments-resource)
   - [Agents Environments Templates Resource](#agents-environments-templates-resource)
   - [Agents Environments Files Resource](#agents-environments-files-resource)
+  - [Agents Sessions Resource](#agents-sessions-resource)
+  - [Agents Sessions Events Resource](#agents-sessions-events-resource)
   - [Vaults Resource](#vaults-resource)
   - [Vaults Credentials Resource](#vaults-credentials-resource)
   - [Chat Resource](#chat-resource)
@@ -1168,6 +1170,105 @@ foreach ($response->data as $result) {
 
 $response->hasMore; // false
 $response->next; // null
+```
+
+### `Agents Sessions` Resource
+
+> [!NOTE]
+> The Agents API is in beta. The client sends the required `OpenAI-Beta: agents=v1` header for you.
+
+#### `create`
+
+Creates a session that runs an agent. Sessions without an environment need an initial input.
+
+```php
+$response = $client->agents()->sessions()->create([
+    'agent_id' => 'agent_abc123',
+    'environment' => ['type' => 'none'],
+    'input' => 'Summarise the latest invoice.',
+]);
+
+$response->id; // 'sess_abc123'
+$response->object; // 'agent.session'
+$response->status; // 'in_progress'
+$response->agent->model; // 'gpt-5.4-mini'
+
+$response->toArray(); // ['id' => 'sess_abc123', ...]
+```
+
+#### `list`
+
+Lists the sessions in the current project.
+
+```php
+$response = $client->agents()->sessions()->list([
+    'agent_id' => 'agent_abc123',
+    'limit' => 10,
+]);
+
+foreach ($response->data as $result) {
+    $result->id; // 'sess_abc123'
+    $result->status; // 'idle'
+}
+```
+
+#### `retrieve`
+
+Retrieves a session by its ID.
+
+```php
+$response = $client->agents()->sessions()->retrieve('sess_abc123');
+
+$response->status; // 'idle'
+$response->requiredActions; // []
+$response->usage?->totalTokens; // 7377
+```
+
+#### `update`
+
+Updates a session's metadata or agent settings.
+
+```php
+$response = $client->agents()->sessions()->update('sess_abc123', [
+    'agent' => ['reasoning' => ['effort' => 'low']],
+]);
+
+$response->agent->reasoning->effort; // 'low'
+```
+
+#### `delete`
+
+Deletes a session.
+
+```php
+$response = $client->agents()->sessions()->delete('sess_abc123');
+
+$response->object; // 'agent.session.deleted'
+$response->deleted; // true
+```
+
+### `Agents Sessions Events` Resource
+
+#### `create`
+
+Sends input to a session, such as a user message, a function call result or a cancellation. The API accepts the events and processes them in the background, so this returns nothing. Retrieve the session to follow its status.
+
+```php
+$client->agents()->sessions()->events()->create('sess_abc123', [
+    'events' => [
+        [
+            'type' => 'agent.session.input.message',
+            'input' => [
+                [
+                    'role' => 'user',
+                    'content' => [
+                        ['type' => 'input_text', 'text' => 'And the one before that?'],
+                    ],
+                ],
+            ],
+        ],
+    ],
+]);
 ```
 
 ### `Vaults` Resource
