@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type UserLocationType array{type: 'approximate', city: string|null, country: string, region: string|null, timezone: string|null}
+ * @phpstan-type UserLocationType array{type: 'approximate', city: string|null, country: string|null, region: string|null, timezone: string|null}
  *
  * @implements ResponseContract<UserLocationType>
  */
@@ -28,7 +28,7 @@ final class WebSearchUserLocation implements ResponseContract
     private function __construct(
         public readonly string $type,
         public readonly ?string $city,
-        public readonly string $country,
+        public readonly ?string $country,
         public readonly ?string $region,
         public readonly ?string $timezone,
     ) {}
@@ -41,7 +41,7 @@ final class WebSearchUserLocation implements ResponseContract
         return new self(
             type: $attributes['type'],
             city: $attributes['city'] ?? null,
-            country: $attributes['country'],
+            country: $attributes['country'] ?? null,
             region: $attributes['region'] ?? null,
             timezone: $attributes['timezone'] ?? null,
         );
