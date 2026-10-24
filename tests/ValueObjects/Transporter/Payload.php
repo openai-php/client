@@ -78,3 +78,58 @@ test('builds upload request', function () {
         ->toContain('Content-Disposition: form-data; name="file"; filename="MyFile.jsonl"')
         ->toContain('{"prompt": "<prompt text>", "completion": "<ideal generated text>"}');
 });
+
+test('builds upload request with nested parameters', function () {
+    $payload = Payload::upload('files', [
+        'purpose' => 'fine-tune',
+        'file' => fileResourceResource(),
+        'expires_after' => [
+            'anchor' => 'created_at',
+            'seconds' => 2592000,
+        ],
+    ]);
+
+    $baseUri = BaseUri::from('api.openai.com/v1');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $request = $payload->toRequest($baseUri, $headers, $queryParams);
+
+    expect($request->getBody()->getContents())
+        ->toContain("Content-Disposition: form-data; name=\"expires_after[anchor]\"\r\n\r\ncreated_at\r\n")
+        ->toContain("Content-Disposition: form-data; name=\"expires_after[seconds]\"\r\n\r\n2592000\r\n");
+});
+
+test('builds upload request with list parameters', function () {
+    $payload = Payload::upload('audio/transcriptions', [
+        'file' => fileResourceResource(),
+        'model' => 'whisper-1',
+        'timestamp_granularities' => ['word', 'segment'],
+    ]);
+
+    $baseUri = BaseUri::from('api.openai.com/v1');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $request = $payload->toRequest($baseUri, $headers, $queryParams);
+
+    expect($request->getBody()->getContents())
+        ->toContain("Content-Disposition: form-data; name=\"timestamp_granularities[]\"\r\n\r\nword\r\n")
+        ->toContain("Content-Disposition: form-data; name=\"timestamp_granularities[]\"\r\n\r\nsegment\r\n");
+});
+
+test('builds upload request with files keyed by name', function () {
+    $payload = Payload::upload('skills', [
+        'files' => ['SKILL.md' => fileResourceResource(), 'calculate.py' => fileResourceResource()],
+    ]);
+
+    $baseUri = BaseUri::from('api.openai.com/v1');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $request = $payload->toRequest($baseUri, $headers, $queryParams);
+
+    expect($request->getBody()->getContents())
+        ->toContain('Content-Disposition: form-data; name="files[]"; filename="MyFile.jsonl"')
+        ->not->toContain('files[SKILL.md]');
+});
