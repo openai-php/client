@@ -37,6 +37,9 @@ If you or your business relies on this package, it's important to support the de
   - [Skills Resource](#skills-resource)
   - [Skills Versions Resource](#skills-versions-resource)
   - [Agents Resource](#agents-resource)
+  - [Agents Environments Resource](#agents-environments-resource)
+  - [Agents Environments Templates Resource](#agents-environments-templates-resource)
+  - [Agents Environments Files Resource](#agents-environments-files-resource)
   - [Vaults Resource](#vaults-resource)
   - [Vaults Credentials Resource](#vaults-credentials-resource)
   - [Chat Resource](#chat-resource)
@@ -1003,6 +1006,168 @@ $response->object; // 'agent.deleted'
 $response->deleted; // true
 
 $response->toArray(); // ['id' => 'agent_abc123', ...]
+```
+
+### `Agents Environments` Resource
+
+> [!NOTE]
+> The Agents API is in beta. The client sends the required `OpenAI-Beta: agents=v1` header for you.
+
+#### `create`
+
+Creates an OpenAI-hosted environment for agent sessions. This requires access to the prewarming beta.
+
+```php
+$response = $client->agents()->environments()->create([
+    'environment' => [
+        'type' => 'openai_hosted',
+        'environment_template_id' => 'envtmpl_abc123',
+    ],
+]);
+
+$response->id; // 'env_abc123'
+$response->object; // 'agent.environment'
+$response->status; // 'pending'
+
+$response->toArray(); // ['id' => 'env_abc123', ...]
+```
+
+#### `list`
+
+Lists the agent environments in the current project.
+
+```php
+$response = $client->agents()->environments()->list([
+    'limit' => 10,
+]);
+
+foreach ($response->data as $result) {
+    $result->id; // 'env_abc123'
+    $result->status; // 'ready'
+}
+```
+
+#### `retrieve`
+
+Retrieves an agent environment by its ID.
+
+```php
+$response = $client->agents()->environments()->retrieve('env_abc123');
+
+$response->status; // 'ready'
+$response->skills; // [['type' => 'skill_reference', 'skill_id' => 'skill_abc123', ...]]
+```
+
+### `Agents Environments Templates` Resource
+
+#### `create`
+
+Creates a reusable environment template. Environment variables and setup commands are write-only and are never returned.
+
+```php
+$response = $client->agents()->environments()->templates()->create([
+    'name' => 'Python data tools',
+    'packages' => ['python' => ['requests']],
+    'network' => [
+        'access' => 'restricted',
+        'allowed_domains' => ['pypi.org', 'files.pythonhosted.org'],
+    ],
+    'setup_commands' => [
+        ['command' => 'pip list'],
+    ],
+]);
+
+$response->id; // 'envtmpl_abc123'
+$response->object; // 'agent.environment.template'
+$response->packages->python; // ['requests']
+$response->network->allowedDomains; // ['pypi.org', 'files.pythonhosted.org']
+
+$response->toArray(); // ['id' => 'envtmpl_abc123', ...]
+```
+
+#### `list`
+
+Lists the environment templates in the current project.
+
+```php
+$response = $client->agents()->environments()->templates()->list([
+    'limit' => 10,
+]);
+
+foreach ($response->data as $result) {
+    $result->id; // 'envtmpl_abc123'
+    $result->name; // 'Python data tools'
+}
+```
+
+#### `retrieve`
+
+Retrieves an environment template by its ID.
+
+```php
+$response = $client->agents()->environments()->templates()->retrieve('envtmpl_abc123');
+
+$response->name; // 'Python data tools'
+$response->desktop->enabled; // false
+```
+
+#### `update`
+
+Updates an environment template.
+
+```php
+$response = $client->agents()->environments()->templates()->update('envtmpl_abc123', [
+    'desktop' => ['enabled' => true],
+]);
+
+$response->desktop->enabled; // true
+```
+
+#### `delete`
+
+Deletes an environment template.
+
+```php
+$response = $client->agents()->environments()->templates()->delete('envtmpl_abc123');
+
+$response->object; // 'agent.environment.template.deleted'
+$response->deleted; // true
+```
+
+### `Agents Environments Files` Resource
+
+These endpoints work on an environment that is connected to a session.
+
+#### `create`
+
+Writes a file into the environment, replacing any file at the same path.
+
+```php
+$response = $client->agents()->environments()->files()->create('env_abc123', [
+    'type' => 'inline',
+    'path' => '/workspace/hello.txt',
+    'data' => base64_encode("hello\n"),
+]);
+
+$response->path; // '/workspace/hello.txt'
+$response->sizeBytes; // 6
+```
+
+#### `list`
+
+Lists the files in the environment. Pass `next` back as `page` to get the following page.
+
+```php
+$response = $client->agents()->environments()->files()->list('env_abc123', [
+    'path' => '/workspace',
+]);
+
+foreach ($response->data as $result) {
+    $result->path; // '/workspace/hello.txt'
+}
+
+$response->hasMore; // false
+$response->next; // null
 ```
 
 ### `Vaults` Resource
