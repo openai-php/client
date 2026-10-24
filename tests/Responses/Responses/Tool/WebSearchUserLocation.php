@@ -26,7 +26,6 @@ test('from without optional keys', function () {
     try {
         $response = WebSearchUserLocation::from([
             'type' => 'approximate',
-            'country' => 'US',
         ]);
     } finally {
         restore_error_handler();
@@ -35,8 +34,23 @@ test('from without optional keys', function () {
     expect($response)
         ->toBeInstanceOf(WebSearchUserLocation::class)
         ->type->toBe('approximate')
-        ->country->toBe('US')
+        ->country->toBeNull()
         ->city->toBeNull()
         ->region->toBeNull()
         ->timezone->toBeNull();
+});
+
+test('from null country', function () {
+    $response = WebSearchUserLocation::from([
+        'type' => 'approximate',
+        'city' => 'London',
+        'country' => null,
+        'region' => null,
+        'timezone' => null,
+    ]);
+
+    expect($response)
+        ->toBeInstanceOf(WebSearchUserLocation::class)
+        ->city->toBe('London')
+        ->country->toBeNull();
 });
