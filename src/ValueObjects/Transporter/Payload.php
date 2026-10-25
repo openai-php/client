@@ -164,7 +164,7 @@ final class Payload
             if ($this->contentType === ContentType::MULTIPART) {
                 $streamBuilder = new MultipartStreamBuilder($psr17Factory);
 
-                /** @var array<string, StreamInterface|string|int|float|bool|array<int, string>> $parameters */
+                /** @var array<string, StreamInterface|string|int|float|bool|array<int|string, StreamInterface|string|int|float|bool>> $parameters */
                 $parameters = $this->parameters;
 
                 foreach ($parameters as $key => $value) {
@@ -173,8 +173,12 @@ final class Payload
                     }
 
                     if (is_array($value)) {
-                        foreach ($value as $nestedValue) {
-                            $streamBuilder->addResource($key.'[]', $nestedValue);
+                        foreach ($value as $nestedKey => $nestedValue) {
+                            if (is_int($nestedValue) || is_float($nestedValue) || is_bool($nestedValue)) {
+                                $nestedValue = (string) $nestedValue;
+                            }
+
+                            $streamBuilder->addResource(is_string($nestedKey) && is_string($nestedValue) ? $key.'['.$nestedKey.']' : $key.'[]', $nestedValue);
                         }
 
                         continue;
