@@ -133,3 +133,35 @@ test('builds upload request with files keyed by name', function () {
         ->toContain('Content-Disposition: form-data; name="files[]"; filename="MyFile.jsonl"')
         ->not->toContain('files[SKILL.md]');
 });
+
+test('with header sends the header with the request', function () {
+    $payload = Payload::list('agents')->withHeader('OpenAI-Beta', 'agents=v1');
+
+    $baseUri = BaseUri::from('api.openai.com/v1');
+    $headers = Headers::withAuthorization(ApiKey::from('foo'));
+    $queryParams = QueryParams::create();
+
+    $request = $payload->toRequest($baseUri, $headers, $queryParams);
+
+    expect($request->getHeaderLine('OpenAI-Beta'))->toBe('agents=v1')
+        ->and($request->getHeaderLine('Authorization'))->toBe('Bearer foo');
+});
+
+test('with header leaves the original payload unchanged', function () {
+    $payload = Payload::list('agents');
+    $payload->withHeader('OpenAI-Beta', 'agents=v1');
+
+    $request = $payload->toRequest(BaseUri::from('api.openai.com/v1'), Headers::withAuthorization(ApiKey::from('foo')), QueryParams::create());
+
+    expect($request->hasHeader('OpenAI-Beta'))->toBeFalse();
+});
+
+test('with header takes priority over a client header with the same name', function () {
+    $payload = Payload::list('agents')->withHeader('OpenAI-Beta', 'agents=v1');
+
+    $headers = Headers::withAuthorization(ApiKey::from('foo'))->withCustomHeader('OpenAI-Beta', 'assistants=v2');
+
+    $request = $payload->toRequest(BaseUri::from('api.openai.com/v1'), $headers, QueryParams::create());
+
+    expect($request->getHeaderLine('OpenAI-Beta'))->toBe('agents=v1');
+});

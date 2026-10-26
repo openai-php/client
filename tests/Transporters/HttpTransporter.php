@@ -761,3 +761,30 @@ test('addHeader does not blow out headers when adding one', function () {
 
     $this->http->requestObject($payload);
 });
+
+test('payload headers are only sent with their own request', function () {
+    $response = fn () => new Response(200, ['Content-Type' => 'application/json; charset=utf-8'], json_encode(['ok' => true]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->withArgs(function (Psr7Request $request) {
+            expect($request->getHeaderLine('OpenAI-Beta'))->toBe('agents=v1');
+
+            return true;
+        })
+        ->andReturn($response());
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->withArgs(function (Psr7Request $request) {
+            expect($request->hasHeader('OpenAI-Beta'))->toBeFalse();
+
+            return true;
+        })
+        ->andReturn($response());
+
+    $this->http->requestObject(Payload::list('agents')->withHeader('OpenAI-Beta', 'agents=v1'));
+    $this->http->requestObject(Payload::list('models'));
+});
