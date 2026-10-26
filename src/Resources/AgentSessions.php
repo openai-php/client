@@ -30,12 +30,10 @@ final class AgentSessions implements AgentSessionsContract
      */
     public function create(array $parameters): AgentSessionResponse
     {
-        $payload = Payload::create('agents/sessions', $parameters);
+        $payload = Payload::create('agents/sessions', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentSessionType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentSessionResponse::from($response->data(), $response->meta());
     }
@@ -49,12 +47,10 @@ final class AgentSessions implements AgentSessionsContract
      */
     public function list(array $parameters = []): AgentSessionListResponse
     {
-        $payload = Payload::list('agents/sessions', $parameters);
+        $payload = Payload::list('agents/sessions', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentSessionListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentSessionListResponse::from($response->data(), $response->meta());
     }
@@ -66,12 +62,10 @@ final class AgentSessions implements AgentSessionsContract
      */
     public function retrieve(string $id): AgentSessionResponse
     {
-        $payload = Payload::retrieve('agents/sessions', $id);
+        $payload = Payload::retrieve('agents/sessions', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentSessionType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentSessionResponse::from($response->data(), $response->meta());
     }
@@ -85,12 +79,10 @@ final class AgentSessions implements AgentSessionsContract
      */
     public function update(string $id, array $parameters): AgentSessionResponse
     {
-        $payload = Payload::modify('agents/sessions', $id, $parameters);
+        $payload = Payload::modify('agents/sessions', $id, $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentSessionType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentSessionResponse::from($response->data(), $response->meta());
     }
@@ -102,12 +94,10 @@ final class AgentSessions implements AgentSessionsContract
      */
     public function delete(string $id): AgentSessionDeleteResponse
     {
-        $payload = Payload::delete('agents/sessions', $id);
+        $payload = Payload::delete('agents/sessions', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentSessionDeleteType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentSessionDeleteResponse::from($response->data(), $response->meta());
     }

@@ -29,12 +29,10 @@ final class Threads implements ThreadsContract
      */
     public function create(array $parameters = []): ThreadResponse
     {
-        $payload = Payload::create('threads', $parameters);
+        $payload = Payload::create('threads', $parameters)->withHeader('OpenAI-Beta', 'assistants=v2');
 
         /** @var Response<array{id: string, object: string, created_at: int, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>}> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
     }
@@ -48,12 +46,10 @@ final class Threads implements ThreadsContract
      */
     public function createAndRun(array $parameters): ThreadRunResponse
     {
-        $payload = Payload::create('threads/runs', $parameters);
+        $payload = Payload::create('threads/runs', $parameters)->withHeader('OpenAI-Beta', 'assistants=v2');
 
         /** @var Response<array{id: string, object: string, created_at: int, thread_id: string, assistant_id: string, status: string, required_action?: array{type: string, submit_tool_outputs: array{tool_calls: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}}, last_error: ?array{code: string, message: string}, expires_at: ?int, started_at: ?int, cancelled_at: ?int, failed_at: ?int, completed_at: ?int, model: string, instructions: ?string, tools: array<int, array{type: 'code_interpreter'}|array{type: 'file_search'}|array{type: 'function', function: array{description: string, name: string, parameters: array<string, mixed>}}>, metadata: array<string, string>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}, incomplete_details: ?array{reason: string}, temperature: float|int|null, top_p: null|float|int, max_prompt_tokens: ?int, max_completion_tokens: ?int, truncation_strategy: array{type: string, last_messages: ?int}, tool_choice: string|array{type: string, function?: array{name: string}}, response_format: string|array{type: 'text'|'json_object'}}> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return ThreadRunResponse::from($response->data(), $response->meta());
     }
@@ -70,11 +66,9 @@ final class Threads implements ThreadsContract
     {
         $parameters = $this->setStreamParameter($parameters);
 
-        $payload = Payload::create('threads/runs', $parameters);
+        $payload = Payload::create('threads/runs', $parameters)->withHeader('OpenAI-Beta', 'assistants=v2');
 
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestStream($payload);
+        $response = $this->transporter->requestStream($payload);
 
         return new StreamResponse(ThreadRunStreamResponse::class, $response);
     }
@@ -86,12 +80,10 @@ final class Threads implements ThreadsContract
      */
     public function retrieve(string $id): ThreadResponse
     {
-        $payload = Payload::retrieve('threads', $id);
+        $payload = Payload::retrieve('threads', $id)->withHeader('OpenAI-Beta', 'assistants=v2');
 
         /** @var Response<array{id: string, object: string, created_at: int, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>}> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
     }
@@ -105,12 +97,10 @@ final class Threads implements ThreadsContract
      */
     public function modify(string $id, array $parameters): ThreadResponse
     {
-        $payload = Payload::modify('threads', $id, $parameters);
+        $payload = Payload::modify('threads', $id, $parameters)->withHeader('OpenAI-Beta', 'assistants=v2');
 
         /** @var Response<array{id: string, object: string, created_at: int, tool_resources: ?array{code_interpreter?: array{file_ids: array<int,string>}, file_search?: array{vector_store_ids: array<int,string>}}, metadata: array<string, string>}> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return ThreadResponse::from($response->data(), $response->meta());
     }
@@ -122,12 +112,10 @@ final class Threads implements ThreadsContract
      */
     public function delete(string $id): ThreadDeleteResponse
     {
-        $payload = Payload::delete('threads', $id);
+        $payload = Payload::delete('threads', $id)->withHeader('OpenAI-Beta', 'assistants=v2');
 
         /** @var Response<array{id: string, object: string, deleted: bool}> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'assistants=v2')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return ThreadDeleteResponse::from($response->data(), $response->meta());
     }
