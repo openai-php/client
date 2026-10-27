@@ -22,12 +22,14 @@ final class Payload
      * Creates a new Request value object.
      *
      * @param  array<string, mixed>  $parameters
+     * @param  array<string, string>  $headers
      */
     private function __construct(
         private readonly ContentType $contentType,
         private readonly Method $method,
         private readonly ResourceUri $uri,
         private readonly array $parameters = [],
+        private readonly array $headers = [],
     ) {
         // ..
     }
@@ -139,6 +141,14 @@ final class Payload
     }
 
     /**
+     * Returns a copy of the payload that sends the given header with this request only.
+     */
+    public function withHeader(string $name, string $value): self
+    {
+        return new self($this->contentType, $this->method, $this->uri, $this->parameters, [...$this->headers, $name => $value]);
+    }
+
+    /**
      * Creates a new Psr 7 Request instance.
      */
     public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
@@ -156,6 +166,10 @@ final class Payload
 
         if ($queryParams !== []) {
             $uri .= '?'.http_build_query($queryParams);
+        }
+
+        foreach ($this->headers as $name => $value) {
+            $headers = $headers->withCustomHeader($name, $value);
         }
 
         $headers = $headers->withContentType($this->contentType);

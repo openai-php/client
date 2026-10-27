@@ -27,12 +27,10 @@ final class AgentEnvironmentFiles implements AgentEnvironmentFilesContract
      */
     public function create(string $environmentId, array $parameters): AgentEnvironmentFileResponse
     {
-        $payload = Payload::create("agents/environments/$environmentId/files", $parameters);
+        $payload = Payload::create("agents/environments/$environmentId/files", $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentFileType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentFileResponse::from($response->data(), $response->meta());
     }
@@ -46,12 +44,10 @@ final class AgentEnvironmentFiles implements AgentEnvironmentFilesContract
      */
     public function list(string $environmentId, array $parameters = []): AgentEnvironmentFileListResponse
     {
-        $payload = Payload::list("agents/environments/$environmentId/files", $parameters);
+        $payload = Payload::list("agents/environments/$environmentId/files", $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentFileListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentFileListResponse::from($response->data(), $response->meta());
     }

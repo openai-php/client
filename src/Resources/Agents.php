@@ -31,12 +31,10 @@ final class Agents implements AgentsContract
      */
     public function create(array $parameters): AgentResponse
     {
-        $payload = Payload::create('agents', $parameters);
+        $payload = Payload::create('agents', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentResponse::from($response->data(), $response->meta());
     }
@@ -50,12 +48,10 @@ final class Agents implements AgentsContract
      */
     public function list(array $parameters = []): AgentListResponse
     {
-        $payload = Payload::list('agents', $parameters);
+        $payload = Payload::list('agents', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentListResponse::from($response->data(), $response->meta());
     }
@@ -67,12 +63,10 @@ final class Agents implements AgentsContract
      */
     public function retrieve(string $id): AgentResponse
     {
-        $payload = Payload::retrieve('agents', $id);
+        $payload = Payload::retrieve('agents', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentResponse::from($response->data(), $response->meta());
     }
@@ -86,12 +80,10 @@ final class Agents implements AgentsContract
      */
     public function update(string $id, array $parameters): AgentResponse
     {
-        $payload = Payload::modify('agents', $id, $parameters);
+        $payload = Payload::modify('agents', $id, $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentResponse::from($response->data(), $response->meta());
     }
@@ -103,12 +95,10 @@ final class Agents implements AgentsContract
      */
     public function delete(string $id): AgentDeleteResponse
     {
-        $payload = Payload::delete('agents', $id);
+        $payload = Payload::delete('agents', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentDeleteType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentDeleteResponse::from($response->data(), $response->meta());
     }

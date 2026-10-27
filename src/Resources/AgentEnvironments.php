@@ -29,12 +29,10 @@ final class AgentEnvironments implements AgentEnvironmentsContract
      */
     public function create(array $parameters): AgentEnvironmentResponse
     {
-        $payload = Payload::create('agents/environments', $parameters);
+        $payload = Payload::create('agents/environments', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentResponse::from($response->data(), $response->meta());
     }
@@ -48,12 +46,10 @@ final class AgentEnvironments implements AgentEnvironmentsContract
      */
     public function list(array $parameters = []): AgentEnvironmentListResponse
     {
-        $payload = Payload::list('agents/environments', $parameters);
+        $payload = Payload::list('agents/environments', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentListResponse::from($response->data(), $response->meta());
     }
@@ -65,12 +61,10 @@ final class AgentEnvironments implements AgentEnvironmentsContract
      */
     public function retrieve(string $id): AgentEnvironmentResponse
     {
-        $payload = Payload::retrieve('agents/environments', $id);
+        $payload = Payload::retrieve('agents/environments', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentResponse::from($response->data(), $response->meta());
     }

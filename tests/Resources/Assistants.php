@@ -1,10 +1,17 @@
 <?php
 
+use OpenAI\Client;
+use OpenAI\Contracts\TransporterContract;
 use OpenAI\Responses\Assistants\AssistantDeleteResponse;
 use OpenAI\Responses\Assistants\AssistantListResponse;
 use OpenAI\Responses\Assistants\AssistantResponse;
 use OpenAI\Responses\Assistants\AssistantResponseToolCodeInterpreter;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\ValueObjects\ApiKey;
+use OpenAI\ValueObjects\Transporter\BaseUri;
+use OpenAI\ValueObjects\Transporter\Headers;
+use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\QueryParams;
 use OpenAI\ValueObjects\Transporter\Response;
 
 test('list', function () {
@@ -130,4 +137,20 @@ test('delete', function () {
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('sends the assistants=v2 beta header with the request', function () {
+    $transporter = Mockery::mock(TransporterContract::class);
+
+    $transporter
+        ->shouldReceive('requestObject')
+        ->once()
+        ->withArgs(function (Payload $payload) {
+            $request = $payload->toRequest(BaseUri::from('api.openai.com/v1'), Headers::withAuthorization(ApiKey::from('foo')), QueryParams::create());
+
+            return $request->getHeaderLine('OpenAI-Beta') === 'assistants=v2';
+        })
+        ->andReturn(Response::from(assistantListResource(), metaHeaders()));
+
+    (new Client($transporter))->assistants()->list();
 });

@@ -29,12 +29,10 @@ final class VaultCredentials implements VaultCredentialsContract
      */
     public function create(string $vaultId, array $parameters): VaultCredentialResponse
     {
-        $payload = Payload::create("vaults/$vaultId/credentials", $parameters);
+        $payload = Payload::create("vaults/$vaultId/credentials", $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultCredentialType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultCredentialResponse::from($response->data(), $response->meta());
     }
@@ -48,12 +46,10 @@ final class VaultCredentials implements VaultCredentialsContract
      */
     public function list(string $vaultId, array $parameters = []): VaultCredentialListResponse
     {
-        $payload = Payload::list("vaults/$vaultId/credentials", $parameters);
+        $payload = Payload::list("vaults/$vaultId/credentials", $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultCredentialListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultCredentialListResponse::from($response->data(), $response->meta());
     }
@@ -65,12 +61,10 @@ final class VaultCredentials implements VaultCredentialsContract
      */
     public function retrieve(string $vaultId, string $credentialId): VaultCredentialResponse
     {
-        $payload = Payload::retrieve("vaults/$vaultId/credentials", $credentialId);
+        $payload = Payload::retrieve("vaults/$vaultId/credentials", $credentialId)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultCredentialType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultCredentialResponse::from($response->data(), $response->meta());
     }
@@ -84,12 +78,10 @@ final class VaultCredentials implements VaultCredentialsContract
      */
     public function update(string $vaultId, string $credentialId, array $parameters): VaultCredentialResponse
     {
-        $payload = Payload::modify("vaults/$vaultId/credentials", $credentialId, $parameters);
+        $payload = Payload::modify("vaults/$vaultId/credentials", $credentialId, $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultCredentialType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultCredentialResponse::from($response->data(), $response->meta());
     }
@@ -101,12 +93,10 @@ final class VaultCredentials implements VaultCredentialsContract
      */
     public function delete(string $vaultId, string $credentialId): VaultCredentialDeleteResponse
     {
-        $payload = Payload::delete("vaults/$vaultId/credentials", $credentialId);
+        $payload = Payload::delete("vaults/$vaultId/credentials", $credentialId)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultCredentialDeleteType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultCredentialDeleteResponse::from($response->data(), $response->meta());
     }

@@ -30,12 +30,10 @@ final class Vaults implements VaultsContract
      */
     public function create(array $parameters = []): VaultResponse
     {
-        $payload = Payload::create('vaults', $parameters);
+        $payload = Payload::create('vaults', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultResponse::from($response->data(), $response->meta());
     }
@@ -49,12 +47,10 @@ final class Vaults implements VaultsContract
      */
     public function list(array $parameters = []): VaultListResponse
     {
-        $payload = Payload::list('vaults', $parameters);
+        $payload = Payload::list('vaults', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultListResponse::from($response->data(), $response->meta());
     }
@@ -66,12 +62,10 @@ final class Vaults implements VaultsContract
      */
     public function retrieve(string $id): VaultResponse
     {
-        $payload = Payload::retrieve('vaults', $id);
+        $payload = Payload::retrieve('vaults', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultResponse::from($response->data(), $response->meta());
     }
@@ -85,12 +79,10 @@ final class Vaults implements VaultsContract
      */
     public function update(string $id, array $parameters): VaultResponse
     {
-        $payload = Payload::modify('vaults', $id, $parameters);
+        $payload = Payload::modify('vaults', $id, $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultResponse::from($response->data(), $response->meta());
     }
@@ -102,12 +94,10 @@ final class Vaults implements VaultsContract
      */
     public function delete(string $id): VaultDeleteResponse
     {
-        $payload = Payload::delete('vaults', $id);
+        $payload = Payload::delete('vaults', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<VaultDeleteType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return VaultDeleteResponse::from($response->data(), $response->meta());
     }

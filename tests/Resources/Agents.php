@@ -1,5 +1,7 @@
 <?php
 
+use OpenAI\Client;
+use OpenAI\Contracts\TransporterContract;
 use OpenAI\Responses\Agents\AgentDeleteResponse;
 use OpenAI\Responses\Agents\AgentListResponse;
 use OpenAI\Responses\Agents\AgentResponse;
@@ -7,6 +9,11 @@ use OpenAI\Responses\Agents\Objects\MultiAgent;
 use OpenAI\Responses\Agents\Objects\Reasoning;
 use OpenAI\Responses\Agents\Objects\Text;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\ValueObjects\ApiKey;
+use OpenAI\ValueObjects\Transporter\BaseUri;
+use OpenAI\ValueObjects\Transporter\Headers;
+use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\QueryParams;
 use OpenAI\ValueObjects\Transporter\Response;
 
 test('create', function () {
@@ -109,4 +116,20 @@ test('delete', function () {
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('sends the agents=v1 beta header with the request', function () {
+    $transporter = Mockery::mock(TransporterContract::class);
+
+    $transporter
+        ->shouldReceive('requestObject')
+        ->once()
+        ->withArgs(function (Payload $payload) {
+            $request = $payload->toRequest(BaseUri::from('api.openai.com/v1'), Headers::withAuthorization(ApiKey::from('foo')), QueryParams::create());
+
+            return $request->getHeaderLine('OpenAI-Beta') === 'agents=v1';
+        })
+        ->andReturn(Response::from(agentListResource(), metaHeaders()));
+
+    (new Client($transporter))->agents()->list();
 });

@@ -29,12 +29,10 @@ final class AgentEnvironmentTemplates implements AgentEnvironmentTemplatesContra
      */
     public function create(array $parameters = []): AgentEnvironmentTemplateResponse
     {
-        $payload = Payload::create('agents/environments/templates', $parameters);
+        $payload = Payload::create('agents/environments/templates', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentTemplateType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentTemplateResponse::from($response->data(), $response->meta());
     }
@@ -48,12 +46,10 @@ final class AgentEnvironmentTemplates implements AgentEnvironmentTemplatesContra
      */
     public function list(array $parameters = []): AgentEnvironmentTemplateListResponse
     {
-        $payload = Payload::list('agents/environments/templates', $parameters);
+        $payload = Payload::list('agents/environments/templates', $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentTemplateListType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentTemplateListResponse::from($response->data(), $response->meta());
     }
@@ -65,12 +61,10 @@ final class AgentEnvironmentTemplates implements AgentEnvironmentTemplatesContra
      */
     public function retrieve(string $id): AgentEnvironmentTemplateResponse
     {
-        $payload = Payload::retrieve('agents/environments/templates', $id);
+        $payload = Payload::retrieve('agents/environments/templates', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentTemplateType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentTemplateResponse::from($response->data(), $response->meta());
     }
@@ -84,12 +78,10 @@ final class AgentEnvironmentTemplates implements AgentEnvironmentTemplatesContra
      */
     public function update(string $id, array $parameters): AgentEnvironmentTemplateResponse
     {
-        $payload = Payload::modify('agents/environments/templates', $id, $parameters);
+        $payload = Payload::modify('agents/environments/templates', $id, $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentTemplateType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentTemplateResponse::from($response->data(), $response->meta());
     }
@@ -101,12 +93,10 @@ final class AgentEnvironmentTemplates implements AgentEnvironmentTemplatesContra
      */
     public function delete(string $id): AgentEnvironmentTemplateDeleteResponse
     {
-        $payload = Payload::delete('agents/environments/templates', $id);
+        $payload = Payload::delete('agents/environments/templates', $id)->withHeader('OpenAI-Beta', 'agents=v1');
 
         /** @var Response<AgentEnvironmentTemplateDeleteType> $response */
-        $response = $this->transporter
-            ->addHeader('OpenAI-Beta', 'agents=v1')
-            ->requestObject($payload);
+        $response = $this->transporter->requestObject($payload);
 
         return AgentEnvironmentTemplateDeleteResponse::from($response->data(), $response->meta());
     }
