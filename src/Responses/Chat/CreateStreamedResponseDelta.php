@@ -18,7 +18,7 @@ final class CreateStreamedResponseDelta
     ) {}
 
     /**
-     * @param  array{role?: string, content?: string, reasoning?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
+     * @param  array{role?: string, content?: string, reasoning?: string, reasoning_content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -29,7 +29,7 @@ final class CreateStreamedResponseDelta
         return new self(
             $attributes['role'] ?? null,
             $attributes['content'] ?? null,
-            $attributes['reasoning'] ?? null,
+            $attributes['reasoning'] ?? $attributes['reasoning_content'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateStreamedResponseFunctionCall::from($attributes['function_call']) : null,
         );
