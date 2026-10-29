@@ -104,3 +104,18 @@ test('to array for a reasoning chunk', function () {
     expect($result->toArray())
         ->toBe(chatCompletionStreamReasoningChunk()['choices'][0]['delta']);
 });
+
+test('from reasoning_content chunk', function () {
+    $result = CreateStreamedResponseDelta::from(['reasoning_content' => 'Hello world']);
+
+    expect($result)
+        ->role->toBeNull()
+        ->content->toBeNull()
+        ->reasoningContent->toBe('Hello world');
+});
+
+test('reasoning wins over reasoning_content when both are sent', function () {
+    $result = CreateStreamedResponseDelta::from(['reasoning' => 'a', 'reasoning_content' => 'b']);
+
+    expect($result->reasoningContent)->toBe('a');
+});
