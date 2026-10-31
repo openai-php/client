@@ -5,12 +5,15 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateResponseFormat;
 use OpenAI\Responses\Responses\CreateResponseReasoning;
 use OpenAI\Responses\Responses\CreateResponseUsage;
+use OpenAI\Responses\Responses\Output\ComputerAction\OutputComputerActionScreenshot;
+use OpenAI\Responses\Responses\Output\OutputComputerToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\RetrieveResponse;
+use OpenAI\Responses\Responses\Tool\ComputerTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\ShellTool;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
@@ -270,5 +273,26 @@ test('parses shell output independently of shell tools', function () {
         expect($response->output[1])->toBeInstanceOf(OutputShellCallOutput::class);
         expect($response->output[1]->output[0]->outcome->exitCode)->toBe(0);
         expect($response->toArray()['output'])->toEqual($attributes['output']);
+    }
+});
+
+test('parses the computer tool and its batched actions', function () {
+    $attributes = createResponseResource();
+    $attributes['tools'] = [['type' => 'computer']];
+    $attributes['output'] = [[
+        'id' => 'cu_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'type' => 'computer_call',
+        'status' => 'completed',
+        'actions' => [['type' => 'screenshot']],
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+    ]];
+
+    foreach ([CreateResponse::class, RetrieveResponse::class] as $class) {
+        $response = $class::from($attributes, meta());
+
+        expect($response->tools[0])->toBeInstanceOf(ComputerTool::class);
+        expect($response->output[0])->toBeInstanceOf(OutputComputerToolCall::class);
+        expect($response->output[0]->actions[0])->toBeInstanceOf(OutputComputerActionScreenshot::class);
+        expect($response->toArray()['tools'])->toBe($attributes['tools']);
     }
 });

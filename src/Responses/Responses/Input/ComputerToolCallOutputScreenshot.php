@@ -9,7 +9,7 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type ComputerToolCallOutputScreenshotType array{type: 'computer_screenshot', file_id: string, image_url: string}
+ * @phpstan-type ComputerToolCallOutputScreenshotType array{type: 'computer_screenshot', file_id?: string|null, image_url?: string|null, detail?: string|null}
  *
  * @implements ResponseContract<ComputerToolCallOutputScreenshotType>
  */
@@ -27,8 +27,9 @@ final class ComputerToolCallOutputScreenshot implements ResponseContract
      */
     private function __construct(
         public readonly string $type,
-        public readonly string $fileId,
-        public readonly string $imageUrl,
+        public readonly ?string $fileId,
+        public readonly ?string $imageUrl,
+        public readonly ?string $detail,
     ) {}
 
     /**
@@ -38,8 +39,9 @@ final class ComputerToolCallOutputScreenshot implements ResponseContract
     {
         return new self(
             type: $attributes['type'],
-            fileId: $attributes['file_id'],
-            imageUrl: $attributes['image_url'],
+            fileId: $attributes['file_id'] ?? null,
+            imageUrl: $attributes['image_url'] ?? null,
+            detail: $attributes['detail'] ?? null,
         );
     }
 
@@ -48,10 +50,11 @@ final class ComputerToolCallOutputScreenshot implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'type' => $this->type,
             'file_id' => $this->fileId,
             'image_url' => $this->imageUrl,
-        ];
+            'detail' => $this->detail,
+        ], fn (mixed $value): bool => $value !== null);
     }
 }

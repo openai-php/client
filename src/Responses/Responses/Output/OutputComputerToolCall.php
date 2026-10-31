@@ -30,7 +30,8 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type WaitType from Wait
  * @phpstan-import-type PendingSafetyCheckType from OutputComputerPendingSafetyCheck
  *
- * @phpstan-type OutputComputerToolCallType array{action: ClickType|DoubleClickType|DragType|KeyPressType|MoveType|ScreenshotType|ScrollType|TypeType|WaitType, call_id: string, id: string, pending_safety_checks: array<int, PendingSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}
+ * @phpstan-type ComputerActionType ClickType|DoubleClickType|DragType|KeyPressType|MoveType|ScreenshotType|ScrollType|TypeType|WaitType
+ * @phpstan-type OutputComputerToolCallType array{action?: ComputerActionType, actions?: array<int, ComputerActionType>, call_id: string, id: string, pending_safety_checks?: array<int, PendingSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', type: 'computer_call'}
  *
  * @implements ResponseContract<OutputComputerToolCallType>
  */
@@ -44,12 +45,13 @@ final class OutputComputerToolCall implements ResponseContract
     use Fakeable;
 
     /**
+     * @param  array<int, Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait>  $actions
      * @param  array<int, OutputComputerPendingSafetyCheck>  $pendingSafetyChecks
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'computer_call'  $type
      */
     private function __construct(
-        public readonly Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait $action,
+        public readonly array $actions,
         public readonly string $callId,
         public readonly string $id,
         public readonly array $pendingSafetyChecks,
@@ -62,25 +64,29 @@ final class OutputComputerToolCall implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $action = match ($attributes['action']['type']) {
-            'click' => Click::from($attributes['action']),
-            'double_click' => DoubleClick::from($attributes['action']),
-            'drag' => Drag::from($attributes['action']),
-            'keypress' => KeyPress::from($attributes['action']),
-            'move' => Move::from($attributes['action']),
-            'screenshot' => Screenshot::from($attributes['action']),
-            'scroll' => Scroll::from($attributes['action']),
-            'type' => Type::from($attributes['action']),
-            'wait' => Wait::from($attributes['action']),
-        };
+        // The computer tool returns a batch in `actions`; computer_use_preview returns one `action`.
+        $actions = array_map(
+            fn (array $action): Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait => match ($action['type']) {
+                'click' => Click::from($action),
+                'double_click' => DoubleClick::from($action),
+                'drag' => Drag::from($action),
+                'keypress' => KeyPress::from($action),
+                'move' => Move::from($action),
+                'screenshot' => Screenshot::from($action),
+                'scroll' => Scroll::from($action),
+                'type' => Type::from($action),
+                'wait' => Wait::from($action),
+            },
+            $attributes['actions'] ?? (isset($attributes['action']) ? [$attributes['action']] : []),
+        );
 
         $pendingSafetyChecks = array_map(
             fn (array $safetyCheck): OutputComputerPendingSafetyCheck => OutputComputerPendingSafetyCheck::from($safetyCheck),
-            $attributes['pending_safety_checks']
+            $attributes['pending_safety_checks'] ?? []
         );
 
         return new self(
-            action: $action,
+            actions: $actions,
             callId: $attributes['call_id'],
             id: $attributes['id'],
             pendingSafetyChecks: $pendingSafetyChecks,
@@ -98,7 +104,10 @@ final class OutputComputerToolCall implements ResponseContract
             'type' => $this->type,
             'call_id' => $this->callId,
             'id' => $this->id,
-            'action' => $this->action->toArray(),
+            'actions' => array_map(
+                fn (Click|DoubleClick|Drag|KeyPress|Move|Screenshot|Scroll|Type|Wait $action): array => $action->toArray(),
+                $this->actions,
+            ),
             'pending_safety_checks' => array_map(
                 fn (OutputComputerPendingSafetyCheck $safetyCheck): array => $safetyCheck->toArray(),
                 $this->pendingSafetyChecks,
