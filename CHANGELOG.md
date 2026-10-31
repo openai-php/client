@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+# v0.22.0 (2026-10-31)
+### Added
+ * Add Skills API. ([#808](https://github.com/openai-php/client/pull/808))
+ * Add support for `shell` tool and skill attachments in Responses API. ([#811](https://github.com/openai-php/client/pull/811))
+ * Add Decisions API. ([#812](https://github.com/openai-php/client/pull/812))
+ * Add Agents API. ([#817](https://github.com/openai-php/client/pull/817))
+ * Add Vaults API. ([#818](https://github.com/openai-php/client/pull/818))
+ * Add Agent Environments API. ([#819](https://github.com/openai-php/client/pull/819))
+ * Add Agent Sessions API. ([#820](https://github.com/openai-php/client/pull/820))
+
+### Fixed
+ * Fix missing `chunking_strategy` in vector store file responses. ([#805](https://github.com/openai-php/client/pull/805))
+ * Trim streamed response data before decoding. ([#806](https://github.com/openai-php/client/pull/806))
+ * Handle undocumented text web search results. ([#807](https://github.com/openai-php/client/pull/807))
+ * Allow null names and boolean choice values in Decisions. ([#815](https://github.com/openai-php/client/pull/815))
+ * Handle rate limit and server errors on Guzzle stream requests. ([#816](https://github.com/openai-php/client/pull/816))
+ * Allow null `country` in web search user location. ([#821](https://github.com/openai-php/client/pull/821))
+ * Keep keys of nested multipart parameters. ([#822](https://github.com/openai-php/client/pull/822))
+ * Stop beta headers leaking into later requests. ([#823](https://github.com/openai-php/client/pull/823))
+ * Read `reasoning_content` in streamed chat deltas. ([#824](https://github.com/openai-php/client/pull/824))
+ * Support the `computer` tool and its batched actions. ([#825](https://github.com/openai-php/client/pull/825))
+
+### Security
+ * Harden `ResourceUri` against HttpClient path traversal. ([GHSA-g2jm-j3rw-vqcm](https://github.com/openai-php/client/security/advisories/GHSA-g2jm-j3rw-vqcm), [#813](https://github.com/openai-php/client/pull/813))
+
 # v0.21.0 (2026-09-17)
 ### Added
  * Add support for programmatic tool calling in Responses API. ([#790](https://github.com/openai-php/client/pull/790))
