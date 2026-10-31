@@ -12,7 +12,7 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ComputerToolCallOutputScreenshotType from ComputerToolCallOutputScreenshot
  * @phpstan-import-type AcknowledgedSafetyCheckType from AcknowledgedSafetyCheck
  *
- * @phpstan-type ComputerToolCallOutputType array{call_id: string, id: string, output: ComputerToolCallOutputScreenshotType, type: 'computer_call_output', acknowledged_safety_checks: array<int, AcknowledgedSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete'}
+ * @phpstan-type ComputerToolCallOutputType array{call_id: string, id: string, output: ComputerToolCallOutputScreenshotType, type: 'computer_call_output', acknowledged_safety_checks?: array<int, AcknowledgedSafetyCheckType>, status: 'in_progress'|'completed'|'incomplete', current_url?: string|null}
  *
  * @implements ResponseContract<ComputerToolCallOutputType>
  */
@@ -37,6 +37,7 @@ final class ComputerToolCallOutput implements ResponseContract
         public readonly string $type,
         public readonly array $acknowledgedSafetyChecks,
         public readonly string $status,
+        public readonly ?string $currentUrl,
     ) {}
 
     /**
@@ -46,7 +47,7 @@ final class ComputerToolCallOutput implements ResponseContract
     {
         $acknowledgedSafetyChecks = array_map(
             fn (array $acknowledgedSafetyCheck) => AcknowledgedSafetyCheck::from($acknowledgedSafetyCheck),
-            $attributes['acknowledged_safety_checks'],
+            $attributes['acknowledged_safety_checks'] ?? [],
         );
 
         return new self(
@@ -56,6 +57,7 @@ final class ComputerToolCallOutput implements ResponseContract
             type: $attributes['type'],
             acknowledgedSafetyChecks: $acknowledgedSafetyChecks,
             status: $attributes['status'],
+            currentUrl: $attributes['current_url'] ?? null,
         );
     }
 
@@ -64,7 +66,7 @@ final class ComputerToolCallOutput implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'call_id' => $this->callId,
             'id' => $this->id,
             'output' => $this->output->toArray(),
@@ -74,6 +76,7 @@ final class ComputerToolCallOutput implements ResponseContract
                 $this->acknowledgedSafetyChecks,
             ),
             'status' => $this->status,
-        ];
+            'current_url' => $this->currentUrl,
+        ], fn (mixed $value): bool => $value !== null);
     }
 }

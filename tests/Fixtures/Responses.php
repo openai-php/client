@@ -548,6 +548,32 @@ function outputComputerToolCall(): array
 /**
  * @return array<string, mixed>
  */
+function computerToolCallOutputItem(): array
+{
+    return [
+        'call_id' => 'call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'id' => 'cuo_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+        'output' => [
+            'type' => 'computer_screenshot',
+            'image_url' => 'data:image/png;base64,iVBORw0KGgo=',
+            'detail' => 'auto',
+        ],
+        'type' => 'computer_call_output',
+        'acknowledged_safety_checks' => [
+            [
+                'code' => 'malicious_instructions',
+                'id' => 'cu_sc_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+                'message' => 'Safety check message',
+            ],
+        ],
+        'status' => 'completed',
+        'current_url' => 'https://example.com',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function outputWebSearchToolCall(): array
 {
     return [
