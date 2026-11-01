@@ -60,10 +60,10 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         );
 
         return new self(
-            $attributes['model'],
-            $answers,
-            isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
-            $meta,
+            model: $attributes['model'],
+            answers: $answers,
+            usage: isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
+            meta: $meta,
         );
     }
 
