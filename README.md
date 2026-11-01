@@ -2012,6 +2012,8 @@ $response = $client->decisions()->create([
     ],
 ]);
 
+$response->model; // 'gpt-6-luna'
+
 foreach ($response->answers as $answer) {
     $answer->type; // 'predicate', 'choice', 'score' or 'refusal'
     $answer->name; // 'wants_refund'
@@ -2021,7 +2023,11 @@ $response->answer('wants_refund')->probability; // 0.98
 $response->answer('sentiment')->choice; // 'negative'
 $response->answer('urgency')->score; // 1.7
 
-$response->toArray(); // ['answers' => [...]]
+$response->usage?->inputTokens; // 154
+$response->usage?->inputTokensDetails->cachedTokens; // 0
+$response->usage?->totalTokens; // 154
+
+$response->toArray(); // ['model' => 'gpt-6-luna', 'answers' => [...], 'usage' => [...]]
 ```
 
 ### `Moderations` Resource
