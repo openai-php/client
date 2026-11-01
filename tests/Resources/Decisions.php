@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Decisions\ChoiceAnswer;
 use OpenAI\Responses\Decisions\CreateResponse;
+use OpenAI\Responses\Decisions\CreateResponseUsage;
 use OpenAI\Responses\Decisions\PredicateAnswer;
 use OpenAI\Responses\Decisions\RefusalAnswer;
 use OpenAI\Responses\Decisions\ScoreAnswer;
@@ -23,7 +24,20 @@ test('create', function () {
 
     expect($result)
         ->toBeInstanceOf(CreateResponse::class)
+        ->model->toBe('gpt-6-luna')
         ->answers->toHaveCount(4);
+
+    expect($result->usage)
+        ->toBeInstanceOf(CreateResponseUsage::class)
+        ->inputTokens->toBe(154)
+        ->outputTokens->toBe(0)
+        ->totalTokens->toBe(154);
+
+    expect($result->usage->inputTokensDetails)
+        ->cachedTokens->toBe(0)
+        ->cacheWriteTokens->toBe(0);
+
+    expect($result->usage->outputTokensDetails->reasoningTokens)->toBe(0);
 
     expect($result->answers[0])
         ->toBeInstanceOf(PredicateAnswer::class)
@@ -69,6 +83,7 @@ test('create with unnamed questions and boolean choices', function () {
     ];
 
     $attributes = [
+        'model' => 'gpt-6-luna',
         'answers' => [
             ['type' => 'predicate', 'name' => null, 'probability' => 0.98],
             [
@@ -98,6 +113,8 @@ test('create with unnamed questions and boolean choices', function () {
     $client = mockClient('POST', 'decisions', $params, Response::from($attributes, metaHeaders()));
 
     $result = $client->decisions()->create($params);
+
+    expect($result->usage)->toBeNull();
 
     expect($result->answers[0])
         ->toBeInstanceOf(PredicateAnswer::class)

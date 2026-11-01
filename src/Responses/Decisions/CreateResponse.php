@@ -16,8 +16,9 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type ChoiceAnswerType from ChoiceAnswer
  * @phpstan-import-type ScoreAnswerType from ScoreAnswer
  * @phpstan-import-type RefusalAnswerType from RefusalAnswer
+ * @phpstan-import-type UsageType from CreateResponseUsage
  *
- * @phpstan-type CreateResponseType array{answers: array<int, PredicateAnswerType|ChoiceAnswerType|ScoreAnswerType|RefusalAnswerType>}
+ * @phpstan-type CreateResponseType array{model: string, answers: array<int, PredicateAnswerType|ChoiceAnswerType|ScoreAnswerType|RefusalAnswerType>, usage?: UsageType}
  *
  * @implements ResponseContract<CreateResponseType>
  */
@@ -35,7 +36,9 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      * @param  array<int, PredicateAnswer|ChoiceAnswer|ScoreAnswer|RefusalAnswer>  $answers
      */
     private function __construct(
+        public readonly string $model,
         public readonly array $answers,
+        public readonly ?CreateResponseUsage $usage,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -56,7 +59,12 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['answers'],
         );
 
-        return new self($answers, $meta);
+        return new self(
+            $attributes['model'],
+            $answers,
+            isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
+            $meta,
+        );
     }
 
     /**
@@ -78,11 +86,18 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     public function toArray(): array
     {
-        return [
+        $data = [
+            'model' => $this->model,
             'answers' => array_map(
                 static fn (PredicateAnswer|ChoiceAnswer|ScoreAnswer|RefusalAnswer $answer): array => $answer->toArray(),
                 $this->answers,
             ),
         ];
+
+        if ($this->usage !== null) {
+            $data['usage'] = $this->usage->toArray();
+        }
+
+        return $data;
     }
 }
