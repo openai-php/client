@@ -16,7 +16,10 @@ use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Tool\ComputerTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\ShellTool;
+use OpenAI\Responses\Responses\ToolChoice\AllowedToolsToolChoice;
+use OpenAI\Responses\Responses\ToolChoice\CustomToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
+use OpenAI\Responses\Responses\ToolChoice\McpToolChoice;
 use OpenAI\Testing\Enums\OverrideStrategy;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
@@ -241,6 +244,77 @@ test('from with apply patch tool choice', function () {
     expect($response->toolChoice)
         ->toBeInstanceOf(HostedToolChoice::class)
         ->type->toBe('apply_patch');
+});
+
+test('from with hosted tool choice', function (string $type) {
+    $payload = createResponseResource();
+    $payload['tool_choice'] = ['type' => $type];
+
+    foreach ([CreateResponse::class, RetrieveResponse::class] as $class) {
+        $response = $class::from($payload, meta());
+
+        expect($response->toolChoice)
+            ->toBeInstanceOf(HostedToolChoice::class)
+            ->type->toBe($type);
+
+        expect($response->toArray()['tool_choice'])
+            ->toBe($payload['tool_choice']);
+    }
+})->with(['code_interpreter', 'computer', 'computer_use', 'image_generation', 'web_search_preview_2025_03_11']);
+
+test('from with custom tool choice', function () {
+    $payload = createResponseResource();
+    $payload['tool_choice'] = ['name' => 'code_exec', 'type' => 'custom'];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toolChoice)
+        ->toBeInstanceOf(CustomToolChoice::class)
+        ->name->toBe('code_exec')
+        ->type->toBe('custom');
+
+    expect($response->toArray()['tool_choice'])
+        ->toBe($payload['tool_choice']);
+});
+
+test('from with mcp tool choice', function () {
+    $payload = createResponseResource();
+    $payload['tool_choice'] = ['server_label' => 'deepwiki', 'type' => 'mcp', 'name' => 'ask_question'];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toolChoice)
+        ->toBeInstanceOf(McpToolChoice::class)
+        ->serverLabel->toBe('deepwiki')
+        ->type->toBe('mcp')
+        ->name->toBe('ask_question');
+
+    expect($response->toArray()['tool_choice'])
+        ->toBe($payload['tool_choice']);
+});
+
+test('from with allowed tools tool choice', function () {
+    $payload = createResponseResource();
+    $payload['tool_choice'] = [
+        'mode' => 'required',
+        'tools' => [
+            ['type' => 'function', 'name' => 'get_weather'],
+            ['type' => 'mcp', 'server_label' => 'deepwiki'],
+            ['type' => 'image_generation'],
+        ],
+        'type' => 'allowed_tools',
+    ];
+
+    $response = CreateResponse::from($payload, meta());
+
+    expect($response->toolChoice)
+        ->toBeInstanceOf(AllowedToolsToolChoice::class)
+        ->mode->toBe('required')
+        ->tools->toBe($payload['tool_choice']['tools'])
+        ->type->toBe('allowed_tools');
+
+    expect($response->toArray()['tool_choice'])
+        ->toBe($payload['tool_choice']);
 });
 
 test('parses shell tools independently of shell output', function () {

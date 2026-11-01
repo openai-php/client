@@ -48,8 +48,11 @@ use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\Responses\Tool\ShellTool;
 use OpenAI\Responses\Responses\Tool\ToolSearchTool;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
+use OpenAI\Responses\Responses\ToolChoice\AllowedToolsToolChoice;
+use OpenAI\Responses\Responses\ToolChoice\CustomToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\FunctionToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
+use OpenAI\Responses\Responses\ToolChoice\McpToolChoice;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
@@ -114,7 +117,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly bool $store,
         public readonly ?float $temperature,
         public readonly ?CreateResponseFormat $text,
-        public readonly string|FunctionToolChoice|HostedToolChoice $toolChoice,
+        public readonly string|AllowedToolsToolChoice|CustomToolChoice|FunctionToolChoice|HostedToolChoice|McpToolChoice $toolChoice,
         public readonly array $tools,
         public readonly ?int $topLogProbs,
         public readonly ?float $topP,
