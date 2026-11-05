@@ -7,15 +7,17 @@ namespace OpenAI\Responses\Responses\Output;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Responses\Output\CodeInterpreter\CodeFileOutput;
+use OpenAI\Responses\Responses\Output\CodeInterpreter\CodeImageOutput;
 use OpenAI\Responses\Responses\Output\CodeInterpreter\CodeTextOutput;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type CodeFileOutputType from CodeFileOutput
+ * @phpstan-import-type CodeImageOutputType from CodeImageOutput
  * @phpstan-import-type CodeTextOutputType from CodeTextOutput
  *
- * @phpstan-type OutputType array<int, CodeFileOutputType|CodeTextOutputType>|null
- * @phpstan-type OutputCodeInterpreterToolCallType array{code: string, id: string, outputs: OutputType, status: string, type: 'code_interpreter_call', container_id: string}
+ * @phpstan-type OutputType array<int, CodeFileOutputType|CodeImageOutputType|CodeTextOutputType>|null
+ * @phpstan-type OutputCodeInterpreterToolCallType array{code: string|null, id: string, outputs: OutputType, status: string, type: 'code_interpreter_call', container_id: string}
  *
  * @implements ResponseContract<OutputCodeInterpreterToolCallType>
  */
@@ -29,11 +31,11 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  array<int, CodeFileOutput|CodeTextOutput>|null  $outputs
+     * @param  array<int, CodeFileOutput|CodeImageOutput|CodeTextOutput>|null  $outputs
      * @param  'code_interpreter_call'  $type
      */
     private function __construct(
-        public readonly string $code,
+        public readonly ?string $code,
         public readonly string $id,
         public readonly ?array $outputs,
         public readonly string $status,
@@ -50,8 +52,9 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
 
         if (is_array($attributes['outputs'])) {
             $outputs = array_map(
-                static fn (array $output): CodeFileOutput|CodeTextOutput => match ($output['type']) {
+                static fn (array $output): CodeFileOutput|CodeImageOutput|CodeTextOutput => match ($output['type']) {
                     'files' => CodeFileOutput::from($output),
+                    'image' => CodeImageOutput::from($output),
                     'logs' => CodeTextOutput::from($output),
                 },
                 $attributes['outputs']
@@ -77,7 +80,7 @@ final class OutputCodeInterpreterToolCall implements ResponseContract
             'code' => $this->code,
             'id' => $this->id,
             'outputs' => $this->outputs
-                ? array_map(static fn (CodeFileOutput|CodeTextOutput $output): array => $output->toArray(), $this->outputs)
+                ? array_map(static fn (CodeFileOutput|CodeImageOutput|CodeTextOutput $output): array => $output->toArray(), $this->outputs)
                 : null,
             'status' => $this->status,
             'type' => $this->type,
