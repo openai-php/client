@@ -3,6 +3,7 @@
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use GuzzleHttp\Psr7\Utils;
+use OpenAI\Exceptions\ErrorException;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\StreamResponse;
@@ -145,4 +146,22 @@ test('trims control characters surrounding streamed JSON data', function () {
         ->and($result[0]->response->item)
         ->toBeInstanceOf(OutputCompaction::class)
         ->encryptedContent->toBe('complete content');
+});
+
+test('error type may be a gemini status in a streamed error', function () {
+    $body = 'data: '.json_encode([
+        'error' => [
+            'code' => 400,
+            'message' => 'Invalid JSON payload received.',
+            'status' => 'INVALID_ARGUMENT',
+        ],
+    ], flags: JSON_THROW_ON_ERROR)."\n\n";
+
+    $streamResponse = new StreamResponse(CreateStreamedResponse::class, new Response(body: Utils::streamFor($body)));
+
+    expect(fn () => iterator_to_array($streamResponse))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getErrorMessage())->toBe('Invalid JSON payload received.')
+                ->and($e->getErrorType())->toBe('INVALID_ARGUMENT');
+        });
 });

@@ -359,6 +359,89 @@ test('error may be an nested array', function (string $requestMethod) {
         });
 })->with('request methods');
 
+test('error type may be a gemini status', function (string $requestMethod) {
+    $payload = Payload::create('chat/completions', ['model' => 'gemini-2.5-flash', 'ddd' => 'auto']);
+
+    $response = new Response(400, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        [
+            'error' => [
+                'code' => 400,
+                'message' => 'Invalid JSON payload received. Unknown name "ddd": Cannot find field.',
+                'status' => 'INVALID_ARGUMENT',
+                'details' => [
+                    [
+                        '@type' => 'type.googleapis.com/google.rpc.BadRequest',
+                        'fieldViolations' => [
+                            ['description' => 'Unknown name "ddd": Cannot find field.'],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getMessage())->toBe('Invalid JSON payload received. Unknown name "ddd": Cannot find field.')
+                ->and($e->getErrorMessage())->toBe('Invalid JSON payload received. Unknown name "ddd": Cannot find field.')
+                ->and($e->getErrorType())->toBe('INVALID_ARGUMENT')
+                ->and($e->getErrorCode())->toBe(400)
+                ->and($e->getStatusCode())->toBe(400);
+        });
+})->with('request methods');
+
+test('error type ignores a status that is not a string', function (string $requestMethod) {
+    $payload = Payload::list('models');
+
+    $response = new Response(400, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'The response was filtered',
+            'type' => null,
+            'code' => 'content_filter',
+            'status' => 400,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getErrorType())->toBeNull()
+                ->and($e->getErrorCode())->toBe('content_filter');
+        });
+})->with('request methods');
+
+test('error type prefers type over status', function (string $requestMethod) {
+    $payload = Payload::list('models');
+
+    $response = new Response(400, ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+        'error' => [
+            'message' => 'Invalid request',
+            'type' => 'invalid_request_error',
+            'status' => 'INVALID_ARGUMENT',
+            'code' => null,
+        ],
+    ]));
+
+    $this->client
+        ->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn($response);
+
+    expect(fn () => $this->http->$requestMethod($payload))
+        ->toThrow(function (ErrorException $e) {
+            expect($e->getErrorType())->toBe('invalid_request_error');
+        });
+})->with('request methods');
+
 test('error message may be empty', function (string $requestMethod) {
     $payload = Payload::create('completions', ['model' => 'gpt-4']);
 
