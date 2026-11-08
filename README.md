@@ -1433,7 +1433,7 @@ Creates a completion for the chat message.
 
 ```php
 $response = $client->chat()->create([
-    'model' => 'gpt-3.5-turbo',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -1442,7 +1442,7 @@ $response = $client->chat()->create([
 $response->id; // 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq'
 $response->object; // 'chat.completion'
 $response->created; // 1677701073
-$response->model; // 'gpt-3.5-turbo-0301'
+$response->model; // 'gpt-5.6-luna'
 
 foreach ($response->choices as $choice) {
     $choice->index; // 0
@@ -1463,7 +1463,7 @@ Creates a completion for the chat message with a tool call.
 
 ```php
 $response = $client->chat()->create([
-    'model' => 'gpt-3.5-turbo-0613',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         ['role' => 'user', 'content' => 'What\'s the weather like in Boston?'],
     ],
@@ -1495,7 +1495,7 @@ $response = $client->chat()->create([
 $response->id; // 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq'
 $response->object; // 'chat.completion'
 $response->created; // 1677701073
-$response->model; // 'gpt-3.5-turbo-0613'
+$response->model; // 'gpt-5.6-luna'
 
 foreach ($response->choices as $choice) {
     $choice->index; // 0
@@ -1517,7 +1517,7 @@ Creates a completion for the chat message with a function call.
 
 ```php
 $response = $client->chat()->create([
-    'model' => 'gpt-3.5-turbo-0613',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         ['role' => 'user', 'content' => 'What\'s the weather like in Boston?'],
     ],
@@ -1546,7 +1546,7 @@ $response = $client->chat()->create([
 $response->id; // 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq'
 $response->object; // 'chat.completion'
 $response->created; // 1677701073
-$response->model; // 'gpt-3.5-turbo-0613'
+$response->model; // 'gpt-5.6-luna'
 
 foreach ($response->choices as $choice) {
     $choice->index; // 0
@@ -1567,7 +1567,7 @@ Useful for describing and analyzing visual content.
 
 ```php
 $response = $client->chat()->create([
-    'model' => 'gpt-4o',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         [
             'role' => 'user',
@@ -1587,7 +1587,7 @@ Creates a streamed completion for the chat message.
 
 ```php
 $stream = $client->chat()->createStreamed([
-    'model' => 'gpt-4o',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
@@ -1606,7 +1606,7 @@ To get usage report when using stream you can use `include_usage` in `stream_opt
 
 ```php
 $stream = $client->chat()->createStreamed([
-    'model' => 'gpt-4',
+    'model' => 'gpt-5.6-luna',
     'messages' => [
         ['role' => 'user', 'content' => 'Hello!'],
     ],
