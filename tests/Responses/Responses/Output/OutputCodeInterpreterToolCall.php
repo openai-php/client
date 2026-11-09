@@ -1,5 +1,6 @@
 <?php
 
+use OpenAI\Responses\Responses\Output\CodeInterpreter\CodeImageOutput;
 use OpenAI\Responses\Responses\Output\OutputCodeInterpreterToolCall;
 
 test('from', function () {
@@ -28,4 +29,34 @@ test('to array', function () {
     expect($response->toArray())
         ->toBeArray()
         ->toBe(outputCodeInterpreterToolCall());
+});
+
+test('from with image output', function () {
+    $payload = outputCodeInterpreterToolCall();
+    $payload['outputs'] = [
+        [
+            'type' => 'image',
+            'url' => 'https://example.com/plot.png',
+        ],
+    ];
+
+    $response = OutputCodeInterpreterToolCall::from($payload);
+
+    expect($response->outputs[0])
+        ->toBeInstanceOf(CodeImageOutput::class)
+        ->type->toBe('image')
+        ->url->toBe('https://example.com/plot.png');
+
+    expect($response->toArray())->toBe($payload);
+});
+
+test('from with null code', function () {
+    $payload = outputCodeInterpreterToolCall();
+    $payload['code'] = null;
+
+    $response = OutputCodeInterpreterToolCall::from($payload);
+
+    expect($response->code)->toBeNull();
+
+    expect($response->toArray())->toBe($payload);
 });
