@@ -15,10 +15,11 @@ final class CreateStreamedResponseDelta
         public readonly ?string $reasoningContent,
         public readonly array $toolCalls,
         public readonly ?CreateStreamedResponseFunctionCall $functionCall,
+        public readonly ?string $refusal = null,
     ) {}
 
     /**
-     * @param  array{role?: string, content?: string, reasoning?: string, reasoning_content?: string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
+     * @param  array{role?: string, content?: string, reasoning?: string, reasoning_content?: string, refusal?: ?string, function_call?: array{name?: ?string, arguments?: ?string}, tool_calls?: array<int, array{id?: string, type?: string, function: array{name?: string, arguments: string}}>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -32,11 +33,12 @@ final class CreateStreamedResponseDelta
             $attributes['reasoning'] ?? $attributes['reasoning_content'] ?? null,
             $toolCalls,
             isset($attributes['function_call']) ? CreateStreamedResponseFunctionCall::from($attributes['function_call']) : null,
+            $attributes['refusal'] ?? null,
         );
     }
 
     /**
-     * @return array{role?: string, content?: string, reasoning?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}
+     * @return array{role?: string, content?: string, reasoning?: string, refusal?: string}|array{role?: string, content: null, function_call: array{name?: string, arguments?: string}}
      */
     public function toArray(): array
     {
@@ -44,6 +46,7 @@ final class CreateStreamedResponseDelta
             'role' => $this->role,
             'content' => $this->content,
             'reasoning' => $this->reasoningContent,
+            'refusal' => $this->refusal,
         ], fn (?string $value): bool => ! is_null($value));
 
         if ($this->functionCall instanceof CreateStreamedResponseFunctionCall) {

@@ -126,3 +126,17 @@ test('to array from annotations response', function () {
     expect($result->toArray())
         ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']);
 });
+
+test('from refusal', function () {
+    $message = ['role' => 'assistant', 'content' => null, 'refusal' => "I'm sorry, I can't help with that."];
+    $result = CreateResponseMessage::from($message);
+
+    expect($result)
+        ->content->toBeNull()
+        ->refusal->toBe("I'm sorry, I can't help with that.")
+        ->and($result->toArray())->toBe($message);
+});
+
+test('refusal is null when absent', function () {
+    expect(CreateResponseMessage::from(chatCompletion()['choices'][0]['message'])->refusal)->toBeNull();
+});

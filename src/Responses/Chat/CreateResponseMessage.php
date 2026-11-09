@@ -24,10 +24,11 @@ final class CreateResponseMessage
         public readonly ?CreateResponseFunctionCall $functionCall,
         public readonly ?CreateResponseChoiceAudio $audio = null,
         public readonly ?array $images = null,
+        public readonly ?string $refusal = null,
     ) {}
 
     /**
-     * @param  array{role: string, content: ?string, reasoning_content?: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}  $attributes
+     * @param  array{role: string, content: ?string, reasoning_content?: ?string, refusal?: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -52,11 +53,12 @@ final class CreateResponseMessage
             functionCall: isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,
             audio: isset($attributes['audio']) ? CreateResponseChoiceAudio::from($attributes['audio']) : null,
             images: $images,
+            refusal: $attributes['refusal'] ?? null,
         );
     }
 
     /**
-     * @return array{role: string, content: string|null, reasoning_content?: string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}
+     * @return array{role: string, content: string|null, reasoning_content?: string, refusal?: string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}
      */
     public function toArray(): array
     {
@@ -67,6 +69,10 @@ final class CreateResponseMessage
 
         if ($this->reasoningContent !== null) {
             $data['reasoning_content'] = $this->reasoningContent;
+        }
+
+        if ($this->refusal !== null) {
+            $data['refusal'] = $this->refusal;
         }
 
         if ($this->annotations !== []) {
