@@ -13,6 +13,8 @@ use OpenAI\Responses\Responses\Streaming\CodeInterpreterCall;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDelta;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDone;
 use OpenAI\Responses\Responses\Streaming\ContentPart;
+use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
+use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
 use OpenAI\Responses\Responses\Streaming\Error;
 use OpenAI\Responses\Responses\Streaming\FileSearchCall;
 use OpenAI\Responses\Responses\Streaming\FunctionCallArgumentsDelta;
@@ -60,7 +62,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|ApplyPatchCallOperationDiffDelta|ApplyPatchCallOperationDiffDone|ShellCallCommand|ShellCallCommandDelta|ShellCallOutputContentDelta|ShellCallOutputContentDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|Error $response,
+        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|CustomToolCallInputDelta|CustomToolCallInputDone|ApplyPatchCallOperationDiffDelta|ApplyPatchCallOperationDiffDone|ShellCallCommand|ShellCallCommandDelta|ShellCallOutputContentDelta|ShellCallOutputContentDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|Error $response,
     ) {}
 
     /**
@@ -90,6 +92,8 @@ final class CreateStreamedResponse implements ResponseContract
             'response.refusal.done' => RefusalDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.delta' => FunctionCallArgumentsDelta::from($attributes, $meta), // @phpstan-ignore-line
             'response.function_call_arguments.done' => FunctionCallArgumentsDone::from($attributes, $meta), // @phpstan-ignore-line
+            'response.custom_tool_call_input.delta' => CustomToolCallInputDelta::from($attributes, $meta), // @phpstan-ignore-line
+            'response.custom_tool_call_input.done' => CustomToolCallInputDone::from($attributes, $meta), // @phpstan-ignore-line
             'response.shell_call_command.added',
             'response.shell_call_command.done' => ShellCallCommand::from($attributes, $meta), // @phpstan-ignore-line
             'response.shell_call_command.delta' => ShellCallCommandDelta::from($attributes, $meta), // @phpstan-ignore-line
