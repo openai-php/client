@@ -126,3 +126,22 @@ test('to array from annotations response', function () {
     expect($result->toArray())
         ->toBe(chatCompletionWithAnnotations()['choices'][0]['message']);
 });
+
+test('from reasoning aliases', function (array $reasoning, ?string $expected) {
+    $result = CreateResponseMessage::from([
+        'role' => 'assistant',
+        'content' => null,
+        ...$reasoning,
+    ]);
+
+    expect($result->reasoningContent)->toBe($expected);
+    expect($result->toArray())->toBe($expected === null
+        ? ['role' => 'assistant', 'content' => null]
+        : ['role' => 'assistant', 'content' => null, 'reasoning_content' => $expected]);
+})->with([
+    'reasoning only' => [['reasoning' => 'Thinking'], 'Thinking'],
+    'existing key wins' => [['reasoning_content' => 'Existing', 'reasoning' => 'Alias'], 'Existing'],
+    'null existing key' => [['reasoning_content' => null, 'reasoning' => 'Alias'], 'Alias'],
+    'empty existing key' => [['reasoning_content' => '', 'reasoning' => 'Alias'], ''],
+    'neither key' => [[], null],
+]);
