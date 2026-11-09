@@ -119,3 +119,18 @@ test('reasoning wins over reasoning_content when both are sent', function () {
 
     expect($result->reasoningContent)->toBe('a');
 });
+
+test('from refusal chunk', function () {
+    $delta = ['refusal' => "I'm sorry"];
+    $result = CreateStreamedResponseDelta::from($delta);
+
+    expect($result)
+        ->content->toBeNull()
+        ->refusal->toBe("I'm sorry")
+        ->and($result->toArray())->toBe($delta);
+});
+
+test('refusal is null when absent or null', function () {
+    expect(CreateStreamedResponseDelta::from(['content' => 'Hi'])->refusal)->toBeNull()
+        ->and(CreateStreamedResponseDelta::from(['content' => 'Hi', 'refusal' => null])->toArray())->toBe(['content' => 'Hi']);
+});
