@@ -28,7 +28,7 @@ final class CreateResponseMessage
     ) {}
 
     /**
-     * @param  array{role: string, content: ?string, reasoning_content?: ?string, refusal?: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}  $attributes
+     * @param  array{role: string, content: ?string, reasoning_content?: ?string, reasoning?: ?string, refusal?: ?string, annotations?: array<int, array{type: string, url_citation: array{start_index: int, end_index: int, title: string, url: string}}>, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>, audio?: CreateResponseChoiceAudioType, images?: array<int, CreateResponseChoiceImageType>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -47,7 +47,7 @@ final class CreateResponseMessage
         return new self(
             role: $attributes['role'],
             content: $attributes['content'] ?? null,
-            reasoningContent: $attributes['reasoning_content'] ?? null,
+            reasoningContent: $attributes['reasoning_content'] ?? $attributes['reasoning'] ?? null,
             annotations: $annotations,
             toolCalls: $toolCalls,
             functionCall: isset($attributes['function_call']) ? CreateResponseFunctionCall::from($attributes['function_call']) : null,

@@ -5,7 +5,9 @@ use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\Output\ApplyPatchOperation\OutputApplyPatchOperationCreateFile;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
+use OpenAI\Responses\Responses\Output\OutputCustomToolCall;
 use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
+use OpenAI\Responses\Responses\Output\OutputLocalShellCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
@@ -14,6 +16,8 @@ use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
+use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
+use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
 use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
@@ -173,6 +177,22 @@ test('output item done event with program output item', function () {
         ->response->item->toBeInstanceOf(OutputProgramOutput::class);
 });
 
+test('output item done event with local shell call item', function () {
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.done',
+        'output_index' => 0,
+        'sequence_number' => 1,
+        'item' => outputLocalShellCall(),
+        '__meta' => meta(),
+    ]);
+
+    expect($response)
+        ->event->toBe('response.output_item.done')
+        ->response->toBeInstanceOf(OutputItem::class)
+        ->response->item->toBeInstanceOf(OutputLocalShellCall::class)
+        ->response->item->callId->toBe('call_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c');
+});
+
 test('output item added event with tool search call item', function () {
     $response = CreateStreamedResponse::fake(responseOutputItemToolSearchCallAddedEvent());
 
@@ -248,4 +268,68 @@ test('streams shell commands and output through the completed response', functio
     foreach ($events as $sequence => $event) {
         expect($event->toArray()['data']['sequence_number'])->toBe($sequence);
     }
+});
+
+test('streams a custom tool call and its input', function () {
+    $stream = CreateStreamedResponse::fake(responseCustomToolCallEvents());
+    $events = iterator_to_array($stream->getIterator());
+
+    expect(array_column($events, 'event'))->toBe([
+        'response.output_item.added',
+        'response.custom_tool_call_input.delta',
+        'response.custom_tool_call_input.delta',
+        'response.custom_tool_call_input.done',
+        'response.output_item.done',
+    ]);
+
+    expect($events[0]->response->item)
+        ->toBeInstanceOf(OutputCustomToolCall::class)
+        ->input->toBe('');
+
+    expect($events[1]->response)
+        ->toBeInstanceOf(CustomToolCallInputDelta::class)
+        ->delta->toBe('print("hello')
+        ->itemId->toBe('ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6')
+        ->outputIndex->toBe(1)
+        ->sequenceNumber->toBe(5);
+
+    expect($events[3]->response)
+        ->toBeInstanceOf(CustomToolCallInputDone::class)
+        ->input->toBe('print("hello world")')
+        ->sequenceNumber->toBe(7);
+
+    expect($events[4]->response->item)
+        ->toBeInstanceOf(OutputCustomToolCall::class)
+        ->callId->toBe('call_aGiFQkRWSWAIsMQ19fKqxUgb')
+        ->name->toBe('code_exec')
+        ->input->toBe('print("hello world")');
+
+    expect($events[3]->toArray()['data'])->toBe([
+        'type' => 'response.custom_tool_call_input.done',
+        'input' => 'print("hello world")',
+        'item_id' => 'ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6',
+        'output_index' => 1,
+        'sequence_number' => 7,
+    ]);
+
+    expect($events[1]->toArray())->toBe([
+        'event' => 'response.custom_tool_call_input.delta',
+        'data' => [
+            'type' => 'response.custom_tool_call_input.delta',
+            'delta' => 'print("hello',
+            'item_id' => 'ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6',
+            'output_index' => 1,
+            'sequence_number' => 5,
+        ],
+    ]);
+});
+
+test('fake custom tool call input events', function () {
+    expect(CustomToolCallInputDelta::fake())
+        ->delta->toBe('print("hello')
+        ->itemId->toBe('ctc_123');
+
+    expect(CustomToolCallInputDone::fake())
+        ->input->toBe('print("hello world")')
+        ->itemId->toBe('ctc_123');
 });

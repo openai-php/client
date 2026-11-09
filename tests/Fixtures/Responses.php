@@ -1312,3 +1312,8 @@ function responseShellEvents()
 {
     return fopen(__DIR__.'/Streams/ResponseShell.txt', 'r');
 }
+
+function responseCustomToolCallEvents()
+{
+    return fopen(__DIR__.'/Streams/ResponseCustomToolCall.txt', 'r');
+}
