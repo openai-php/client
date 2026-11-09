@@ -1,0 +1,9 @@
+data: {"type":"response.output_item.added","sequence_number":4,"output_index":1,"item":{"id":"ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6","type":"custom_tool_call","status":"in_progress","call_id":"call_aGiFQkRWSWAIsMQ19fKqxUgb","input":"","name":"code_exec"}}
+
+data: {"type":"response.custom_tool_call_input.delta","sequence_number":5,"output_index":1,"item_id":"ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6","delta":"print(\"hello"}
+
+data: {"type":"response.custom_tool_call_input.delta","sequence_number":6,"output_index":1,"item_id":"ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6","delta":" world\")"}
+
+data: {"type":"response.custom_tool_call_input.done","sequence_number":7,"output_index":1,"item_id":"ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6","input":"print(\"hello world\")"}
+
+data: {"type":"response.output_item.done","sequence_number":8,"output_index":1,"item":{"id":"ctc_6890e975e86c819c9338825b3e1994810694874912ae0ea6","type":"custom_tool_call","status":"completed","call_id":"call_aGiFQkRWSWAIsMQ19fKqxUgb","input":"print(\"hello world\")","name":"code_exec"}}
