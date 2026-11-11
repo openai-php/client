@@ -3,6 +3,7 @@
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use OpenAI\Responses\Audio\SpeechStreamResponse;
+use OpenAI\Responses\Audio\Streaming\TranscriptTextSegment;
 use OpenAI\Responses\Audio\TranscriptionResponse;
 use OpenAI\Responses\Audio\TranscriptionResponseSegment;
 use OpenAI\Responses\Audio\TranscriptionStreamResponse;
@@ -132,6 +133,54 @@ test('transcribe to text streaming', function () {
         expect($event)
             ->toBeInstanceOf(TranscriptionStreamResponse::class);
     }
+});
+
+test('transcribe diarized speech streaming', function () {
+    $response = new Response(
+        headers: metaHeaders(),
+        body: new Stream(audioTranscriptionDiarizedStream()),
+    );
+
+    $client = mockStreamClient('POST', 'audio/transcriptions', [
+        'file' => audioFileResource(),
+        'model' => 'gpt-4o-transcribe-diarize',
+        'response_format' => 'diarized_json',
+        'stream' => true,
+    ], $response, false);
+
+    $result = $client->audio()->transcribeStreamed([
+        'file' => audioFileResource(),
+        'model' => 'gpt-4o-transcribe-diarize',
+        'response_format' => 'diarized_json',
+    ]);
+
+    $events = iterator_to_array($result->getIterator());
+
+    expect(array_column($events, 'event'))->toBe([
+        'transcript.text.delta',
+        'transcript.text.delta',
+        'transcript.text.segment',
+        'transcript.text.done',
+    ]);
+
+    expect($events[2]->response)
+        ->toBeInstanceOf(TranscriptTextSegment::class)
+        ->id->toBe('seg_002')
+        ->start->toBe(5.2)
+        ->end->toBe(12.8)
+        ->text->toBe('Hi, I need help with diarization.')
+        ->speaker->toBe('A');
+
+    expect($events[2]->toArray())->toBe([
+        'event' => 'transcript.text.segment',
+        'data' => [
+            'id' => 'seg_002',
+            'start' => 5.2,
+            'end' => 12.8,
+            'text' => 'Hi, I need help with diarization.',
+            'speaker' => 'A',
+        ],
+    ]);
 });
 
 test('translate to text', function () {

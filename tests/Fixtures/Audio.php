@@ -219,3 +219,11 @@ function audioTranscriptionStream()
 {
     return fopen(__DIR__.'/Streams/AudioTranscriptionTranscribe.txt', 'r');
 }
+
+/**
+ * @return resource
+ */
+function audioTranscriptionDiarizedStream()
+{
+    return fopen(__DIR__.'/Streams/AudioTranscriptionTranscribeDiarized.txt', 'r');
+}
