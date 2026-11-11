@@ -7,6 +7,7 @@ namespace OpenAI\Responses\Conversations\Objects;
 use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Responses\Conversations\Objects\MessageTypes\ComputerScreenshotContent as ComputerScreenshot;
+use OpenAI\Responses\Conversations\Objects\MessageTypes\ReasoningText;
 use OpenAI\Responses\Conversations\Objects\MessageTypes\SummaryText;
 use OpenAI\Responses\Conversations\Objects\MessageTypes\TextContent as Text;
 use OpenAI\Responses\Responses\Input\InputMessageContentInputFile as InputFile;
@@ -23,10 +24,11 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type OutputTextType from OutputText
  * @phpstan-import-type ContentRefusalType from Refusal as RefusalType
  * @phpstan-import-type ComputerScreenshotContentType from ComputerScreenshot as ComputerScreenshotType
+ * @phpstan-import-type ReasoningTextType from ReasoningText
  * @phpstan-import-type SummaryTextType from SummaryText
  * @phpstan-import-type TextContentType from Text
  *
- * @phpstan-type MessageType array{content: array<int, InputTextType|InputImageType|InputFileType|OutputTextType|RefusalType|TextContentType|SummaryTextType|ComputerScreenshotType>, id: string, role: 'unknown'|'user'|'assistant'|'system'|'critic'|'discriminator'|'developer'|'tool', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
+ * @phpstan-type MessageType array{content: array<int, InputTextType|InputImageType|InputFileType|OutputTextType|RefusalType|TextContentType|SummaryTextType|ReasoningTextType|ComputerScreenshotType>, id: string, role: 'unknown'|'user'|'assistant'|'system'|'critic'|'discriminator'|'developer'|'tool', status: 'in_progress'|'completed'|'incomplete', type: 'message'}
  *
  * @implements ResponseContract<MessageType>
  */
@@ -40,7 +42,7 @@ final class Message implements ResponseContract
     use Fakeable;
 
     /**
-     * @param  array<int, InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|Text>  $content
+     * @param  array<int, InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|ReasoningText|Text>  $content
      * @param  'unknown'|'user'|'assistant'|'system'|'critic'|'discriminator'|'developer'|'tool'  $role
      * @param  'in_progress'|'completed'|'incomplete'  $status
      * @param  'message'  $type
@@ -59,7 +61,7 @@ final class Message implements ResponseContract
     public static function from(array $attributes): self
     {
         $content = array_map(
-            fn (array $item): InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|Text => match ($item['type']) {
+            fn (array $item): InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|ReasoningText|Text => match ($item['type']) {
                 'computer_screenshot' => ComputerScreenshot::from($item),
                 'input_file' => InputFile::from($item),
                 'input_image' => InputImage::from($item),
@@ -67,6 +69,7 @@ final class Message implements ResponseContract
                 'output_text' => OutputText::from($item),
                 'refusal' => Refusal::from($item),
                 'summary_text' => SummaryText::from($item),
+                'reasoning_text' => ReasoningText::from($item),
                 'text' => Text::from($item),
             },
             $attributes['content'],
@@ -88,7 +91,7 @@ final class Message implements ResponseContract
     {
         return [
             'content' => array_map(
-                fn (InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|Text $item): array => $item->toArray(),
+                fn (InputText|InputImage|InputFile|OutputText|Refusal|ComputerScreenshot|SummaryText|ReasoningText|Text $item): array => $item->toArray(),
                 $this->content,
             ),
             'id' => $this->id,
