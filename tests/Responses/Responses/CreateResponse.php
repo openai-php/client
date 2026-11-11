@@ -14,8 +14,10 @@ use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Tool\ComputerTool;
+use OpenAI\Responses\Responses\Tool\LocalShellTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\ShellTool;
+use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Responses\Responses\ToolChoice\AllowedToolsToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\CustomToolChoice;
 use OpenAI\Responses\Responses\ToolChoice\HostedToolChoice;
@@ -315,6 +317,23 @@ test('from with allowed tools tool choice', function () {
 
     expect($response->toArray()['tool_choice'])
         ->toBe($payload['tool_choice']);
+});
+
+test('parses the local shell tool and the dated web search tool', function () {
+    $attributes = createResponseResource();
+    $attributes['tools'] = [
+        ['type' => 'local_shell'],
+        ['type' => 'web_search_2025_08_26', 'search_context_size' => 'medium', 'user_location' => null],
+    ];
+
+    foreach ([CreateResponse::class, RetrieveResponse::class] as $class) {
+        $response = $class::from($attributes, meta());
+
+        expect($response->tools[0])->toBeInstanceOf(LocalShellTool::class)
+            ->and($response->tools[1])->toBeInstanceOf(WebSearchTool::class)
+            ->and($response->tools[1]->type)->toBe('web_search_2025_08_26')
+            ->and($response->toArray()['tools'][0])->toBe(['type' => 'local_shell']);
+    }
 });
 
 test('parses shell tools independently of shell output', function () {

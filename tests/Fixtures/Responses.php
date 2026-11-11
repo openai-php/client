@@ -1157,6 +1157,16 @@ function toolApplyPatch(): array
 /**
  * @return array<string, mixed>
  */
+function toolLocalShell(): array
+{
+    return [
+        'type' => 'local_shell',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function toolNamespace(): array
 {
     return [
