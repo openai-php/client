@@ -180,6 +180,56 @@ it('should handle multiple signatures', function () {
         );
 });
 
+it('should bail on a signature entry without a signature', function () {
+    $secret = 'whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw';
+    $messageId = 'msg_2KWPBgLlAfxdpx2AI54pPJ85f4W';
+    $timestamp = time();
+    $payload = '{"foo":"bar"}';
+
+    $verifier = new WebhookSignatureVerifier($secret);
+    $request = createWebhookRequest([
+        'webhook-id' => $messageId,
+        'webhook-timestamp' => (string) $timestamp,
+        'webhook-signature' => 'v1',
+    ], $payload);
+
+    expect(static fn () => $verifier->verify($request))
+        ->toThrow(
+            WebhookVerificationException::class,
+            'No matching signature found',
+            'A malformed signature should cause a verification exception',
+        );
+});
+
+it('should skip malformed signature entries', function () {
+    $secret = 'whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw';
+    $messageId = 'msg_2KWPBgLlAfxdpx2AI54pPJ85f4W';
+    $timestamp = time();
+    $payload = '{"foo":"bar"}';
+
+    $verifier = new WebhookSignatureVerifier($secret);
+    $signature = $verifier->sign($messageId, $timestamp, $payload);
+    $request = createWebhookRequest([
+        'webhook-id' => $messageId,
+        'webhook-timestamp' => (string) $timestamp,
+        'webhook-signature' => 'v1 Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc=  '.$signature,
+    ], $payload);
+
+    // Frameworks like Laravel turn warnings into exceptions
+    set_error_handler(static function (int $severity, string $message): never {
+        throw new ErrorException($message, 0, $severity);
+    });
+
+    try {
+        expect(static fn () => $verifier->verify($request))
+            ->not->toThrow(ErrorException::class)
+            ->not->toThrow(TypeError::class)
+            ->not->toThrow(WebhookVerificationException::class);
+    } finally {
+        restore_error_handler();
+    }
+});
+
 it('should handle secret prefixes', function () {
     $secret = 'MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw';
     $messageId = 'msg_2KWPBgLlAfxdpx2AI54pPJ85f4W';
