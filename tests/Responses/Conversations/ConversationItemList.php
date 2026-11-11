@@ -3,8 +3,11 @@
 use OpenAI\Responses\Conversations\ConversationItem;
 use OpenAI\Responses\Conversations\ConversationItemList;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
+use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 
 test('from', function () {
     $response = ConversationItemList::from(conversationItemListResource(), meta());
@@ -47,4 +50,16 @@ test('from program items', function () {
     expect($response->data[0]->item)->toBeInstanceOf(OutputProgram::class);
     expect($response->data[1]->item)->toBeInstanceOf(OutputProgramOutput::class);
     expect($response->toArray())->toBe($attributes);
+});
+
+test('from compaction and tool search items', function () {
+    $attributes = conversationItemListResource();
+    $attributes['data'] = [outputToolSearchCall(), outputToolSearchOutput(), outputCompaction()];
+
+    $response = ConversationItemList::from($attributes, meta());
+
+    expect($response->data[0]->item)->toBeInstanceOf(OutputToolSearchCall::class);
+    expect($response->data[1]->item)->toBeInstanceOf(OutputToolSearchOutput::class);
+    expect($response->data[2]->item)->toBeInstanceOf(OutputCompaction::class);
+    expect($response->toArray())->toEqual($attributes);
 });
