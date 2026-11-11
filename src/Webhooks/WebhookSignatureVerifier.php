@@ -66,6 +66,11 @@ readonly class WebhookSignatureVerifier
         $passedSignatures = explode(' ', $messageSignature);
 
         foreach ($passedSignatures as $versionedSignature) {
+            // An entry without a comma, e.g. a bare "v1" or the empty one between two spaces, is skipped like an unknown version
+            if (! str_contains($versionedSignature, ',')) {
+                continue;
+            }
+
             [$version, $passedSignature] = explode(',', $versionedSignature, 2);
 
             if (strcmp($version, 'v1') !== 0) {
