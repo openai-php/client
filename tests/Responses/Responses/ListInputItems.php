@@ -6,10 +6,13 @@ use OpenAI\Responses\Responses\Input\CustomToolCallOutput;
 use OpenAI\Responses\Responses\Input\FunctionToolCallOutput;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
+use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
+use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
+use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
 
@@ -84,5 +87,17 @@ test('lists and serializes stored shell calls and outputs', function () {
 
     expect($response->data[0])->toBeInstanceOf(OutputShellCall::class);
     expect($response->data[1])->toBeInstanceOf(OutputShellCallOutput::class);
+    expect($response->toArray()['data'])->toEqual($attributes['data']);
+});
+
+test('lists compaction and tool search items', function () {
+    $attributes = listInputItemsResource();
+    $attributes['data'] = [outputToolSearchCall(), outputToolSearchOutput(), outputCompaction()];
+
+    $response = ListInputItems::from($attributes, meta());
+
+    expect($response->data[0])->toBeInstanceOf(OutputToolSearchCall::class);
+    expect($response->data[1])->toBeInstanceOf(OutputToolSearchOutput::class);
+    expect($response->data[2])->toBeInstanceOf(OutputCompaction::class);
     expect($response->toArray()['data'])->toEqual($attributes['data']);
 });
