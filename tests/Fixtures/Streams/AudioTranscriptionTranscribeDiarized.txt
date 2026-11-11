@@ -1,0 +1,7 @@
+data: {"type":"transcript.text.delta","delta":"Hi, I need help","segment_id":"seg_002"}
+
+data: {"type":"transcript.text.delta","delta":" with diarization.","segment_id":"seg_002"}
+
+data: {"type":"transcript.text.segment","id":"seg_002","start":5.2,"end":12.8,"text":"Hi, I need help with diarization.","speaker":"A"}
+
+data: {"type":"transcript.text.done","text":"Hi, I need help with diarization."}

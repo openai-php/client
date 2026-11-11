@@ -8,6 +8,7 @@ use OpenAI\Contracts\ResponseContract;
 use OpenAI\Exceptions\UnknownEventException;
 use OpenAI\Responses\Audio\Streaming\TranscriptTextDelta;
 use OpenAI\Responses\Audio\Streaming\TranscriptTextDone;
+use OpenAI\Responses\Audio\Streaming\TranscriptTextSegment;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
@@ -27,7 +28,7 @@ final class TranscriptionStreamResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly TranscriptTextDelta|TranscriptTextDone $response,
+        public readonly TranscriptTextDelta|TranscriptTextDone|TranscriptTextSegment $response,
     ) {}
 
     /**
@@ -42,6 +43,7 @@ final class TranscriptionStreamResponse implements ResponseContract
         $response = match ($event) {
             'transcript.text.delta' => TranscriptTextDelta::from($attributes, $meta), // @phpstan-ignore-line
             'transcript.text.done' => TranscriptTextDone::from($attributes, $meta), // @phpstan-ignore-line
+            'transcript.text.segment' => TranscriptTextSegment::from($attributes, $meta), // @phpstan-ignore-line
             default => throw new UnknownEventException('Unknown Audio Transcription streaming event: '.$event),
         };
 
