@@ -28,3 +28,12 @@ test('to array', function () {
     expect($result->toArray())
         ->toBe(vectorStoreFileBatchResource());
 });
+
+test('fake', function () {
+    $response = VectorStoreFileBatchResponse::fake();
+
+    expect($response)
+        ->toBeInstanceOf(VectorStoreFileBatchResponse::class)
+        ->object->toBe('vector_store.file_batch')
+        ->fileCounts->total->toBe(1);
+});
