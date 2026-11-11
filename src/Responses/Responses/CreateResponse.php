@@ -42,6 +42,7 @@ use OpenAI\Responses\Responses\Tool\CustomTool;
 use OpenAI\Responses\Responses\Tool\FileSearchTool;
 use OpenAI\Responses\Responses\Tool\FunctionTool;
 use OpenAI\Responses\Responses\Tool\ImageGenerationTool;
+use OpenAI\Responses\Responses\Tool\LocalShellTool;
 use OpenAI\Responses\Responses\Tool\NamespaceTool;
 use OpenAI\Responses\Responses\Tool\ProgrammaticToolCallingTool;
 use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
@@ -225,7 +226,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
                 ? $this->toolChoice
                 : $this->toolChoice->toArray(),
             'tools' => array_map(
-                fn (ApplyPatchTool|ShellTool|ComputerTool|ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool|ProgrammaticToolCallingTool $tool): array => $tool->toArray(),
+                fn (ApplyPatchTool|ShellTool|ComputerTool|ComputerUseTool|FileSearchTool|FunctionTool|WebSearchTool|ImageGenerationTool|LocalShellTool|RemoteMcpTool|CodeInterpreterTool|ToolSearchTool|NamespaceTool|CustomTool|ProgrammaticToolCallingTool $tool): array => $tool->toArray(),
                 $this->tools
             ),
             'top_logprobs' => $this->topLogProbs,
