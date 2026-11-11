@@ -16,6 +16,7 @@ use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
 use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
+use OpenAI\Responses\Responses\Streaming\CompactionCompacting;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
@@ -332,4 +333,40 @@ test('fake custom tool call input events', function () {
     expect(CustomToolCallInputDone::fake())
         ->input->toBe('print("hello world")')
         ->itemId->toBe('ctc_123');
+});
+
+test('streams compaction progress before the compaction item', function () {
+    $stream = CreateStreamedResponse::fake(responseCompactionCompactingEvents());
+    $events = iterator_to_array($stream->getIterator());
+
+    expect(array_column($events, 'event'))->toBe([
+        'response.compaction.compacting',
+        'response.output_item.done',
+    ]);
+
+    expect($events[0]->response)
+        ->toBeInstanceOf(CompactionCompacting::class)
+        ->itemId->toBe('cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
+        ->outputIndex->toBe(0)
+        ->sequenceNumber->toBe(10);
+
+    expect($events[0]->toArray())->toBe([
+        'event' => 'response.compaction.compacting',
+        'data' => [
+            'type' => 'response.compaction.compacting',
+            'item_id' => 'cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c',
+            'output_index' => 0,
+            'sequence_number' => 10,
+        ],
+    ]);
+
+    expect($events[1]->response->item)
+        ->toBeInstanceOf(OutputCompaction::class)
+        ->encryptedContent->toBe('encrypted_string_value');
+});
+
+test('fake compaction compacting event', function () {
+    expect(CompactionCompacting::fake())
+        ->type->toBe('response.compaction.compacting')
+        ->itemId->toBe('cmp_123');
 });
