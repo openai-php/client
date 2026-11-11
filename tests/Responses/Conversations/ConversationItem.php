@@ -2,6 +2,7 @@
 
 use OpenAI\Responses\Conversations\ConversationItem;
 use OpenAI\Responses\Conversations\Objects\Message;
+use OpenAI\Responses\Conversations\Objects\MessageTypes\ReasoningText;
 use OpenAI\Responses\Responses\Input\ApplyPatchToolCallOutput;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
@@ -30,6 +31,18 @@ test('to array', function () {
 
     expect($response->toArray())
         ->toBe(conversationItemResource());
+});
+
+test('from a message with reasoning text', function () {
+    $attributes = conversationItemResource();
+    $attributes['content'] = [['text' => 'The user asks about the weather.', 'type' => 'reasoning_text']];
+
+    $response = ConversationItem::from($attributes);
+
+    expect($response->item->content[0])
+        ->toBeInstanceOf(ReasoningText::class)
+        ->text->toBe('The user asks about the weather.')
+        ->and($response->toArray())->toBe($attributes);
 });
 
 test('from program item', function () {
