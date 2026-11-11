@@ -7,6 +7,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
+use OpenAI\Responses\Responses\InputTokenCountResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\ReferencePromptObject;
@@ -285,6 +286,26 @@ test('delete', function () {
         ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
         ->object->toBe('response.deleted')
         ->deleted->toBeTrue();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('input tokens count', function () {
+    $client = mockClient('POST', 'responses/input_tokens', [
+        'model' => 'gpt-5',
+        'input' => 'Tell me a joke.',
+    ], OpenAI\ValueObjects\Transporter\Response::from(inputTokenCountResource(), metaHeaders()));
+
+    $result = $client->responses()->inputTokens()->count([
+        'model' => 'gpt-5',
+        'input' => 'Tell me a joke.',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(InputTokenCountResponse::class)
+        ->object->toBe('response.input_tokens')
+        ->inputTokens->toBe(11);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

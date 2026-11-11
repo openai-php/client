@@ -20,6 +20,11 @@ final class ResponsesTestResource implements ResponsesContract
         return Responses::class;
     }
 
+    public function inputTokens(): ResponsesInputTokensTestResource
+    {
+        return new ResponsesInputTokensTestResource($this->fake);
+    }
+
     public function conversations(): ConversationsTestResource
     {
         return new ConversationsTestResource($this->fake);

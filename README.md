@@ -426,6 +426,22 @@ $response->hasMore; // false
 $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
 
+#### `inputTokens`
+
+Counts the input tokens of a request before sending it. It takes the same parameters as `create`. More in the [OpenAI docs](https://developers.openai.com/api/docs/guides/token-counting).
+
+```php
+$response = $client->responses()->inputTokens()->count([
+    'model' => 'gpt-5',
+    'input' => 'Tell me a joke.',
+]);
+
+$response->object; // 'response.input_tokens'
+$response->inputTokens; // 11
+
+$response->toArray(); // ['object' => 'response.input_tokens', 'input_tokens' => 11]
+```
+
 ### `Conversations` Resource
 
 #### `create`

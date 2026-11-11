@@ -76,6 +76,11 @@ interface ResponsesContract
     public function list(string $id, array $parameters = []): ListInputItems;
 
     /**
+     * Count the input tokens of a request before sending it.
+     */
+    public function inputTokens(): ResponsesInputTokensContract;
+
+    /**
      * Manage conversations as a sub-resource of Responses namespace for convenience in tests.
      */
     public function conversations(): ConversationsContract;

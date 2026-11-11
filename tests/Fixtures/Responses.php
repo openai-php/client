@@ -247,6 +247,14 @@ function listInputItemsResource(): array
 /**
  * @return array<string, mixed>
  */
+function inputTokenCountResource(): array
+{
+    return [
+        'object' => 'response.input_tokens',
+        'input_tokens' => 11,
+    ];
+}
+
 function deleteResponseResource(): array
 {
     return [
