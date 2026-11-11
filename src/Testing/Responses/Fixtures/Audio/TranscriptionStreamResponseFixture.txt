@@ -1,0 +1,12 @@
+data: {"type":"transcript.text.delta","delta":"The"}
+data: {"type":"transcript.text.delta","delta":" quick"}
+data: {"type":"transcript.text.delta","delta":" brown"}
+data: {"type":"transcript.text.delta","delta":" fox"}
+data: {"type":"transcript.text.delta","delta":" jumps"}
+data: {"type":"transcript.text.delta","delta":" over"}
+data: {"type":"transcript.text.delta","delta":" the"}
+data: {"type":"transcript.text.delta","delta":" lazy"}
+data: {"type":"transcript.text.delta","delta":" dog"}
+data: {"type":"transcript.text.delta","delta":"."}
+data: {"type":"transcript.text.done","text":"The quick brown fox jumps over the lazy dog."}
+data: [DONE]
