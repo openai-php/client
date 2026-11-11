@@ -1317,3 +1317,8 @@ function responseCustomToolCallEvents()
 {
     return fopen(__DIR__.'/Streams/ResponseCustomToolCall.txt', 'r');
 }
+
+function responseCompactionCompactingEvents()
+{
+    return fopen(__DIR__.'/Streams/ResponseCompactionCompacting.txt', 'r');
+}

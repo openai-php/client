@@ -12,6 +12,7 @@ use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCall;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDelta;
 use OpenAI\Responses\Responses\Streaming\CodeInterpreterCodeDone;
+use OpenAI\Responses\Responses\Streaming\CompactionCompacting;
 use OpenAI\Responses\Responses\Streaming\ContentPart;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
@@ -62,7 +63,7 @@ final class CreateStreamedResponse implements ResponseContract
 
     private function __construct(
         public readonly string $event,
-        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|CustomToolCallInputDelta|CustomToolCallInputDone|ApplyPatchCallOperationDiffDelta|ApplyPatchCallOperationDiffDone|ShellCallCommand|ShellCallCommandDelta|ShellCallOutputContentDelta|ShellCallOutputContentDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|Error $response,
+        public readonly Response|OutputItem|ContentPart|OutputTextDelta|OutputTextAnnotationAdded|OutputTextDone|RefusalDelta|RefusalDone|FunctionCallArgumentsDelta|FunctionCallArgumentsDone|CustomToolCallInputDelta|CustomToolCallInputDone|ApplyPatchCallOperationDiffDelta|ApplyPatchCallOperationDiffDone|ShellCallCommand|ShellCallCommandDelta|ShellCallOutputContentDelta|ShellCallOutputContentDone|FileSearchCall|WebSearchCall|CodeInterpreterCall|CodeInterpreterCodeDelta|CodeInterpreterCodeDone|ReasoningSummaryPart|ReasoningSummaryTextDelta|ReasoningSummaryTextDone|ReasoningTextDelta|ReasoningTextDone|McpListTools|McpListToolsInProgress|McpCall|McpCallArgumentsDelta|McpCallArgumentsDone|ImageGenerationPart|ImageGenerationPartialImage|RateLimits|CompactionCompacting|Error $response,
     ) {}
 
     /**
@@ -134,6 +135,7 @@ final class CreateStreamedResponse implements ResponseContract
             'response.image_generation_call.in_progress' => ImageGenerationPart::from($attributes, $meta), // @phpstan-ignore-line
             'response.image_generation_call.partial_image' => ImageGenerationPartialImage::from($attributes, $meta), // @phpstan-ignore-line
             'response.rate_limits.updated' => RateLimits::from($attributes, $meta), // @phpstan-ignore-line
+            'response.compaction.compacting' => CompactionCompacting::from($attributes, $meta), // @phpstan-ignore-line
             'error' => Error::from($attributes, $meta), // @phpstan-ignore-line
             default => throw new UnknownEventException('Unknown Responses streaming event: '.$event),
         };
