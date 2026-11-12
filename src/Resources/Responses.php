@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ResponsesContract;
+use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
@@ -18,6 +19,7 @@ use OpenAI\ValueObjects\Transporter\Response;
  * @phpstan-import-type CreateResponseType from CreateResponse
  * @phpstan-import-type RetrieveResponseType from RetrieveResponse
  * @phpstan-import-type ListInputItemsType from ListInputItems
+ * @phpstan-import-type CompactedResponseType from CompactedResponse
  */
 final class Responses implements ResponsesContract
 {
@@ -128,6 +130,24 @@ final class Responses implements ResponsesContract
         $response = $this->transporter->requestObject($payload);
 
         return DeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Compacts a conversation into the user messages and one encrypted compaction item,
+     * to send as the input of the next request instead of the whole history.
+     *
+     * @see https://developers.openai.com/api/reference/resources/responses/methods/compact
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function compact(array $parameters): CompactedResponse
+    {
+        $payload = Payload::create('responses/compact', $parameters);
+
+        /** @var Response<CompactedResponseType> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return CompactedResponse::from($response->data(), $response->meta());
     }
 
     /**

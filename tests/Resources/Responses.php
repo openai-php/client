@@ -4,11 +4,14 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use OpenAI\Exceptions\InvalidArgumentException;
 use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
+use OpenAI\Responses\Responses\Input\InputMessage;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
+use OpenAI\Responses\Responses\Output\OutputCompaction;
 use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Streaming\Response as StreamedResponse;
@@ -285,6 +288,38 @@ test('delete', function () {
         ->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c')
         ->object->toBe('response.deleted')
         ->deleted->toBeTrue();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('compact', function () {
+    $client = mockClient('POST', 'responses/compact', [
+        'model' => 'gpt-5.1-codex-max',
+        'previous_response_id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+    ], OpenAI\ValueObjects\Transporter\Response::from(compactedResponseResource(), metaHeaders()));
+
+    $result = $client->responses()->compact([
+        'model' => 'gpt-5.1-codex-max',
+        'previous_response_id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(CompactedResponse::class)
+        ->id->toBe('resp_001')
+        ->object->toBe('response.compaction')
+        ->createdAt->toBe(1764967971)
+        ->output->toHaveCount(2)
+        ->usage->totalTokens->toBe(577);
+
+    expect($result->output[0])
+        ->toBeInstanceOf(InputMessage::class)
+        ->role->toBe('user')
+        ->and($result->output[0]->content[0]->text)->toBe('Create a simple landing page for a dog petting cafe.');
+
+    expect($result->output[1])
+        ->toBeInstanceOf(OutputCompaction::class)
+        ->encryptedContent->toBe('gAAAAABpM0Yj-...=');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

@@ -400,6 +400,25 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'deleted' => true, ...]
 ```
 
+#### `compact`
+
+Compacts a long conversation: the user messages stay as they are, and everything else becomes one encrypted `compaction` item. Send the output as the `input` of the next request instead of the whole history. More in the [OpenAI docs](https://developers.openai.com/api/reference/resources/responses/methods/compact).
+
+```php
+$response = $client->responses()->compact([
+    'model' => 'gpt-5.1-codex-max',
+    'previous_response_id' => 'resp_67ccd2bed1ec8190b14f964abc054267',
+]);
+
+$response->object; // 'response.compaction'
+
+foreach ($response->output as $item) {
+    $item->type; // 'message' for each user message, then 'compaction'
+}
+
+$response->usage->totalTokens; // 577
+```
+
 #### `list`
 
 Lists input items for a response with the given ID. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses/list).
