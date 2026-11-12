@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ResponsesContract;
 use OpenAI\Resources\Responses;
+use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
@@ -56,6 +57,11 @@ final class ResponsesTestResource implements ResponsesContract
     }
 
     public function delete(string $id): DeleteResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function compact(array $parameters): CompactedResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }

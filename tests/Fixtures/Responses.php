@@ -247,6 +247,46 @@ function listInputItemsResource(): array
 /**
  * @return array<string, mixed>
  */
+function compactedResponseResource(): array
+{
+    return [
+        'id' => 'resp_001',
+        'object' => 'response.compaction',
+        'created_at' => 1764967971,
+        'output' => [
+            [
+                'content' => [
+                    [
+                        'text' => 'Create a simple landing page for a dog petting cafe.',
+                        'type' => 'input_text',
+                    ],
+                ],
+                'id' => 'msg_000',
+                'role' => 'user',
+                'status' => 'completed',
+                'type' => 'message',
+            ],
+            [
+                'id' => 'cmp_001',
+                'encrypted_content' => 'gAAAAABpM0Yj-...=',
+                'type' => 'compaction',
+                'created_by' => null,
+            ],
+        ],
+        'usage' => [
+            'input_tokens' => 139,
+            'input_tokens_details' => [
+                'cached_tokens' => 0,
+            ],
+            'output_tokens' => 438,
+            'output_tokens_details' => [
+                'reasoning_tokens' => 64,
+            ],
+            'total_tokens' => 577,
+        ],
+    ];
+}
+
 function deleteResponseResource(): array
 {
     return [

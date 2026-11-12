@@ -1,6 +1,7 @@
 <?php
 
 use OpenAI\Resources\Responses;
+use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\ListInputItems;
@@ -83,5 +84,21 @@ it('records a response list request', function () {
     $fake->assertSent(Responses::class, function ($method, $responseId) {
         return $method === 'list' &&
             $responseId === 'asst_SMzoVX8XmCZEg1EbMHoAm8tc';
+    });
+});
+
+it('records a response compact request', function () {
+    $fake = new ClientFake([
+        CompactedResponse::fake(),
+    ]);
+
+    $fake->responses()->compact([
+        'model' => 'gpt-5.1-codex-max',
+        'previous_response_id' => 'resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c',
+    ]);
+
+    $fake->assertSent(Responses::class, function ($method, $parameters) {
+        return $method === 'compact' &&
+            $parameters['model'] === 'gpt-5.1-codex-max';
     });
 });
