@@ -9,6 +9,8 @@ use OpenAI\Responses\Chat\CreateResponseChoice;
 use OpenAI\Responses\Chat\CreateResponseUsage;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponseChoice;
+use OpenAI\Responses\Chat\DeleteResponse;
+use OpenAI\Responses\Chat\ListResponse;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\StreamResponse;
 
@@ -176,4 +178,100 @@ test('handles error messages in stream', function () {
                 ->and($e->getErrorCode())->toBeNull()
                 ->and($e->getErrorType())->toBe('server_error');
         });
+});
+
+test('list', function () {
+    $client = mockClient('GET', 'chat/completions', [
+        'model' => 'gpt-4o',
+        'metadata' => ['topic' => 'greeting'],
+        'limit' => 10,
+        'order' => 'desc',
+    ], OpenAI\ValueObjects\Transporter\Response::from([
+        'object' => 'list',
+        'data' => [chatCompletionStored()],
+        'first_id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2',
+        'last_id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2',
+        'has_more' => false,
+    ], metaHeaders()));
+
+    $result = $client->chat()->list([
+        'model' => 'gpt-4o',
+        'metadata' => ['topic' => 'greeting'],
+        'limit' => 10,
+        'order' => 'desc',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(ListResponse::class)
+        ->object->toBe('list')
+        ->data->toBeArray()->toHaveCount(1)
+        ->data->each->toBeInstanceOf(CreateResponse::class)
+        ->firstId->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->lastId->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->hasMore->toBeFalse();
+
+    expect($result->data[0])
+        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->model->toBe('gpt-4o-2024-08-06');
+
+    expect($result->data[0]->choices[0]->message)
+        ->content->toBe('Hello! How can I help you today?')
+        ->toolCalls->toBe([])
+        ->functionCall->toBeNull();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('retrieve', function () {
+    $client = mockClient('GET', 'chat/completions/chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [], OpenAI\ValueObjects\Transporter\Response::from(chatCompletionStored(), metaHeaders()));
+
+    $result = $client->chat()->retrieve('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+
+    expect($result)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->object->toBe('chat.completion')
+        ->created->toBe(1738960610)
+        ->systemFingerprint->toBe('fp_50cad350e4')
+        ->usage->totalTokens->toBe(31);
+
+    expect($result->choices[0])
+        ->message->content->toBe('Hello! How can I help you today?')
+        ->finishReason->toBe('stop');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('update', function () {
+    $client = mockClient('POST', 'chat/completions/chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [
+        'metadata' => ['topic' => 'greeting'],
+    ], OpenAI\ValueObjects\Transporter\Response::from(chatCompletionStored(), metaHeaders()));
+
+    $result = $client->chat()->update('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [
+        'metadata' => ['topic' => 'greeting'],
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('delete', function () {
+    $client = mockClient('DELETE', 'chat/completions/chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [], OpenAI\ValueObjects\Transporter\Response::from(chatCompletionDeleted(), metaHeaders()));
+
+    $result = $client->chat()->delete('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+
+    expect($result)
+        ->toBeInstanceOf(DeleteResponse::class)
+        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->object->toBe('chat.completion.deleted')
+        ->deleted->toBeTrue();
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
 });

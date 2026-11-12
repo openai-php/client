@@ -41,6 +41,82 @@ function chatCompletion(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionList(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            chatCompletion(),
+        ],
+        'first_id' => 'chatcmpl-123',
+        'last_id' => 'chatcmpl-123',
+        'has_more' => false,
+    ];
+}
+
+/**
+ * A stored chat completion, as the list, retrieve and update endpoints return it.
+ *
+ * @return array<string, mixed>
+ */
+function chatCompletionStored(): array
+{
+    return [
+        'object' => 'chat.completion',
+        'id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2',
+        'model' => 'gpt-4o-2024-08-06',
+        'created' => 1738960610,
+        'request_id' => 'req_ded8ab984ec4bf840f37566c1011c417',
+        'tool_choice' => null,
+        'usage' => [
+            'total_tokens' => 31,
+            'completion_tokens' => 18,
+            'prompt_tokens' => 13,
+        ],
+        'seed' => 4944116822809979520,
+        'top_p' => 1.0,
+        'temperature' => 1.0,
+        'presence_penalty' => 0.0,
+        'frequency_penalty' => 0.0,
+        'system_fingerprint' => 'fp_50cad350e4',
+        'input_user' => null,
+        'service_tier' => 'default',
+        'tools' => null,
+        'metadata' => [
+            'topic' => 'greeting',
+        ],
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'content' => 'Hello! How can I help you today?',
+                    'role' => 'assistant',
+                    'tool_calls' => null,
+                    'function_call' => null,
+                ],
+                'finish_reason' => 'stop',
+                'logprobs' => null,
+            ],
+        ],
+        'response_format' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function chatCompletionDeleted(): array
+{
+    return [
+        'id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2',
+        'object' => 'chat.completion.deleted',
+        'deleted' => true,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionOpenRouter(): array
 {
     return [
