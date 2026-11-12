@@ -14,7 +14,7 @@ final class ErrorException extends Exception
     /**
      * Creates a new Exception instance.
      *
-     * @param  array{message?: string|array<int, string>, type?: ?string, code?: string|int|null}|string  $contents
+     * @param  array{message?: string|array<int, string>, type?: ?string, status?: string|int|null, code?: string|int|null}|string  $contents
      */
     public function __construct(private readonly string|array $contents, public readonly ResponseInterface $response)
     {
@@ -51,10 +51,15 @@ final class ErrorException extends Exception
 
     /**
      * Returns the error type.
+     *
+     * OpenAI-compatible providers do not all name this field the same way: Google's Gemini
+     * endpoints send the kind of error as `status` (for example `INVALID_ARGUMENT`).
      */
     public function getErrorType(): ?string
     {
-        return $this->contents['type'] ?? null;
+        $status = $this->contents['status'] ?? null;
+
+        return $this->contents['type'] ?? (is_string($status) ? $status : null);
     }
 
     /**
