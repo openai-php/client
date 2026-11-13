@@ -496,6 +496,45 @@ function chatCompletionWithToolCalls(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionWithCustomToolCall(): array
+{
+    return [
+        'id' => 'chatcmpl-123',
+        'object' => 'chat.completion',
+        'created' => 1699333252,
+        'model' => 'gpt-5',
+        'choices' => [
+            [
+                'index' => 0,
+                'message' => [
+                    'role' => 'assistant',
+                    'content' => null,
+                    'tool_calls' => [
+                        [
+                            'id' => 'call_Hrb6BWd1ZW8VnnyJFdtR6dsv',
+                            'type' => 'custom',
+                            'custom' => [
+                                'name' => 'code_exec',
+                                'input' => 'print("hello world")',
+                            ],
+                        ],
+                    ],
+                ],
+                'logprobs' => null,
+                'finish_reason' => 'tool_calls',
+            ],
+        ],
+        'usage' => [
+            'prompt_tokens' => 71,
+            'completion_tokens' => 17,
+            'total_tokens' => 88,
+        ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionWithToolCallsAndExtraContent(): array
 {
     return [
