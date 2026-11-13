@@ -1652,13 +1652,14 @@ $response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 
 #### `retrieve`
 
-Retrieves a stored chat completion. It has the same shape as the response of `create`.
+Retrieves a stored chat completion. It returns the same object as `create`, with the `metadata` set on it.
 
 ```php
 $response = $client->chat()->retrieve('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
 
 $response->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
 $response->choices[0]->message->content; // 'Hello! How can I help you today?'
+$response->metadata; // ['topic' => 'greeting']
 
 $response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
 ```
@@ -1673,6 +1674,7 @@ $response = $client->chat()->update('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [
 ]);
 
 $response->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->metadata; // ['topic' => 'greeting']
 
 $response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
 ```

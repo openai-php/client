@@ -212,7 +212,8 @@ test('list', function () {
 
     expect($result->data[0])
         ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
-        ->model->toBe('gpt-4o-2024-08-06');
+        ->model->toBe('gpt-4o-2024-08-06')
+        ->metadata->toBe(['topic' => 'greeting']);
 
     expect($result->data[0]->choices[0]->message)
         ->content->toBe('Hello! How can I help you today?')
@@ -234,7 +235,8 @@ test('retrieve', function () {
         ->object->toBe('chat.completion')
         ->created->toBe(1738960610)
         ->systemFingerprint->toBe('fp_50cad350e4')
-        ->usage->totalTokens->toBe(31);
+        ->usage->totalTokens->toBe(31)
+        ->metadata->toBe(['topic' => 'greeting']);
 
     expect($result->choices[0])
         ->message->content->toBe('Hello! How can I help you today?')
@@ -255,7 +257,8 @@ test('update', function () {
 
     expect($result)
         ->toBeInstanceOf(CreateResponse::class)
-        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+        ->id->toBe('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2')
+        ->metadata->toBe(['topic' => 'greeting']);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
