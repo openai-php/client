@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\ChatContract;
+use OpenAI\Contracts\Resources\ChatMessagesContract;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\Chat\DeleteResponse;
@@ -118,5 +119,15 @@ final class Chat implements ChatContract
         $response = $this->transporter->requestObject($payload);
 
         return DeleteResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Manages the messages of a stored chat completion
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/getMessages
+     */
+    public function messages(): ChatMessagesContract
+    {
+        return new ChatMessages($this->transporter);
     }
 }

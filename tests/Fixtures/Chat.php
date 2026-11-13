@@ -105,6 +105,47 @@ function chatCompletionStored(): array
 /**
  * @return array<string, mixed>
  */
+function chatCompletionMessages(): array
+{
+    return [
+        'object' => 'list',
+        'data' => [
+            [
+                'id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0',
+                'role' => 'user',
+                'content' => 'What is in this image?',
+                'name' => null,
+                'content_parts' => [
+                    [
+                        'type' => 'text',
+                        'text' => 'What is in this image?',
+                    ],
+                    [
+                        'type' => 'image_url',
+                        'image_url' => [
+                            'url' => 'https://example.com/cat.png',
+                            'detail' => 'auto',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-1',
+                'role' => 'developer',
+                'content' => 'Answer in one sentence.',
+                'name' => null,
+                'content_parts' => null,
+            ],
+        ],
+        'first_id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0',
+        'last_id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-1',
+        'has_more' => false,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
 function chatCompletionDeleted(): array
 {
     return [

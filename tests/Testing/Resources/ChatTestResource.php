@@ -1,9 +1,11 @@
 <?php
 
 use OpenAI\Resources\Chat;
+use OpenAI\Resources\ChatMessages;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
 use OpenAI\Responses\Chat\DeleteResponse;
+use OpenAI\Responses\Chat\ListMessagesResponse;
 use OpenAI\Responses\Chat\ListResponse;
 use OpenAI\Testing\ClientFake;
 
@@ -101,5 +103,19 @@ it('records a chat delete request', function () {
     $fake->assertSent(Chat::class, function ($method, $completionId) {
         return $method === 'delete' &&
             $completionId === 'chatcmpl-123';
+    });
+});
+
+it('records a chat messages list request', function () {
+    $fake = new ClientFake([
+        ListMessagesResponse::fake(),
+    ]);
+
+    $fake->chat()->messages()->list('chatcmpl-123', ['limit' => 10]);
+
+    $fake->assertSent(ChatMessages::class, function ($method, $completionId, $parameters) {
+        return $method === 'list' &&
+            $completionId === 'chatcmpl-123' &&
+            $parameters['limit'] === 10;
     });
 });
