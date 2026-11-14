@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string}>}>
+ * @implements ResponseContract<array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string, shutdown_date?: ?string}>}>
  */
 final class ListResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string}>}>
+     * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string, shutdown_date?: ?string}>}>
      */
     use ArrayAccessible;
 
@@ -34,7 +34,7 @@ final class ListResponse implements ResponseContract, ResponseHasMetaInformation
     ) {}
 
     /**
-     * @param  array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string}>}  $attributes
+     * @param  array{object: string, data: array<int, array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string, shutdown_date?: ?string}>}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {

@@ -12,7 +12,19 @@ test('from', function () {
         ->object->toBe('model')
         ->created->toBe(1642018370)
         ->ownedBy->toBe('openai')
+        ->shutdownDate->toBeNull()
         ->meta()->toBeInstanceOf(MetaInformation::class);
+});
+
+test('from deprecated', function () {
+    $result = RetrieveResponse::from(deprecatedModel(), meta());
+
+    expect($result)
+        ->id->toBe('gpt-4o-2024-08-06')
+        ->shutdownDate->toBe('2027-01-14');
+
+    expect($result->toArray())
+        ->toBe(deprecatedModel());
 });
 
 test('from google', function () {
@@ -23,6 +35,7 @@ test('from google', function () {
         ->id->toBe('text-davinci-003')
         ->object->toBe('model')
         ->ownedBy->toBe('google')
+        ->shutdownDate->toBeNull()
         ->meta()->toBeInstanceOf(MetaInformation::class);
 });
 
