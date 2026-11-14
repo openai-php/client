@@ -1642,6 +1642,73 @@ foreach($stream as $response){
 
 `usage` is always `null` except for the last chunk which contains the token usage statistics for the entire request.
 
+#### `list`
+
+Lists the stored chat completions. Only completions created with `store` set to `true` are stored.
+
+```php
+$response = $client->chat()->list([
+    'model' => 'gpt-5.6-luna',
+    'metadata' => ['topic' => 'greeting'],
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->lastId; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->hasMore; // false
+
+foreach ($response->data as $result) {
+    $result->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+    $result->choices[0]->message->content; // 'Hello! How can I help you today?'
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
+```
+
+#### `retrieve`
+
+Retrieves a stored chat completion. It returns the same object as `create`, with the `metadata` set on it.
+
+```php
+$response = $client->chat()->retrieve('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+
+$response->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->choices[0]->message->content; // 'Hello! How can I help you today?'
+$response->metadata; // ['topic' => 'greeting']
+
+$response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
+```
+
+#### `update`
+
+Updates the metadata of a stored chat completion.
+
+```php
+$response = $client->chat()->update('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [
+    'metadata' => ['topic' => 'greeting'],
+]);
+
+$response->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->metadata; // ['topic' => 'greeting']
+
+$response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
+```
+
+#### `delete`
+
+Deletes a stored chat completion.
+
+```php
+$response = $client->chat()->delete('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2');
+
+$response->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2'
+$response->object; // 'chat.completion.deleted'
+$response->deleted; // true
+
+$response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
+```
+
 ### `Audio` Resource
 
 #### `speech`
