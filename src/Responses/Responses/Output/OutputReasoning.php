@@ -78,26 +78,23 @@ final class OutputReasoning implements ResponseContract
             $this->summary,
         );
 
-        if ($this->content === null) {
-            return [
-                'id' => $this->id,
-                'summary' => $summary,
-                'type' => $this->type,
-                'encrypted_content' => $this->encryptedContent,
-                'status' => $this->status,
-            ];
-        }
+        $content = $this->content === null
+            ? null
+            : array_map(
+                static fn (OutputReasoningText $part): array => $part->toArray(),
+                $this->content,
+            );
 
-        return [
+        /** @var OutputReasoningType $payload */
+        $payload = [
             'id' => $this->id,
             'summary' => $summary,
             'type' => $this->type,
-            'content' => array_map(
-                static fn (OutputReasoningText $part): array => $part->toArray(),
-                $this->content,
-            ),
+            ...($content === null ? [] : ['content' => $content]),
             'encrypted_content' => $this->encryptedContent,
             'status' => $this->status,
         ];
+
+        return $payload;
     }
 }
