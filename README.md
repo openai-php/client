@@ -153,6 +153,7 @@ $response->id; // 'gpt-3.5-turbo-instruct'
 $response->object; // 'model'
 $response->created; // 1642018370
 $response->ownedBy; // 'openai'
+$response->shutdownDate; // null, or e.g. '2027-01-14' once a shutdown is announced
 
 $response->toArray(); // ['id' => 'gpt-3.5-turbo-instruct', ...]
 ```
