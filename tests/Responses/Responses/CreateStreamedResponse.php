@@ -10,6 +10,7 @@ use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputLocalShellCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputReasoning;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
@@ -130,6 +131,36 @@ test('output item done event with compaction item', function () {
         ->response->item->id->toBe('cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->response->item->encryptedContent->toBe('encrypted_string_value')
         ->response->item->createdBy->toBe('user_123');
+});
+
+test('output item done event keeps reasoning item content', function () {
+    $item = outputReasoning();
+    $item = [
+        'id' => $item['id'],
+        'summary' => $item['summary'],
+        'type' => $item['type'],
+        'content' => [
+            [
+                'text' => 'The user asks for the capital of France.',
+                'type' => 'reasoning_text',
+            ],
+        ],
+        'encrypted_content' => $item['encrypted_content'],
+        'status' => $item['status'],
+    ];
+
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.done',
+        'output_index' => 0,
+        'sequence_number' => 4,
+        'item' => $item,
+        '__meta' => meta(),
+    ]);
+
+    expect($response->response->item)
+        ->toBeInstanceOf(OutputReasoning::class)
+        ->content->{0}->text->toBe('The user asks for the capital of France.')
+        ->and($response->response->item->toArray())->toBe($item);
 });
 
 test('output item added event with program item', function () {
