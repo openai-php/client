@@ -17,8 +17,9 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FileCitationType from OutputMessageContentOutputTextAnnotationsFileCitation
  * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
  * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
+ * @phpstan-import-type LogprobType from OutputMessageContentOutputTextLogprob
  *
- * @phpstan-type OutputTextType array{annotations: array<int, ContainerFileType|FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text', logprobs?: array<int, array<string, mixed>>}
+ * @phpstan-type OutputTextType array{annotations: array<int, ContainerFileType|FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text', logprobs?: array<int, LogprobType>}
  *
  * @implements ResponseContract<OutputTextType>
  */
@@ -34,7 +35,7 @@ final class OutputMessageContentOutputText implements ResponseContract
     /**
      * @param  array<int, AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
      * @param  'output_text'  $type
-     * @param  array<int, array<string, mixed>>|null  $logprobs
+     * @param  array<int, OutputMessageContentOutputTextLogprob>|null  $logprobs
      */
     private function __construct(
         public readonly array $annotations,
@@ -62,7 +63,10 @@ final class OutputMessageContentOutputText implements ResponseContract
             annotations: $annotations,
             text: $attributes['text'],
             type: $attributes['type'],
-            logprobs: $attributes['logprobs'] ?? null,
+            logprobs: isset($attributes['logprobs']) ? array_map(
+                fn (array $logprob): OutputMessageContentOutputTextLogprob => OutputMessageContentOutputTextLogprob::from($logprob),
+                $attributes['logprobs'],
+            ) : null,
         );
     }
 
@@ -81,7 +85,10 @@ final class OutputMessageContentOutputText implements ResponseContract
         ];
 
         if ($this->logprobs !== null) {
-            $attributes['logprobs'] = $this->logprobs;
+            $attributes['logprobs'] = array_map(
+                fn (OutputMessageContentOutputTextLogprob $logprob): array => $logprob->toArray(),
+                $this->logprobs,
+            );
         }
 
         return $attributes;

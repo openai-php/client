@@ -1,6 +1,8 @@
 <?php
 
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextLogprob;
+use OpenAI\Responses\Responses\Output\OutputMessageContentOutputTextTopLogprob;
 
 test('preserves output text logprobs', function (array $logprobs) {
     $attributes = [
@@ -13,8 +15,21 @@ test('preserves output text logprobs', function (array $logprobs) {
     $response = OutputMessageContentOutputText::from($attributes);
 
     expect($response->toArray())->toBe($attributes)
-        ->and($response->logprobs)->toBe($logprobs)
         ->and($response['logprobs'])->toBe($logprobs);
+
+    foreach ($response->logprobs as $item) {
+        expect($item)->toBeInstanceOf(OutputMessageContentOutputTextLogprob::class);
+        foreach ($item->topLogprobs as $top) {
+            expect($top)->toBeInstanceOf(OutputMessageContentOutputTextTopLogprob::class);
+        }
+    }
+
+    if ($logprobs !== []) {
+        expect($response->logprobs[0]->token)->toBe('Hello')
+            ->and($response->logprobs[0]->logprob)->toBe(-0.25)
+            ->and($response->logprobs[0]->bytes)->toBe([72, 101, 108, 108, 111])
+            ->and($response->logprobs[0]->topLogprobs[0]->token)->toBe('Hi');
+    }
 })->with([
     'populated' => [[[
         'token' => 'Hello',
