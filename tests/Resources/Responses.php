@@ -10,9 +10,12 @@ use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\InputTokenCountResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
+use OpenAI\Responses\Responses\Output\OutputMcpApprovalRequest;
+use OpenAI\Responses\Responses\Output\OutputMcpCall;
 use OpenAI\Responses\Responses\ReferencePromptObject;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Responses\Responses\Streaming\Response as StreamedResponse;
+use OpenAI\Responses\Responses\Tool\RemoteMcpTool;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallOutputFixture;
@@ -457,3 +460,80 @@ test('creates responses with hosted skills and an existing remote MCP tool', fun
     expect($response->toArray()['output'])->toEqual($attributes['output']);
     expect($response->toArray()['tools'])->toEqual($attributes['tools']);
 });
+
+test('creates a remote MCP documentation search with approval and preserves its output', function (array $results, bool $approve) {
+    $tools = [[
+        'type' => 'mcp',
+        'server_label' => 'parallel',
+        'server_url' => 'https://mcp.parallel.ai/mcp?tools=web_search',
+        'allowed_tools' => ['web_search'],
+        'require_approval' => 'always',
+        'headers' => ['User-Agent' => 'openai-php-client-docs-example/1.0'],
+    ]];
+    $parameters = [
+        'model' => createResponseResource()['model'],
+        'tools' => $tools,
+        'input' => 'How do I set the request timeout in Guzzle?',
+    ];
+    $arguments = json_encode([
+        'objective' => 'Find the official Guzzle documentation describing the request timeout option.',
+        'search_queries' => ['site:docs.guzzlephp.org request timeout option'],
+    ], JSON_THROW_ON_ERROR);
+    $approval = array_merge(outputMcpApprovalRequest(), [
+        'server_label' => 'parallel',
+        'name' => 'web_search',
+        'arguments' => $arguments,
+    ]);
+    $attributes = createResponseResource();
+    $attributes['tools'] = $tools;
+    $attributes['output'] = [$approval];
+    $client = mockClient('POST', 'responses', $parameters, OpenAI\ValueObjects\Transporter\Response::from($attributes, metaHeaders()));
+
+    $pending = $client->responses()->create($parameters);
+
+    expect($pending->tools[0])->toBeInstanceOf(RemoteMcpTool::class)
+        ->serverUrl->toBe($tools[0]['server_url'])
+        ->allowedTools->toBe(['web_search'])
+        ->requireApproval->toBe('always')
+        ->headers->toBe($tools[0]['headers']);
+    expect($pending->output[0])->toBeInstanceOf(OutputMcpApprovalRequest::class)
+        ->id->toBe($approval['id'])
+        ->serverLabel->toBe('parallel')
+        ->name->toBe('web_search')
+        ->arguments->toBe($arguments);
+
+    $parameters['previous_response_id'] = $pending->id;
+    $parameters['input'] = [[
+        'type' => 'mcp_approval_response',
+        'approval_request_id' => $pending->output[0]->id,
+        'approve' => $approve,
+    ]];
+    $payload = json_encode(['results' => $results], JSON_THROW_ON_ERROR);
+    $call = array_merge(outputMcpCall(), [
+        'server_label' => 'parallel',
+        'name' => 'web_search',
+        'arguments' => $arguments,
+        'approval_request_id' => $approval['id'],
+        'output' => $payload,
+    ]);
+    $attributes['previous_response_id'] = $pending->id;
+    $attributes['output'] = $approve ? [$call] : [];
+    $client = mockClient('POST', 'responses', $parameters, OpenAI\ValueObjects\Transporter\Response::from($attributes, metaHeaders()));
+
+    $response = $client->responses()->create($parameters);
+
+    expect($response->previousResponseId)->toBe($pending->id);
+    if ($approve) {
+        expect($response->output[0])->toBeInstanceOf(OutputMcpCall::class)
+            ->approvalRequestId->toBe($approval['id'])
+            ->error->toBeNull()
+            ->output->toBe($payload);
+        expect(json_decode($response->output[0]->output, true, 512, JSON_THROW_ON_ERROR)['results'])->toBe($results);
+    } else {
+        expect($response->output)->toBeEmpty();
+    }
+})->with([
+    'original source URL' => [[['url' => 'https://docs.guzzlephp.org/en/stable/request-options.html', 'excerpts' => ['The timeout option is in seconds.']]], true],
+    'empty results' => [[], true],
+    'declined lookup' => [[], false],
+]);
