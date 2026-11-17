@@ -17,8 +17,9 @@ use OpenAI\Testing\Responses\Concerns\Fakeable;
  * @phpstan-import-type FileCitationType from OutputMessageContentOutputTextAnnotationsFileCitation
  * @phpstan-import-type FilePathType from OutputMessageContentOutputTextAnnotationsFilePath
  * @phpstan-import-type UrlCitationType from OutputMessageContentOutputTextAnnotationsUrlCitation
+ * @phpstan-import-type LogprobType from OutputMessageContentOutputTextLogprob
  *
- * @phpstan-type OutputTextType array{annotations: array<int, ContainerFileType|FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text'}
+ * @phpstan-type OutputTextType array{annotations: array<int, ContainerFileType|FileCitationType|FilePathType|UrlCitationType>, text: string, type: 'output_text', logprobs?: array<int, LogprobType>}
  *
  * @implements ResponseContract<OutputTextType>
  */
@@ -34,11 +35,13 @@ final class OutputMessageContentOutputText implements ResponseContract
     /**
      * @param  array<int, AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation>  $annotations
      * @param  'output_text'  $type
+     * @param  array<int, OutputMessageContentOutputTextLogprob>|null  $logprobs
      */
     private function __construct(
         public readonly array $annotations,
         public readonly string $text,
-        public readonly string $type
+        public readonly string $type,
+        public readonly ?array $logprobs,
     ) {}
 
     /**
@@ -60,6 +63,10 @@ final class OutputMessageContentOutputText implements ResponseContract
             annotations: $annotations,
             text: $attributes['text'],
             type: $attributes['type'],
+            logprobs: isset($attributes['logprobs']) ? array_map(
+                fn (array $logprob): OutputMessageContentOutputTextLogprob => OutputMessageContentOutputTextLogprob::from($logprob),
+                $attributes['logprobs'],
+            ) : null,
         );
     }
 
@@ -68,7 +75,7 @@ final class OutputMessageContentOutputText implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'annotations' => array_map(
                 fn (AnnotationContainerFile|AnnotationFileCitation|AnnotationFilePath|AnnotationUrlCitation $annotation): array => $annotation->toArray(),
                 $this->annotations,
@@ -76,5 +83,14 @@ final class OutputMessageContentOutputText implements ResponseContract
             'text' => $this->text,
             'type' => $this->type,
         ];
+
+        if ($this->logprobs !== null) {
+            $attributes['logprobs'] = array_map(
+                fn (OutputMessageContentOutputTextLogprob $logprob): array => $logprob->toArray(),
+                $this->logprobs,
+            );
+        }
+
+        return $attributes;
     }
 }
