@@ -11,6 +11,7 @@ use OpenAI\Responses\Responses\Output\OutputLocalShellCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
 use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputReasoningText;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
@@ -18,6 +19,7 @@ use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\CompactionCompacting;
+use OpenAI\Responses\Responses\Streaming\ContentPart;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
@@ -401,3 +403,23 @@ test('fake compaction compacting event', function () {
         ->type->toBe('response.compaction.compacting')
         ->itemId->toBe('cmp_123');
 });
+
+test('content part events keep reasoning text', function (string $type) {
+    $attributes = [
+        'type' => $type,
+        'content_index' => 0,
+        'item_id' => 'rs_test',
+        'output_index' => 0,
+        'sequence_number' => 1,
+        'part' => ['text' => 'Let me think.', 'type' => 'reasoning_text'],
+    ];
+
+    $response = CreateStreamedResponse::from($attributes + ['__meta' => meta()]);
+
+    expect($response)
+        ->event->toBe($type)
+        ->response->toBeInstanceOf(ContentPart::class)
+        ->response->part->toBeInstanceOf(OutputReasoningText::class)
+        ->response->part->text->toBe('Let me think.')
+        ->and($response->toArray())->toBe(['event' => $type, 'data' => $attributes]);
+})->with(['response.content_part.added', 'response.content_part.done']);
