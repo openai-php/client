@@ -3991,13 +3991,13 @@ $completion = $client->completions()->create([
 
 ## Webhooks
 
-The package includes a signature verifier for OpenAI webhooks. To verify the signature of incoming webhook requests, you can use the `OpenAI\Webhooks\SignatureVerifier` class.
+The package includes a signature verifier for OpenAI webhooks. To verify the signature of incoming webhook requests, you can use the `OpenAI\Webhooks\WebhookSignatureVerifier` class.
 
 ```php
-use OpenAI\Webhooks\SignatureVerifier;
+use OpenAI\Webhooks\WebhookSignatureVerifier;
 use OpenAI\Exceptions\WebhookVerificationException;
 
-$verifier = new SignatureVerifier('whsec_{your-webhook-signing-secret}');
+$verifier = new WebhookSignatureVerifier('whsec_{your-webhook-signing-secret}');
 
 try {
     $verifier->verify($incomingRequest);
