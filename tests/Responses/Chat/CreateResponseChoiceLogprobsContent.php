@@ -8,7 +8,11 @@ test('from', function () {
     expect($result)
         ->token->toBe('Hello')
         ->logprob->toBe(0.0)
-        ->bytes->toBe([72, 101, 108, 108, 111]);
+        ->bytes->toBe([72, 101, 108, 108, 111])
+        ->topLogprobs->toBe([
+            ['token' => 'Hello', 'logprob' => 0.0, 'bytes' => [72, 101, 108, 108, 111]],
+            ['token' => 'Hi', 'logprob' => -3.5, 'bytes' => [72, 105]],
+        ]);
 });
 
 test('to array', function () {
