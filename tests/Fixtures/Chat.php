@@ -448,13 +448,27 @@ function chatCompletionWithLogprobs(): array
                             'token' => 'Hello',
                             'logprob' => 0.0,
                             'bytes' => [72, 101, 108, 108, 111],
+                            'top_logprobs' => [
+                                [
+                                    'token' => 'Hello',
+                                    'logprob' => 0.0,
+                                    'bytes' => [72, 101, 108, 108, 111],
+                                ],
+                                [
+                                    'token' => 'Hi',
+                                    'logprob' => -3.5,
+                                    'bytes' => [72, 105],
+                                ],
+                            ],
                         ],
                         [
                             'token' => '!',
                             'logprob' => -0.0005715019651688635,
                             'bytes' => [33],
+                            'top_logprobs' => [],
                         ],
                     ],
+                    'refusal' => null,
                 ],
                 'finish_reason' => 'stop',
             ],

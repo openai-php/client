@@ -8,18 +8,21 @@ final class CreateResponseChoiceLogprobsContent
 {
     /**
      * @param  ?array<int, int>  $bytes
+     * @param  array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>  $topLogprobs
      */
     private function __construct(
         public readonly string $token,
         public readonly float $logprob,
         public readonly ?array $bytes,
+        public readonly array $topLogprobs = [],
     ) {}
 
     /**
      * @param array{
      *     token: string,
      *     logprob: float,
-     *     bytes: ?array<int, int>
+     *     bytes: ?array<int, int>,
+     *     top_logprobs?: array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>
      * } $attributes
      */
     public static function from(array $attributes): self
@@ -28,6 +31,7 @@ final class CreateResponseChoiceLogprobsContent
             $attributes['token'],
             $attributes['logprob'],
             $attributes['bytes'],
+            $attributes['top_logprobs'] ?? [],
         );
     }
 
@@ -35,7 +39,8 @@ final class CreateResponseChoiceLogprobsContent
      * @return array{
      *     token: string,
      *     logprob: float,
-     *     bytes: ?array<int, int>
+     *     bytes: ?array<int, int>,
+     *     top_logprobs: array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>
      * }
      */
     public function toArray(): array
@@ -44,6 +49,7 @@ final class CreateResponseChoiceLogprobsContent
             'token' => $this->token,
             'logprob' => $this->logprob,
             'bytes' => $this->bytes,
+            'top_logprobs' => $this->topLogprobs,
         ];
     }
 }
