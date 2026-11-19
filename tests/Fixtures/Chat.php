@@ -720,6 +720,26 @@ function chatCompletionStreamFirstChunk(): array
     ];
 }
 
+function chatCompletionStreamFirstChunkWithSystemFingerprint(): array
+{
+    return [
+        'id' => 'chatcmpl-6wdIE4DsUtqf1srdMTsfkJp0VWZgz',
+        'object' => 'chat.completion.chunk',
+        'created' => 1679432086,
+        'model' => 'gpt-4-0314',
+        'system_fingerprint' => 'fp_44709d6fcb',
+        'choices' => [
+            [
+                'index' => 0,
+                'delta' => [
+                    'role' => 'assistant',
+                ],
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}
+
 function chatCompletionStreamFirstChunkWithoutId(): array
 {
     return [
