@@ -2147,108 +2147,88 @@ $response->toArray(); // ['id' => 'modr-5xOyuS', ...]
 
 #### `create`
 
-Creates an image given a prompt.
+Creates an image given a prompt. GPT Image models return base64-encoded image data rather than an image URL.
 
 ```php
 $response = $client->images()->create([
-    'model' => 'dall-e-3',
+    'model' => 'gpt-image-2.6-flare',
     'prompt' => 'A cute baby sea otter',
     'n' => 1,
     'size' => '1024x1024',
-    'response_format' => 'url',
+    'output_format' => 'png',
 ]);
 
-$response->created; // 1589478378
-
 foreach ($response->data as $data) {
-    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
-    $data->b64_json; // null
+    file_put_contents('generated.png', base64_decode($data->b64_json));
 }
-
-$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
 ```
 
 #### `create streamed`
 
-When you create an image with stream set to true, the server will emit server-sent events to the client as the image is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/images-streaming).
+Streams [image generation events](https://developers.openai.com/api/reference/resources/images/methods/generate). Set `partial_images` to request previews before the completed image.
 
 ```php
 $stream = $client->images()->createStreamed([
-    'model' => 'gpt-image-1',
+    'model' => 'gpt-image-2.6-flare',
     'prompt' => 'A cute baby sea otter',
     'n' => 1,
     'size' => '1024x1024',
-    'response_format' => 'url',
+    'output_format' => 'png',
+    'partial_images' => 1,
 ]);
 
 foreach ($stream as $image) {
-    $image->type; // 'image_generation.partial_image'
+    if ($image->event === 'image_generation.completed') {
+        file_put_contents('generated.png', base64_decode($image->response->b64Json));
+    }
 }
 ```
 
 #### `edit`
 
-Creates an edited or extended image given an original image and a prompt.
+Creates an edited image given an original image and a prompt. The optional mask must have the same dimensions as the input image.
 
 ```php
 $response = $client->images()->edit([
-    'image' => fopen('image_edit_original.png', 'r'),
-    'mask' => fopen('image_edit_mask.png', 'r'),
+    'model' => 'gpt-image-2.6-flare',
+    'image' => fopen('image_edit_original.png', 'rb'),
+    'mask' => fopen('image_edit_mask.png', 'rb'),
     'prompt' => 'A sunlit indoor lounge area with a pool containing a flamingo',
     'n' => 1,
-    'size' => '256x256',
-    'response_format' => 'url',
+    'size' => '1024x1024',
+    'output_format' => 'png',
 ]);
 
-$response->created; // 1589478378
-
 foreach ($response->data as $data) {
-    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
-    $data->b64_json; // null
+    file_put_contents('edited.png', base64_decode($data->b64_json));
 }
-
-$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
 ```
 
 #### `edit streamed`
 
-When you edit an image with stream set to true, the server will emit server-sent events to the client as the image is generated. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/images-streaming).
+Streams [image edit events](https://developers.openai.com/api/reference/resources/images/methods/edit) from an original image and a prompt.
 
 ```php
 $stream = $client->images()->editStreamed([
-    'model' => 'gpt-image-1',
-    'prompt' => 'A cute baby sea otter',
+    'model' => 'gpt-image-2.6-flare',
+    'image' => fopen('image_edit_original.png', 'rb'),
+    'prompt' => 'Replace the background with a rocky coastline',
     'n' => 1,
     'size' => '1024x1024',
-    'response_format' => 'url',
+    'output_format' => 'png',
+    'partial_images' => 1,
 ]);
 
 foreach ($stream as $image) {
-    $image->type; // 'image_generation.partial_image'
+    if ($image->event === 'image_edit.completed') {
+        file_put_contents('edited.png', base64_decode($image->response->b64Json));
+    }
 }
 ```
 
 #### `variation`
 
-Creates a variation of a given image.
-
-```php
-$response = $client->images()->variation([
-    'image' => fopen('image_edit_original.png', 'r'),
-    'n' => 1,
-    'size' => '256x256',
-    'response_format' => 'url',
-]);
-
-$response->created; // 1589478378
-
-foreach ($response->data as $data) {
-    $data->url; // 'https://oaidalleapiprodscus.blob.core.windows.net/private/...'
-    $data->b64_json; // null
-}
-
-$response->toArray(); // ['created' => 1589478378, data => ['url' => 'https://oaidalleapiprodscus...', ...]]
-```
+The client still exposes `variation()` for compatibility with custom endpoints. The [first-party OpenAI image variations endpoint](https://developers.openai.com/api/reference/resources/images/methods/create_variation) no longer accepts requests. For a similar result on OpenAI, use the separate `edit()` method with a GPT Image model and the original image.
 
 ### `Batches` Resource
 
