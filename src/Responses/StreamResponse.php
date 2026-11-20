@@ -70,7 +70,7 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
                 break;
             }
 
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}, type?: string} $attributes */
+            /** @var array{error?: array{message?: string|array<int, string>, type?: ?string, status?: string|int|null, code?: string|int|null}, type?: string} $attributes */
             $attributes = json_decode($data, true, flags: JSON_THROW_ON_ERROR);
 
             unset($data);

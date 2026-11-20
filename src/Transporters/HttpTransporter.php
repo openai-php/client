@@ -184,7 +184,7 @@ final class HttpTransporter implements TransporterContract
         }
 
         try {
-            /** @var array{error?: string|array{message: string|array<int, string>, type: string, code: string}}|array<int, array{error?: string|array{message: string|array<int, string>, type: string, code: string}}> $data */
+            /** @var array{error?: string|array{message?: string|array<int, string>, type?: ?string, status?: string|int|null, code?: string|int|null}}|array<int, array{error?: string|array{message?: string|array<int, string>, type?: ?string, status?: string|int|null, code?: string|int|null}}> $data */
             $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($data['error'])) {
