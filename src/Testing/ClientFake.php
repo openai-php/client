@@ -23,6 +23,7 @@ use OpenAI\Testing\Resources\FilesTestResource;
 use OpenAI\Testing\Resources\FineTunesTestResource;
 use OpenAI\Testing\Resources\FineTuningTestResource;
 use OpenAI\Testing\Resources\ImagesTestResource;
+use OpenAI\Testing\Resources\LiveTestResource;
 use OpenAI\Testing\Resources\ModelsTestResource;
 use OpenAI\Testing\Resources\ModerationsTestResource;
 use OpenAI\Testing\Resources\RealtimeTestResource;
@@ -148,6 +149,11 @@ class ClientFake implements ClientContract
     public function conversations(): ConversationsTestResource
     {
         return new ConversationsTestResource($this);
+    }
+
+    public function live(): LiveTestResource
+    {
+        return new LiveTestResource($this);
     }
 
     public function realtime(): RealtimeTestResource
