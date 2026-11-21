@@ -109,7 +109,7 @@ final class HttpTransporter implements TransporterContract
     /**
      * {@inheritDoc}
      */
-    public function requestContent(Payload $payload): string
+    public function requestContent(Payload $payload, bool $requireSuccess = false): string
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
@@ -120,6 +120,12 @@ final class HttpTransporter implements TransporterContract
         $this->throwIfRateLimit($response);
         $this->throwIfServerError($response);
         $this->throwIfJsonError($response, $contents);
+
+        $statusCode = $response->getStatusCode();
+
+        if ($requireSuccess && ($statusCode < 200 || $statusCode >= 300)) {
+            throw new ErrorException("Unexpected HTTP status {$statusCode}.", $response);
+        }
 
         return $contents;
     }

@@ -21,14 +21,14 @@ final class Payload
     /**
      * Creates a new Request value object.
      *
-     * @param  array<string, mixed>  $parameters
+     * @param  array<string, mixed>|null  $parameters
      * @param  array<string, string>  $headers
      */
     private function __construct(
         private readonly ContentType $contentType,
         private readonly Method $method,
         private readonly ResourceUri $uri,
-        private readonly array $parameters = [],
+        private readonly ?array $parameters = [],
         private readonly array $headers = [],
     ) {
         // ..
@@ -91,9 +91,9 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      *
-     * @param  array<string, mixed>  $parameters
+     * @param  array<string, mixed>|null  $parameters
      */
-    public static function create(string $resource, array $parameters): self
+    public static function create(string $resource, ?array $parameters): self
     {
         $contentType = ContentType::JSON;
         $method = Method::POST;
@@ -161,7 +161,7 @@ final class Payload
 
         $queryParams = $queryParams->toArray();
         if ($this->method === Method::GET) {
-            $queryParams = [...$queryParams, ...$this->parameters];
+            $queryParams = [...$queryParams, ...($this->parameters ?? [])];
         }
 
         if ($queryParams !== []) {
@@ -174,7 +174,7 @@ final class Payload
 
         $headers = $headers->withContentType($this->contentType);
 
-        if ($this->method === Method::POST) {
+        if ($this->method === Method::POST && $this->parameters !== null) {
             if ($this->contentType === ContentType::MULTIPART) {
                 $streamBuilder = new MultipartStreamBuilder($psr17Factory);
 

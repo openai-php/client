@@ -42,10 +42,11 @@ interface TransporterContract
 
     /**
      * Sends a content request to a server expecting a string back.
+     * Enable status checking when success cannot be inferred from the response body.
      *
      * @throws ErrorException|TransporterException
      */
-    public function requestContent(Payload $payload): string;
+    public function requestContent(Payload $payload, bool $requireSuccess = false): string;
 
     /**
      * Sends a stream request to a server.

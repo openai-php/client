@@ -56,6 +56,7 @@ If you or your business relies on this package, it's important to support the de
   - [Vector Stores Files Resource](#vector-store-files-resource)
   - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
+  - [Live Sessions](#live-sessions)
   - [Realtime Ephemeral Keys](#realtime-ephemeral-keys)
   - [Completions Resource (legacy)](#completions-resource-legacy)
   - [Assistants Resource (deprecated)](#assistants-resource-deprecated)
@@ -2736,6 +2737,36 @@ foreach ($response->data as $result) {
 
 $response->toArray(); // ['object' => 'list', ...]]
 ```
+
+### Live Sessions
+
+Use the [Live Sessions API](https://developers.openai.com/api/reference/resources/live/methods/create) to start a WebRTC session or place an outbound SIP call. The SIP example uses fictitious numbers and trunk credentials. Keep real credentials on your server.
+
+```php
+$response = $client->live()->sessions()->create([
+    'session' => ['model' => 'gpt-live-1.1'],
+    'transport' => [
+        'type' => 'sip',
+        'destination' => '+12025550123',
+        'trunk' => [
+            'provider_url' => 'sips:trunk.example.com',
+            'caller_number' => '+12025550100',
+            'auth' => [
+                'type' => 'digest',
+                'username' => 'example-user',
+                'password' => 'example-password',
+            ],
+        ],
+    ],
+]);
+
+$sessionId = $response->session['id'];
+
+// When you want to end the call:
+$client->live()->sessions()->hangup($sessionId);
+```
+
+A successful SIP create response means the session was initialized, not that the callee answered. Avoid blindly retrying a failed request: it may place a second call. For WebRTC, send the SDP offer in `transport.sdp` and read the answer from the response's `$response->transport['sdp']`.
 
 ### Realtime Ephemeral Keys
 

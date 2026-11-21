@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\Resources\LiveContract;
 use OpenAI\Contracts\Resources\RealtimeContract;
 use OpenAI\Contracts\Resources\ThreadsContract;
 use OpenAI\Contracts\Resources\VectorStoresContract;
@@ -24,6 +25,7 @@ use OpenAI\Resources\Files;
 use OpenAI\Resources\FineTunes;
 use OpenAI\Resources\FineTuning;
 use OpenAI\Resources\Images;
+use OpenAI\Resources\Live;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 use OpenAI\Resources\Realtime;
@@ -234,6 +236,16 @@ final class Client implements ClientContract
     public function assistants(): Assistants
     {
         return new Assistants($this->transporter);
+    }
+
+    /**
+     * Manage Live sessions.
+     *
+     * @see https://developers.openai.com/api/reference/resources/live
+     */
+    public function live(): LiveContract
+    {
+        return new Live($this->transporter);
     }
 
     /**
