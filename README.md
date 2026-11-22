@@ -58,6 +58,7 @@ If you or your business relies on this package, it's important to support the de
   - [Batches Resource](#batches-resource)
   - [Realtime Ephemeral Keys](#realtime-ephemeral-keys)
   - [Completions Resource (legacy)](#completions-resource-legacy)
+  - [Image variations (deprecated)](#image-variations-deprecated)
   - [Assistants Resource (deprecated)](#assistants-resource-deprecated)
   - [Thread Resource (deprecated)](#threads-resource-deprecated)
   - [Thread Messages Resource (deprecated)](#thread-messages-resource-deprecated)
@@ -2226,10 +2227,6 @@ foreach ($stream as $image) {
 }
 ```
 
-#### `variation`
-
-The client still exposes `variation()` for compatibility with custom endpoints. The [first-party OpenAI image variations endpoint](https://developers.openai.com/api/reference/resources/images/methods/create_variation) no longer accepts requests. For a similar result on OpenAI, use the separate `edit()` method with a GPT Image model and the original image.
-
 ### `Batches` Resource
 
 #### `create`
@@ -2802,6 +2799,12 @@ foreach($stream as $response){
 ```
 
 </details>
+
+<a name="variation"></a>
+
+### Image variations (deprecated)
+
+The client still exposes `variation()` for compatibility with custom endpoints. The [first-party OpenAI image variations endpoint](https://developers.openai.com/api/reference/resources/images/methods/create_variation) no longer accepts requests. For a similar result on OpenAI, use the separate `edit()` method with a GPT Image model and the original image.
 
 ### `Assistants` Resource (deprecated)
 
