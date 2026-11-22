@@ -1281,6 +1281,16 @@ function responseCompletionSteamCreatedEvent()
     return fopen(__DIR__.'/Streams/ResponseCreatedResponse.txt', 'r');
 }
 
+function responseOutputTextDeltaLogprobsEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseOutputTextDeltaLogprobs.txt', 'r');
+}
+
+function responseOutputTextDoneLogprobsEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseOutputTextDoneLogprobs.txt', 'r');
+}
+
 function responseReasoningTextDeltaEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseReasoningTextDelta.txt', 'r');
