@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputTextType array{type: string, content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int}
+ * @phpstan-type OutputTextType array{type: string, content_index: int, delta: string, item_id: string, output_index: int, sequence_number: int, logprobs?: array<int, array{token: string, logprob: float, top_logprobs?: array<int, array{token: string, logprob: float}>}>}
  *
  * @implements ResponseContract<OutputTextType>
  */
@@ -26,6 +26,9 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param  array<int, array{token: string, logprob: float, top_logprobs?: array<int, array{token: string, logprob: float}>}>|null  $logprobs
+     */
     private function __construct(
         public readonly string $type,
         public readonly int $contentIndex,
@@ -33,6 +36,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
+        public readonly ?array $logprobs,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -48,6 +52,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             sequenceNumber: $attributes['sequence_number'],
+            logprobs: $attributes['logprobs'] ?? null,
             meta: $meta,
         );
     }
@@ -57,7 +62,7 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'type' => $this->type,
             'content_index' => $this->contentIndex,
             'delta' => $this->delta,
@@ -65,5 +70,11 @@ final class OutputTextDelta implements ResponseContract, ResponseHasMetaInformat
             'output_index' => $this->outputIndex,
             'sequence_number' => $this->sequenceNumber,
         ];
+
+        if ($this->logprobs !== null) {
+            $attributes['logprobs'] = $this->logprobs;
+        }
+
+        return $attributes;
     }
 }
