@@ -17,6 +17,7 @@ use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Contracts\Resources\FineTunesContract;
 use OpenAI\Contracts\Resources\FineTuningContract;
 use OpenAI\Contracts\Resources\ImagesContract;
+use OpenAI\Contracts\Resources\LiveContract;
 use OpenAI\Contracts\Resources\ModelsContract;
 use OpenAI\Contracts\Resources\ModerationsContract;
 use OpenAI\Contracts\Resources\RealtimeContract;
@@ -49,6 +50,13 @@ interface ClientContract
      * @see https://platform.openai.com/docs/api-reference/conversations
      */
     public function conversations(): ConversationsContract;
+
+    /**
+     * Manage Live sessions.
+     *
+     * @see https://developers.openai.com/api/reference/resources/live
+     */
+    public function live(): LiveContract;
 
     /**
      * Communicate with a GPT-4o class model in real time using WebRTC or WebSockets. Supports text and audio inputs and outputs, along with audio transcriptions.
