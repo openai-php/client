@@ -2553,6 +2553,23 @@ $response->chunkingStrategy->chunkOverlapTokens; // 400
 $response->toArray(); // ['id' => 'file-fUU0hFRuQ1GzhOweTNeJlCXG', ...]
 ```
 
+#### `content`
+
+Retrieve the parsed content of a file in a vector store.
+
+```php
+$response = $client->vectorStores()->files()->content(
+    vectorStoreId: 'vs_vzfQhlTWVUl38QGqQAoQjeDF',
+    fileId: 'file-fUU0hFRuQ1GzhOweTNeJlCXG',
+);
+
+$response->object; // 'vector_store.file_content.page'
+$response->data[0]->type; // 'text'
+$response->data[0]->text; // 'Annual plans have a 14-day refund window.'
+$response->hasMore; // false
+$response->nextPage; // null
+```
+
 #### `delete`
 
 Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the delete file endpoint.
