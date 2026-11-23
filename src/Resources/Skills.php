@@ -96,7 +96,7 @@ final class Skills implements SkillsContract
     {
         $payload = Payload::retrieveContent('skills', $id);
 
-        return $this->transporter->requestContent($payload);
+        return $this->transporter->requestContent($payload, requireSuccess: true);
     }
 
     /**

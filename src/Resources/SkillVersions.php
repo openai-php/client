@@ -78,7 +78,7 @@ final class SkillVersions implements SkillVersionsContract
     {
         $payload = Payload::retrieveContent("skills/$skillId/versions", $version);
 
-        return $this->transporter->requestContent($payload);
+        return $this->transporter->requestContent($payload, requireSuccess: true);
     }
 
     /**

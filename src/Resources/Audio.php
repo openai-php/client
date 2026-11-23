@@ -31,7 +31,7 @@ final class Audio implements AudioContract
 
         $payload = Payload::create('audio/speech', $parameters);
 
-        return $this->transporter->requestContent($payload);
+        return $this->transporter->requestContent($payload, requireSuccess: true);
     }
 
     /**

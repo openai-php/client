@@ -55,7 +55,7 @@ final class Files implements FilesContract
     {
         $payload = Payload::retrieveContent('files', $file);
 
-        return $this->transporter->requestContent($payload);
+        return $this->transporter->requestContent($payload, requireSuccess: true);
     }
 
     /**
