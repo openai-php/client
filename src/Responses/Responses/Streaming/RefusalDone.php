@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type RefusalDoneType array{type: string, content_index: int, item_id: string, output_index: int, refusal: string}
+ * @phpstan-type RefusalDoneType array{type: string, content_index: int, item_id: string, output_index: int, refusal: string, sequence_number?: int}
  *
  * @implements ResponseContract<RefusalDoneType>
  */
@@ -32,6 +32,7 @@ final class RefusalDone implements ResponseContract, ResponseHasMetaInformationC
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly string $refusal,
+        public readonly ?int $sequenceNumber,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -46,6 +47,7 @@ final class RefusalDone implements ResponseContract, ResponseHasMetaInformationC
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
             refusal: $attributes['refusal'],
+            sequenceNumber: $attributes['sequence_number'] ?? null,
             meta: $meta,
         );
     }
@@ -55,12 +57,18 @@ final class RefusalDone implements ResponseContract, ResponseHasMetaInformationC
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'type' => $this->type,
             'content_index' => $this->contentIndex,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
             'refusal' => $this->refusal,
         ];
+
+        if ($this->sequenceNumber !== null) {
+            $attributes['sequence_number'] = $this->sequenceNumber;
+        }
+
+        return $attributes;
     }
 }

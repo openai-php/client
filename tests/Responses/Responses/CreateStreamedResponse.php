@@ -28,6 +28,8 @@ use OpenAI\Responses\Responses\Streaming\OutputTextDone;
 use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDone;
+use OpenAI\Responses\Responses\Streaming\RefusalDelta;
+use OpenAI\Responses\Responses\Streaming\RefusalDone;
 use OpenAI\Responses\Responses\Streaming\Response;
 use OpenAI\Responses\Responses\Tool\WebSearchTool;
 use OpenAI\Testing\Responses\Fixtures\Responses\Output\OutputShellCallFixture;
@@ -92,6 +94,28 @@ test('output text events without logprobs', function () {
     expect(OutputTextDelta::from(['type' => 'x', 'content_index' => 0, 'delta' => 'a', 'item_id' => 'i', 'output_index' => 0, 'sequence_number' => 1], $response->meta()))
         ->logprobs->toBeNull()
         ->and(OutputTextDelta::from(['type' => 'x', 'content_index' => 0, 'delta' => 'a', 'item_id' => 'i', 'output_index' => 0, 'sequence_number' => 1], $response->meta())->toArray())->not->toHaveKey('logprobs');
+});
+
+test('refusal delta event keeps the sequence number', function () {
+    $response = CreateStreamedResponse::fake(responseRefusalDeltaEvent());
+    $event = $response->getIterator()->current();
+
+    expect($event)
+        ->event->toBe('response.refusal.delta')
+        ->response->toBeInstanceOf(RefusalDelta::class)
+        ->response->sequenceNumber->toBe(4)
+        ->and($event->response->toArray())->toHaveKey('sequence_number', 4);
+});
+
+test('refusal done event keeps the sequence number', function () {
+    $response = CreateStreamedResponse::fake(responseRefusalDoneEvent());
+    $event = $response->getIterator()->current();
+
+    expect($event)
+        ->event->toBe('response.refusal.done')
+        ->response->toBeInstanceOf(RefusalDone::class)
+        ->response->sequenceNumber->toBe(5)
+        ->and($event->response->toArray())->toHaveKey('sequence_number', 5);
 });
 
 test('reasoning text delta event', function () {
