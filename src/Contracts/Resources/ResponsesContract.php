@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
@@ -65,6 +66,15 @@ interface ResponsesContract
      * @see https://platform.openai.com/docs/api-reference/responses/delete
      */
     public function delete(string $id): DeleteResponse;
+
+    /**
+     * Compacts a conversation into the user messages and one encrypted compaction item.
+     *
+     * @see https://developers.openai.com/api/reference/resources/responses/methods/compact
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function compact(array $parameters): CompactedResponse;
 
     /**
      * Returns a list of input items for a given response.
