@@ -7,6 +7,8 @@ namespace OpenAI\Resources;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\CreateStreamedResponse;
+use OpenAI\Responses\Chat\DeleteResponse;
+use OpenAI\Responses\Chat\ListResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 use OpenAI\ValueObjects\Transporter\Response;
@@ -52,5 +54,69 @@ final class Chat implements ChatContract
         $response = $this->transporter->requestStream($payload);
 
         return new StreamResponse(CreateStreamedResponse::class, $response);
+    }
+
+    /**
+     * Lists the stored chat completions, the ones created with `store` set to `true`
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/list
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function list(array $parameters = []): ListResponse
+    {
+        $payload = Payload::list('chat/completions', $parameters);
+
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, reasoning_content?: ?string, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, logprobs: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>, first_id: ?string, last_id: ?string, has_more: bool}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return ListResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Retrieves a stored chat completion
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/get
+     */
+    public function retrieve(string $completionId): CreateResponse
+    {
+        $payload = Payload::retrieve('chat/completions', $completionId);
+
+        /** @var Response<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, reasoning_content?: ?string, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, logprobs: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return CreateResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Updates the metadata of a stored chat completion
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/update
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function update(string $completionId, array $parameters): CreateResponse
+    {
+        $payload = Payload::modify('chat/completions', $completionId, $parameters);
+
+        /** @var Response<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{index: int, message: array{role: string, content: ?string, reasoning_content?: ?string, function_call?: array{name: string, arguments: string}, tool_calls?: array<int, array{id: string, type: string, function: array{name: string, arguments: string}}>}, logprobs: ?array{content: ?array<int, array{token: string, logprob: float, bytes: ?array<int, int>}>}, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return CreateResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Deletes a stored chat completion
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/delete
+     */
+    public function delete(string $completionId): DeleteResponse
+    {
+        $payload = Payload::delete('chat/completions', $completionId);
+
+        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return DeleteResponse::from($response->data(), $response->meta());
     }
 }

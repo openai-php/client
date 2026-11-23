@@ -9,6 +9,7 @@ use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\CreateStreamedResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
 use OpenAI\Responses\Responses\Input\InputMessage;
+use OpenAI\Responses\Responses\InputTokenCountResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\Output\OutputApplyPatchToolCall;
 use OpenAI\Responses\Responses\Output\OutputCompaction;
@@ -320,6 +321,26 @@ test('compact', function () {
     expect($result->output[1])
         ->toBeInstanceOf(OutputCompaction::class)
         ->encryptedContent->toBe('gAAAAABpM0Yj-...=');
+
+    expect($result->meta())
+        ->toBeInstanceOf(MetaInformation::class);
+});
+
+test('input tokens count', function () {
+    $client = mockClient('POST', 'responses/input_tokens', [
+        'model' => 'gpt-5',
+        'input' => 'Tell me a joke.',
+    ], OpenAI\ValueObjects\Transporter\Response::from(inputTokenCountResource(), metaHeaders()));
+
+    $result = $client->responses()->inputTokens()->count([
+        'model' => 'gpt-5',
+        'input' => 'Tell me a joke.',
+    ]);
+
+    expect($result)
+        ->toBeInstanceOf(InputTokenCountResponse::class)
+        ->object->toBe('response.input_tokens')
+        ->inputTokens->toBe(11);
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

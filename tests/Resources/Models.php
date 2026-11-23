@@ -18,7 +18,12 @@ test('list', function () {
         ->data->each->toBeInstanceOf(RetrieveResponse::class);
 
     expect($result->data[0])
-        ->id->toBe('text-babbage:001');
+        ->id->toBe('text-babbage:001')
+        ->shutdownDate->toBeNull();
+
+    expect($result->data[1])
+        ->id->toBe('gpt-4o-2024-08-06')
+        ->shutdownDate->toBe('2027-01-14');
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);
@@ -34,7 +39,8 @@ test('retrieve', function () {
         ->id->toBe('text-babbage:001')
         ->object->toBe('model')
         ->created->toBe(1642018370)
-        ->ownedBy->toBe('openai');
+        ->ownedBy->toBe('openai')
+        ->shutdownDate->toBeNull();
 
     expect($result->meta())
         ->toBeInstanceOf(MetaInformation::class);

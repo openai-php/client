@@ -287,6 +287,17 @@ function compactedResponseResource(): array
     ];
 }
 
+/**
+ * @return array<string, mixed>
+ */
+function inputTokenCountResource(): array
+{
+    return [
+        'object' => 'response.input_tokens',
+        'input_tokens' => 11,
+    ];
+}
+
 function deleteResponseResource(): array
 {
     return [
@@ -1311,6 +1322,16 @@ function responseCodeInterpreterStream()
 function responseCompletionSteamCreatedEvent()
 {
     return fopen(__DIR__.'/Streams/ResponseCreatedResponse.txt', 'r');
+}
+
+function responseOutputTextDeltaLogprobsEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseOutputTextDeltaLogprobs.txt', 'r');
+}
+
+function responseOutputTextDoneLogprobsEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseOutputTextDoneLogprobs.txt', 'r');
 }
 
 function responseReasoningTextDeltaEvent()

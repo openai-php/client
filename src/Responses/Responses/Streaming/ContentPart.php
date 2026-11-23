@@ -11,13 +11,15 @@ use OpenAI\Responses\Concerns\HasMetaInformation;
 use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Responses\Responses\Output\OutputMessageContentOutputText;
 use OpenAI\Responses\Responses\Output\OutputMessageContentRefusal;
+use OpenAI\Responses\Responses\Output\OutputReasoningText;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
  * @phpstan-import-type OutputTextType from OutputMessageContentOutputText
  * @phpstan-import-type ContentRefusalType from OutputMessageContentRefusal
+ * @phpstan-import-type ReasoningTextType from OutputReasoningText
  *
- * @phpstan-type ContentPartType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, part: OutputTextType|ContentRefusalType}
+ * @phpstan-type ContentPartType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, part: OutputTextType|ContentRefusalType|ReasoningTextType}
  *
  * @implements ResponseContract<ContentPartType>
  */
@@ -37,7 +39,7 @@ final class ContentPart implements ResponseContract, ResponseHasMetaInformationC
         public readonly string $itemId,
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
-        public readonly OutputMessageContentOutputText|OutputMessageContentRefusal $part,
+        public readonly OutputMessageContentOutputText|OutputMessageContentRefusal|OutputReasoningText $part,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -49,6 +51,7 @@ final class ContentPart implements ResponseContract, ResponseHasMetaInformationC
         $part = match ($attributes['part']['type']) {
             'output_text' => OutputMessageContentOutputText::from($attributes['part']),
             'refusal' => OutputMessageContentRefusal::from($attributes['part']),
+            'reasoning_text' => OutputReasoningText::from($attributes['part']),
         };
 
         return new self(

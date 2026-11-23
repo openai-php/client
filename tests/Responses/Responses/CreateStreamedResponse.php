@@ -10,6 +10,8 @@ use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use OpenAI\Responses\Responses\Output\OutputLocalShellCall;
 use OpenAI\Responses\Responses\Output\OutputProgram;
 use OpenAI\Responses\Responses\Output\OutputProgramOutput;
+use OpenAI\Responses\Responses\Output\OutputReasoning;
+use OpenAI\Responses\Responses\Output\OutputReasoningText;
 use OpenAI\Responses\Responses\Output\OutputShellCall;
 use OpenAI\Responses\Responses\Output\OutputShellCallOutput;
 use OpenAI\Responses\Responses\Output\OutputToolSearchCall;
@@ -17,9 +19,12 @@ use OpenAI\Responses\Responses\Output\OutputToolSearchOutput;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDelta;
 use OpenAI\Responses\Responses\Streaming\ApplyPatchCallOperationDiffDone;
 use OpenAI\Responses\Responses\Streaming\CompactionCompacting;
+use OpenAI\Responses\Responses\Streaming\ContentPart;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDelta;
 use OpenAI\Responses\Responses\Streaming\CustomToolCallInputDone;
 use OpenAI\Responses\Responses\Streaming\OutputItem;
+use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
+use OpenAI\Responses\Responses\Streaming\OutputTextDone;
 use OpenAI\Responses\Responses\Streaming\RateLimits;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDelta;
 use OpenAI\Responses\Responses\Streaming\ReasoningTextDone;
@@ -48,6 +53,45 @@ test('from', function () {
         ->response->type->toBe('response.created')
         ->response->response->toBeInstanceOf(CreateResponse::class)
         ->response->response->id->toBe('resp_67ccf18ef5fc8190b16dbee19bc54e5f087bb177ab789d5c');
+});
+
+test('output text delta event keeps logprobs', function () {
+    $response = CreateStreamedResponse::fake(responseOutputTextDeltaLogprobsEvent());
+
+    $event = $response->getIterator()->current();
+
+    expect($event)
+        ->event->toBe('response.output_text.delta')
+        ->response->toBeInstanceOf(OutputTextDelta::class)
+        ->response->delta->toBe('Hi')
+        ->response->logprobs->toBe([
+            ['token' => 'Hi', 'logprob' => -0.1, 'top_logprobs' => [
+                ['token' => 'Hi', 'logprob' => -0.1],
+                ['token' => 'Hello', 'logprob' => -2.5],
+            ]],
+        ])
+        ->and($event->response->toArray())->toHaveKey('logprobs');
+});
+
+test('output text done event keeps logprobs', function () {
+    $response = CreateStreamedResponse::fake(responseOutputTextDoneLogprobsEvent());
+
+    $event = $response->getIterator()->current();
+
+    expect($event)
+        ->event->toBe('response.output_text.done')
+        ->response->toBeInstanceOf(OutputTextDone::class)
+        ->response->text->toBe('Hi')
+        ->response->logprobs->toHaveCount(1)
+        ->and($event->response->toArray())->toHaveKey('logprobs');
+});
+
+test('output text events without logprobs', function () {
+    $response = CreateStreamedResponse::fake(responseCompletionSteamCreatedEvent());
+
+    expect(OutputTextDelta::from(['type' => 'x', 'content_index' => 0, 'delta' => 'a', 'item_id' => 'i', 'output_index' => 0, 'sequence_number' => 1], $response->meta()))
+        ->logprobs->toBeNull()
+        ->and(OutputTextDelta::from(['type' => 'x', 'content_index' => 0, 'delta' => 'a', 'item_id' => 'i', 'output_index' => 0, 'sequence_number' => 1], $response->meta())->toArray())->not->toHaveKey('logprobs');
 });
 
 test('reasoning text delta event', function () {
@@ -130,6 +174,36 @@ test('output item done event with compaction item', function () {
         ->response->item->id->toBe('cmp_67ccf18f64008190a39b619f4c8455ef087bb177ab789d5c')
         ->response->item->encryptedContent->toBe('encrypted_string_value')
         ->response->item->createdBy->toBe('user_123');
+});
+
+test('output item done event keeps reasoning item content', function () {
+    $item = outputReasoning();
+    $item = [
+        'id' => $item['id'],
+        'summary' => $item['summary'],
+        'type' => $item['type'],
+        'content' => [
+            [
+                'text' => 'The user asks for the capital of France.',
+                'type' => 'reasoning_text',
+            ],
+        ],
+        'encrypted_content' => $item['encrypted_content'],
+        'status' => $item['status'],
+    ];
+
+    $response = CreateStreamedResponse::from([
+        'type' => 'response.output_item.done',
+        'output_index' => 0,
+        'sequence_number' => 4,
+        'item' => $item,
+        '__meta' => meta(),
+    ]);
+
+    expect($response->response->item)
+        ->toBeInstanceOf(OutputReasoning::class)
+        ->content->{0}->text->toBe('The user asks for the capital of France.')
+        ->and($response->response->item->toArray())->toBe($item);
 });
 
 test('output item added event with program item', function () {
@@ -370,3 +444,23 @@ test('fake compaction compacting event', function () {
         ->type->toBe('response.compaction.compacting')
         ->itemId->toBe('cmp_123');
 });
+
+test('content part events keep reasoning text', function (string $type) {
+    $attributes = [
+        'type' => $type,
+        'content_index' => 0,
+        'item_id' => 'rs_test',
+        'output_index' => 0,
+        'sequence_number' => 1,
+        'part' => ['text' => 'Let me think.', 'type' => 'reasoning_text'],
+    ];
+
+    $response = CreateStreamedResponse::from($attributes + ['__meta' => meta()]);
+
+    expect($response)
+        ->event->toBe($type)
+        ->response->toBeInstanceOf(ContentPart::class)
+        ->response->part->toBeInstanceOf(OutputReasoningText::class)
+        ->response->part->text->toBe('Let me think.')
+        ->and($response->toArray())->toBe(['event' => $type, 'data' => $attributes]);
+})->with(['response.content_part.added', 'response.content_part.done']);

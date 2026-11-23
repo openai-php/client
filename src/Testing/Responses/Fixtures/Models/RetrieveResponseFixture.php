@@ -9,5 +9,6 @@ final class RetrieveResponseFixture
         'object' => 'model',
         'created' => 1_642_018_370,
         'owned_by' => 'openai',
+        'shutdown_date' => null,
     ];
 }

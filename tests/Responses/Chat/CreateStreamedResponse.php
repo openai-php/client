@@ -30,6 +30,21 @@ test('from without id', function () {
         ->choices->each->toBeInstanceOf(CreateStreamedResponseChoice::class);
 });
 
+test('from with system fingerprint', function () {
+    $completion = CreateStreamedResponse::from(chatCompletionStreamFirstChunkWithSystemFingerprint());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->systemFingerprint->toBe('fp_44709d6fcb')
+        ->and($completion->toArray())->toBe(chatCompletionStreamFirstChunkWithSystemFingerprint());
+});
+
+test('from without system fingerprint', function () {
+    $completion = CreateStreamedResponse::from(chatCompletionStreamFirstChunk());
+
+    expect($completion->systemFingerprint)->toBeNull();
+});
+
 test('from usage chunk', function () {
     $completion = CreateStreamedResponse::from(chatCompletionStreamUsageChunk());
 

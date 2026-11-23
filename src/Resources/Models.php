@@ -24,7 +24,7 @@ final class Models implements ModelsContract
     {
         $payload = Payload::list('models');
 
-        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string}>}> $response */
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, shutdown_date?: ?string}>}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return ListResponse::from($response->data(), $response->meta());
@@ -39,7 +39,7 @@ final class Models implements ModelsContract
     {
         $payload = Payload::retrieve('models', $model);
 
-        /** @var Response<array{id: string, object: string, created: int, owned_by: string}> $response */
+        /** @var Response<array{id: string, object: string, created: int, owned_by: string, shutdown_date?: ?string}> $response */
         $response = $this->transporter->requestObject($payload);
 
         return RetrieveResponse::from($response->data(), $response->meta());

@@ -1,9 +1,11 @@
 <?php
 
 use OpenAI\Resources\Responses;
+use OpenAI\Resources\ResponsesInputTokens;
 use OpenAI\Responses\Responses\CompactedResponse;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Responses\Responses\DeleteResponse;
+use OpenAI\Responses\Responses\InputTokenCountResponse;
 use OpenAI\Responses\Responses\ListInputItems;
 use OpenAI\Responses\Responses\RetrieveResponse;
 use OpenAI\Testing\ClientFake;
@@ -100,5 +102,22 @@ it('records a response compact request', function () {
     $fake->assertSent(Responses::class, function ($method, $parameters) {
         return $method === 'compact' &&
             $parameters['model'] === 'gpt-5.1-codex-max';
+    });
+});
+
+it('records an input tokens count request', function () {
+    $fake = new ClientFake([
+        InputTokenCountResponse::fake(),
+    ]);
+
+    $fake->responses()->inputTokens()->count([
+        'model' => 'gpt-5',
+        'input' => 'Tell me a joke.',
+    ]);
+
+    $fake->assertSent(ResponsesInputTokens::class, function ($method, $parameters) {
+        return $method === 'count' &&
+            $parameters['model'] === 'gpt-5' &&
+            $parameters['input'] === 'Tell me a joke.';
     });
 });

@@ -42,3 +42,38 @@ test('to array', function () {
         ->toBeArray()
         ->toBe(outputReasoning());
 });
+
+test('from with null reasoning item content', function () {
+    $payload = outputReasoning();
+    $payload['content'] = null;
+
+    $response = OutputReasoning::from($payload);
+
+    expect($response->content)->toBeNull()
+        ->and($response->toArray())->toBe(outputReasoning());
+});
+
+test('from with reasoning item content', function () {
+    $payload = outputReasoning();
+    $content = [
+        [
+            'text' => 'The user asks for the capital of France.',
+            'type' => 'reasoning_text',
+        ],
+    ];
+    $payload = [
+        'id' => $payload['id'],
+        'summary' => $payload['summary'],
+        'type' => $payload['type'],
+        'content' => $content,
+        'encrypted_content' => $payload['encrypted_content'],
+        'status' => $payload['status'],
+    ];
+
+    $response = OutputReasoning::from($payload);
+
+    expect($response->content)->toBeArray()
+        ->and($response->content[0]->text)->toBe('The user asks for the capital of France.')
+        ->and($response->content[0]->type)->toBe('reasoning_text')
+        ->and($response->toArray())->toBe($payload);
+});

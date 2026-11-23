@@ -10,6 +10,21 @@ function model(): array
         'object' => 'model',
         'created' => 1642018370,
         'owned_by' => 'openai',
+        'shutdown_date' => null,
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function deprecatedModel(): array
+{
+    return [
+        'id' => 'gpt-4o-2024-08-06',
+        'object' => 'model',
+        'created' => 1722814719,
+        'owned_by' => 'system',
+        'shutdown_date' => '2027-01-14',
     ];
 }
 
@@ -46,7 +61,7 @@ function modelList(): array
         'object' => 'list',
         'data' => [
             model(),
-            model(),
+            deprecatedModel(),
         ],
     ];
 }
