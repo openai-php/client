@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\RealtimeContract;
 use OpenAI\Resources\Realtime;
+use OpenAI\Responses\Realtime\ClientSecretResponse;
 use OpenAI\Responses\Realtime\SessionResponse;
 use OpenAI\Responses\Realtime\TranscriptionSessionResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
@@ -15,6 +16,11 @@ final class RealtimeTestResource implements RealtimeContract
     public function resource(): string
     {
         return Realtime::class;
+    }
+
+    public function createClientSecret(array $parameters = []): ClientSecretResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
     }
 
     public function token(array $parameters = []): SessionResponse

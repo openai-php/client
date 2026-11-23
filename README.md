@@ -2766,9 +2766,33 @@ A successful SIP create response means the session was initialized, not that the
 
 ### Realtime Ephemeral Keys
 
+#### `createClientSecret`
+
+Create a short-lived [Realtime client secret](https://developers.openai.com/api/reference/resources/realtime/subresources/client_secrets/methods/create) for WebRTC or transcription. Call this method on the server with your standard API key and pass the temporary value to the client. If you are migrating from Realtime Beta, remove the `OpenAI-Beta: realtime=v1` header from your client configuration.
+
+```php
+$response = $client->realtime()->createClientSecret([
+    'expires_after' => [
+        'anchor' => 'created_at',
+        'seconds' => 60,
+    ],
+    'session' => [
+        'type' => 'realtime',
+        'model' => 'gpt-realtime-2.1',
+        'audio' => ['output' => ['voice' => 'alloy']],
+    ],
+]);
+
+$response->value; // 'ek_test_secret'
+$response->expiresAt; // expiration timestamp in seconds
+$response->session['id']; // 'sess_test'
+```
+
+For a transcription session, send `session.type` as `transcription` and set the input transcription model under `session.audio.input.transcription`. Calling `createClientSecret()` with no parameters uses the API defaults.
+
 #### `token`
 
-Create an ephemeral API token for real time sessions.
+Create an ephemeral token using the legacy Realtime Beta sessions endpoint.
 
 ```php
 $response = $client->realtime()->token();
@@ -2779,7 +2803,7 @@ $response->clientSecret->expiresAt // 1717703267
 
 #### `transcribeToken`
 
-Create an ephemeral API token for real time transcription sessions.
+Create an ephemeral token using the legacy Realtime Beta transcription sessions endpoint.
 
 ```php
 $response = $client->realtime()->transcribeToken();
