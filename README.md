@@ -121,6 +121,17 @@ $client = OpenAI::factory()
     ->make();
 ```
 
+Use `withHttpHeaders()` for headers that vary between calls, such as a request or trace ID. It returns a client that uses the same HTTP client and stream handler. Header names are case-insensitive, and the original client's configuration stays available for other requests.
+
+```php
+$response = $client->withHttpHeaders([
+    'X-Client-Request-Id' => $requestId,
+])->responses()->create([
+    'model' => 'gpt-4o',
+    'input' => 'Hello!',
+]);
+```
+
 ## Usage
 
 ### `Models` Resource

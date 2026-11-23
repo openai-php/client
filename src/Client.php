@@ -44,6 +44,22 @@ final class Client implements ClientContract
     }
 
     /**
+     * Creates a client with additional headers, using the same HTTP client and configuration.
+     *
+     * @param  array<string, string>  $headers
+     */
+    public function withHttpHeaders(array $headers): self
+    {
+        $transporter = clone $this->transporter;
+
+        foreach ($headers as $name => $value) {
+            $transporter = $transporter->addHeader($name, $value);
+        }
+
+        return new self($transporter);
+    }
+
+    /**
      * Manage responses to assist models with tasks.
      *
      * @see https://platform.openai.com/docs/api-reference/responses

@@ -78,10 +78,14 @@ final class Headers
      */
     public function withCustomHeader(string $name, string $value): self
     {
-        return new self([
-            ...$this->headers,
-            $name => $value,
-        ]);
+        $headers = $this->headers;
+        foreach (array_keys($headers) as $existingName) {
+            if (strcasecmp($existingName, $name) === 0) {
+                unset($headers[$existingName]);
+            }
+        }
+
+        return new self([...$headers, $name => $value]);
     }
 
     /**
