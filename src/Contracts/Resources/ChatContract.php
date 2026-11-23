@@ -60,4 +60,11 @@ interface ChatContract
      * @see https://platform.openai.com/docs/api-reference/chat/delete
      */
     public function delete(string $completionId): DeleteResponse;
+
+    /**
+     * Manages the messages of a stored chat completion
+     *
+     * @see https://platform.openai.com/docs/api-reference/chat/getMessages
+     */
+    public function messages(): ChatMessagesContract;
 }

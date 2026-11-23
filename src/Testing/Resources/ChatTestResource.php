@@ -3,6 +3,7 @@
 namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\ChatContract;
+use OpenAI\Contracts\Resources\ChatMessagesContract;
 use OpenAI\Resources\Chat;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Responses\Chat\DeleteResponse;
@@ -47,5 +48,10 @@ final class ChatTestResource implements ChatContract
     public function delete(string $completionId): DeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function messages(): ChatMessagesContract
+    {
+        return new ChatMessagesTestResource($this->fake);
     }
 }

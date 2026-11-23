@@ -45,6 +45,7 @@ If you or your business relies on this package, it's important to support the de
   - [Vaults Resource](#vaults-resource)
   - [Vaults Credentials Resource](#vaults-credentials-resource)
   - [Chat Resource](#chat-resource)
+  - [Chat Messages Resource](#chat-messages-resource)
   - [Audio Resource](#audio-resource)
   - [Embeddings Resource](#embeddings-resource)
   - [Files Resource](#files-resource)
@@ -1729,6 +1730,32 @@ $response->object; // 'chat.completion.deleted'
 $response->deleted; // true
 
 $response->toArray(); // ['id' => 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', ...]
+```
+
+### `Chat Messages` Resource
+
+#### `list`
+
+Lists the messages of a chat completion created with `store: true`. When `hasMore` is true, pass `lastId` as the next request's `after` parameter.
+
+```php
+$response = $client->chat()->messages()->list('chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2', [
+    'limit' => 10,
+]);
+
+$response->object; // 'list'
+$response->firstId; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0'
+$response->lastId; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0'
+$response->hasMore; // false
+
+foreach ($response->data as $message) {
+    $message->id; // 'chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0'
+    $message->role; // 'user'
+    $message->content; // 'write a haiku about ai'
+    $message->contentParts; // null, or the text, image, audio and file parts of the message
+}
+
+$response->toArray(); // ['object' => 'list', 'data' => [...], ...]
 ```
 
 ### `Audio` Resource
