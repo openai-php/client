@@ -85,7 +85,7 @@ final class ContainerFile implements ContainerFileContract
     {
         $payload = Payload::retrieveContent("containers/$containerId/files", $fileId);
 
-        return $this->transporter->requestContent($payload);
+        return $this->transporter->requestContent($payload, requireSuccess: true);
     }
 
     /**

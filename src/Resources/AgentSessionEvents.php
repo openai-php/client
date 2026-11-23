@@ -22,6 +22,6 @@ final class AgentSessionEvents implements AgentSessionEventsContract
     {
         $payload = Payload::create("agents/sessions/$sessionId/events", $parameters)->withHeader('OpenAI-Beta', 'agents=v1');
 
-        $this->transporter->requestContent($payload);
+        $this->transporter->requestContent($payload, requireSuccess: true);
     }
 }
