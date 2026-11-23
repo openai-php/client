@@ -1350,3 +1350,13 @@ function responseCompactionCompactingEvents()
 {
     return fopen(__DIR__.'/Streams/ResponseCompactionCompacting.txt', 'r');
 }
+
+function responseRefusalDeltaEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseRefusalDelta.txt', 'r');
+}
+
+function responseRefusalDoneEvent()
+{
+    return fopen(__DIR__.'/Streams/ResponseRefusalDone.txt', 'r');
+}

@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type RefusalDeltaType array{type: string, content_index: int, delta: string, item_id: string, output_index: int}
+ * @phpstan-type RefusalDeltaType array{type: string, content_index: int, delta: string, item_id: string, output_index: int, sequence_number?: int}
  *
  * @implements ResponseContract<RefusalDeltaType>
  */
@@ -32,6 +32,7 @@ final class RefusalDelta implements ResponseContract, ResponseHasMetaInformation
         public readonly string $delta,
         public readonly string $itemId,
         public readonly int $outputIndex,
+        public readonly ?int $sequenceNumber,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -46,6 +47,7 @@ final class RefusalDelta implements ResponseContract, ResponseHasMetaInformation
             delta: $attributes['delta'],
             itemId: $attributes['item_id'],
             outputIndex: $attributes['output_index'],
+            sequenceNumber: $attributes['sequence_number'] ?? null,
             meta: $meta,
         );
     }
@@ -55,12 +57,18 @@ final class RefusalDelta implements ResponseContract, ResponseHasMetaInformation
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'type' => $this->type,
             'content_index' => $this->contentIndex,
             'delta' => $this->delta,
             'item_id' => $this->itemId,
             'output_index' => $this->outputIndex,
         ];
+
+        if ($this->sequenceNumber !== null) {
+            $attributes['sequence_number'] = $this->sequenceNumber;
+        }
+
+        return $attributes;
     }
 }

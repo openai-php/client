@@ -1,0 +1,4 @@
+event: response.refusal.delta
+data: {"type":"response.refusal.delta","item_id":"item_123","output_index":0,"content_index":0,"delta":"I cannot help with that.","sequence_number":4}
+
+data: [DONE]
