@@ -48,6 +48,16 @@ class ClientFake implements ClientContract
     public function __construct(protected array $responses = []) {}
 
     /**
+     * Keeps the same response queue and request history when client code configures HTTP headers.
+     *
+     * @param  array<string, string>  $headers
+     */
+    public function withHttpHeaders(array $headers): self
+    {
+        return $this;
+    }
+
+    /**
      * @param  array<array-key, ResponseContract|StreamResponse|Throwable|string>  $responses
      */
     public function addResponses(array $responses): void

@@ -26,6 +26,17 @@ it('returns a fake response', function () {
     expect($completion['choices'][0]['text'])->toBe('awesome!');
 });
 
+it('records calls made through a client configured with http headers', function () {
+    $fake = new ClientFake([CreateResponse::fake()]);
+
+    $fake->withHttpHeaders(['X-Request-Id' => 'test-request'])->completions()->create([
+        'model' => 'gpt-3.5-turbo-instruct',
+        'prompt' => 'PHP is ',
+    ]);
+
+    $fake->assertSent(Completions::class, 1);
+});
+
 it('returns fake meta data', function () {
     $fake = new ClientFake([
         CreateResponse::fake(),
