@@ -73,6 +73,24 @@ test('from with system fingerprint', function () {
         ->toBe(chatCompletionWithSystemFingerprint());
 });
 
+test('from with service tier', function () {
+    $completion = CreateResponse::from(chatCompletionWithServiceTier(), meta());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateResponse::class)
+        ->serviceTier->toBe('default');
+
+    expect($completion->toArray())
+        ->toBeArray()
+        ->toBe(chatCompletionWithServiceTier());
+});
+
+test('from without service tier', function () {
+    $completion = CreateResponse::from(chatCompletion(), meta());
+
+    expect($completion->serviceTier)->toBeNull();
+});
+
 test('from function response', function () {
     $completion = CreateResponse::from(chatCompletionWithFunction(), meta());
 
