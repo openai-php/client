@@ -31,6 +31,18 @@ test('to array', function () {
         ->toBe(chatCompletionList());
 });
 
+test('preserves stored completion metadata and custom tool calls', function () {
+    $completion = chatCompletionWithCustomToolCall();
+    $completion['metadata'] = ['source' => 'support'];
+    $list = chatCompletionList();
+    $list['data'] = [$completion];
+
+    $result = ListResponse::from($list, meta());
+
+    expect($result->data[0]->metadata)->toBe(['source' => 'support'])
+        ->and($result->toArray())->toBe($list);
+});
+
 test('fake', function () {
     $response = ListResponse::fake();
 
