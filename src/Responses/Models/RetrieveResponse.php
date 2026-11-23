@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string}>
+ * @implements ResponseContract<array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string, shutdown_date?: ?string}>
  */
 final class RetrieveResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created: ?int, owned_by: ?string}>
+     * @use ArrayAccessible<array{id: string, object: string, created: ?int, owned_by: ?string, shutdown_date?: ?string}>
      */
     use ArrayAccessible;
 
@@ -29,11 +29,12 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
         public readonly string $object,
         public readonly ?int $created,
         public readonly ?string $ownedBy,
+        public readonly ?string $shutdownDate,
         private readonly MetaInformation $meta,
     ) {}
 
     /**
-     * @param  array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string}  $attributes
+     * @param  array{id: string, object: string, created: ?int, created_at?: ?int, owned_by: ?string, shutdown_date?: ?string}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -42,6 +43,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             object: $attributes['object'],
             created: $attributes['created'] ?? $attributes['created_at'] ?? null,
             ownedBy: $attributes['owned_by'] ?? null,
+            shutdownDate: $attributes['shutdown_date'] ?? null,
             meta: $meta,
         );
     }
@@ -56,6 +58,7 @@ final class RetrieveResponse implements ResponseContract, ResponseHasMetaInforma
             'object' => $this->object,
             'created' => $this->created,
             'owned_by' => $this->ownedBy,
+            'shutdown_date' => $this->shutdownDate,
         ];
     }
 }

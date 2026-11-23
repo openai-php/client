@@ -148,6 +148,14 @@ final class Responses implements ResponsesContract
     }
 
     /**
+     * Count the input tokens of a request before sending it.
+     */
+    public function inputTokens(): ResponsesInputTokens
+    {
+        return new ResponsesInputTokens($this->transporter);
+    }
+
+    /**
      * Manage conversations to store and retrieve conversation state across Response API calls.
      */
     public function conversations(): Conversations

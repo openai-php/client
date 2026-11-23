@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type OutputTextDoneType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, text: string}
+ * @phpstan-type OutputTextDoneType array{type: string, content_index: int, item_id: string, output_index: int, sequence_number: int, text: string, logprobs?: array<int, array{token: string, logprob: float, top_logprobs?: array<int, array{token: string, logprob: float}>}>}
  *
  * @implements ResponseContract<OutputTextDoneType>
  */
@@ -26,6 +26,9 @@ final class OutputTextDone implements ResponseContract, ResponseHasMetaInformati
     use Fakeable;
     use HasMetaInformation;
 
+    /**
+     * @param  array<int, array{token: string, logprob: float, top_logprobs?: array<int, array{token: string, logprob: float}>}>|null  $logprobs
+     */
     private function __construct(
         public readonly string $type,
         public readonly int $contentIndex,
@@ -33,6 +36,7 @@ final class OutputTextDone implements ResponseContract, ResponseHasMetaInformati
         public readonly int $outputIndex,
         public readonly int $sequenceNumber,
         public readonly string $text,
+        public readonly ?array $logprobs,
         private readonly MetaInformation $meta,
     ) {}
 
@@ -48,6 +52,7 @@ final class OutputTextDone implements ResponseContract, ResponseHasMetaInformati
             outputIndex: $attributes['output_index'],
             sequenceNumber: $attributes['sequence_number'],
             text: $attributes['text'],
+            logprobs: $attributes['logprobs'] ?? null,
             meta: $meta,
         );
     }
@@ -57,7 +62,7 @@ final class OutputTextDone implements ResponseContract, ResponseHasMetaInformati
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'type' => $this->type,
             'content_index' => $this->contentIndex,
             'item_id' => $this->itemId,
@@ -65,5 +70,11 @@ final class OutputTextDone implements ResponseContract, ResponseHasMetaInformati
             'sequence_number' => $this->sequenceNumber,
             'text' => $this->text,
         ];
+
+        if ($this->logprobs !== null) {
+            $attributes['logprobs'] = $this->logprobs;
+        }
+
+        return $attributes;
     }
 }

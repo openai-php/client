@@ -5,6 +5,8 @@ namespace OpenAI\Testing\Resources;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Resources\Chat;
 use OpenAI\Responses\Chat\CreateResponse;
+use OpenAI\Responses\Chat\DeleteResponse;
+use OpenAI\Responses\Chat\ListResponse;
 use OpenAI\Responses\StreamResponse;
 use OpenAI\Testing\Resources\Concerns\Testable;
 
@@ -23,6 +25,26 @@ final class ChatTestResource implements ChatContract
     }
 
     public function createStreamed(array $parameters): StreamResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function list(array $parameters = []): ListResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function retrieve(string $completionId): CreateResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function update(string $completionId, array $parameters): CreateResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function delete(string $completionId): DeleteResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }
