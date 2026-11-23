@@ -12,7 +12,7 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @phpstan-type LogprobsType array{bytes: array<int, string>, logprobs: int, token: string}
+ * @phpstan-type LogprobsType array{bytes: array<int, int>, logprob: float, token: string}
  *
  * @implements ResponseContract<LogprobsType>
  */
@@ -27,11 +27,11 @@ final class Logprobs implements ResponseContract, ResponseHasMetaInformationCont
     use HasMetaInformation;
 
     /**
-     * @param  array<int, string>  $bytes
+     * @param  array<int, int>  $bytes
      */
     private function __construct(
         public readonly array $bytes,
-        public readonly int $logprobs,
+        public readonly float $logprob,
         public readonly string $token,
         public readonly MetaInformation $meta,
     ) {}
@@ -43,7 +43,7 @@ final class Logprobs implements ResponseContract, ResponseHasMetaInformationCont
     {
         return new self(
             bytes: $attributes['bytes'],
-            logprobs: $attributes['logprobs'],
+            logprob: $attributes['logprob'],
             token: $attributes['token'],
             meta: $meta,
         );
@@ -56,7 +56,7 @@ final class Logprobs implements ResponseContract, ResponseHasMetaInformationCont
     {
         return [
             'bytes' => $this->bytes,
-            'logprobs' => $this->logprobs,
+            'logprob' => $this->logprob,
             'token' => $this->token,
         ];
     }
