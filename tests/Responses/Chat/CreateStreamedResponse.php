@@ -45,6 +45,21 @@ test('from without system fingerprint', function () {
     expect($completion->systemFingerprint)->toBeNull();
 });
 
+test('from with service tier', function () {
+    $completion = CreateStreamedResponse::from(chatCompletionStreamFirstChunkWithServiceTier());
+
+    expect($completion)
+        ->toBeInstanceOf(CreateStreamedResponse::class)
+        ->serviceTier->toBe('default')
+        ->and($completion->toArray())->toBe(chatCompletionStreamFirstChunkWithServiceTier());
+});
+
+test('from without service tier', function () {
+    $completion = CreateStreamedResponse::from(chatCompletionStreamFirstChunk());
+
+    expect($completion->serviceTier)->toBeNull();
+});
+
 test('from usage chunk', function () {
     $completion = CreateStreamedResponse::from(chatCompletionStreamUsageChunk());
 
