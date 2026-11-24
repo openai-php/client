@@ -30,6 +30,7 @@ final class Payload
         private readonly ResourceUri $uri,
         private readonly ?array $parameters = [],
         private readonly array $headers = [],
+        private readonly bool $encodeAsObject = false,
     ) {
         // ..
     }
@@ -93,13 +94,13 @@ final class Payload
      *
      * @param  array<string, mixed>|null  $parameters
      */
-    public static function create(string $resource, ?array $parameters): self
+    public static function create(string $resource, ?array $parameters, bool $encodeAsObject = false): self
     {
         $contentType = ContentType::JSON;
         $method = Method::POST;
         $uri = ResourceUri::create($resource);
 
-        return new self($contentType, $method, $uri, $parameters);
+        return new self($contentType, $method, $uri, $parameters, encodeAsObject: $encodeAsObject);
     }
 
     /**
@@ -145,7 +146,7 @@ final class Payload
      */
     public function withHeader(string $name, string $value): self
     {
-        return new self($this->contentType, $this->method, $this->uri, $this->parameters, [...$this->headers, $name => $value]);
+        return new self($this->contentType, $this->method, $this->uri, $this->parameters, [...$this->headers, $name => $value], $this->encodeAsObject);
     }
 
     /**
@@ -205,7 +206,8 @@ final class Payload
 
                 $headers = $headers->withContentType($this->contentType, '; boundary='.$streamBuilder->getBoundary());
             } else {
-                $body = $psr17Factory->createStream(json_encode($this->parameters, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
+                $parameters = $this->encodeAsObject ? (object) $this->parameters : $this->parameters;
+                $body = $psr17Factory->createStream(json_encode($parameters, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
             }
         }
 

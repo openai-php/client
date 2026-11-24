@@ -4,11 +4,21 @@ declare(strict_types=1);
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\Realtime\ClientSecretResponse;
 use OpenAI\Responses\Realtime\SessionResponse;
 use OpenAI\Responses\Realtime\TranscriptionSessionResponse;
 
 interface RealtimeContract
 {
+    /**
+     * Create a short-lived client secret for a Realtime or transcription session.
+     *
+     * @see https://developers.openai.com/api/reference/resources/realtime/subresources/client_secrets/methods/create
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function createClientSecret(array $parameters = []): ClientSecretResponse;
+
     /**
      * Create an ephemeral API token for real time sessions.
      *
