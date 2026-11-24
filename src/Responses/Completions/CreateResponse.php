@@ -12,12 +12,12 @@ use OpenAI\Responses\Meta\MetaInformation;
 use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
+ * @implements ResponseContract<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
  */
 final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
+     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}>
      */
     use ArrayAccessible;
 
@@ -32,6 +32,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
         public readonly string $object,
         public readonly int $created,
         public readonly string $model,
+        public readonly ?string $systemFingerprint,
         public readonly array $choices,
         public readonly CreateResponseUsage $usage,
         private readonly MetaInformation $meta,
@@ -40,7 +41,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
+     * @param  array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
     public static function from(array $attributes, MetaInformation $meta): self
     {
@@ -53,6 +54,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             $attributes['object'],
             $attributes['created'],
             $attributes['model'],
+            $attributes['system_fingerprint'] ?? null,
             $choices,
             CreateResponseUsage::from($attributes['usage']),
             $meta,
@@ -69,6 +71,7 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
             'object' => $this->object,
             'created' => $this->created,
             'model' => $this->model,
+            ...($this->systemFingerprint !== null ? ['system_fingerprint' => $this->systemFingerprint] : []),
             'choices' => array_map(
                 static fn (CreateResponseChoice $result): array => $result->toArray(),
                 $this->choices,

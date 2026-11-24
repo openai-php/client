@@ -75,3 +75,39 @@ function completionStream()
 {
     return fopen(__DIR__.'/Streams/CompletionCreate.txt', 'r');
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function completionWithSystemFingerprint(): array
+{
+    $completion = completion();
+
+    return array_merge(
+        array_slice($completion, 0, 4),
+        ['system_fingerprint' => 'fp_44709d6fcb'],
+        array_slice($completion, 4),
+    );
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function completionStreamChunkWithSystemFingerprint(): array
+{
+    return [
+        'id' => 'cmpl-6wcyFqMKXiZffiydSfWHhjcgsf3KD',
+        'object' => 'text_completion',
+        'created' => 1679430847,
+        'model' => 'gpt-3.5-turbo-instruct',
+        'system_fingerprint' => 'fp_44709d6fcb',
+        'choices' => [
+            [
+                'text' => 'Hello',
+                'index' => 0,
+                'logprobs' => null,
+                'finish_reason' => null,
+            ],
+        ],
+    ];
+}

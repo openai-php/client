@@ -68,3 +68,17 @@ test('fake can not add inexistent properties', function () {
         ->id->toBe('cmpl-1234')
         ->something->toBeNull();
 });
+
+test('from with system fingerprint', function () {
+    $completion = CreateResponse::from(completionWithSystemFingerprint(), meta());
+
+    expect($completion->systemFingerprint)->toBe('fp_44709d6fcb')
+        ->and($completion->toArray())->toBe(completionWithSystemFingerprint());
+});
+
+test('from without system fingerprint', function () {
+    $completion = CreateResponse::from(completion(), meta());
+
+    expect($completion->systemFingerprint)->toBeNull()
+        ->and($completion->toArray())->not->toHaveKey('system_fingerprint');
+});
