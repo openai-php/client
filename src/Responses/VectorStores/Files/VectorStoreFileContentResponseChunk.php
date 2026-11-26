@@ -28,8 +28,8 @@ final class VectorStoreFileContentResponseChunk implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['type'] ?? null,
-            $attributes['text'] ?? null,
+            type: $attributes['type'] ?? null,
+            text: $attributes['text'] ?? null,
         );
     }
 

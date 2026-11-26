@@ -41,11 +41,11 @@ final class VectorStoreFileContentResponse implements ResponseContract, Response
     public static function from(array $attributes, MetaInformation $meta): self
     {
         return new self(
-            $attributes['object'],
-            array_map(VectorStoreFileContentResponseChunk::from(...), $attributes['data']),
-            $attributes['has_more'],
-            $attributes['next_page'] ?? null,
-            $meta,
+            object: $attributes['object'],
+            data: array_map(VectorStoreFileContentResponseChunk::from(...), $attributes['data']),
+            hasMore: $attributes['has_more'],
+            nextPage: $attributes['next_page'] ?? null,
+            meta: $meta,
         );
     }
 
