@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAI\Resources;
 
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
+use OpenAI\Responses\VectorStores\Files\VectorStoreFileContentResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileDeleteResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileListResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileResponse;
@@ -62,6 +63,23 @@ final class VectorStoresFiles implements VectorStoresFilesContract
         $response = $this->transporter->requestObject($payload);
 
         return VectorStoreFileResponse::from($response->data(), $response->meta());
+    }
+
+    /**
+     * Retrieve the parsed content of a vector store file.
+     *
+     * @see https://developers.openai.com/api/reference/resources/vector_stores/subresources/files/methods/content
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function content(string $vectorStoreId, string $fileId, array $parameters = []): VectorStoreFileContentResponse
+    {
+        $payload = Payload::retrieve("vector_stores/$vectorStoreId/files", $fileId, '/content', $parameters);
+
+        /** @var Response<array{object: string, data: array<int, array{type?: ?string, text?: ?string}>, has_more: bool, next_page?: ?string}> $response */
+        $response = $this->transporter->requestObject($payload);
+
+        return VectorStoreFileContentResponse::from($response->data(), $response->meta());
     }
 
     /**

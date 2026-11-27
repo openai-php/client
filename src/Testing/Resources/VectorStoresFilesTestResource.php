@@ -4,6 +4,7 @@ namespace OpenAI\Testing\Resources;
 
 use OpenAI\Contracts\Resources\VectorStoresFilesContract;
 use OpenAI\Resources\VectorStoresFiles;
+use OpenAI\Responses\VectorStores\Files\VectorStoreFileContentResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileDeleteResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileListResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileResponse;
@@ -19,6 +20,11 @@ final class VectorStoresFilesTestResource implements VectorStoresFilesContract
     }
 
     public function retrieve(string $vectorStoreId, string $fileId): VectorStoreFileResponse
+    {
+        return $this->record(__FUNCTION__, func_get_args());
+    }
+
+    public function content(string $vectorStoreId, string $fileId, array $parameters = []): VectorStoreFileContentResponse
     {
         return $this->record(__FUNCTION__, func_get_args());
     }

@@ -2,6 +2,7 @@
 
 namespace OpenAI\Contracts\Resources;
 
+use OpenAI\Responses\VectorStores\Files\VectorStoreFileContentResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileDeleteResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileListResponse;
 use OpenAI\Responses\VectorStores\Files\VectorStoreFileResponse;
@@ -32,6 +33,15 @@ interface VectorStoresFilesContract
      * @see https://platform.openai.com/docs/api-reference/vector-stores-files/getFile
      */
     public function retrieve(string $vectorStoreId, string $fileId): VectorStoreFileResponse;
+
+    /**
+     * Retrieve the parsed content of a vector store file.
+     *
+     * @see https://developers.openai.com/api/reference/resources/vector_stores/subresources/files/methods/content
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public function content(string $vectorStoreId, string $fileId, array $parameters = []): VectorStoreFileContentResponse;
 
     /**
      * Update attributes on a vector store file.
