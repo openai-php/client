@@ -60,17 +60,23 @@ final class CreateStreamedResponse implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'object' => $this->object,
             'created' => $this->created,
             'model' => $this->model,
-            ...($this->systemFingerprint !== null ? ['system_fingerprint' => $this->systemFingerprint] : []),
+            'system_fingerprint' => $this->systemFingerprint,
             'choices' => array_map(
                 static fn (CreateResponseChoice $result): array => $result->toArray(),
                 $this->choices,
             ),
             'usage' => $this->usage?->toArray(),
         ];
+
+        if (is_null($data['system_fingerprint'])) {
+            unset($data['system_fingerprint']);
+        }
+
+        return $data;
     }
 }

@@ -66,17 +66,17 @@ final class CreateResponse implements ResponseContract, ResponseHasMetaInformati
      */
     public function toArray(): array
     {
-        return [
+        return array_filter([
             'id' => $this->id,
             'object' => $this->object,
             'created' => $this->created,
             'model' => $this->model,
-            ...($this->systemFingerprint !== null ? ['system_fingerprint' => $this->systemFingerprint] : []),
+            'system_fingerprint' => $this->systemFingerprint,
             'choices' => array_map(
                 static fn (CreateResponseChoice $result): array => $result->toArray(),
                 $this->choices,
             ),
             'usage' => $this->usage->toArray(),
-        ];
+        ], fn (mixed $value): bool => ! is_null($value));
     }
 }
