@@ -9,12 +9,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 use OpenAI\Testing\Responses\Concerns\FakeableForStreamedResponse;
 
 /**
- * @implements ResponseContract<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>}>
+ * @implements ResponseContract<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>}>
  */
 final class CreateStreamedResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>}>
+     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string|null}>}>
      */
     use ArrayAccessible;
 
@@ -28,6 +28,7 @@ final class CreateStreamedResponse implements ResponseContract
         public readonly string $object,
         public readonly int $created,
         public readonly string $model,
+        public readonly ?string $systemFingerprint,
         public readonly ?CreateResponseUsage $usage,
         public readonly array $choices,
     ) {}
@@ -35,7 +36,7 @@ final class CreateStreamedResponse implements ResponseContract
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
+     * @param  array{id: string, object: string, created: int, model: string, system_fingerprint?: string, choices: array<int, array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}>, usage?: array{prompt_tokens: int, completion_tokens: int|null, total_tokens: int}}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -48,6 +49,7 @@ final class CreateStreamedResponse implements ResponseContract
             $attributes['object'],
             $attributes['created'],
             $attributes['model'],
+            $attributes['system_fingerprint'] ?? null,
             isset($attributes['usage']) ? CreateResponseUsage::from($attributes['usage']) : null,
             $choices,
         );
@@ -58,16 +60,23 @@ final class CreateStreamedResponse implements ResponseContract
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'object' => $this->object,
             'created' => $this->created,
             'model' => $this->model,
+            'system_fingerprint' => $this->systemFingerprint,
             'choices' => array_map(
                 static fn (CreateResponseChoice $result): array => $result->toArray(),
                 $this->choices,
             ),
             'usage' => $this->usage?->toArray(),
         ];
+
+        if (is_null($data['system_fingerprint'])) {
+            unset($data['system_fingerprint']);
+        }
+
+        return $data;
     }
 }
